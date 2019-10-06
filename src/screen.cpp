@@ -30,16 +30,17 @@ Screen::Screen(const Screen& screen){
     m_height = screen.get_height();
 }
 
+Screen::~Screen(){
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
+}
+
+//Override
 Screen& Screen::operator=(const Screen& screen){
     m_height = screen.get_height();
     m_width = screen.get_width();
 
     return *this;
-}
-
-Screen::~Screen(){
-    SDL_DestroyWindow(m_window);
-    SDL_Quit();
 }
 
 //Getters

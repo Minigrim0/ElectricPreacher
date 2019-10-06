@@ -20,16 +20,16 @@ ImageSet::ImageSet(SDL_Surface* img): m_image(NULL){
     set_image(img);
 }
 
+ImageSet::~ImageSet(){
+    SDL_FreeSurface(m_image);
+}
+
+//Override
 ImageSet& ImageSet::operator=(const ImageSet& set){
     m_image = set.get_image();
 
     return *this;
 }
-
-ImageSet::~ImageSet(){
-    SDL_FreeSurface(m_image);
-}
-
 
 //Getters
 SDL_Surface* ImageSet::get_image() const{return m_image;}

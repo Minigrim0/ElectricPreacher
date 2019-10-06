@@ -14,6 +14,10 @@
 //Cosntructors
 MapManager::MapManager(): m_position(NULL){}
 
+MapManager::MapManager(const MapManager& mm){
+    m_position = mm.get_position();
+}
+
 MapManager::MapManager(int x, int y): m_position(NULL){
     set_position(x, y);
 }
@@ -23,6 +27,13 @@ MapManager::MapManager(SDL_Rect position): m_position(NULL){
 }
 
 MapManager::~MapManager(){}
+
+//Override
+MapManager& MapManager::operator=(const MapManager& mm){
+    m_position = mm.get_position();
+
+    return *this;
+}
 
 //Getters
 SDL_Rect* MapManager::get_position() const{

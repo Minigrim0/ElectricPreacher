@@ -12,7 +12,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#define CHUNK_SIZE 20
+#include "../includes/constants.h"
 
 /**
     class : MapManager

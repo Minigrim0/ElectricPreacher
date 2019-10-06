@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+#include "includes/constants.h"
 #include "includes/screen.h"
 #include "includes/image_set.h"
 #include "includes/map_manager.h"
@@ -9,8 +10,8 @@ int main(){
 	Screen screen;
 	ImageSet set;
 
-	screen.set_width(1440);
-	screen.set_height(900);
+	screen.set_width(SCREEN_X);
+	screen.set_height(SCREEN_Y);
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
