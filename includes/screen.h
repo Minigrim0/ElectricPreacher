@@ -22,8 +22,10 @@ class Screen{
         //Constructors
         Screen();
         Screen(const Screen&);
-        Screen& operator=(const Screen&);
         ~Screen();
+
+        //Override
+        Screen& operator=(const Screen&);
 
         //Getters
         int get_height() const;

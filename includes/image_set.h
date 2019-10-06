@@ -25,8 +25,10 @@ class ImageSet{
         ImageSet();
         ImageSet(const ImageSet&);
         ImageSet(SDL_Surface*);
-        ImageSet& operator=(const ImageSet&);
         ~ImageSet();
+
+        //Override
+        ImageSet& operator=(const ImageSet&);
 
         //Getters
         SDL_Surface* get_image() const;

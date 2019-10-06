@@ -3,6 +3,7 @@
 
 #include "includes/screen.h"
 #include "includes/image_set.h"
+#include "includes/map_manager.h"
 
 int main(){
 	Screen screen;
