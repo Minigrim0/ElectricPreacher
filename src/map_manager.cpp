@@ -10,8 +10,9 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/map_manager.h"
+#include "../includes/ground_element.h"
 
-//Cosntructors
+//Constructors
 MapManager::MapManager(): m_position(NULL){}
 
 MapManager::MapManager(const MapManager& mm){

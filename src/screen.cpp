@@ -9,11 +9,13 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "../includes/screen.h"
+#include "../includes/constants.h"
 
 //Constructors
-Screen::Screen():m_window(NULL), m_screen_surface(NULL){
+Screen::Screen():m_window(NULL), m_screen_surface(NULL), m_font(NULL){
     m_running = false;
     m_showing_fps = false;
 
@@ -21,6 +23,10 @@ Screen::Screen():m_window(NULL), m_screen_surface(NULL){
     m_width = 480;
 
     m_window_caption = "SDL Application";
+
+    m_font_color.r = 255;
+    m_font_color.g = 255;
+    m_font_color.b = 255;
 }
 
 Screen::Screen(const Screen& screen){
@@ -28,17 +34,23 @@ Screen::Screen(const Screen& screen){
     m_screen_surface = screen.get_surface();
     m_width = screen.get_width();
     m_height = screen.get_height();
+    m_font = screen.get_font();
 }
 
 Screen::~Screen(){
     SDL_DestroyWindow(m_window);
+    TTF_CloseFont(m_font);
+    TTF_Quit();
     SDL_Quit();
 }
 
 //Override
 Screen& Screen::operator=(const Screen& screen){
-    m_height = screen.get_height();
+    m_window = screen.get_window();
+    m_screen_surface = screen.get_surface();
     m_width = screen.get_width();
+    m_height = screen.get_height();
+    m_font = screen.get_font();
 
     return *this;
 }
@@ -46,8 +58,9 @@ Screen& Screen::operator=(const Screen& screen){
 //Getters
 int Screen::get_height() const{return m_height;}
 int Screen::get_width() const{return m_width;}
-SDL_Window *Screen::get_window() const{return m_window;}
-SDL_Surface *Screen::get_surface() const{return m_screen_surface;}
+SDL_Window* Screen::get_window() const{return m_window;}
+SDL_Surface* Screen::get_surface() const{return m_screen_surface;}
+TTF_Font* Screen::get_font() const{return m_font;}
 bool Screen::is_running() const{return m_running;}
 
 //Setters
@@ -100,6 +113,17 @@ int Screen::build_window(){
     }
     m_screen_surface = SDL_GetWindowSurface(m_window);
 
+    if(TTF_Init() == -1){
+        std::cout << "TTF_Init: " << TTF_GetError() << std::endl;
+        return 1;
+    }
+    m_font = TTF_OpenFont("assets/fonts/courrier_new.ttf", 16);
+    if(!m_font){
+        std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
+        return 1;
+    }
+    TTF_SetFontStyle(m_font, TTF_STYLE_BOLD);
+
     m_running = true;
     return 0;
 }
@@ -143,6 +167,12 @@ void Screen::handle_events(){
 void Screen::update_screen(){
     m_time_elapsed = SDL_GetTicks() - m_start_time;
     m_start_time = SDL_GetTicks();
+    SDL_Surface *tmp_image = NULL;
+    if(m_showing_fps){
+        tmp_image = TTF_RenderText_Solid(m_font, std::to_string(m_time_elapsed%100).c_str(), m_font_color);
+        set_current_surface(tmp_image);
+        blit_surface(NULL, 15, 15);
+    }
 
     SDL_UpdateWindowSurface(m_window);
 }

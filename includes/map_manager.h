@@ -38,6 +38,9 @@ class MapManager{
         void set_position(SDL_Rect);
         void set_position(int, int);
 
+        //Others
+        int load_map(std::string path);
+
     private:
         int level_1[CHUNK_SIZE][CHUNK_SIZE];
         int level_2[CHUNK_SIZE][CHUNK_SIZE];

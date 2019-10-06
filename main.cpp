@@ -12,6 +12,7 @@ int main(){
 
 	screen.set_width(SCREEN_X);
 	screen.set_height(SCREEN_Y);
+	screen.toggle_fps_show();
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
@@ -21,10 +22,10 @@ int main(){
 
 	set.set_image(image);
 	set.set_array();
-	screen.set_current_surface(image);
 
 	while(screen.is_running()){
 		screen.handle_events();
+		screen.set_current_surface(image);
 		screen.blit_surface(set.get_sub(0, 9),  0, 10);
 		screen.blit_surface(set.get_sub(0, 10), 0, 42);
 		screen.blit_surface(set.get_sub(0, 11), 0, 74);

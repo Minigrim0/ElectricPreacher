@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 /**
     Class : Screen
@@ -32,6 +33,7 @@ class Screen{
         int get_width() const;
         SDL_Window *get_window() const;
         SDL_Surface *get_surface() const;
+        TTF_Font* get_font() const;
         bool is_running() const;
 
         //Setters
@@ -67,6 +69,9 @@ class Screen{
         SDL_Window *m_window;
 
         SDL_Event m_event_handler;
+
+        SDL_Color m_font_color;
+        TTF_Font* m_font;
 };
 
 #endif
