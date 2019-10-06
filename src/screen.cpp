@@ -39,7 +39,6 @@ Screen& Screen::operator=(const Screen& screen){
 
 Screen::~Screen(){
     SDL_DestroyWindow(m_window);
-    SDL_FreeSurface(m_screen_surface);
     SDL_Quit();
 }
 
@@ -113,7 +112,7 @@ SDL_Surface *Screen::load_image(std::string path){
     return surf;
 }
 
-int Screen::blit_surface(SDL_Rect* src_rect, int x, int y){
+int Screen::blit_surface(const SDL_Rect* src_rect, int x, int y){
     SDL_Rect dst_rect;
     dst_rect.x = x;
     dst_rect.y = y;
@@ -124,7 +123,7 @@ int Screen::blit_surface(SDL_Rect* src_rect, int x, int y){
         &dst_rect); //Dest rect
 }
 
-int Screen::blit_surface(SDL_Rect* src_rect, SDL_Rect position){
+int Screen::blit_surface(const SDL_Rect* src_rect, SDL_Rect position){
     return SDL_BlitSurface(
         m_current_surface, //Src image
         src_rect, //Src rect

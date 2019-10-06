@@ -43,8 +43,8 @@ class Screen{
         int init();
         int build_window();
         SDL_Surface *load_image(std::string);
-        int blit_surface(SDL_Rect*, int, int);
-        int blit_surface(SDL_Rect*, SDL_Rect);
+        int blit_surface(const SDL_Rect*, int, int);
+        int blit_surface(const SDL_Rect*, SDL_Rect);
 
         void handle_events();
         void update_screen();

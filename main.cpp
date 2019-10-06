@@ -2,28 +2,38 @@
 #include <SDL2/SDL.h>
 
 #include "includes/screen.h"
+#include "includes/image_set.h"
 
 int main(){
 	Screen screen;
+	ImageSet set;
 
 	screen.set_width(1440);
 	screen.set_height(900);
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
-	std::cout << "1" << std::endl;
 	SDL_Surface* image = NULL;
-	std::cout << "2" << std::endl;
 	image = screen.load_image("assets/images/Doors.png");
-	std::cout << "3" << std::endl;
 	if(image == NULL) return EXIT_FAILURE;
-	std::cout << "4" << std::endl;
 
+	set.set_image(image);
+	set.set_array();
 	screen.set_current_surface(image);
 
 	while(screen.is_running()){
 		screen.handle_events();
-		screen.blit_surface(NULL, 10, 10);
+		screen.blit_surface(set.get_sub(0, 9),  0, 10);
+		screen.blit_surface(set.get_sub(0, 10), 0, 42);
+		screen.blit_surface(set.get_sub(0, 11), 0, 74);
+
+		screen.blit_surface(set.get_sub(3, 9),  32, 10);
+		screen.blit_surface(set.get_sub(3, 10), 32, 42);
+		screen.blit_surface(set.get_sub(3, 11), 32, 74);
+
+		screen.blit_surface(set.get_sub(2, 9),  64, 10);
+		screen.blit_surface(set.get_sub(2, 10), 64, 42);
+		screen.blit_surface(set.get_sub(2, 11), 64, 74);
 		screen.update_screen();
 	}
 
