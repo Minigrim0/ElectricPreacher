@@ -12,7 +12,6 @@ int main(){
 
 	screen.set_width(SCREEN_X);
 	screen.set_height(SCREEN_Y);
-	screen.toggle_fps_show();
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 

@@ -161,18 +161,38 @@ void Screen::handle_events(){
         if(m_event_handler.type == SDL_QUIT){
             m_running = false;
         }
+        else if(m_event_handler.type == SDL_KEYUP){
+            switch(m_event_handler.key.keysym.sym){
+                case SDLK_F3:
+                    toggle_fps_show();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 
 void Screen::update_screen(){
     m_time_elapsed = SDL_GetTicks() - m_start_time;
     m_start_time = SDL_GetTicks();
-    SDL_Surface *tmp_image = NULL;
+    m_time_since_last_fps_update += m_time_elapsed;
     if(m_showing_fps){
-        tmp_image = TTF_RenderText_Solid(m_font, std::to_string(m_time_elapsed%100).c_str(), m_font_color);
-        set_current_surface(tmp_image);
-        blit_surface(NULL, 15, 15);
+        compute_fps();
     }
 
     SDL_UpdateWindowSurface(m_window);
+}
+
+void Screen::compute_fps(){
+    if(m_time_since_last_fps_update >= 1000){
+        m_fps = (int)(1000.0/(double)m_time_elapsed);
+        m_time_since_last_fps_update = 0;
+    }
+
+    SDL_Surface *tmp_image = NULL;
+    std::string fps_text = std::to_string(m_fps) + " FPS";
+    tmp_image = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
+    set_current_surface(tmp_image);
+    blit_surface(NULL, 15, 15);
 }

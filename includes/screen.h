@@ -53,11 +53,15 @@ class Screen{
         void handle_events();
         void update_screen();
 
+        void compute_fps();
+
     private:
         int m_width;
         int m_height;
         Uint32 m_start_time;
         Uint32 m_time_elapsed;
+        Uint32 m_time_since_last_fps_update;
+        Uint32 m_fps;
 
         bool m_running;
         bool m_showing_fps;

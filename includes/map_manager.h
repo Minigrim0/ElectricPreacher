@@ -12,7 +12,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../includes/constants.h"
+#include "constants.h"
+#include "ground_element.h"
 
 /**
     class : MapManager
@@ -42,7 +43,7 @@ class MapManager{
         int load_map(std::string path);
 
     private:
-        int level_1[CHUNK_SIZE][CHUNK_SIZE];
+        GroundElement level_1[CHUNK_SIZE][CHUNK_SIZE];
         int level_2[CHUNK_SIZE][CHUNK_SIZE];
         int level_3[CHUNK_SIZE][CHUNK_SIZE];
 

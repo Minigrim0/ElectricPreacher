@@ -6,4 +6,12 @@
 #define SCREEN_X 1440
 #define SCREEN_Y 900
 
+enum Directions
+{
+    DIRECTION_UP,
+    DIRECTION_DOWN,
+    DIRECTION_LEFT,
+    DIRECTION_RIGHT,
+};
+
 #endif
