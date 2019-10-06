@@ -98,32 +98,36 @@ int Screen::build_window(){
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
+    m_screen_surface = SDL_GetWindowSurface(m_window);
 
     m_running = true;
     return 0;
 }
 
 SDL_Surface *Screen::load_image(std::string path){
-    SDL_Surface *surf = IMG_Load(path.c_str());
+    SDL_Surface *surf = NULL;
+    surf = IMG_Load(path.c_str());
+    if(surf == NULL)
+        std::cout << "Error loading image " << SDL_GetError() << std::endl;
 
     return surf;
 }
 
-int Screen::blit_surface(SDL_Rect src_rect, int x, int y){
+int Screen::blit_surface(SDL_Rect* src_rect, int x, int y){
     SDL_Rect dst_rect;
     dst_rect.x = x;
     dst_rect.y = y;
     return SDL_BlitSurface(
         m_current_surface, //Src image
-        &src_rect, //Src rect
+        src_rect, //Src rect
         m_screen_surface, //Dest surf
         &dst_rect); //Dest rect
 }
 
-int Screen::blit_surface(SDL_Rect src_rect, SDL_Rect position){
+int Screen::blit_surface(SDL_Rect* src_rect, SDL_Rect position){
     return SDL_BlitSurface(
         m_current_surface, //Src image
-        &src_rect, //Src rect
+        src_rect, //Src rect
         m_screen_surface, //Dest surf
         &position); //Dest rect
 }
@@ -141,6 +145,4 @@ void Screen::update_screen(){
     m_start_time = SDL_GetTicks();
 
     SDL_UpdateWindowSurface(m_window);
-
-    //SDL_FillRect(m_screen_surface, NULL, SDL_MapRGB(m_screen_surface->format, 255, 0, 0));
 }

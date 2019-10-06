@@ -1,16 +1,16 @@
+#ifndef screen_h
+    #define screen_h
+
 /**
     name : screen.h
-    purpose : Contains prototypes for the screen class
+    purpose : Contains prototypes for the Screen class
 
     @author : minigrim0
-    @version : 1.0
+    @version : 1.1
 */
 
 #include <iostream>
 #include <SDL2/SDL.h>
-
-#ifndef screen_h
-    #define screen_h
 
 /**
     Class : Screen
@@ -43,8 +43,8 @@ class Screen{
         int init();
         int build_window();
         SDL_Surface *load_image(std::string);
-        int blit_surface(SDL_Rect, int, int);
-        int blit_surface(SDL_Rect, SDL_Rect);
+        int blit_surface(SDL_Rect*, int, int);
+        int blit_surface(SDL_Rect*, SDL_Rect);
 
         void handle_events();
         void update_screen();
