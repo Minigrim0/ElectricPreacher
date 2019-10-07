@@ -6,7 +6,7 @@
     purpose : Contains prototypes for the Screen class
 
     @author : minigrim0
-    @version : 1.2
+    @version : 1.3
 */
 
 #include <iostream>
@@ -48,6 +48,8 @@ class Screen{
         int init();
         int build_window();
         SDL_Surface *load_image(std::string);
+        int blit_surface(SDL_Surface*, const SDL_Rect*, int, int);
+        int blit_surface(SDL_Surface*, const SDL_Rect*, SDL_Rect);
         int blit_surface(const SDL_Rect*, int, int);
         int blit_surface(const SDL_Rect*, SDL_Rect);
 

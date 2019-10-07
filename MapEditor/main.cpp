@@ -3,6 +3,7 @@
 
 #include "../includes/screen.h"
 #include "includes/constants.h"
+#include "includes/editor_ui.h"
 
 int main(){
     Screen screen;
@@ -10,8 +11,14 @@ int main(){
     screen.set_height(SCREEN_HEIGHT);
     screen.set_font("../assets/fonts/courrier_new.ttf");
 
+    EditorUI ui;
+
 	if(screen.build_window() != 0) return EXIT_FAILURE;
-    screen.update_screen();
+    while(screen.is_running()){
+        ui.draw(&screen);
+        screen.handle_events();
+        screen.update_screen();
+    }
 
     SDL_Delay(2000);
 

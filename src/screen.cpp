@@ -3,7 +3,7 @@
     purpose : Contains source code of the screen class
 
     @author : minigrim0
-    @version : 1.2
+    @version : 1.3
 */
 
 #include <iostream>
@@ -141,6 +141,25 @@ SDL_Surface *Screen::load_image(std::string path){
         std::cout << "Error loading image " << SDL_GetError() << std::endl;
 
     return surf;
+}
+
+int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int y){
+    SDL_Rect dst_rect;
+    dst_rect.x = x;
+    dst_rect.y = y;
+    return SDL_BlitSurface(
+        surf, //Src image
+        src_rect, //Src rect
+        m_screen_surface, //Dest surf
+        &dst_rect); //Dest rect
+}
+
+int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect position){
+    return SDL_BlitSurface(
+        surf, //Src image
+        src_rect, //Src rect
+        m_screen_surface, //Dest surf
+        &position); //Dest rect
 }
 
 int Screen::blit_surface(const SDL_Rect* src_rect, int x, int y){
