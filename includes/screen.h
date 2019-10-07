@@ -40,6 +40,7 @@ class Screen{
         int set_height(int);
         int set_width(int);
         int set_current_surface(SDL_Surface*);
+        void set_font(std::string);
         void set_caption(std::string);
         void toggle_fps_show();
 
@@ -67,6 +68,7 @@ class Screen{
         bool m_showing_fps;
 
         std::string m_window_caption;
+        std::string m_font_path;
 
         SDL_Surface *m_screen_surface;
         SDL_Surface *m_current_surface;

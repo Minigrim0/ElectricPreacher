@@ -27,6 +27,8 @@ Screen::Screen():m_window(NULL), m_screen_surface(NULL), m_font(NULL){
     m_font_color.r = 255;
     m_font_color.g = 255;
     m_font_color.b = 255;
+
+    m_font_path = "assets/fonts/courrier_new.ttf";
 }
 
 Screen::Screen(const Screen& screen){
@@ -85,6 +87,10 @@ int Screen::set_current_surface(SDL_Surface* surf){
     return 0;
 }
 
+void Screen::set_font(std::string path){
+    m_font_path = path;
+}
+
 void Screen::set_caption(std::string caption){
     m_window_caption = caption;
     SDL_SetWindowTitle(m_window, m_window_caption.c_str());
@@ -117,7 +123,7 @@ int Screen::build_window(){
         std::cout << "TTF_Init: " << TTF_GetError() << std::endl;
         return 1;
     }
-    m_font = TTF_OpenFont("assets/fonts/courrier_new.ttf", 16);
+    m_font = TTF_OpenFont(m_font_path.c_str(), 16);
     if(!m_font){
         std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
         return 1;
