@@ -9,12 +9,14 @@
     @version : 1.0
 */
 
-#include <iostream>
-
 #include "constants.h"
 #include "../../includes/ground_element.h"
 #include "../../includes/screen.h"
 
+/**
+    class : EditorUI
+    purpose : Displays a UI for the Map Editor
+*/
 class EditorUI{
     public:
         //Constructors
@@ -27,14 +29,29 @@ class EditorUI{
 
         //Getters
         int get_current_layer() const;
+        SDL_Rect get_grid_pos() const;
+
+        //Setters
+        void set_grid_pos(SDL_Rect);
+        void set_grid_pos(int, int);
+        int set_font(std::string);
 
         //Others
         void draw(Screen*);
+        void init_ui_elements(Screen*);
         void create_grid();
+        void create_header(Screen*);
+
     private:
         int m_current_layer;
 
+        SDL_Surface* m_caption_image;
+        SDL_Surface* m_header_image;
         SDL_Surface* m_grid;
+        SDL_Rect m_grid_pos;
+
+        TTF_Font* m_fonts[5];
+        SDL_Color m_font_color;
 
         GroundElement m_level_1[CHUNK_SIZE][CHUNK_SIZE];
 };

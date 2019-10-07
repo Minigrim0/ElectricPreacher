@@ -7,20 +7,25 @@
 
 int main(){
     Screen screen;
+    EditorUI ui;
+
     screen.set_width(SCREEN_WIDTH);
     screen.set_height(SCREEN_HEIGHT);
     screen.set_font("../assets/fonts/courrier_new.ttf");
+    screen.set_caption("Fuzzy-Waddle Editor");
+    screen.set_background_color(215, 215, 215);
 
-    EditorUI ui;
+    if(screen.build_window() != 0) return EXIT_FAILURE;
 
-	if(screen.build_window() != 0) return EXIT_FAILURE;
+    //ui.set_grid_pos(20, 20);
+    if(ui.set_font("../assets/fonts/Roboto-Regular.ttf") != 0) return EXIT_FAILURE;
+    ui.init_ui_elements(&screen);
+
     while(screen.is_running()){
         ui.draw(&screen);
         screen.handle_events();
         screen.update_screen();
     }
-
-    SDL_Delay(2000);
 
     return EXIT_SUCCESS;
 }

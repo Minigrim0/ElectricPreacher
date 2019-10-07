@@ -31,8 +31,11 @@ class Screen{
         //Getters
         int get_height() const;
         int get_width() const;
-        SDL_Window *get_window() const;
-        SDL_Surface *get_surface() const;
+        std::string get_caption() const;
+        SDL_Window* get_window() const;
+        SDL_Surface* get_surface() const;
+        const SDL_PixelFormat* get_format() const;
+        SDL_Color get_background_color() const;
         TTF_Font* get_font() const;
         bool is_running() const;
 
@@ -40,6 +43,8 @@ class Screen{
         int set_height(int);
         int set_width(int);
         int set_current_surface(SDL_Surface*);
+        void set_background_color(SDL_Color);
+        void set_background_color(int, int, int);
         void set_font(std::string);
         void set_caption(std::string);
         void toggle_fps_show();
@@ -47,7 +52,9 @@ class Screen{
         //Others
         int init();
         int build_window();
-        SDL_Surface *load_image(std::string);
+        SDL_Surface* load_image(std::string);
+        SDL_Surface* render_text_blend(std::string);
+        SDL_Surface* render_text_solid(std::string);
         int blit_surface(SDL_Surface*, const SDL_Rect*, int, int);
         int blit_surface(SDL_Surface*, const SDL_Rect*, SDL_Rect);
         int blit_surface(const SDL_Rect*, int, int);
@@ -72,13 +79,14 @@ class Screen{
         std::string m_window_caption;
         std::string m_font_path;
 
-        SDL_Surface *m_screen_surface;
-        SDL_Surface *m_current_surface;
-        SDL_Window *m_window;
+        SDL_Surface* m_screen_surface;
+        SDL_Surface* m_current_surface;
+        SDL_Window* m_window;
 
         SDL_Event m_event_handler;
 
         SDL_Color m_font_color;
+        SDL_Color m_background_color;
         TTF_Font* m_font;
 };
 

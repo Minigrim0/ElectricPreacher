@@ -15,8 +15,12 @@
 //Constructors
 EditorUI::EditorUI(): m_grid(NULL){
     m_current_layer = 0;
+    m_grid_pos.x = 15;
+    m_grid_pos.y = 120;
 
-    create_grid();
+    m_font_color.r = 0;
+    m_font_color.g = 0;
+    m_font_color.b = 0;
 }
 
 EditorUI::EditorUI(EditorUI& ui){
@@ -34,12 +38,46 @@ EditorUI& EditorUI::operator=(const EditorUI& ui){
     return *this;
 }
 
-//Others
+//Getters
 int EditorUI::get_current_layer() const{return m_current_layer;}
+
+SDL_Rect EditorUI::get_grid_pos() const{return m_grid_pos;}
+
+//Setters
+void EditorUI::set_grid_pos(SDL_Rect pos){
+    m_grid_pos = pos;
+}
+
+void EditorUI::set_grid_pos(int x, int y){
+    m_grid_pos.x = x;
+    m_grid_pos.y = y;
+}
+
+int EditorUI::set_font(std::string path){
+    int sizes[] = {12, 15, 20, 25, 30};
+    int result = 0;
+    for(int x=0;x<5;x++){
+        m_fonts[x] = TTF_OpenFont(path.c_str(), sizes[x]);
+        if(m_fonts[x] == NULL){
+            result = 1;
+            std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
+        }
+    }
+    return result;
+}
 
 //Others
 void EditorUI::draw(Screen* screen){
-    screen->blit_surface(m_grid, NULL, 0, 0);
+    screen->blit_surface(m_grid, NULL, m_grid_pos);
+    screen->blit_surface(m_header_image, NULL, 0, 0);
+    screen->blit_surface(m_caption_image, NULL, 5, 5);
+}
+
+void EditorUI::init_ui_elements(Screen* screen){
+    create_grid();
+    create_header(screen);
+    m_caption_image = TTF_RenderText_Blended(m_fonts[2], screen->get_caption().c_str(), m_font_color);
+
 }
 
 void EditorUI::create_grid(){
@@ -50,12 +88,27 @@ void EditorUI::create_grid(){
     SDL_Surface* vertical_line = SDL_CreateRGBSurface(0, 1, 32*CHUNK_SIZE, 32, 0, 0, 0, 0);
 
     SDL_Rect rect;
-    for(int x=0;x<CHUNK_SIZE;x++){
+    for(int x=1;x<CHUNK_SIZE;x++){
         rect.x = x*32;
         rect.y = 0;
         SDL_BlitSurface(vertical_line, NULL, m_grid, &rect);
         rect.x = 0;
         rect.y = x*32;
         SDL_BlitSurface(horizontal_line, NULL, m_grid, &rect);
+    }
+}
+
+void EditorUI::create_header(Screen* screen){
+    m_header_image = SDL_CreateRGBSurface(0, SCREEN_WIDTH, 50, 32, 0, 0, 0, 0);
+    SDL_Surface* line = SDL_CreateRGBSurface(0, SCREEN_WIDTH, 1, 32, 0, 0, 0, 0);
+    int curr_color[] = {100, 120, 200};
+    SDL_Rect pos;pos.y = 0;pos.x = 0;
+    for(int x=0;x<50;x++){
+        pos.y = x;
+        SDL_FillRect(line, NULL, SDL_MapRGB(screen->get_format(), curr_color[0], curr_color[1], curr_color[2]));
+        SDL_BlitSurface(line, NULL, m_header_image, &pos);
+        curr_color[0] -= 1;
+        curr_color[1] -= 2;
+        curr_color[2] -= 3;
     }
 }

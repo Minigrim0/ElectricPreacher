@@ -3,7 +3,7 @@
 
 #define CHUNK_SIZE 20
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH 1440
+#define SCREEN_HEIGHT 900
 
 #endif

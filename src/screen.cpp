@@ -28,6 +28,10 @@ Screen::Screen():m_window(NULL), m_screen_surface(NULL), m_font(NULL){
     m_font_color.g = 255;
     m_font_color.b = 255;
 
+    m_background_color.r = 0;
+    m_background_color.g = 0;
+    m_background_color.b = 0;
+
     m_font_path = "assets/fonts/courrier_new.ttf";
 }
 
@@ -60,8 +64,11 @@ Screen& Screen::operator=(const Screen& screen){
 //Getters
 int Screen::get_height() const{return m_height;}
 int Screen::get_width() const{return m_width;}
+std::string Screen::get_caption() const{return m_window_caption;}
 SDL_Window* Screen::get_window() const{return m_window;}
 SDL_Surface* Screen::get_surface() const{return m_screen_surface;}
+const SDL_PixelFormat* Screen::get_format() const{return m_screen_surface->format;}
+SDL_Color Screen::get_background_color() const{return m_background_color;}
 TTF_Font* Screen::get_font() const{return m_font;}
 bool Screen::is_running() const{return m_running;}
 
@@ -85,6 +92,16 @@ int Screen::set_current_surface(SDL_Surface* surf){
 
     m_current_surface = surf;
     return 0;
+}
+
+void Screen::set_background_color(SDL_Color color){
+    m_background_color = color;
+}
+
+void Screen::set_background_color(int r, int g, int b){
+    m_background_color.r = r;
+    m_background_color.g = g;
+    m_background_color.b = b;
 }
 
 void Screen::set_font(std::string path){
@@ -134,13 +151,21 @@ int Screen::build_window(){
     return 0;
 }
 
-SDL_Surface *Screen::load_image(std::string path){
+SDL_Surface* Screen::load_image(std::string path){
     SDL_Surface *surf = NULL;
     surf = IMG_Load(path.c_str());
     if(surf == NULL)
         std::cout << "Error loading image " << SDL_GetError() << std::endl;
 
     return surf;
+}
+
+SDL_Surface* Screen::render_text_blend(std::string text){
+    return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
+}
+
+SDL_Surface* Screen::render_text_solid(std::string text){
+    return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
 }
 
 int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int y){
@@ -207,6 +232,16 @@ void Screen::update_screen(){
     }
 
     SDL_UpdateWindowSurface(m_window);
+    SDL_FillRect(
+        m_screen_surface,
+        NULL,
+        SDL_MapRGB(
+            m_screen_surface->format,
+            m_background_color.r,
+            m_background_color.b,
+            m_background_color.b
+        )
+    );
 }
 
 void Screen::compute_fps(){
@@ -220,4 +255,5 @@ void Screen::compute_fps(){
     tmp_image = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
     set_current_surface(tmp_image);
     blit_surface(NULL, 15, 15);
+    SDL_FreeSurface(tmp_image);
 }
