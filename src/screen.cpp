@@ -3,7 +3,7 @@
     purpose : Contains source code of the screen class
 
     @author : minigrim0
-    @version : 1.0
+    @version : 1.2
 */
 
 #include <iostream>

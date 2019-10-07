@@ -6,7 +6,7 @@
     purpose : Contains prototypes for the Screen class
 
     @author : minigrim0
-    @version : 1.1
+    @version : 1.2
 */
 
 #include <iostream>
