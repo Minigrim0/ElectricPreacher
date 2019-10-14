@@ -12,6 +12,7 @@
 #include "constants.h"
 #include "../../includes/ground_element.h"
 #include "../../includes/screen.h"
+#include "../../includes/chunk.h"
 
 /**
     class : EditorUI
@@ -53,7 +54,7 @@ class EditorUI{
         TTF_Font* m_fonts[5];
         SDL_Color m_font_color;
 
-        GroundElement m_level_1[CHUNK_SIZE][CHUNK_SIZE];
+        Chunk m_current_chunk;
 };
 
 #endif

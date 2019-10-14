@@ -12,6 +12,7 @@ int main(){
 
 	screen.set_width(SCREEN_X);
 	screen.set_height(SCREEN_Y);
+	screen.set_caption("Fuzzy waddle");
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
