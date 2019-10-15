@@ -10,4 +10,4 @@ sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dev
 
 ### JsonCpp
 
-This project uses (this library)[https://github.com/open-source-parsers/jsoncpp] to read and write json files.
+This project uses [this library](https://github.com/open-source-parsers/jsoncpp) to read and write json files.
