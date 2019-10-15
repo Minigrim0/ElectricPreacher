@@ -9,7 +9,7 @@
     @version : 1.0
 */
 
-#include "constants.h"
+#include "../../includes/constants.h"
 #include "../../includes/ground_element.h"
 #include "../../includes/screen.h"
 #include "../../includes/chunk.h"
