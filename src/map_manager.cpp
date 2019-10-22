@@ -13,21 +13,33 @@
 #include "../includes/ground_element.h"
 
 //Constructors
-MapManager::MapManager(): m_position(nullptr){}
+MapManager::MapManager()
+:m_position(nullptr),
+m_chunk(new Chunk)
+{}
 
-MapManager::MapManager(const MapManager& mm){
-    m_position = mm.get_position();
-}
+MapManager::MapManager(const MapManager& mm)
+:m_position(mm.get_position()),
+m_chunk(new Chunk)
+{}
 
-MapManager::MapManager(int x, int y): m_position(nullptr){
+MapManager::MapManager(int x, int y)
+:m_position(nullptr),
+m_chunk(new Chunk)
+{
     set_position(x, y);
 }
 
-MapManager::MapManager(SDL_Rect position): m_position(nullptr){
+MapManager::MapManager(SDL_Rect position)
+:m_position(nullptr),
+m_chunk(new Chunk)
+{
     set_position(position);
 }
 
-MapManager::~MapManager(){}
+MapManager::~MapManager(){
+    delete m_chunk;
+}
 
 //Override
 MapManager& MapManager::operator=(const MapManager& mm){

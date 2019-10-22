@@ -54,6 +54,9 @@ public:
    */
   JSONCPP_DEPRECATED("Use CharReader and CharReaderBuilder instead")
   Reader();
+  Reader(const Reader&);
+
+  Reader& operator=(Reader&);
 
   /** \brief Constructs a Reader allowing the specified feature set for parsing.
    */

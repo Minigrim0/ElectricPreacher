@@ -8,6 +8,7 @@
 
 int main(){
 	Screen screen;
+	std::cout << "Screen address : " << &screen << std::endl;
 	ImageSet set;
 
 	screen.set_width(SCREEN_X);
@@ -39,6 +40,8 @@ int main(){
 		screen.blit_surface(set.get_sub(2, 11), 64, 74);
 		screen.update_screen();
 	}
+
+	SDL_FreeSurface(image);
 
 	return EXIT_SUCCESS;
 }

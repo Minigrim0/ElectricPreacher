@@ -30,7 +30,7 @@ m_screen_surface(nullptr),
 m_current_surface(nullptr),
 m_window(nullptr),
 m_event_handler(new SDL_Event),
-m_font_color({0, 0, 0, 0}),
+m_font_color({255, 255, 255, 0}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr)
 {}
@@ -56,8 +56,11 @@ m_font(nullptr)
 {}
 
 Screen::~Screen(){
-    SDL_DestroyWindow(m_window);
+    delete m_event_handler;
+    SDL_FreeSurface(m_screen_surface);
+    SDL_FreeSurface(m_current_surface);
     TTF_CloseFont(m_font);
+    SDL_DestroyWindow(m_window);
     TTF_Quit();
     SDL_Quit();
 }

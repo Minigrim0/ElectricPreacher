@@ -27,9 +27,7 @@ m_rects()
 ImageSet::ImageSet(SDL_Surface* img)
 :m_image(img),
 m_rects()
-{
-    set_image(img);
-}
+{}
 
 ImageSet::~ImageSet(){
     SDL_FreeSurface(m_image);

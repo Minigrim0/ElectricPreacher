@@ -43,7 +43,10 @@ protected:
   OStream* sout_; // not owned; will not delete
 public:
   StreamWriter();
+  StreamWriter(const StreamWriter&);
   virtual ~StreamWriter();
+
+  StreamWriter& operator=(StreamWriter&);
   /** Write Value into document as configured in sub-class.
    *   Do not take ownership of sout, but maintain a reference during function.
    *   \pre sout != NULL
@@ -301,7 +304,10 @@ public:
    * \param indentation Each level will be indented by this amount extra.
    */
   StyledStreamWriter(String indentation = "\t");
+  StyledStreamWriter(const StyledStreamWriter&);
   ~StyledStreamWriter() = default;
+
+  StyledStreamWriter& operator=(StyledStreamWriter&);
 
 public:
   /** \brief Serialize a Value in <a HREF="http://www.json.org">JSON</a> format.
