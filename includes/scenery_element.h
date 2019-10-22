@@ -15,6 +15,10 @@
 */
 class SceneryElement : public MapElement{
     public:
+        //Constructors
+        SceneryElement();
+        ~SceneryElement();
+
         //Getters
         int get_type() const;
 
@@ -22,7 +26,7 @@ class SceneryElement : public MapElement{
         void set_type(int);
 
         //Others
-        
+
     private:
         int m_type;
 

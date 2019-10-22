@@ -19,6 +19,9 @@
     a trap, ...
 */
 class WallElement: public MapElement{
+    public:
+        WallElement();
+        ~WallElement();
 
     private:
         bool m_is_trap;

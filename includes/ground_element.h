@@ -21,6 +21,11 @@
 */
 class GroundElement: public MapElement{
     public:
+        //Constructors
+        GroundElement();
+        ~GroundElement();
+
+        //Others
         int draw(Screen*, int, int);
         int draw(Screen*, SDL_Rect);
 };

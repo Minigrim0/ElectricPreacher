@@ -10,6 +10,13 @@
 
 #include "../includes/ground_element.h"
 
+
+//Constructors
+GroundElement::GroundElement() : MapElement()
+{}
+
+GroundElement::~GroundElement(){}
+
 //Others
 int GroundElement::draw(Screen* screen, int x, int y){
     return screen->blit_surface(m_image_rect, x, y);
