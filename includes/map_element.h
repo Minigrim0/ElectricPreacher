@@ -20,11 +20,16 @@
 class MapElement{
     public:
         MapElement();
+        MapElement(const MapElement&);
         ~MapElement();
+
+        //Operators
+        MapElement& operator=(const MapElement&);
 
         //Getters
         std::string get_type() const;
         bool get_accessibility(int) const;
+        SDL_Rect get_rect() const;
 
         //Setters
         void set_accessibility(int, bool) const;
@@ -37,7 +42,7 @@ class MapElement{
         int draw(Screen*, SDL_Rect);
 
     protected:
-        SDL_Rect m_image_rect;
+        SDL_Rect* m_image_rect;
         std::string m_type;
         bool m_accessibility[4];
 };

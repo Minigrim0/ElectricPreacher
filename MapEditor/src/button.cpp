@@ -9,7 +9,7 @@ m_text("")
 {}
 
 Button::Button(const Button& button)
-:m_rect(nullptr),
+:m_rect(new SDL_Rect),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
 m_text(button.get_text())
@@ -17,7 +17,9 @@ m_text(button.get_text())
     *m_rect = button.get_rect();
 }
 
-Button::~Button(){}
+Button::~Button(){
+    delete m_rect;
+}
 
 //Operators
 Button& Button::operator=(const Button& button){
