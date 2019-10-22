@@ -16,40 +16,44 @@
 
 //Constructors
 Screen::Screen()
-:m_window(nullptr),
-m_screen_surface(nullptr),
-m_font(nullptr),
+:m_width(480),
+m_height(640),
+m_start_time(0),
+m_time_elapsed(0),
+m_time_since_last_fps_update(0),
+m_fps(0),
 m_running(false),
 m_showing_fps(false),
-m_height(640),
-m_width(480),
-m_window_caption("SDL Application"),
-m_font_path("assets/fonts/courrier_new.ttf")
-{
-    m_font_color.r = (Uint8)255;
-    m_font_color.g = (Uint8)255;
-    m_font_color.b = (Uint8)255;
-
-    m_background_color.r = (Uint8)0;
-    m_background_color.g = (Uint8)0;
-    m_background_color.b = (Uint8)0;
-}
+m_window_caption("Fuzzy Waddle"),
+m_font_path("assets/fonts/courrier_new.ttf"),
+m_screen_surface(nullptr),
+m_current_surface(nullptr),
+m_window(nullptr),
+m_event_handler(new SDL_Event),
+m_font_color({0, 0, 0, 0}),
+m_background_color({0, 0, 0, 0}),
+m_font(nullptr)
+{}
 
 Screen::Screen(const Screen& screen)
-:m_window(screen.get_window()),
-m_screen_surface(screen.get_surface()),
-m_width(screen.get_width()),
+:m_width(screen.get_width()),
 m_height(screen.get_height()),
-m_font(screen.get_font())
-{
-    m_font_color.r = (Uint8)255;
-    m_font_color.g = (Uint8)255;
-    m_font_color.b = (Uint8)255;
-
-    m_background_color.r = (Uint8)0;
-    m_background_color.g = (Uint8)0;
-    m_background_color.b = (Uint8)0;
-}
+m_start_time(0),
+m_time_elapsed(0),
+m_time_since_last_fps_update(0),
+m_fps(0),
+m_running(screen.is_running()),
+m_showing_fps(false),
+m_window_caption("Fuzzy Waddle"),
+m_font_path("assets/fonts/courrier_new.ttf"),
+m_screen_surface(nullptr),
+m_current_surface(nullptr),
+m_window(nullptr),
+m_event_handler(new SDL_Event),
+m_font_color({255, 255, 255, 0}),
+m_background_color({0, 0, 0, 0}),
+m_font(nullptr)
+{}
 
 Screen::~Screen(){
     SDL_DestroyWindow(m_window);
@@ -215,12 +219,12 @@ int Screen::blit_surface(const SDL_Rect* src_rect, SDL_Rect position){
 }
 
 void Screen::handle_events(){
-    while( SDL_PollEvent(&m_event_handler) != 0){
-        if(m_event_handler.type == SDL_QUIT){
+    while( SDL_PollEvent(m_event_handler) != 0){
+        if(m_event_handler->type == SDL_QUIT){
             m_running = false;
         }
-        else if(m_event_handler.type == SDL_KEYUP){
-            switch(m_event_handler.key.keysym.sym){
+        else if(m_event_handler->type == SDL_KEYUP){
+            switch(m_event_handler->key.keysym.sym){
                 case SDLK_F3:
                     toggle_fps_show();
                     break;
@@ -254,7 +258,7 @@ void Screen::update_screen(){
 
 void Screen::compute_fps(){
     if(m_time_since_last_fps_update >= 1000){
-        m_fps = (int)(1000.0/(double)m_time_elapsed);
+        m_fps = static_cast<unsigned int> (1000.0/static_cast<double>(m_time_elapsed));
         m_time_since_last_fps_update = 0;
     }
 

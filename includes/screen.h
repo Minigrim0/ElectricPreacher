@@ -83,7 +83,7 @@ class Screen{
         SDL_Surface* m_current_surface;
         SDL_Window* m_window;
 
-        SDL_Event m_event_handler;
+        SDL_Event* m_event_handler;
 
         SDL_Color m_font_color;
         SDL_Color m_background_color;
