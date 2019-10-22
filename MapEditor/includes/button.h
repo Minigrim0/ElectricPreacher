@@ -6,7 +6,9 @@
     purpose : contains the prototypes for the methods of the class Button
 */
 
+#include <iostream>
 #include <SDL2/SDL.h>
+#include "../../includes/screen.h"
 
 /**
     Class : Button
@@ -22,6 +24,7 @@ class Button{
         SDL_Rect get_rect() const;
         SDL_Color get_background_color() const;
         SDL_Color get_foreground_color() const;
+        std::string get_text() const;
 
         //Setters
         void set_rect(SDL_Rect);
@@ -30,11 +33,17 @@ class Button{
         void set_position(int, int);
         void set_size(SDL_Rect);
         void set_size(int, int);
+        void set_text(std::string);
+
+        //Others
+        short draw(Screen*);
 
     private:
         SDL_Rect m_rect;
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
+
+        std::string m_text;
 };
 
 #endif

@@ -11,7 +11,7 @@
 #include "../includes/image_set.h"
 
 //Constructors
-Chunk::Chunk() : m_image_set(NULL){
+Chunk::Chunk() : m_image_set(nullptr){
     m_position.x = 0;
     m_position.y = 0;
 }

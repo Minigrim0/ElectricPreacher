@@ -12,11 +12,11 @@
 #include "../includes/image_set.h"
 
 //Constructors
-ImageSet::ImageSet(): m_image(NULL){}
+ImageSet::ImageSet(): m_image(nullptr){}
 
 ImageSet::ImageSet(const ImageSet& set): m_image(set.get_image()){}
 
-ImageSet::ImageSet(SDL_Surface* img): m_image(NULL){
+ImageSet::ImageSet(SDL_Surface* img): m_image(nullptr){
     set_image(img);
 }
 

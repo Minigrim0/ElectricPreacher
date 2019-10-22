@@ -2,15 +2,15 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/screen.h"
-#include "includes/constants.h"
+#include "../includes/constants.h"
 #include "includes/editor_ui.h"
 
 int main(){
     Screen screen;
     EditorUI ui;
 
-    screen.set_width(SCREEN_WIDTH);
-    screen.set_height(SCREEN_HEIGHT);
+    screen.set_width(EDITOR_SCREEN_X);
+    screen.set_height(EDITOR_SCREEN_Y);
     screen.set_font("../assets/fonts/courrier_new.ttf");
     screen.set_caption("Fuzzy-Waddle Editor");
     screen.set_background_color(215, 215, 215);

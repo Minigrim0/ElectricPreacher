@@ -8,6 +8,9 @@
 #define SCREEN_X 1440
 #define SCREEN_Y 900
 
+#define EDITOR_SCREEN_X 1440
+#define EDITOR_SCREEN_Y 900
+
 //Directions
 enum Directions
 {

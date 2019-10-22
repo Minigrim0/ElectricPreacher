@@ -1,0 +1,19 @@
+{
+    "Buttons" : [
+        {
+            "name": "Save",
+            "position_x": 0,
+            "position_y": 0
+        },
+        {
+            "name": "Open",
+            "position_x": 0,
+            "position_y": 0
+        },
+        {
+            "name": "Build",
+            "position_x": 0,
+            "position_y": 0
+        },
+    ],
+}

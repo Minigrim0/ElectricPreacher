@@ -17,6 +17,10 @@ SDL_Color Button::get_foreground_color() const{
     return m_foreground_color;
 }
 
+std::string Button::get_text() const{
+    return m_text;
+}
+
 //Setters
 void Button::set_rect(SDL_Rect rect){
     m_rect = rect;
@@ -47,4 +51,8 @@ void Button::set_size(SDL_Rect rect){
 void Button::set_size(int w, int h){
     m_rect.w = w;
     m_rect.h = h;
+}
+
+void Button::set_text(std::string text){
+    m_text = text;
 }

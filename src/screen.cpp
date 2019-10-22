@@ -15,32 +15,40 @@
 #include "../includes/constants.h"
 
 //Constructors
-Screen::Screen():m_window(NULL), m_screen_surface(NULL), m_font(NULL){
-    m_running = false;
-    m_showing_fps = false;
+Screen::Screen()
+:m_window(nullptr),
+m_screen_surface(nullptr),
+m_font(nullptr),
+m_running(false),
+m_showing_fps(false),
+m_height(640),
+m_width(480),
+m_window_caption("SDL Application"),
+m_font_path("assets/fonts/courrier_new.ttf")
+{
+    m_font_color.r = (Uint8)255;
+    m_font_color.g = (Uint8)255;
+    m_font_color.b = (Uint8)255;
 
-    m_height = 640;
-    m_width = 480;
-
-    m_window_caption = "SDL Application";
-
-    m_font_color.r = 255;
-    m_font_color.g = 255;
-    m_font_color.b = 255;
-
-    m_background_color.r = 0;
-    m_background_color.g = 0;
-    m_background_color.b = 0;
-
-    m_font_path = "assets/fonts/courrier_new.ttf";
+    m_background_color.r = (Uint8)0;
+    m_background_color.g = (Uint8)0;
+    m_background_color.b = (Uint8)0;
 }
 
-Screen::Screen(const Screen& screen){
-    m_window = screen.get_window();
-    m_screen_surface = screen.get_surface();
-    m_width = screen.get_width();
-    m_height = screen.get_height();
-    m_font = screen.get_font();
+Screen::Screen(const Screen& screen)
+:m_window(screen.get_window()),
+m_screen_surface(screen.get_surface()),
+m_width(screen.get_width()),
+m_height(screen.get_height()),
+m_font(screen.get_font())
+{
+    m_font_color.r = (Uint8)255;
+    m_font_color.g = (Uint8)255;
+    m_font_color.b = (Uint8)255;
+
+    m_background_color.r = (Uint8)0;
+    m_background_color.g = (Uint8)0;
+    m_background_color.b = (Uint8)0;
 }
 
 Screen::~Screen(){
@@ -98,7 +106,7 @@ void Screen::set_background_color(SDL_Color color){
     m_background_color = color;
 }
 
-void Screen::set_background_color(int r, int g, int b){
+void Screen::set_background_color(Uint8 r, Uint8 g, Uint8 b){
     m_background_color.r = r;
     m_background_color.g = g;
     m_background_color.b = b;

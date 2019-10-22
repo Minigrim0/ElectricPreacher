@@ -44,7 +44,7 @@ class Screen{
         int set_width(int);
         int set_current_surface(SDL_Surface*);
         void set_background_color(SDL_Color);
-        void set_background_color(int, int, int);
+        void set_background_color(Uint8, Uint8, Uint8);
         void set_font(std::string);
         void set_caption(std::string);
         void toggle_fps_show();
