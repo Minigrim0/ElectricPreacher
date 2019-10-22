@@ -21,6 +21,16 @@ MapElement::~MapElement(){
     delete m_image_rect;
 }
 
+//Operators
+MapElement& MapElement::operator=(const MapElement& map_element){
+    *m_image_rect = map_element.get_rect();
+    m_type = map_element.get_type();
+    for(int x=0;x<4;x++)
+        m_accessibility[x] = map_element.get_accessibility(x);
+
+    return *this;
+}
+
 //Getters
 std::string MapElement::get_type() const{return m_type;}
 bool MapElement::get_accessibility(int dir) const{return m_accessibility[dir];}

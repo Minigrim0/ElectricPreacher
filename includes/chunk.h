@@ -41,7 +41,7 @@ class Chunk{
 
     private:
         ImageSet* m_image_set;
-        SDL_Rect m_position;
+        SDL_Rect* m_position;
 
         GroundElement m_layer1[CHUNK_SIZE][CHUNK_SIZE];
         WallElement m_layer2[CHUNK_SIZE][CHUNK_SIZE];
