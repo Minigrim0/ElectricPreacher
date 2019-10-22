@@ -12,11 +12,22 @@
 #include "../includes/image_set.h"
 
 //Constructors
-ImageSet::ImageSet(): m_image(nullptr){}
+ImageSet::ImageSet()
+:m_image(nullptr),
+m_rects()
+{}
 
-ImageSet::ImageSet(const ImageSet& set): m_image(set.get_image()){}
+ImageSet::ImageSet(const ImageSet& set)
+:m_image(set.get_image()),
+m_rects()
+{
+    set_array();
+}
 
-ImageSet::ImageSet(SDL_Surface* img): m_image(nullptr){
+ImageSet::ImageSet(SDL_Surface* img)
+:m_image(img),
+m_rects()
+{
     set_image(img);
 }
 
@@ -35,7 +46,7 @@ ImageSet& ImageSet::operator=(const ImageSet& set){
 SDL_Surface* ImageSet::get_image() const{return m_image;}
 
 const SDL_Rect* ImageSet::get_sub(int x, int y) const{
-    int pos = (y*m_image->w/32 + x);
+    long unsigned int pos = static_cast<long unsigned int>(y*m_image->w/32 + x);
     if(pos > m_rects.size()) return NULL;
     return &m_rects.at(pos);
 }
