@@ -18,7 +18,11 @@ class Button{
     public:
         //Constructors
         Button();
+        Button(const Button&);
         ~Button();
+
+        //Operators
+        Button& operator=(const Button&);
 
         //Getters
         SDL_Rect get_rect() const;
@@ -39,7 +43,7 @@ class Button{
         short draw(Screen*);
 
     private:
-        SDL_Rect m_rect;
+        SDL_Rect* m_rect;
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
 
