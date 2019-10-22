@@ -17,24 +17,24 @@
 
 //Constructors
 EditorUI::EditorUI()
-:m_grid(nullptr),
+:m_current_layer(0),
 m_caption_image(nullptr),
 m_header_image(nullptr),
+m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
 m_font_color({0, 0, 0, 0}),
-m_current_chunk(nullptr),
-m_current_layer(0)
+m_current_chunk(nullptr)
 {
 }
 
 EditorUI::EditorUI(EditorUI& ui)
-:m_grid(nullptr),
+:m_current_layer(ui.get_current_layer()),
 m_caption_image(nullptr),
 m_header_image(nullptr),
+m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
 m_font_color({0, 0, 0, 0}),
-m_current_chunk(nullptr),
-m_current_layer(ui.get_current_layer())
+m_current_chunk(nullptr)
 {
 }
 
@@ -126,18 +126,18 @@ void EditorUI::create_grid(){
 void EditorUI::create_header(Screen* screen){
     m_header_image = SDL_CreateRGBSurface(0, EDITOR_SCREEN_X, 50, 32, 0, 0, 0, 0);
     SDL_Surface* line = SDL_CreateRGBSurface(0, EDITOR_SCREEN_Y, 1, 32, 0, 0, 0, 0);
-    Uint8 curr_color[] = {
-        static_cast<Uint8> (100),
-        static_cast<Uint8> (120),
-        static_cast<Uint8> (200)
-    };
+    SDL_Color curr_color;
+    curr_color.r = 100;
+    curr_color.g = 120;
+    curr_color.b = 200;
+    curr_color.a = 255;
     SDL_Rect pos;pos.y = 0;pos.x = 0;
     for(int x=0;x<50;x++){
         pos.y = x;
-        SDL_FillRect(line, NULL, SDL_MapRGB(screen->get_format(), curr_color[0], curr_color[1], curr_color[2]));
+        SDL_FillRect(line, NULL, SDL_MapRGB(screen->get_format(), curr_color.r, curr_color.g, curr_color.b));
         SDL_BlitSurface(line, NULL, m_header_image, &pos);
-        curr_color[0] -= static_cast<Uint8> (1);
-        curr_color[1] -= static_cast<Uint8> (2);
-        curr_color[2] -= static_cast<Uint8> (3);
+        curr_color.r = static_cast<Uint8>(static_cast<int>(curr_color.r) - 1);
+        curr_color.g = static_cast<Uint8>(static_cast<int>(curr_color.g) - 2);
+        curr_color.b = static_cast<Uint8>(static_cast<int>(curr_color.b) - 3);
     }
 }
