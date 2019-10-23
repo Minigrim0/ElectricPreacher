@@ -56,10 +56,10 @@ m_font(nullptr)
 {}
 
 Screen::~Screen(){
+    TTF_CloseFont(m_font);
     delete m_event_handler;
     SDL_FreeSurface(m_screen_surface);
     SDL_FreeSurface(m_current_surface);
-    TTF_CloseFont(m_font);
     SDL_DestroyWindow(m_window);
     TTF_Quit();
     SDL_Quit();
@@ -138,6 +138,18 @@ int Screen::init(){
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
+
+    if(TTF_Init() == -1){
+        std::cout << "TTF_Init: " << TTF_GetError() << std::endl;
+        return 2;
+    }
+
+    m_font = TTF_OpenFont(m_font_path.c_str(), 16);
+    if(!m_font){
+        std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
+        return 3;
+    }
+
     return 0;
 }
 
@@ -151,15 +163,6 @@ int Screen::build_window(){
     }
     m_screen_surface = SDL_GetWindowSurface(m_window);
 
-    if(TTF_Init() == -1){
-        std::cout << "TTF_Init: " << TTF_GetError() << std::endl;
-        return 1;
-    }
-    m_font = TTF_OpenFont(m_font_path.c_str(), 16);
-    if(!m_font){
-        std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
-        return 1;
-    }
     TTF_SetFontStyle(m_font, TTF_STYLE_BOLD);
 
     m_running = true;
@@ -188,10 +191,10 @@ int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int
     dst_rect.x = x;
     dst_rect.y = y;
     return SDL_BlitSurface(
-        surf, //Src image
-        src_rect, //Src rect
-        m_screen_surface, //Dest surf
-        &dst_rect); //Dest rect
+        surf,
+        src_rect,
+        m_screen_surface,
+        &dst_rect);
 }
 
 int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect position){

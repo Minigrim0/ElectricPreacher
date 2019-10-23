@@ -4,7 +4,7 @@ OBJECTS = screen.o image_set.o map_manager.o ground_element.o wall_element.o sce
 FINAL = fuzzyWaddle
 CC = g++
 
-all: $(FINAL) clean
+all: $(FINAL)
 
 $(FINAL): *.cpp $(OBJECTS)
 	$(CC) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@

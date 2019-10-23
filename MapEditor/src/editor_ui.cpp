@@ -22,9 +22,18 @@ m_caption_image(nullptr),
 m_header_image(nullptr),
 m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
-m_font_color({0, 0, 0, 0}),
+m_font_color(new SDL_Color),
 m_current_chunk(nullptr)
 {
+    m_font_color->r = 0;
+    m_font_color->g = 0;
+    m_font_color->b = 0;
+    m_font_color->a = 255;
+
+    m_grid_pos.x = 0;
+    m_grid_pos.y = 0;
+    m_grid_pos.w = 0;
+    m_grid_pos.h = 0;
 }
 
 EditorUI::EditorUI(EditorUI& ui)
@@ -33,12 +42,25 @@ m_caption_image(nullptr),
 m_header_image(nullptr),
 m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
-m_font_color({0, 0, 0, 0}),
+m_font_color(new SDL_Color),
 m_current_chunk(nullptr)
 {
+    m_font_color->r = 0;
+    m_font_color->g = 0;
+    m_font_color->b = 0;
+    m_font_color->a = 255;
+
+    m_grid_pos.x = 0;
+    m_grid_pos.y = 0;
+    m_grid_pos.w = 0;
+    m_grid_pos.h = 0;
 }
 
 EditorUI::~EditorUI(){
+    for(int x=0;x<5;x++)
+        TTF_CloseFont(m_fonts[x]);
+    SDL_FreeSurface(m_header_image);
+    SDL_FreeSurface(m_caption_image);
     SDL_FreeSurface(m_grid);
 }
 
@@ -78,6 +100,8 @@ int EditorUI::set_font(std::string path){
 }
 
 short EditorUI::set_element(std::string path){
+    std::cout << "loading UI elements from " << path << std::endl;
+
     std::ifstream json_in(path.c_str());
     Json::Value root;
     json_in >> root;
@@ -98,11 +122,17 @@ void EditorUI::draw(Screen* screen){
 }
 
 void EditorUI::init_ui_elements(Screen* screen){
-    set_element("lul");
+    std::ofstream output;
+    output.open("log.txt");
+    output << "Initializing the editor's UI" << std::endl;
+    set_element("../assets/UI/setup.json");
     create_grid();
     create_header(screen);
-    m_caption_image = TTF_RenderText_Blended(m_fonts[2], screen->get_caption().c_str(), m_font_color);
-
+    output << "alpha " << m_font_color->a << std::endl;
+    m_caption_image = TTF_RenderText_Blended(
+        m_fonts[2], screen->get_caption().c_str(),
+        *m_font_color);
+    output.close();
 }
 
 void EditorUI::create_grid(){
@@ -121,6 +151,9 @@ void EditorUI::create_grid(){
         rect.y = x*32;
         SDL_BlitSurface(horizontal_line, NULL, m_grid, &rect);
     }
+
+    SDL_FreeSurface(vertical_line);
+    SDL_FreeSurface(horizontal_line);
 }
 
 void EditorUI::create_header(Screen* screen){
@@ -140,4 +173,6 @@ void EditorUI::create_header(Screen* screen){
         curr_color.g = static_cast<Uint8>(static_cast<int>(curr_color.g) - 2);
         curr_color.b = static_cast<Uint8>(static_cast<int>(curr_color.b) - 3);
     }
+
+    SDL_FreeSurface(line);
 }

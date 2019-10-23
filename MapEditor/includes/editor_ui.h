@@ -57,7 +57,7 @@ class EditorUI{
         SDL_Rect m_grid_pos;
 
         TTF_Font* m_fonts[5];
-        SDL_Color m_font_color;
+        SDL_Color* m_font_color;
 
         Chunk* m_current_chunk;
         std::vector<Button*> m_buttons();

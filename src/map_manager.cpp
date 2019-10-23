@@ -38,6 +38,7 @@ m_chunk(new Chunk)
 }
 
 MapManager::~MapManager(){
+    delete m_position;
     delete m_chunk;
 }
 
