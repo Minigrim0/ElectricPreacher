@@ -13,6 +13,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
+#include "screen.h"
 
 /**
     Class : ImageSet
@@ -35,7 +36,7 @@ class ImageSet{
         const SDL_Rect* get_sub(int, int) const;
 
         //Setters
-        int set_image(SDL_Surface*);
+        void set_image(Screen* screen, std::string);
 
         //Others
         int set_array();

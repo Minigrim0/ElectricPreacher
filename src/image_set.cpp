@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/image_set.h"
+#include "../includes/screen.h"
 
 //Constructors
 ImageSet::ImageSet()
@@ -50,12 +51,10 @@ const SDL_Rect* ImageSet::get_sub(int x, int y) const{
 }
 
 //Setters
-int ImageSet::set_image(SDL_Surface* image){
-    if(image == NULL || image->w%32 != 0 || image->h%32 != 0)
-        return 1;
-
-    m_image = image;
-    return 0;
+void ImageSet::set_image(Screen* screen, std::string image){
+	m_image = screen->load_image(image.c_str());
+    if(m_image == NULL || m_image->w%32 != 0 || m_image->h%32 != 0)
+        exit(EXIT_FAILURE);
 }
 
 //Others

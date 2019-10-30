@@ -42,7 +42,6 @@ class Screen{
         //Setters
         int set_height(int);
         int set_width(int);
-        int set_current_surface(SDL_Surface*);
         void set_background_color(SDL_Color);
         void set_background_color(Uint8, Uint8, Uint8);
         void set_font(std::string);
@@ -57,8 +56,6 @@ class Screen{
         SDL_Surface* render_text_solid(std::string);
         int blit_surface(SDL_Surface*, const SDL_Rect*, int, int);
         int blit_surface(SDL_Surface*, const SDL_Rect*, SDL_Rect);
-        int blit_surface(const SDL_Rect*, int, int);
-        int blit_surface(const SDL_Rect*, SDL_Rect);
 
         void handle_events();
         void update_screen();
@@ -80,7 +77,7 @@ class Screen{
         std::string m_font_path;
 
         SDL_Surface* m_screen_surface;
-        SDL_Surface* m_current_surface;
+        SDL_Surface* m_fps_surface;
         SDL_Window* m_window;
 
         SDL_Event* m_event_handler;

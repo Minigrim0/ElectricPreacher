@@ -19,9 +19,9 @@ GroundElement::~GroundElement(){}
 
 //Others
 int GroundElement::draw(Screen* screen, int x, int y){
-    return screen->blit_surface(m_image_rect, x, y);
+    return 0;//screen->blit_surface(m_image_rect, x, y);
 }
 
 int GroundElement::draw(Screen* screen, SDL_Rect rect){
-    return screen->blit_surface(m_image_rect, rect);
+    return 0;//screen->blit_surface(m_image_rect, rect);
 }
