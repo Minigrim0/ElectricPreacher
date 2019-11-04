@@ -1,10 +1,12 @@
+#include <iostream>
 #include "../includes/button.h"
 
 //Constructors
 Button::Button()
 :m_rect(new SDL_Rect),
 m_background_color({0, 0, 0, 0}),
-m_foreground_color({0, 0, 0, 0}),
+m_foreground_color({255, 255, 255, 0}),
+m_image(nullptr),
 m_text("")
 {}
 
@@ -12,6 +14,7 @@ Button::Button(const Button& button)
 :m_rect(new SDL_Rect),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
+m_image(nullptr),
 m_text(button.get_text())
 {
     *m_rect = button.get_rect();
@@ -19,6 +22,7 @@ m_text(button.get_text())
 
 Button::~Button(){
     delete m_rect;
+    SDL_FreeSurface(m_image);
 }
 
 //Operators
@@ -82,4 +86,33 @@ void Button::set_size(int w, int h){
 
 void Button::set_text(std::string text){
     m_text = text;
+}
+
+//Others
+int Button::update_layout(Screen* screen, TTF_Font* font){
+    m_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
+    SDL_FillRect(
+        m_image,
+        NULL,
+        SDL_MapRGB(
+            screen->get_format(),
+            m_background_color.r,
+            m_background_color.g,
+            m_background_color.b
+        )
+    );
+
+    SDL_Surface* tmp_text = TTF_RenderText_Blended(
+        font,
+        m_text.c_str(),
+        m_foreground_color
+    );
+    SDL_BlitSurface(tmp_text, NULL, tmp_text, NULL);
+
+    SDL_FreeSurface(tmp_text);
+    return 0;
+}
+
+int Button::draw(Screen* screen){
+    return screen->blit_surface(m_image, NULL, *m_rect);
 }

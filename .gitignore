@@ -1,3 +1,5 @@
 fuzzyWaddle
 MapEditor/fuzzyWaddle_Editor
 *.o
+*.zip
+*.gch

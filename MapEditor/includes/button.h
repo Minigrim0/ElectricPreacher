@@ -40,12 +40,15 @@ class Button{
         void set_text(std::string);
 
         //Others
-        short draw(Screen*);
+        int update_layout(Screen*, TTF_Font*);
+        int draw(Screen*);
 
     private:
         SDL_Rect* m_rect;
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
+
+        SDL_Surface* m_image;
 
         std::string m_text;
 };

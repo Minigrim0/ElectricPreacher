@@ -173,6 +173,10 @@ SDL_Surface* Screen::render_text_blend(std::string text){
     return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
 }
 
+SDL_Surface* Screen::render_text_blend(std::string text, SDL_Color color){
+    return TTF_RenderText_Blended(m_font, text.c_str(), color);
+}
+
 SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
 }

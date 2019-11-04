@@ -40,7 +40,7 @@ class EditorUI{
         void set_grid_pos(SDL_Rect);
         void set_grid_pos(int, int);
         int set_font(std::string);
-        short set_element(std::string);
+        short set_element(Screen*, std::string);
 
         //Others
         void draw(Screen*);
@@ -60,7 +60,7 @@ class EditorUI{
         SDL_Color* m_font_color;
 
         Chunk* m_current_chunk;
-        std::vector<Button*> m_buttons();
+        std::vector<Button*> m_buttons;
 };
 
 #endif

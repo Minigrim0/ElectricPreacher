@@ -23,7 +23,8 @@ m_header_image(nullptr),
 m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
 m_font_color(new SDL_Color),
-m_current_chunk(nullptr)
+m_current_chunk(nullptr),
+m_buttons(std::vector<Button*>())
 {
     m_font_color->r = 0;
     m_font_color->g = 0;
@@ -43,7 +44,8 @@ m_header_image(nullptr),
 m_grid(nullptr),
 m_grid_pos({0, 0, 0, 0}),
 m_font_color(new SDL_Color),
-m_current_chunk(nullptr)
+m_current_chunk(nullptr),
+m_buttons(std::vector<Button*>())
 {
     m_font_color->r = 0;
     m_font_color->g = 0;
@@ -99,15 +101,35 @@ int EditorUI::set_font(std::string path){
     return result;
 }
 
-short EditorUI::set_element(std::string path){
+short EditorUI::set_element(Screen* screen, std::string path){
     std::ifstream json_in(path.c_str());
     Json::Value root;
     json_in >> root;
 
+    //Setup Buttons
     const Json::Value buttons = root["Buttons"];
     for (unsigned int index=0;index<buttons.size();++index){
         std::cout << buttons[index]["name"].asString() << std::endl;
+        m_buttons.push_back(new Button);
+        m_buttons.back()->set_text(buttons[index]["name"].asString());
+        m_buttons.back()->set_position(
+            buttons[index]["position_x"].asInt(),
+            buttons[index]["position_y"].asInt()
+        );
+        m_buttons.back()->set_size(
+            buttons[index]["size_x"].asInt(),
+            buttons[index]["size_y"].asInt()
+        );
+        m_buttons.back()->update_layout(
+            screen,
+            m_fonts[buttons[index]["font_size"].asInt()]
+        );
     }
+
+    //Setup grid
+    const Json::Value grid = root["Grid"];
+    m_grid_pos.x = grid["position_x"].asInt();
+    m_grid_pos.y = grid["position_y"].asInt();
 
     json_in.close();
     return 0;
@@ -118,10 +140,12 @@ void EditorUI::draw(Screen* screen){
     screen->blit_surface(m_grid, NULL, m_grid_pos);
     screen->blit_surface(m_header_image, NULL, 0, 0);
     screen->blit_surface(m_caption_image, NULL, 5, 5);
+    for(long unsigned int x=0;x<m_buttons.size();++x)
+        m_buttons[x]->draw(screen);
 }
 
 void EditorUI::init_ui_elements(Screen* screen){
-    set_element("../assets/UI/setup.json");
+    set_element(screen, "../assets/UI/setup.json");
     create_grid();
     create_header(screen);
     m_caption_image = TTF_RenderText_Blended(

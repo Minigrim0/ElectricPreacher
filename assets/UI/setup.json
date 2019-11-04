@@ -2,18 +2,31 @@
     "Buttons" : [
         {
             "name": "Save",
-            "position_x": 0,
-            "position_y": 0
+            "position_x": 500,
+            "position_y": 75,
+            "size_x": 120,
+            "size_y": 50,
+            "font_size": 4
         },
         {
             "name": "Open",
-            "position_x": 0,
-            "position_y": 0
+            "position_x": 500,
+            "position_y": 150,
+            "size_x": 120,
+            "size_y": 50,
+            "font_size": 4
         },
         {
             "name": "Build",
-            "position_x": 0,
-            "position_y": 0
+            "position_x": 500,
+            "position_y": 225,
+            "size_x": 120,
+            "size_y": 50,
+            "font_size": 4
         }
-    ]
+    ],
+    "Grid" : {
+        "position_x": 15,
+        "position_y": 75
+    }
 }
