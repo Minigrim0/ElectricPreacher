@@ -14,6 +14,7 @@ int main(){
 	screen.set_height(SCREEN_Y);
 	screen.set_caption("Fuzzy waddle");
 
+	screen.init();
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
 	set.set_image(&screen, "assets/images/Doors.png");

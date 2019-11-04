@@ -14,8 +14,8 @@ int main(void){
     screen.set_font("../assets/fonts/courrier_new.ttf");
     screen.set_caption("Fuzzy-Waddle Editor");
     screen.set_background_color(215, 215, 215);
-    screen.init();
 
+    screen.init();
     if(screen.build_window() != 0) return EXIT_FAILURE;
 
     if(ui.set_font("../assets/fonts/Roboto-Regular.ttf") != 0) return EXIT_FAILURE;

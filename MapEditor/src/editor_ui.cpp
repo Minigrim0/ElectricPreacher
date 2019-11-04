@@ -100,15 +100,14 @@ int EditorUI::set_font(std::string path){
 }
 
 short EditorUI::set_element(std::string path){
-    std::cout << "loading UI elements from " << path << std::endl;
-
     std::ifstream json_in(path.c_str());
     Json::Value root;
     json_in >> root;
 
     const Json::Value buttons = root["Buttons"];
-    for (unsigned int index=0;index<buttons.size();++index)
-        std::cout << buttons[index].asString() << std::endl;
+    for (unsigned int index=0;index<buttons.size();++index){
+        std::cout << buttons[index]["name"].asString() << std::endl;
+    }
 
     json_in.close();
     return 0;
@@ -122,17 +121,12 @@ void EditorUI::draw(Screen* screen){
 }
 
 void EditorUI::init_ui_elements(Screen* screen){
-    std::ofstream output;
-    output.open("log.txt");
-    output << "Initializing the editor's UI" << std::endl;
     set_element("../assets/UI/setup.json");
     create_grid();
     create_header(screen);
-    output << "alpha " << m_font_color->a << std::endl;
     m_caption_image = TTF_RenderText_Blended(
         m_fonts[2], screen->get_caption().c_str(),
         *m_font_color);
-    output.close();
 }
 
 void EditorUI::create_grid(){
@@ -158,7 +152,7 @@ void EditorUI::create_grid(){
 
 void EditorUI::create_header(Screen* screen){
     m_header_image = SDL_CreateRGBSurface(0, EDITOR_SCREEN_X, 50, 32, 0, 0, 0, 0);
-    SDL_Surface* line = SDL_CreateRGBSurface(0, EDITOR_SCREEN_Y, 1, 32, 0, 0, 0, 0);
+    SDL_Surface* line = SDL_CreateRGBSurface(0, EDITOR_SCREEN_X, 1, 32, 0, 0, 0, 0);
     SDL_Color curr_color;
     curr_color.r = 100;
     curr_color.g = 120;

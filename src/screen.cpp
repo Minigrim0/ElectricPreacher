@@ -240,6 +240,9 @@ void Screen::compute_fps(){
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
         m_fps_surface = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
+        if(m_fps_surface == NULL)
+            std::cout << "Error : " << TTF_GetError() << std::endl;
     }
-    blit_surface(m_fps_surface, NULL, 15, 15);
+    if(blit_surface(m_fps_surface, NULL, 15, 15) != 0)
+        std::cout << "Error : " << SDL_GetError() << std::endl;
 }
