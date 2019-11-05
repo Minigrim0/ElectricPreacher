@@ -1,28 +1,84 @@
 {
     "Buttons" : [
         {
+            "name": "Open",
+            "text-color": {
+                "r": 150,
+                "g": 150,
+                "b": 150
+            },
+            "background-color": {
+                "r": 20,
+                "g": 20,
+                "b": 20
+            },
+            "position_x": 0,
+            "position_y": 50,
+            "size_x": 45,
+            "size_y": 20,
+            "font_size": 1,
+            "text_position_type": "txt",
+            "text-position": "MID_CENTER"
+        },
+        {
             "name": "Save",
-            "position_x": 500,
-            "position_y": 75,
-            "size_x": 120,
-            "size_y": 50,
-            "font_size": 4
+            "text-color": {
+                "r": 200,
+                "g": 200,
+                "b": 200
+            },
+            "background-color": {
+                "r": 20,
+                "g": 20,
+                "b": 20
+            },
+            "position_x": 45,
+            "position_y": 50,
+            "size_x": 45,
+            "size_y": 20,
+            "font_size": 1,
+            "text_position_type": "txt",
+            "text-position": "MID_CENTER"
         },
         {
             "name": "Open",
-            "position_x": 500,
-            "position_y": 150,
-            "size_x": 120,
-            "size_y": 50,
-            "font_size": 4
+            "text-color": {
+                "r": 0,
+                "g": 150,
+                "b": 150
+            },
+            "background-color": {
+                "r": 20,
+                "g": 20,
+                "b": 20
+            },
+            "position_x": 1000,
+            "position_y": 160,
+            "size_x": 200,
+            "size_y": 75,
+            "font_size": 3,
+            "text_position_type": "txt",
+            "text-position": "MID_CENTER"
         },
         {
             "name": "Build",
-            "position_x": 500,
-            "position_y": 225,
-            "size_x": 120,
-            "size_y": 50,
-            "font_size": 4
+            "text-color": {
+                "r": 150,
+                "g": 150,
+                "b": 0
+            },
+            "background-color": {
+                "r": 20,
+                "g": 20,
+                "b": 20
+            },
+            "position_x": 1000,
+            "position_y": 245,
+            "size_x": 200,
+            "size_y": 75,
+            "font_size": 3,
+            "text_position_type": "txt",
+            "text-position": "MID_CENTER"
         }
     ],
     "Grid" : {

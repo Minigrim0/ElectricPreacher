@@ -109,17 +109,43 @@ short EditorUI::set_element(Screen* screen, std::string path){
     //Setup Buttons
     const Json::Value buttons = root["Buttons"];
     for (unsigned int index=0;index<buttons.size();++index){
-        std::cout << buttons[index]["name"].asString() << std::endl;
         m_buttons.push_back(new Button);
         m_buttons.back()->set_text(buttons[index]["name"].asString());
+
         m_buttons.back()->set_position(
             buttons[index]["position_x"].asInt(),
             buttons[index]["position_y"].asInt()
         );
+
         m_buttons.back()->set_size(
             buttons[index]["size_x"].asInt(),
             buttons[index]["size_y"].asInt()
         );
+
+        m_buttons.back()->set_text_color(
+            buttons[index]["text-color"]["r"].asInt(),
+            buttons[index]["text-color"]["g"].asInt(),
+            buttons[index]["text-color"]["b"].asInt()
+        );
+
+        m_buttons.back()->set_background_color(
+            buttons[index]["background-color"]["r"].asInt(),
+            buttons[index]["background-color"]["g"].asInt(),
+            buttons[index]["background-color"]["b"].asInt()
+        );
+
+        //Set text-position, via text or absolute coordinates
+        if(buttons[index]["text_position_type"].asString() == "txt")
+            m_buttons.back()->set_text_pos(
+                buttons[index]["text-position"].asString()
+            );
+        else
+            m_buttons.back()->set_text_pos(
+                buttons[index]["text-position_x"].asInt(),
+                buttons[index]["text-position_y"].asInt()
+            );
+
+        //Finally update the button image
         m_buttons.back()->update_layout(
             screen,
             m_fonts[buttons[index]["font_size"].asInt()]

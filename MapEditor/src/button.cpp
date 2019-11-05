@@ -4,18 +4,24 @@
 //Constructors
 Button::Button()
 :m_rect(new SDL_Rect),
+m_absolute_text_position(new SDL_Rect),
+m_text_position(4),
 m_background_color({0, 0, 0, 0}),
 m_foreground_color({255, 255, 255, 0}),
 m_image(nullptr),
-m_text("")
+m_text(""),
+m_pos_as_text(true)
 {}
 
 Button::Button(const Button& button)
 :m_rect(new SDL_Rect),
+m_absolute_text_position(new SDL_Rect),
+m_text_position(4),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
 m_image(nullptr),
-m_text(button.get_text())
+m_text(button.get_text()),
+m_pos_as_text(true)
 {
     *m_rect = button.get_rect();
 }
@@ -74,6 +80,43 @@ void Button::set_position(int x, int y){
     m_rect->y = y;
 }
 
+void Button::set_text_pos(std::string position){
+    m_pos_as_text = true;
+
+    std::string arr[9] = {
+        "TOP_LEFT", "TOP_CENTER", "TOP_RIGHT",
+        "MID_LEFT", "MID_CENTER", "MID_RIGHT",
+        "BOT_LEFT", "BOT_CENTER", "BOT_RIGHT"
+    };
+    for(int x=0;x<9;x++)
+        if(position == arr[x])
+            m_text_position = x;
+}
+
+void Button::set_text_pos(int x, int y){
+    m_pos_as_text = false;
+    m_absolute_text_position->x = x;
+    m_absolute_text_position->y = y;
+}
+
+void Button::set_background_color(int r, int g, int b){
+    m_background_color = {
+        static_cast<Uint8>(r),
+        static_cast<Uint8>(g),
+        static_cast<Uint8>(b),
+        0
+    };
+}
+
+void Button::set_text_color(int r, int g, int b){
+    m_foreground_color = {
+        static_cast<Uint8>(r),
+        static_cast<Uint8>(g),
+        static_cast<Uint8>(b),
+        0
+    };
+}
+
 void Button::set_size(SDL_Rect rect){
     m_rect->w = rect.w;
     m_rect->h = rect.h;
@@ -107,7 +150,53 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
         m_text.c_str(),
         m_foreground_color
     );
-    SDL_BlitSurface(tmp_text, NULL, tmp_text, NULL);
+    SDL_Rect position;
+    if(m_pos_as_text){
+        switch(m_text_position){
+            case 0:
+                position.x = 0;
+                position.y = 0;
+                break;
+            case 1:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = 0;
+                break;
+            case 2:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = 0;
+                break;
+            case 3:
+                position.x = 0;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 4:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 5:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 6:
+                position.x = 0;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            case 7:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            case 8:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            default:
+                position.x = 0;
+                position.y = 0;
+        }
+    }
+
+    if(SDL_BlitSurface(tmp_text, NULL, m_image, &position) == -1)
+        std::cout << "Error : " << SDL_GetError() << std::endl;
 
     SDL_FreeSurface(tmp_text);
     return 0;

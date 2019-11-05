@@ -35,6 +35,10 @@ class Button{
         void set_rect(int, int, int, int);
         void set_position(SDL_Rect);
         void set_position(int, int);
+        void set_text_pos(std::string);
+        void set_text_pos(int, int);
+        void set_text_color(int, int, int);
+        void set_background_color(int, int, int);
         void set_size(SDL_Rect);
         void set_size(int, int);
         void set_text(std::string);
@@ -45,12 +49,16 @@ class Button{
 
     private:
         SDL_Rect* m_rect;
+        SDL_Rect* m_absolute_text_position;
+        int m_text_position;
+
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
 
         SDL_Surface* m_image;
 
         std::string m_text;
+        bool m_pos_as_text;
 };
 
 #endif
