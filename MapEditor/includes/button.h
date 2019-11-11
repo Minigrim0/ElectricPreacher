@@ -50,12 +50,14 @@ class Button{
         int update_layout(Screen*, TTF_Font*);
         int draw_contour(Screen*, SDL_Color);
         int draw(Screen*);
-        int update(Screen*);
+        void update(Screen*);
+        bool collide(SDL_Rect) const;
 
     private:
         SDL_Rect* m_rect;
         SDL_Rect* m_absolute_text_position;
         int m_text_position;
+        bool m_hover;
 
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
@@ -65,6 +67,7 @@ class Button{
 
         std::string m_text;
         bool m_pos_as_text;
+        TTF_Font* m_font;
 };
 
 #endif

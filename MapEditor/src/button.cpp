@@ -6,24 +6,28 @@ Button::Button()
 :m_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
+m_hover(false),
 m_background_color({0, 0, 0, 0}),
 m_foreground_color({255, 255, 255, 0}),
 m_contour_color({255, 255, 255, 0}),
 m_image(nullptr),
 m_text(""),
-m_pos_as_text(true)
+m_pos_as_text(true),
+m_font(nullptr)
 {}
 
 Button::Button(const Button& button)
 :m_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
+m_hover(false),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
 m_contour_color(button.get_contour_color()),
 m_image(nullptr),
 m_text(button.get_text()),
-m_pos_as_text(true)
+m_pos_as_text(true),
+m_font(nullptr)
 {
     *m_rect = button.get_rect();
 }
@@ -196,17 +200,28 @@ void Button::set_text(std::string text){
 
 //Others
 int Button::update_layout(Screen* screen, TTF_Font* font){
+    m_font = font;
     m_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
-    SDL_FillRect(
-        m_image,
-        NULL,
-        SDL_MapRGB(
-            screen->get_format(),
-            m_background_color.r,
-            m_background_color.g,
-            m_background_color.b
-        )
-    );
+    if(m_hover)
+        SDL_FillRect(
+            m_image, NULL,
+            SDL_MapRGB(
+                screen->get_format(),
+                m_contour_color.r,
+                m_contour_color.g,
+                m_contour_color.b
+            )
+        );
+    else
+        SDL_FillRect(
+            m_image, NULL,
+            SDL_MapRGB(
+                screen->get_format(),
+                m_background_color.r,
+                m_background_color.g,
+                m_background_color.b
+            )
+        );
 
     SDL_Surface* tmp_text = TTF_RenderText_Blended(
         font,
@@ -250,6 +265,21 @@ int Button::draw(Screen* screen){
     return screen->blit_surface(m_image, NULL, *m_rect);
 }
 
-int Button::update(Screen* screen){
-    return 0;
+void Button::update(Screen* screen){
+    bool prev_hov = m_hover;
+    if(collide(screen->get_mouse_pos()))
+        m_hover = true;
+    else
+        m_hover = false;
+
+    if(prev_hov != m_hover)
+        update_layout(screen, m_font);
+}
+
+bool Button::collide(SDL_Rect rect) const{
+    if(rect.x > m_rect->x && rect.x < m_rect->x + m_rect->w)
+        if(rect.y > m_rect->y && rect.y < m_rect->y + m_rect->h)
+            return true;
+    return false;
+
 }
