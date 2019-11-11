@@ -15,6 +15,8 @@
 #include "../../includes/screen.h"
 #include "../../includes/constants.h"
 
+#include "../../src/widgets.cpp"
+
 //Constructors
 EditorUI::EditorUI()
 :m_current_layer(0),
