@@ -2,7 +2,7 @@ COMPILER_FLAGS = -std=c++17 -masm=intel -fconcepts -mlong-double-128 -ggdb3 -Wpe
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer libjsoncpp.a
 OBJECTS = screen.o image_set.o map_manager.o ground_element.o wall_element.o scenery_element.o map_element.o chunk.o
 FINAL = fuzzyWaddle
-CC = g++
+CC = g++ -g
 
 all: $(FINAL)
 
