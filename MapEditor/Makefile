@@ -3,7 +3,7 @@ LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer ../libjsoncpp.a
 OBJECTS_GLOB = screen.o map_element.o ground_element.o scenery_element.o wall_element.o chunk.o image_set.o
 OBJECTS_LOC = src/editor_ui.o src/button.o
 FINAL = fuzzyWaddle_Editor
-CC = g++
+CC = g++ -g
 
 all: $(FINAL)
 
