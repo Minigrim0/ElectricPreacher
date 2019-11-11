@@ -3,8 +3,8 @@
         {
             "name": "Open",
             "text-color": {
-                "r": 150,
-                "g": 150,
+                "r": 75,
+                "g": 75,
                 "b": 150
             },
             "background-color": {
@@ -28,9 +28,9 @@
         {
             "name": "Save",
             "text-color": {
-                "r": 200,
-                "g": 200,
-                "b": 200
+                "r": 75,
+                "g": 150,
+                "b": 75
             },
             "background-color": {
                 "r": 20,
@@ -51,11 +51,11 @@
             "text-position": "MID_CENTER"
         },
         {
-            "name": "Open",
+            "name": "Build",
             "text-color": {
-                "r": 0,
-                "g": 150,
-                "b": 150
+                "r": 150,
+                "g": 75,
+                "b": 75
             },
             "background-color": {
                 "r": 20,
@@ -74,35 +74,10 @@
             "font_size": 1,
             "text_position_type": "txt",
             "text-position": "MID_CENTER"
-        },
-        {
-            "name": "Build",
-            "text-color": {
-                "r": 150,
-                "g": 150,
-                "b": 0
-            },
-            "background-color": {
-                "r": 20,
-                "g": 20,
-                "b": 20
-            },
-            "contour-color": {
-                "r": 50,
-                "g": 50,
-                "b": 50
-            },
-            "position_x": 132,
-            "position_y": 50,
-            "size_x": 45,
-            "size_y": 20,
-            "font_size": 1,
-            "text_position_type": "txt",
-            "text-position": "MID_CENTER"
         }
     ],
     "Grid" : {
-        "position_x": 15,
-        "position_y": 75
+        "position_x": 250,
+        "position_y": 125
     }
 }

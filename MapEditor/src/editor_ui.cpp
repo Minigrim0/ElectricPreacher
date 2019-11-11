@@ -189,7 +189,7 @@ void EditorUI::init_ui_elements(Screen* screen){
 
 void EditorUI::create_grid(){
     m_grid = SDL_CreateRGBSurface(0, 32*CHUNK_SIZE, 32*CHUNK_SIZE, 32, 0, 0, 0, 0);
-    SDL_FillRect(m_grid, NULL, SDL_MapRGB(m_grid->format, 200, 200, 200));
+    SDL_FillRect(m_grid, NULL, SDL_MapRGB(m_grid->format, 150, 150, 150));
 
     SDL_Surface* horizontal_line = SDL_CreateRGBSurface(0, 32*CHUNK_SIZE, 1, 32, 0, 0, 0, 0);
     SDL_Surface* vertical_line = SDL_CreateRGBSurface(0, 1, 32*CHUNK_SIZE, 32, 0, 0, 0, 0);
