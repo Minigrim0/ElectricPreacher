@@ -7,6 +7,7 @@
 */
 
 #include <iostream>
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -26,13 +27,15 @@ m_running(false),
 m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
+m_keyConf(std::map<SDL_Keycode, bool>()),
 m_screen_surface(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 0}),
 m_background_color({0, 0, 0, 0}),
-m_font(nullptr)
+m_font(nullptr),
+m_mouse_pos({0, 0, 0, 0})
 {}
 
 Screen::Screen(const Screen& screen)
@@ -46,13 +49,15 @@ m_running(screen.is_running()),
 m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
+m_keyConf(std::map<SDL_Keycode, bool>()),
 m_screen_surface(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 0}),
 m_background_color({0, 0, 0, 0}),
-m_font(nullptr)
+m_font(nullptr),
+m_mouse_pos({0, 0, 0, 0})
 {}
 
 Screen::~Screen(){
@@ -86,6 +91,8 @@ const SDL_PixelFormat* Screen::get_format() const{return m_screen_surface->forma
 SDL_Color Screen::get_background_color() const{return m_background_color;}
 TTF_Font* Screen::get_font() const{return m_font;}
 bool Screen::is_running() const{return m_running;}
+bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
+SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
 
 //Setters
 int Screen::set_height(int height){
@@ -202,10 +209,12 @@ int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect p
 
 void Screen::handle_events(){
     while( SDL_PollEvent(m_event_handler) != 0){
-        if(m_event_handler->type == SDL_QUIT){
+        if(m_event_handler->type == SDL_QUIT)
             m_running = false;
-        }
+        else if(m_event_handler->type == SDL_KEYDOWN)
+            m_keyConf[m_event_handler->key.keysym.sym] = true;
         else if(m_event_handler->type == SDL_KEYUP){
+            m_keyConf[m_event_handler->key.keysym.sym] = false;
             switch(m_event_handler->key.keysym.sym){
                 case SDLK_F3:
                     toggle_fps_show();
@@ -213,6 +222,10 @@ void Screen::handle_events(){
                 default:
                     break;
             }
+        }
+        else if(m_event_handler->type == SDL_MOUSEMOTION){
+            m_mouse_pos.x = m_event_handler->button.x;
+            m_mouse_pos.y = m_event_handler->button.y;
         }
     }
 }

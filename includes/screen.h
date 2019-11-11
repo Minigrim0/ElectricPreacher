@@ -10,6 +10,7 @@
 */
 
 #include <iostream>
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
@@ -38,6 +39,8 @@ class Screen{
         SDL_Color get_background_color() const;
         TTF_Font* get_font() const;
         bool is_running() const;
+        bool get_key(SDL_Keycode);
+        SDL_Rect get_mouse_pos() const;
 
         //Setters
         int set_height(int);
@@ -76,6 +79,7 @@ class Screen{
 
         std::string m_window_caption;
         std::string m_font_path;
+        std::map<SDL_Keycode, bool> m_keyConf;
 
         SDL_Surface* m_screen_surface;
         SDL_Surface* m_fps_surface;
@@ -86,6 +90,8 @@ class Screen{
         SDL_Color m_font_color;
         SDL_Color m_background_color;
         TTF_Font* m_font;
+
+        SDL_Rect m_mouse_pos;
 };
 
 #endif

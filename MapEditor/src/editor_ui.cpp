@@ -172,8 +172,10 @@ void EditorUI::draw(Screen* screen){
     screen->blit_surface(m_grid, NULL, m_grid_pos);
     screen->blit_surface(m_header_image, NULL, 0, 0);
     screen->blit_surface(m_caption_image, NULL, 5, 5);
-    for(long unsigned int x=0;x<m_buttons.size();++x)
+    for(long unsigned int x=0;x<m_buttons.size();++x){
         m_buttons[x]->draw(screen);
+        m_buttons[x]->update(screen);
+    }
 }
 
 void EditorUI::init_ui_elements(Screen* screen){
