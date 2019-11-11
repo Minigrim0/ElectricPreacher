@@ -28,6 +28,8 @@ class Button{
         SDL_Rect get_rect() const;
         SDL_Color get_background_color() const;
         SDL_Color get_foreground_color() const;
+        SDL_Color get_contour_color() const;
+        SDL_Rect get_text_position(SDL_Surface*) const;
         std::string get_text() const;
 
         //Setters
@@ -39,13 +41,16 @@ class Button{
         void set_text_pos(int, int);
         void set_text_color(int, int, int);
         void set_background_color(int, int, int);
+        void set_contour_color(int, int, int);
         void set_size(SDL_Rect);
         void set_size(int, int);
         void set_text(std::string);
 
         //Others
         int update_layout(Screen*, TTF_Font*);
+        int draw_contour(Screen*, SDL_Color);
         int draw(Screen*);
+        int update(Screen*);
 
     private:
         SDL_Rect* m_rect;
@@ -54,6 +59,7 @@ class Button{
 
         SDL_Color m_background_color;
         SDL_Color m_foreground_color;
+        SDL_Color m_contour_color;
 
         SDL_Surface* m_image;
 

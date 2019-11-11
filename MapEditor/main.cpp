@@ -13,7 +13,7 @@ int main(void){
     screen.set_height(EDITOR_SCREEN_Y);
     screen.set_font("../assets/fonts/courrier_new.ttf");
     screen.set_caption("Fuzzy-Waddle Editor");
-    screen.set_background_color(215, 215, 215);
+    screen.set_background_color(25, 25, 25);
 
     screen.init();
     if(screen.build_window() != 0) return EXIT_FAILURE;

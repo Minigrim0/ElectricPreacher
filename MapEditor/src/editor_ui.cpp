@@ -134,6 +134,12 @@ short EditorUI::set_element(Screen* screen, std::string path){
             buttons[index]["background-color"]["b"].asInt()
         );
 
+        m_buttons.back()->set_contour_color(
+            buttons[index]["contour-color"]["r"].asInt(),
+            buttons[index]["contour-color"]["g"].asInt(),
+            buttons[index]["contour-color"]["b"].asInt()
+        );
+
         //Set text-position, via text or absolute coordinates
         if(buttons[index]["text_position_type"].asString() == "txt")
             m_buttons.back()->set_text_pos(
@@ -205,17 +211,17 @@ void EditorUI::create_header(Screen* screen){
     SDL_Surface* line = SDL_CreateRGBSurface(0, EDITOR_SCREEN_X, 1, 32, 0, 0, 0, 0);
     SDL_Color curr_color;
     curr_color.r = 100;
-    curr_color.g = 120;
-    curr_color.b = 200;
+    curr_color.g = 100;
+    curr_color.b = 100;
     curr_color.a = 255;
     SDL_Rect pos;pos.y = 0;pos.x = 0;
     for(int x=0;x<50;x++){
         pos.y = x;
         SDL_FillRect(line, NULL, SDL_MapRGB(screen->get_format(), curr_color.r, curr_color.g, curr_color.b));
         SDL_BlitSurface(line, NULL, m_header_image, &pos);
-        curr_color.r = static_cast<Uint8>(static_cast<int>(curr_color.r) - 1);
+        curr_color.r = static_cast<Uint8>(static_cast<int>(curr_color.r) - 2);
         curr_color.g = static_cast<Uint8>(static_cast<int>(curr_color.g) - 2);
-        curr_color.b = static_cast<Uint8>(static_cast<int>(curr_color.b) - 3);
+        curr_color.b = static_cast<Uint8>(static_cast<int>(curr_color.b) - 2);
     }
 
     SDL_FreeSurface(line);

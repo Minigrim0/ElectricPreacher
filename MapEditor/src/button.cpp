@@ -8,6 +8,7 @@ m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
 m_background_color({0, 0, 0, 0}),
 m_foreground_color({255, 255, 255, 0}),
+m_contour_color({255, 255, 255, 0}),
 m_image(nullptr),
 m_text(""),
 m_pos_as_text(true)
@@ -19,6 +20,7 @@ m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
+m_contour_color(button.get_contour_color()),
 m_image(nullptr),
 m_text(button.get_text()),
 m_pos_as_text(true)
@@ -52,6 +54,58 @@ SDL_Color Button::get_background_color() const{
 
 SDL_Color Button::get_foreground_color() const{
     return m_foreground_color;
+}
+
+SDL_Color Button::get_contour_color() const{
+    return m_contour_color;
+}
+
+SDL_Rect Button::get_text_position(SDL_Surface* tmp_text) const{
+    SDL_Rect position;
+    if(m_pos_as_text){
+        switch(m_text_position){
+            case 0:
+                position.x = 0;
+                position.y = 0;
+                break;
+            case 1:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = 0;
+                break;
+            case 2:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = 0;
+                break;
+            case 3:
+                position.x = 0;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 4:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 5:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = (m_rect->h - tmp_text->h)/2;
+                break;
+            case 6:
+                position.x = 0;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            case 7:
+                position.x = (m_rect->w - tmp_text->w)/2;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            case 8:
+                position.x = m_rect->w - tmp_text->w;
+                position.y = m_rect->h - tmp_text->h;
+                break;
+            default:
+                position.x = 0;
+                position.y = 0;
+        }
+    }
+    return position;
 }
 
 std::string Button::get_text() const{
@@ -99,6 +153,15 @@ void Button::set_text_pos(int x, int y){
     m_absolute_text_position->y = y;
 }
 
+void Button::set_text_color(int r, int g, int b){
+    m_foreground_color = {
+        static_cast<Uint8>(r),
+        static_cast<Uint8>(g),
+        static_cast<Uint8>(b),
+        0
+    };
+}
+
 void Button::set_background_color(int r, int g, int b){
     m_background_color = {
         static_cast<Uint8>(r),
@@ -108,8 +171,8 @@ void Button::set_background_color(int r, int g, int b){
     };
 }
 
-void Button::set_text_color(int r, int g, int b){
-    m_foreground_color = {
+void Button::set_contour_color(int r, int g, int b){
+    m_contour_color = {
         static_cast<Uint8>(r),
         static_cast<Uint8>(g),
         static_cast<Uint8>(b),
@@ -150,58 +213,43 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
         m_text.c_str(),
         m_foreground_color
     );
-    SDL_Rect position;
-    if(m_pos_as_text){
-        switch(m_text_position){
-            case 0:
-                position.x = 0;
-                position.y = 0;
-                break;
-            case 1:
-                position.x = (m_rect->w - tmp_text->w)/2;
-                position.y = 0;
-                break;
-            case 2:
-                position.x = m_rect->w - tmp_text->w;
-                position.y = 0;
-                break;
-            case 3:
-                position.x = 0;
-                position.y = (m_rect->h - tmp_text->h)/2;
-                break;
-            case 4:
-                position.x = (m_rect->w - tmp_text->w)/2;
-                position.y = (m_rect->h - tmp_text->h)/2;
-                break;
-            case 5:
-                position.x = m_rect->w - tmp_text->w;
-                position.y = (m_rect->h - tmp_text->h)/2;
-                break;
-            case 6:
-                position.x = 0;
-                position.y = m_rect->h - tmp_text->h;
-                break;
-            case 7:
-                position.x = (m_rect->w - tmp_text->w)/2;
-                position.y = m_rect->h - tmp_text->h;
-                break;
-            case 8:
-                position.x = m_rect->w - tmp_text->w;
-                position.y = m_rect->h - tmp_text->h;
-                break;
-            default:
-                position.x = 0;
-                position.y = 0;
-        }
-    }
+    SDL_Rect position = get_text_position(tmp_text);
 
     if(SDL_BlitSurface(tmp_text, NULL, m_image, &position) == -1)
         std::cout << "Error : " << SDL_GetError() << std::endl;
+
+    if(draw_contour(screen, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
 
     SDL_FreeSurface(tmp_text);
     return 0;
 }
 
+int Button::draw_contour(Screen* screen, SDL_Color color){
+    SDL_Surface* horizontal_line = SDL_CreateRGBSurface(0, m_image->w, 1, 32, 0, 0, 0, 0);
+    SDL_Surface* vertical_line = SDL_CreateRGBSurface(0, 1, m_image->h, 32, 0, 0, 0, 0);
+    SDL_FillRect(horizontal_line, NULL, SDL_MapRGB(screen->get_format(), color.r, color.g, color.b));
+    SDL_FillRect(vertical_line, NULL, SDL_MapRGB(screen->get_format(), color.r, color.g, color.b));
+
+    SDL_Rect position = {0, 0, 0, 0};
+    SDL_BlitSurface(horizontal_line, NULL, m_image, &position);
+    SDL_BlitSurface(vertical_line, NULL, m_image, &position);
+
+    position = {m_image->w-1, 0, 0, 0};
+    SDL_BlitSurface(vertical_line, NULL, m_image, &position);
+
+    position = {0, m_image->h-1, 0, 0};
+    SDL_BlitSurface(horizontal_line, NULL, m_image, &position);
+
+    SDL_FreeSurface(horizontal_line);
+    SDL_FreeSurface(vertical_line);
+
+    return 0;
+}
+
 int Button::draw(Screen* screen){
     return screen->blit_surface(m_image, NULL, *m_rect);
+}
+
+int Button::update(Screen* screen){
+    return 0;
 }

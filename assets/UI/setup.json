@@ -12,6 +12,11 @@
                 "g": 20,
                 "b": 20
             },
+            "contour-color": {
+                "r": 50,
+                "g": 50,
+                "b": 50
+            },
             "position_x": 0,
             "position_y": 50,
             "size_x": 45,
@@ -32,7 +37,12 @@
                 "g": 20,
                 "b": 20
             },
-            "position_x": 45,
+            "contour-color": {
+                "r": 50,
+                "g": 50,
+                "b": 50
+            },
+            "position_x": 44,
             "position_y": 50,
             "size_x": 45,
             "size_y": 20,
@@ -52,11 +62,16 @@
                 "g": 20,
                 "b": 20
             },
-            "position_x": 1000,
-            "position_y": 160,
-            "size_x": 200,
-            "size_y": 75,
-            "font_size": 3,
+            "contour-color": {
+                "r": 50,
+                "g": 50,
+                "b": 50
+            },
+            "position_x": 88,
+            "position_y": 50,
+            "size_x": 45,
+            "size_y": 20,
+            "font_size": 1,
             "text_position_type": "txt",
             "text-position": "MID_CENTER"
         },
@@ -72,11 +87,16 @@
                 "g": 20,
                 "b": 20
             },
-            "position_x": 1000,
-            "position_y": 245,
-            "size_x": 200,
-            "size_y": 75,
-            "font_size": 3,
+            "contour-color": {
+                "r": 50,
+                "g": 50,
+                "b": 50
+            },
+            "position_x": 132,
+            "position_y": 50,
+            "size_x": 45,
+            "size_y": 20,
+            "font_size": 1,
             "text_position_type": "txt",
             "text-position": "MID_CENTER"
         }
