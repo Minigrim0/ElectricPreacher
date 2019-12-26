@@ -6,9 +6,13 @@
 #include "includes/image_set.h"
 #include "includes/map_manager.h"
 
+#include "src/widgets.cpp"
+
 int main(){
 	Screen screen;
 	ImageSet set;
+
+	Widget<std::string> chat;
 
 	screen.set_width(SCREEN_X);
 	screen.set_height(SCREEN_Y);
