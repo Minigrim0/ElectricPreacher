@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "../../includes/screen.h"
+#include "screen.h"
 
 /**
     Class : Button
