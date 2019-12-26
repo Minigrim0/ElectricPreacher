@@ -34,7 +34,7 @@ m_font(nullptr)
 
 Button::~Button(){
     delete m_rect;
-    SDL_FreeSurface(m_image);
+    SDL_DestroyTexture(m_image);
 }
 
 //Operators
@@ -201,12 +201,12 @@ void Button::set_text(std::string text){
 //Others
 int Button::update_layout(Screen* screen, TTF_Font* font){
     m_font = font;
-    m_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
+    SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
     if(m_hover)
         SDL_FillRect(
-            m_image, NULL,
+            tmp_image, NULL,
             SDL_MapRGB(
-                screen->get_format(),
+                tmp_image->format,
                 m_contour_color.r,
                 m_contour_color.g,
                 m_contour_color.b
@@ -214,9 +214,9 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
         );
     else
         SDL_FillRect(
-            m_image, NULL,
+            tmp_image, NULL,
             SDL_MapRGB(
-                screen->get_format(),
+                tmp_image->format,
                 m_background_color.r,
                 m_background_color.g,
                 m_background_color.b
@@ -230,30 +230,33 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
     );
     SDL_Rect position = get_text_position(tmp_text);
 
-    if(SDL_BlitSurface(tmp_text, NULL, m_image, &position) == -1)
+    if(SDL_BlitSurface(tmp_text, NULL, tmp_image, &position) == -1)
         std::cout << "Error : " << SDL_GetError() << std::endl;
 
-    if(draw_contour(screen, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
+    if(draw_contour(tmp_image, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
+
+    m_image = screen->convert_surface_to_texure(tmp_image);
 
     SDL_FreeSurface(tmp_text);
+    SDL_FreeSurface(tmp_image);
     return 0;
 }
 
-int Button::draw_contour(Screen* screen, SDL_Color color){
-    SDL_Surface* horizontal_line = SDL_CreateRGBSurface(0, m_image->w, 1, 32, 0, 0, 0, 0);
-    SDL_Surface* vertical_line = SDL_CreateRGBSurface(0, 1, m_image->h, 32, 0, 0, 0, 0);
-    SDL_FillRect(horizontal_line, NULL, SDL_MapRGB(screen->get_format(), color.r, color.g, color.b));
-    SDL_FillRect(vertical_line, NULL, SDL_MapRGB(screen->get_format(), color.r, color.g, color.b));
+int Button::draw_contour(SDL_Surface* surf, SDL_Color color){
+    SDL_Surface* horizontal_line = SDL_CreateRGBSurface(0, surf->w, 1, 32, 0, 0, 0, 0);
+    SDL_Surface* vertical_line = SDL_CreateRGBSurface(0, 1, surf->h, 32, 0, 0, 0, 0);
+    SDL_FillRect(horizontal_line, NULL, SDL_MapRGB(surf->format, color.r, color.g, color.b));
+    SDL_FillRect(vertical_line, NULL, SDL_MapRGB(surf->format, color.r, color.g, color.b));
 
     SDL_Rect position = {0, 0, 0, 0};
-    SDL_BlitSurface(horizontal_line, NULL, m_image, &position);
-    SDL_BlitSurface(vertical_line, NULL, m_image, &position);
+    SDL_BlitSurface(horizontal_line, NULL, surf, &position);
+    SDL_BlitSurface(vertical_line, NULL, surf, &position);
 
-    position = {m_image->w-1, 0, 0, 0};
-    SDL_BlitSurface(vertical_line, NULL, m_image, &position);
+    position = {surf->w-1, 0, 0, 0};
+    SDL_BlitSurface(vertical_line, NULL, surf, &position);
 
-    position = {0, m_image->h-1, 0, 0};
-    SDL_BlitSurface(horizontal_line, NULL, m_image, &position);
+    position = {0, surf->h-1, 0, 0};
+    SDL_BlitSurface(horizontal_line, NULL, surf, &position);
 
     SDL_FreeSurface(horizontal_line);
     SDL_FreeSurface(vertical_line);
@@ -262,7 +265,7 @@ int Button::draw_contour(Screen* screen, SDL_Color color){
 }
 
 int Button::draw(Screen* screen){
-    return screen->blit_surface(m_image, NULL, *m_rect);
+    return screen->blit(m_image, NULL, *m_rect);
 }
 
 void Button::update(Screen* screen){

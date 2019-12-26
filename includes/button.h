@@ -48,7 +48,7 @@ class Button{
 
         //Others
         int update_layout(Screen*, TTF_Font*);
-        int draw_contour(Screen*, SDL_Color);
+        int draw_contour(SDL_Surface*, SDL_Color);
         int draw(Screen*);
         void update(Screen*);
         bool collide(SDL_Rect) const;
@@ -63,7 +63,7 @@ class Button{
         SDL_Color m_foreground_color;
         SDL_Color m_contour_color;
 
-        SDL_Surface* m_image;
+        SDL_Texture* m_image;
 
         std::string m_text;
         bool m_pos_as_text;
