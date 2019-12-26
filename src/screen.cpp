@@ -34,7 +34,7 @@ m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
 m_event_handler(new SDL_Event),
-m_font_color({255, 255, 255, 0}),
+m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr),
 m_mouse_pos({0, 0, 0, 0})
@@ -58,7 +58,7 @@ m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
 m_event_handler(new SDL_Event),
-m_font_color({255, 255, 255, 0}),
+m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr),
 m_mouse_pos({0, 0, 0, 0})
@@ -222,6 +222,10 @@ SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
 }
 
+SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font){
+    return TTF_RenderText_Solid(font, text.c_str(), m_font_color);
+}
+
 //Blit an image using default tile size
 int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
     SDL_Rect dst_rect = {x, y, m_tile_size, m_tile_size};
@@ -247,23 +251,29 @@ int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
 
 void Screen::handle_events(){
     while( SDL_PollEvent(m_event_handler) != 0){
-        if(m_event_handler->type == SDL_QUIT)
-            m_running = false;
-        else if(m_event_handler->type == SDL_KEYDOWN)
-            m_keyConf[m_event_handler->key.keysym.sym] = true;
-        else if(m_event_handler->type == SDL_KEYUP){
-            m_keyConf[m_event_handler->key.keysym.sym] = false;
-            switch(m_event_handler->key.keysym.sym){
-                case SDLK_F3:
+        switch(m_event_handler->type){
+            case SDL_QUIT:
+                m_running = false;
+                break;
+            case SDL_KEYDOWN:
+                m_keyConf[m_event_handler->key.keysym.sym] = true;
+                break;
+            case SDL_KEYUP:
+                m_keyConf[m_event_handler->key.keysym.sym] = false;
+                switch(m_event_handler->key.keysym.sym){
+                    case SDLK_F3:
                     toggle_fps_show();
                     break;
-                default:
+                    default:
                     break;
-            }
-        }
-        else if(m_event_handler->type == SDL_MOUSEMOTION){
-            m_mouse_pos.x = m_event_handler->button.x;
-            m_mouse_pos.y = m_event_handler->button.y;
+                }
+                break;
+            case SDL_MOUSEMOTION:
+                m_mouse_pos.x = m_event_handler->button.x;
+                m_mouse_pos.y = m_event_handler->button.y;
+                break;
+            default:
+                break;
         }
     }
 }
