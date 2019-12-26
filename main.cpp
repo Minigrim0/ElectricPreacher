@@ -22,17 +22,17 @@ int main(){
 
 	while(screen.is_running()){
 		screen.handle_events();
-		screen.blit_surface(set.get_image(), set.get_sub(0, 9),  0, 10);
-		screen.blit_surface(set.get_image(), set.get_sub(0, 10), 0, 42);
-		screen.blit_surface(set.get_image(), set.get_sub(0, 11), 0, 74);
+		screen.blit(set.get_texture(), set.get_sub(0, 9),  0, 10);
+		screen.blit(set.get_texture(), set.get_sub(0, 10), 0, 42);
+		screen.blit(set.get_texture(), set.get_sub(0, 11), 0, 74);
 
-		screen.blit_surface(set.get_image(), set.get_sub(3, 9),  32, 10);
-		screen.blit_surface(set.get_image(), set.get_sub(3, 10), 32, 42);
-		screen.blit_surface(set.get_image(), set.get_sub(3, 11), 32, 74);
+		screen.blit(set.get_texture(), set.get_sub(3, 9),  32, 10);
+		screen.blit(set.get_texture(), set.get_sub(3, 10), 32, 42);
+		screen.blit(set.get_texture(), set.get_sub(3, 11), 32, 74);
 
-		screen.blit_surface(set.get_image(), set.get_sub(2, 9),  64, 10);
-		screen.blit_surface(set.get_image(), set.get_sub(2, 10), 64, 42);
-		screen.blit_surface(set.get_image(), set.get_sub(2, 11), 64, 74);
+		screen.blit(set.get_texture(), set.get_sub(2, 9),  64, 10);
+		screen.blit(set.get_texture(), set.get_sub(2, 10), 64, 42);
+		screen.blit(set.get_texture(), set.get_sub(2, 11), 64, 74);
 		screen.update_screen();
 	}
 

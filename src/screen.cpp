@@ -31,6 +31,7 @@ m_keyConf(std::map<SDL_Keycode, bool>()),
 m_screen_surface(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
+m_Renderer(nullptr),
 m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 0}),
 m_background_color({0, 0, 0, 0}),
@@ -53,6 +54,7 @@ m_keyConf(std::map<SDL_Keycode, bool>()),
 m_screen_surface(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
+m_Renderer(nullptr),
 m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 0}),
 m_background_color({0, 0, 0, 0}),
@@ -66,6 +68,7 @@ Screen::~Screen(){
     SDL_FreeSurface(m_screen_surface);
     SDL_FreeSurface(m_fps_surface);
     SDL_DestroyWindow(m_window);
+    SDL_DestroyRenderer(m_Renderer);
     TTF_Quit();
     SDL_Quit();
 }
@@ -161,7 +164,20 @@ int Screen::build_window(){
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
-    m_screen_surface = SDL_GetWindowSurface(m_window);
+    //m_screen_surface = SDL_GetWindowSurface(m_window);
+    m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    if(m_Renderer == nullptr){
+        std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
+        return 1;
+    }
+    SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+    //Initialize PNG loading
+    int imgFlags = IMG_INIT_PNG;
+    if(!(IMG_Init(imgFlags) & imgFlags)){
+        std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+        return 1;
+    }
 
     m_running = true;
     return 0;
@@ -176,6 +192,22 @@ SDL_Surface* Screen::load_image(std::string path){
     return surf;
 }
 
+SDL_Texture* Screen::load_texture(std::string path){
+    SDL_Texture* newTexture = NULL;
+
+    SDL_Surface* loadedSurface = load_image(path.c_str());
+    if(loadedSurface != NULL){
+        newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
+        if(newTexture == NULL){
+            printf( "Unable to create texture from %s ! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+
+        SDL_FreeSurface(loadedSurface);
+    }
+
+    return newTexture;
+}
+
 SDL_Surface* Screen::render_text_blend(std::string text){
     return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
 }
@@ -186,6 +218,17 @@ SDL_Surface* Screen::render_text_blend(std::string text, SDL_Color color){
 
 SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
+}
+
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
+    SDL_Rect dst_rect;
+    dst_rect.x = x;
+    dst_rect.y = y;
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
 }
 
 int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int y){
@@ -199,12 +242,12 @@ int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int
         &dst_rect);
 }
 
-int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect position){
+int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect dst_rect){
     return SDL_BlitSurface(
         surf, //Src image
         src_rect, //Src rect
         m_screen_surface, //Dest surf
-        &position); //Dest rect
+        &dst_rect); //Dest rect
 }
 
 void Screen::handle_events(){
@@ -234,7 +277,7 @@ void Screen::update_screen(){
     m_time_elapsed = SDL_GetTicks() - m_start_time;
     m_start_time = SDL_GetTicks();
     m_time_since_last_fps_update += m_time_elapsed;
-    if(m_showing_fps){
+    /*if(m_showing_fps){
         compute_fps();
     }
 
@@ -248,7 +291,10 @@ void Screen::update_screen(){
             m_background_color.b,
             m_background_color.b
         )
-    );
+    );*/
+
+    SDL_RenderPresent(m_Renderer);
+    SDL_RenderClear(m_Renderer);
 }
 
 void Screen::compute_fps(){
