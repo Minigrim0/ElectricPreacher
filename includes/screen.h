@@ -59,6 +59,8 @@ class Screen{
         SDL_Surface* render_text_blend(std::string, SDL_Color);
         SDL_Surface* render_text_solid(std::string);
         int blit(SDL_Texture*, const SDL_Rect*, int, int);
+        int blit(SDL_Texture*, const SDL_Rect*, int, int, int);
+        int blit(SDL_Texture*, const SDL_Rect*, int, int, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, SDL_Rect);
 
         void handle_events();
@@ -69,6 +71,8 @@ class Screen{
     private:
         int m_width;
         int m_height;
+        int m_tile_size;
+
         Uint32 m_start_time;
         Uint32 m_time_elapsed;
         Uint32 m_time_since_last_fps_update;

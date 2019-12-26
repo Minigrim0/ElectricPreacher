@@ -19,6 +19,7 @@
 Screen::Screen()
 :m_width(480),
 m_height(640),
+m_tile_size(32),
 m_start_time(0),
 m_time_elapsed(0),
 m_time_since_last_fps_update(0),
@@ -42,6 +43,7 @@ m_mouse_pos({0, 0, 0, 0})
 Screen::Screen(const Screen& screen)
 :m_width(screen.get_width()),
 m_height(screen.get_height()),
+m_tile_size(32),
 m_start_time(0),
 m_time_elapsed(0),
 m_time_since_last_fps_update(0),
@@ -66,8 +68,8 @@ Screen::~Screen(){
     TTF_CloseFont(m_font);
     delete m_event_handler;
     SDL_FreeSurface(m_fps_surface);
-    SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_Renderer);
+    SDL_DestroyWindow(m_window);
     TTF_Quit();
     SDL_Quit();
 }
@@ -220,13 +222,25 @@ SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
 }
 
+//Blit an image using default tile size
 int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
-    SDL_Rect dst_rect;
-    dst_rect.x = x;
-    dst_rect.y = y;
+    SDL_Rect dst_rect = {x, y, m_tile_size, m_tile_size};
     return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
 }
 
+//Blit a square image, using w parameter as width
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w){
+    SDL_Rect dst_rect = {x, y, w, w};
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+//Blit an image with the given width and height
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w, int h){
+    SDL_Rect dst_rect = {x, y, w, h};
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+//Blits an image using the give rect
 int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
     return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
 }
@@ -271,11 +285,12 @@ void Screen::compute_fps(){
         m_fps = static_cast<unsigned int> (1000.0/static_cast<double>(m_time_elapsed));
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
+        SDL_FreeSurface(m_fps_surface);
         m_fps_surface = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
         if(m_fps_surface == NULL)
             std::cout << "Error : " << TTF_GetError() << std::endl;
         m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
     }
-    if(blit(m_fps_texture, NULL, 15, 15) != 0)
+    if(blit(m_fps_texture, NULL, 15, 15, m_fps_surface->w, m_fps_surface->h) != 0)
         std::cout << "Error : " << SDL_GetError() << std::endl;
 }
