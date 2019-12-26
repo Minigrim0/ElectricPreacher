@@ -34,6 +34,8 @@ class ImageSet{
         //Getters
         SDL_Texture* get_texture() const;
         const SDL_Rect* get_sub(int, int) const;
+        int get_width() const;
+        int get_height() const;
 
         //Setters
         void set_image(Screen* screen, std::string);

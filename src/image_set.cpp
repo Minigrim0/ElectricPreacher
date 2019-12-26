@@ -15,11 +15,15 @@
 //Constructors
 ImageSet::ImageSet()
 :m_tex(nullptr),
+m_width(0),
+m_height(0),
 m_rects()
 {}
 
 ImageSet::ImageSet(const ImageSet& set)
 :m_tex(set.get_texture()),
+m_width(set.get_width()),
+m_height(set.get_height()),
 m_rects()
 {
     set_array();
@@ -27,8 +31,12 @@ m_rects()
 
 ImageSet::ImageSet(SDL_Texture* img)
 :m_tex(img),
+m_width(0),
+m_height(0),
 m_rects()
-{}
+{
+    SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
+}
 
 ImageSet::~ImageSet(){
     SDL_DestroyTexture(m_tex);
@@ -48,6 +56,14 @@ const SDL_Rect* ImageSet::get_sub(int x, int y) const{
     long unsigned int pos = static_cast<long unsigned int>(y*m_width/32 + x);
     if(pos > m_rects.size()) return NULL;
     return &m_rects.at(pos);
+}
+
+int ImageSet::get_width() const{
+    return m_width;
+}
+
+int ImageSet::get_height() const{
+    return m_height;
 }
 
 //Setters
