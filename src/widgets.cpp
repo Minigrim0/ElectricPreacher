@@ -13,14 +13,13 @@ class Widget{
         m_children(std::vector<T*>())
         {}
 
-        ~Widget(){
-            delete m_children;
-        }
+        ~Widget(){}
 
         //Getters
         T* get_children(){
             return m_children;
         }
+
         T* get_child(int childNb){
             return m_children[childNb];
         }
