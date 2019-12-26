@@ -1,7 +1,7 @@
 COMPILER_FLAGS= -std=c++17 -Wpedantic -Wall -Wextra -Wconversion -Wsign-conversion -Weffc++ -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo -Wzero-as-null-pointer-constant -Wsuggest-final-types -Wsuggest-final-methods -Wsuggest-override
 LINKER_FLAGS= -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer ../libjsoncpp.a
-OBJECTS_GLOB_tmp= screen.o map_element.o ground_element.o widgets.o scenery_element.o wall_element.o chunk.o image_set.o
-OBJECTS_LOC_tmp= src/editor_ui.o src/button.o
+OBJECTS_GLOB_tmp= button.o screen.o map_element.o ground_element.o widgets.o scenery_element.o wall_element.o chunk.o image_set.o
+OBJECTS_LOC_tmp= src/editor_ui.o
 OBJECTS_GLOB= $(OBJECTS_GLOB_tmp:%=build/%)
 OBJECTS_LOC= $(OBJECTS_LOC_tmp:src/%=build/loc/%)
 
