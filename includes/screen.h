@@ -34,8 +34,6 @@ class Screen{
         int get_width() const;
         std::string get_caption() const;
         SDL_Window* get_window() const;
-        SDL_Surface* get_surface() const;
-        const SDL_PixelFormat* get_format() const;
         SDL_Color get_background_color() const;
         TTF_Font* get_font() const;
         bool is_running() const;
@@ -56,13 +54,12 @@ class Screen{
         int build_window();
         SDL_Surface* load_image(std::string);
         SDL_Texture* load_texture(std::string);
+        SDL_Texture* convert_surface_to_texure(SDL_Surface*);
         SDL_Surface* render_text_blend(std::string);
         SDL_Surface* render_text_blend(std::string, SDL_Color);
         SDL_Surface* render_text_solid(std::string);
         int blit(SDL_Texture*, const SDL_Rect*, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, SDL_Rect);
-        int blit_surface(SDL_Surface*, const SDL_Rect*, int, int);
-        int blit_surface(SDL_Surface*, const SDL_Rect*, SDL_Rect);
 
         void handle_events();
         void update_screen();
@@ -84,7 +81,7 @@ class Screen{
         std::string m_font_path;
         std::map<SDL_Keycode, bool> m_keyConf;
 
-        SDL_Surface* m_screen_surface;
+        SDL_Texture* m_fps_texture;
         SDL_Surface* m_fps_surface;
         SDL_Window* m_window;
         SDL_Renderer* m_Renderer;

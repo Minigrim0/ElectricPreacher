@@ -28,7 +28,7 @@ m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
 m_keyConf(std::map<SDL_Keycode, bool>()),
-m_screen_surface(nullptr),
+m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
@@ -51,7 +51,7 @@ m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
 m_keyConf(std::map<SDL_Keycode, bool>()),
-m_screen_surface(nullptr),
+m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
@@ -65,7 +65,6 @@ m_mouse_pos({0, 0, 0, 0})
 Screen::~Screen(){
     TTF_CloseFont(m_font);
     delete m_event_handler;
-    SDL_FreeSurface(m_screen_surface);
     SDL_FreeSurface(m_fps_surface);
     SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_Renderer);
@@ -76,7 +75,6 @@ Screen::~Screen(){
 //Override
 Screen& Screen::operator=(const Screen& screen){
     m_window = screen.get_window();
-    m_screen_surface = screen.get_surface();
     m_width = screen.get_width();
     m_height = screen.get_height();
     m_font = screen.get_font();
@@ -89,8 +87,6 @@ int Screen::get_height() const{return m_height;}
 int Screen::get_width() const{return m_width;}
 std::string Screen::get_caption() const{return m_window_caption;}
 SDL_Window* Screen::get_window() const{return m_window;}
-SDL_Surface* Screen::get_surface() const{return m_screen_surface;}
-const SDL_PixelFormat* Screen::get_format() const{return m_screen_surface->format;}
 SDL_Color Screen::get_background_color() const{return m_background_color;}
 TTF_Font* Screen::get_font() const{return m_font;}
 bool Screen::is_running() const{return m_running;}
@@ -170,7 +166,7 @@ int Screen::build_window(){
         std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
         return 1;
     }
-    SDL_SetRenderDrawColor(m_Renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+    SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
 
     //Initialize PNG loading
     int imgFlags = IMG_INIT_PNG;
@@ -208,6 +204,10 @@ SDL_Texture* Screen::load_texture(std::string path){
     return newTexture;
 }
 
+SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf){
+    return SDL_CreateTextureFromSurface(m_Renderer, surf);
+}
+
 SDL_Surface* Screen::render_text_blend(std::string text){
     return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
 }
@@ -229,25 +229,6 @@ int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
 
 int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
     return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
-}
-
-int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int y){
-    SDL_Rect dst_rect;
-    dst_rect.x = x;
-    dst_rect.y = y;
-    return SDL_BlitSurface(
-        surf,
-        src_rect,
-        m_screen_surface,
-        &dst_rect);
-}
-
-int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect dst_rect){
-    return SDL_BlitSurface(
-        surf, //Src image
-        src_rect, //Src rect
-        m_screen_surface, //Dest surf
-        &dst_rect); //Dest rect
 }
 
 void Screen::handle_events(){
@@ -277,21 +258,9 @@ void Screen::update_screen(){
     m_time_elapsed = SDL_GetTicks() - m_start_time;
     m_start_time = SDL_GetTicks();
     m_time_since_last_fps_update += m_time_elapsed;
-    /*if(m_showing_fps){
+    if(m_showing_fps){
         compute_fps();
     }
-
-    SDL_UpdateWindowSurface(m_window);
-    SDL_FillRect(
-        m_screen_surface,
-        NULL,
-        SDL_MapRGB(
-            m_screen_surface->format,
-            m_background_color.r,
-            m_background_color.b,
-            m_background_color.b
-        )
-    );*/
 
     SDL_RenderPresent(m_Renderer);
     SDL_RenderClear(m_Renderer);
@@ -305,7 +274,8 @@ void Screen::compute_fps(){
         m_fps_surface = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
         if(m_fps_surface == NULL)
             std::cout << "Error : " << TTF_GetError() << std::endl;
+        m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
     }
-    if(blit_surface(m_fps_surface, NULL, 15, 15) != 0)
+    if(blit(m_fps_texture, NULL, 15, 15) != 0)
         std::cout << "Error : " << SDL_GetError() << std::endl;
 }
