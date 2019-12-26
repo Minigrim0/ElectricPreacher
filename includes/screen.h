@@ -58,6 +58,7 @@ class Screen{
         SDL_Surface* render_text_blend(std::string);
         SDL_Surface* render_text_blend(std::string, SDL_Color);
         SDL_Surface* render_text_solid(std::string);
+        SDL_Surface* render_text_solid(std::string, TTF_Font* font);
         int blit(SDL_Texture*, const SDL_Rect*, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int, int);

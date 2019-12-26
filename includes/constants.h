@@ -26,4 +26,7 @@ enum Directions
 #define TYPE_TABLE 3
 #define TYPE_ITEM  4
 
+// DEBUG
+#define DEBUG true
+
 #endif
