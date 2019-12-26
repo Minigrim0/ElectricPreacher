@@ -30,6 +30,10 @@ run: all
 	@echo "\e[0;31m================= Run ================\e[0m"
 	./$(EXECUTABLE)
 
+valrun: all
+	@echo "\e[0;31m============ Valgrind Run ============\e[0m"
+	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --log-file=supdata.log ./$(EXECUTABLE)
+
 mrproper: clean
 	rm -f $(FINAL)
 
