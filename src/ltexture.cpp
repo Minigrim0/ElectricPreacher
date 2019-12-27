@@ -58,6 +58,8 @@ bool LTexture::loadFromRenderedText(Screen* screen, std::string textureText, SDL
 	free_texture();
 
 	//Render text surface
+	std::cout << "Still need to send color" << std::endl;
+	textColor = {0, 0, 0, 0};
 	SDL_Surface* textSurface = screen->render_text_solid(textureText.c_str());
 	if(textSurface == NULL){
 		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());

@@ -13,7 +13,10 @@
 class TextInput{
     public:
         TextInput();
+        TextInput(const TextInput&);
         ~TextInput();
+
+        TextInput& operator=(const TextInput&);
 
         // Getters
         std::string get_text() const;
@@ -29,9 +32,6 @@ class TextInput{
         int update(SDL_Event*, Screen*, TTF_Font*);
         void update_image(Screen*, TTF_Font*);
 
-        void add_char(SDL_Event*);
-        void backspace();
-
     private:
         SDL_Texture* m_tex;
         SDL_Surface* m_background_image;
@@ -39,8 +39,7 @@ class TextInput{
         SDL_Rect* m_screen_pos_size;
 
         std::string m_current_input;
-        char *m_composition;
-        Sint32 m_cursor;
+        Sint32 m_cursor_pos;
         Sint32 m_selection_len;
 
         bool m_is_active;

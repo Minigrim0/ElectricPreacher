@@ -10,6 +10,8 @@ m_background_image(nullptr),
 m_init_size(),
 m_screen_pos_size(nullptr),
 m_current_input("aeeae"),
+m_cursor_pos(0),
+m_selection_len(0),
 m_is_active(false)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating new TextInput" << std::endl;
@@ -112,13 +114,4 @@ void TextInput::update_image(Screen* screen, TTF_Font* font){
     m_tex = screen->convert_surface_to_texure(tmp_image);
 
     SDL_FreeSurface(tmp_image);
-}
-
-void TextInput::add_char(SDL_Event* event){
-    std::cout << "Key mod : " << event->key.keysym.mod << std::endl;
-    m_current_input += event->key.keysym.sym;
-}
-
-void TextInput::backspace(){
-    m_current_input = m_current_input.substr(0, m_current_input.size()-1);
 }

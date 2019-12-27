@@ -7,9 +7,12 @@ class LTexture{
 	public:
 		//Initializes variables
 		LTexture();
+		LTexture(const LTexture&);
 
 		//Deallocates memory
 		~LTexture();
+
+		LTexture& operator=(const LTexture&);
 
 		//Loads image at specified path
 		bool loadFromFile(Screen*, std::string path);
