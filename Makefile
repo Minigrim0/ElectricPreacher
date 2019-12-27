@@ -8,18 +8,23 @@ SOURCES=$(wildcard src/*.cpp)
 TMP_OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS=$(TMP_OBJECTS:src/%=build/%)
 
-all: print $(EXECUTABLE)
+all: pre $(EXECUTABLE)
 
 
-print:
+pre:
 	@echo "\e[0;32m============== Compiling  =============\e[0m"
+	@echo "0" > count.txt
 
 $(EXECUTABLE): main.cpp $(OBJECTS)
-	$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
+	@echo "\e[1;32mcompiling : $^ -> $@\e[0m"
+	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
+	@rm count.txt
 
 build/%.o: src/%.cpp
 	@mkdir -p build
-	$(CXX) $(COMPILER_FLAGS) -c $^ -o $@
+	@./.count.sh
+	@echo "\e[1;33m >> $^ -> $@\e[0m"
+	@$(CXX) $(COMPILER_FLAGS) -c $^ -o $@
 
 clean :
 	clear
