@@ -44,7 +44,7 @@ int Console::set_font(TTF_Font* font){
 
 int Console::set_font(std::string font_path, int font_size){
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Setting console font from path : " << font_path << std::endl;
-    m_font = TTF_OpenFont(font_path.c_str(), 20);
+    m_font = TTF_OpenFont(font_path.c_str(), font_size);
     if(m_font == nullptr){
         std::cout << "Error loading font " << font_path << " : " << TTF_GetError() << std::endl;
         return 1;
@@ -62,8 +62,8 @@ int Console::draw(Screen* screen){
     return 0;
 }
 
-int Console::update(SDL_Event event){
-    m_input->update(event);
+int Console::update(SDL_Event* event, Screen* screen){
+    m_input->update(event, screen, m_font);
     return 0;
 }
 

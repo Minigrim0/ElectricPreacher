@@ -27,7 +27,7 @@ class Console: public Widget{
 
         // Others
         int draw(Screen*) override;
-        int update(SDL_Event) override;
+        int update(SDL_Event*, Screen*) override;
         int update_layout(Screen*);
 
     private:
