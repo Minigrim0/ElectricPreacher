@@ -13,6 +13,8 @@ int main(){
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating Image set" << std::endl;
 	ImageSet set;
 
+	SDL_Event* event_handler = new SDL_Event;
+	SDL_StopTextInput();
 
 	screen.set_width(SCREEN_X);
 	screen.set_height(SCREEN_Y);
@@ -25,12 +27,11 @@ int main(){
 	set.set_array();
 
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating console" << std::endl;
-	Console cons(screen.get_font());
-	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Updating layout" << std::endl;
+	Console cons;
+	cons.set_font("assets/fonts/Roboto-Regular.ttf", 70);
 	cons.update_layout(&screen);
 
 	while(screen.is_running()){
-		screen.handle_events();
 
 		screen.blit(set.get_texture(), set.get_sub(0, 9),  0, 10);
 		screen.blit(set.get_texture(), set.get_sub(0, 10), 0, 42);
@@ -45,6 +46,12 @@ int main(){
 		screen.blit(set.get_texture(), set.get_sub(2, 11), 64, 74);
 
 		cons.draw(&screen);
+
+
+	    while(SDL_PollEvent(event_handler) != 0){
+			screen.handle_events(event_handler);
+			cons.update(event_handler, &screen);
+		}
 
 		screen.update_screen();
 	}
