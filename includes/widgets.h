@@ -9,5 +9,5 @@ class Widget{
 
         //Others
         virtual int draw(Screen*) = 0;
-        virtual int update(SDL_Event) = 0;
+        virtual int update(SDL_Event*, Screen*) = 0;
 };
