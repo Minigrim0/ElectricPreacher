@@ -33,7 +33,6 @@ m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
-m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr),
@@ -52,12 +51,10 @@ m_running(screen.is_running()),
 m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
-m_keyConf(std::map<SDL_Keycode, bool>()),
 m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
 m_Renderer(nullptr),
-m_event_handler(new SDL_Event),
 m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr),
@@ -66,7 +63,6 @@ m_mouse_pos({0, 0, 0, 0})
 
 Screen::~Screen(){
     TTF_CloseFont(m_font);
-    delete m_event_handler;
     SDL_FreeSurface(m_fps_surface);
     SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(m_window);
@@ -94,6 +90,7 @@ TTF_Font* Screen::get_font() const{return m_font;}
 bool Screen::is_running() const{return m_running;}
 bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
 SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
+SDL_Renderer* Screen::get_renderer() const{return m_Renderer;}
 
 //Setters
 int Screen::set_height(int height){
@@ -226,6 +223,10 @@ SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font){
     return TTF_RenderText_Solid(font, text.c_str(), m_font_color);
 }
 
+SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Color color){
+    return TTF_RenderText_Solid(font, text.c_str(), color);
+}
+
 //Blit an image using default tile size
 int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
     SDL_Rect dst_rect = {x, y, m_tile_size, m_tile_size};
@@ -249,32 +250,36 @@ int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
     return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
 }
 
-void Screen::handle_events(){
-    while( SDL_PollEvent(m_event_handler) != 0){
-        switch(m_event_handler->type){
-            case SDL_QUIT:
-                m_running = false;
-                break;
-            case SDL_KEYDOWN:
-                m_keyConf[m_event_handler->key.keysym.sym] = true;
-                break;
-            case SDL_KEYUP:
-                m_keyConf[m_event_handler->key.keysym.sym] = false;
-                switch(m_event_handler->key.keysym.sym){
-                    case SDLK_F3:
+void Screen::handle_events(SDL_Event* event){
+    switch(event->type){
+        case SDL_QUIT:
+            m_running = false;
+            break;
+        case SDL_KEYDOWN:
+            m_keyConf[event->key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            m_keyConf[event->key.keysym.sym] = false;
+            switch(event->key.keysym.sym){
+                case SDLK_F3:
                     toggle_fps_show();
                     break;
-                    default:
+                default:
                     break;
-                }
-                break;
-            case SDL_MOUSEMOTION:
-                m_mouse_pos.x = m_event_handler->button.x;
-                m_mouse_pos.y = m_event_handler->button.y;
-                break;
-            default:
-                break;
-        }
+            }
+            break;
+        case SDL_MOUSEMOTION:
+            m_mouse_pos.x = event->button.x;
+            m_mouse_pos.y = event->button.y;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            m_keyConf[event->button.button] = true;
+            break;
+        case SDL_MOUSEBUTTONUP:
+            m_keyConf[event->button.button] = false;
+            break;
+        default:
+            break;
     }
 }
 

@@ -39,6 +39,7 @@ class Screen{
         bool is_running() const;
         bool get_key(SDL_Keycode);
         SDL_Rect get_mouse_pos() const;
+        SDL_Renderer* get_renderer() const;
 
         //Setters
         int set_height(int);
@@ -59,12 +60,13 @@ class Screen{
         SDL_Surface* render_text_blend(std::string, SDL_Color);
         SDL_Surface* render_text_solid(std::string);
         SDL_Surface* render_text_solid(std::string, TTF_Font* font);
+        SDL_Surface* render_text_solid(std::string, TTF_Font* font, SDL_Color color);
         int blit(SDL_Texture*, const SDL_Rect*, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, SDL_Rect);
 
-        void handle_events();
+        void handle_events(SDL_Event*);
         void update_screen();
 
         void compute_fps();
@@ -90,8 +92,6 @@ class Screen{
         SDL_Surface* m_fps_surface;
         SDL_Window* m_window;
         SDL_Renderer* m_Renderer;
-
-        SDL_Event* m_event_handler;
 
         SDL_Color m_font_color;
         SDL_Color m_background_color;
