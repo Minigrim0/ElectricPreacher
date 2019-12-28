@@ -27,8 +27,9 @@ int main(){
 	set.set_array();
 
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating console" << std::endl;
-	Console cons;
+	Console cons(10, 200, 250, 400);
 	cons.set_font("assets/fonts/Roboto-Regular.ttf", 70);
+	cons.init(&screen);
 	cons.update_layout(&screen);
 
 	while(screen.is_running()){
