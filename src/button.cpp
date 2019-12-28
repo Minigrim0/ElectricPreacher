@@ -198,6 +198,16 @@ void Button::set_text(std::string text){
     m_text = text;
 }
 
+void Button::move(int off_x, int off_y){
+    m_rect->x += off_x;
+    m_rect->y += off_y;
+}
+
+void Button::resize(int off_w, int off_h){
+    m_rect->x += off_w;
+    m_rect->y += off_h;
+}
+
 //Others
 int Button::update_layout(Screen* screen, TTF_Font* font){
     m_font = font;

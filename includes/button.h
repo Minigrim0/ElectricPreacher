@@ -42,6 +42,9 @@ class Button{
         void set_size(int, int);
         void set_text(std::string);
 
+        void move(int, int);
+        void resize(int, int);
+
         //Others
         int update_layout(Screen*, TTF_Font*);
         int draw_contour(SDL_Surface*, SDL_Color);
