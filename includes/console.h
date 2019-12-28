@@ -21,6 +21,9 @@ class Console: public Widget{
     public:
         // Constructors
         Console();
+        Console(int, int);
+        Console(int, int, int);
+        Console(int, int, int, int);
         Console(TTF_Font*);
         Console(const Console&);
         ~Console();
@@ -31,19 +34,26 @@ class Console: public Widget{
 
 
         // Setters
+        void set_position(int, int);
+        void set_size(int, int);
         int set_font(TTF_Font*);
         int set_font(std::string, int);
 
         // Others
+        void init(Screen*);
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
         int update_layout(Screen*);
 
     private:
-        std::vector<Button> m_history;
+        SDL_Rect m_rect;
+        std::vector<Button*> m_history;
         TextInput* m_input;
         Button* m_send_button;
         TTF_Font* m_font;
+
+        int m_nb_visible_lines;
+        int m_line_height;
 };
 
 #endif
