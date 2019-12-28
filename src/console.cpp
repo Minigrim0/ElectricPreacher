@@ -7,7 +7,8 @@ m_history(),
 m_input(nullptr),
 m_send_button(nullptr),
 m_font(nullptr),
-m_nb_visible_lines(5)
+m_nb_visible_lines(5),
+m_line_height(0)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ <<
         "> Creating new console " << std::endl;
@@ -24,7 +25,8 @@ m_history(),
 m_input(nullptr),
 m_send_button(nullptr),
 m_font(nullptr),
-m_nb_visible_lines(5)
+m_nb_visible_lines(5),
+m_line_height(0)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ <<
         "> Creating new console " << std::endl;
@@ -41,7 +43,8 @@ m_history(),
 m_input(new TextInput),
 m_send_button(new Button),
 m_font(nullptr),
-m_nb_visible_lines(5)
+m_nb_visible_lines(5),
+m_line_height(0)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ <<
         "> Creating new console " << std::endl;
@@ -55,7 +58,8 @@ m_history(),
 m_input(nullptr),
 m_send_button(nullptr),
 m_font(nullptr),
-m_nb_visible_lines(5)
+m_nb_visible_lines(5),
+m_line_height(0)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ <<
         "> Creating new console " << std::endl;
@@ -72,7 +76,8 @@ m_history(),
 m_input(nullptr),
 m_send_button(nullptr),
 m_font(font),
-m_nb_visible_lines(5)
+m_nb_visible_lines(5),
+m_line_height(0)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ <<
         "> Creating console with font" << std::endl;
@@ -141,8 +146,9 @@ void Console::init(Screen* screen){
 }
 
 int Console::draw(Screen* screen){
-    for(long unsigned int x=0;x<(m_history.size()<m_nb_visible_lines?m_history.size():m_nb_visible_lines);x++){
-        m_history[x]->draw(screen);//draw_offset_y(screen, x*30);
+    int max = static_cast<int>(m_history.size())<m_nb_visible_lines?static_cast<int>(m_history.size()):m_nb_visible_lines;
+    for(int x=0;x<max;x++){
+        m_history[static_cast<long unsigned int>(x)]->draw(screen);//draw_offset_y(screen, x*30);
     }
     m_input->draw(screen);
     m_send_button->draw(screen);
@@ -151,8 +157,9 @@ int Console::draw(Screen* screen){
 
 int Console::update(SDL_Event* event, Screen* screen){
     if(m_input->update(event, screen, m_font) == 1){
-        for(long unsigned int x=0;x<(m_history.size()<m_nb_visible_lines?m_history.size():m_nb_visible_lines);x++)
-            m_history[x]->move(0, -m_line_height);
+        int max = static_cast<int>(m_history.size())<m_nb_visible_lines?static_cast<int>(m_history.size()):m_nb_visible_lines;
+        for(int x=0;x<max;x++)
+            m_history[static_cast<long unsigned int>(x)]->move(0, -m_line_height);
         if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Processing input text" << std::endl;
         Button* tmp_button = new Button();
         tmp_button->set_rect({0, m_line_height*(m_nb_visible_lines-1), m_rect.w, m_line_height});
