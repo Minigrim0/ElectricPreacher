@@ -3,7 +3,8 @@
 
 /**
     name : image_set.h
-    purpose : contains prototypes for the ImageSet class
+    purpose : Image managing trough SDL_rects. Each objets represents a 'big'
+    set of images, divideable into smaller bits
 
     @author : minigrim0
     @version : 1.1
@@ -15,11 +16,6 @@
 
 #include "screen.h"
 
-/**
-    Class : ImageSet
-    purpose : Image managing trough SDL_rects. Each objets represents a 'big'
-    set of images, divideable into smaller bits
-*/
 class ImageSet{
     public:
         //Constructors

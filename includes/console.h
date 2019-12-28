@@ -1,6 +1,15 @@
 #ifndef console_h
     #define console_h
 
+/**
+    name : console.h
+    purpose : Handles a complete console with text input for the user,
+    text output from the rest of the game, the drawing of itself and the updating
+
+    @author : mingirim0
+    @version : 1.0
+*/
+
 #include <vector>
 
 #include "screen.h"

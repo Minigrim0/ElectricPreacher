@@ -3,7 +3,8 @@
 
 /**
     name : screen.h
-    purpose : Contains prototypes for the Screen class
+    purpose : Handle all the screen/window related things, such as creating it,
+        naming it, loading images, rendering text, setting fullscreen, ...
 
     @author : minigrim0
     @version : 1.3
@@ -14,11 +15,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-/**
-    Class : Screen
-    purpose : Handle all the screen/window related things, such as creating it,
-        naming it, loading images,...
-*/
 class Screen{
     public:
         //Constructors

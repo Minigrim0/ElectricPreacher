@@ -1,6 +1,14 @@
 #ifndef text_input_h
     #define text_input_h
 
+/**
+    name : text_input.h
+    purpose : Handle a complete text input, drawing, handling events (such as copy/paste), and text keeping
+
+    @author : minigrim0
+    @version : 1.3
+*/
+
 #include <iostream>
 
 #include <SDL2/SDL.h>

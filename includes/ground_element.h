@@ -3,7 +3,8 @@
 
 /**
     name : ground_element.h
-    purpose : Contains the prototypes of the GroundElement class
+    purpose : defines an element of the ground (grass, rock,...)
+    Can be a trap or a staircase
 
     @author : minigrim0
     @version : 1.0
@@ -14,11 +15,6 @@
 
 #include "map_element.h"
 
-/**
-    Class : GroundElement
-    purpose : defines an element of the ground (grass, rock,...)
-    Can be a trap or a staircase
-*/
 class GroundElement: public MapElement{
     public:
         //Constructors

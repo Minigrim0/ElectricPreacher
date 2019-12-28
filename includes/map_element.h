@@ -3,8 +3,7 @@
 
 /**
     name : map_element.h
-    purpose : Contains the base prototypes for each class
-    defining an element of the map
+    purpose : A 'Super' class, defining the base for each element of the map (Ground, wall, ...)
 */
 
 #include <iostream>
@@ -12,13 +11,9 @@
 
 #include "screen.h"
 
-/**
-    Class : MapElement
-    purpose : A 'Super' class, defining the base for each element
-    of the map
-*/
 class MapElement{
     public:
+        //Constructors
         MapElement();
         MapElement(const MapElement&);
         ~MapElement();

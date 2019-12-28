@@ -2,6 +2,14 @@
 #include <vector>
 #include "screen.h"
 
+/**
+    name : widgets.h
+    purpose : Defines an abstract class for all the widgets of the game (console, button, text input, ...)
+
+    @author : minigrim0
+    @version : 1.0
+*/
+
 class Widget{
     public:
         //Constructors

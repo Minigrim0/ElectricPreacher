@@ -3,7 +3,8 @@
 
 /**
     name : wall_element.h
-    purpose : Constains the prototypes for the WallElement class
+    purpose : defines a wall, can be breaked, can be a secret way,
+    a trap, ...
 
     @author : minigrim0
     @version : 1.0
@@ -13,11 +14,6 @@
 #include <SDL2/SDL.h>
 #include "map_element.h"
 
-/**
-    Class : WallElement
-    Purpose : defines a wall, can be breaked, can be a secret way,
-    a trap, ...
-*/
 class WallElement: public MapElement{
     public:
         WallElement();

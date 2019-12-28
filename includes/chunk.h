@@ -3,7 +3,7 @@
 
 /**
     name : chunk.h
-    purpose : Contains the prototypes of the chunk Class
+    purpose : Handles a 'chunk' of the map, defined by a global variable as a square of CHUNK_SIZE by CHUNK_SIZE
 
     @author : mingirim0
     @version : 1.0

@@ -3,16 +3,12 @@
 
 /**
     name : scenery_element.h
-    purpose : contains the prototypes for SceneryElement class
+    purpose : Defines an element of the scenery (i.e. : a sign, a lever,...)
 */
 
 #include <SDL2/SDL.h>
 #include "map_element.h"
 
-/**
-    Class : SceneryElement
-    purpose : Defines an element of the scenery (i.e. : a sign, a lever,...)
-*/
 class SceneryElement : public MapElement{
     public:
         //Constructors

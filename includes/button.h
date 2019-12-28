@@ -3,17 +3,13 @@
 
 /**
     name : button.h
-    purpose : contains the prototypes for the methods of the class Button
+    purpose : Defines a button and its methods (with animations, ...)
 */
 
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "screen.h"
 
-/**
-    Class : Button
-    purpose : Defines a button in the editor (with animations, ...)
-*/
 class Button{
     public:
         //Constructors
