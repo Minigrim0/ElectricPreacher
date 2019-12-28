@@ -32,6 +32,7 @@ class TextInput{
         bool collide(int, int) const;
 
         // Setters
+        void set_position(int, int);
         void set_text_size(int, int);
 
 
@@ -43,8 +44,7 @@ class TextInput{
     private:
         SDL_Texture* m_tex;
         SDL_Surface* m_background_image;
-        SDL_Rect* m_init_size;
-        SDL_Rect* m_screen_pos_size;
+        SDL_Rect m_rect;
 
         std::string m_current_input;
         Sint32 m_cursor_pos;

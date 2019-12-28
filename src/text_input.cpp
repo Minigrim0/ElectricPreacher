@@ -7,26 +7,19 @@
 TextInput::TextInput()
 :m_tex(nullptr),
 m_background_image(nullptr),
-m_init_size(),
-m_screen_pos_size(nullptr),
+m_rect({0, 0, 0, 0}),
 m_current_input("aeeae"),
 m_cursor_pos(0),
 m_selection_len(0),
 m_is_active(false)
 {
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating new TextInput" << std::endl;
-    m_init_size = static_cast<SDL_Rect*>(malloc(sizeof(SDL_Surface)));
-    m_screen_pos_size = static_cast<SDL_Rect*>(malloc(sizeof(SDL_Surface)));
-    *m_init_size = {0, 0, 750, 75};
-    *m_screen_pos_size = {15, 20, 250, 25};
     m_background_image = IMG_Load("assets/images/text_input_background.png");
 }
 
 TextInput::~TextInput(){
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> freeing TextInput" << std::endl;
     free(m_background_image);
-    free(m_init_size);
-    free(m_screen_pos_size);
 }
 
 // Getters
@@ -36,23 +29,27 @@ std::string TextInput::get_text() const{
 }
 
 bool TextInput::collide(SDL_Event* event) const{
-    if(event->button.x > m_screen_pos_size->x && event->button.x < m_screen_pos_size->x + m_screen_pos_size->w)
-        if(event->button.y > m_screen_pos_size->y && event->button.y < m_screen_pos_size->y + m_screen_pos_size->h)
+    if(event->button.x > m_rect.x && event->button.x < m_rect.x + m_rect.w)
+        if(event->button.y > m_rect.y && event->button.y < m_rect.y + m_rect.h)
             return true;
     return false;
 }
 
 // Setters
+void TextInput::set_position(int x, int y){
+    m_rect.x = x;
+    m_rect.y = y;
+}
+
 void TextInput::set_text_size(int w, int h){
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> setting size of text input" << std::endl;
-    m_init_size->w = w;
-    m_init_size->h = h;
+    m_rect.w = w;
+    m_rect.h = h;
 }
 
 // Others
 int TextInput::draw(Screen* screen){
-    //*m_screen_pos_size = {15, 150, 200, 150};
-    return screen->blit(m_tex, m_init_size, *m_screen_pos_size);
+    return screen->blit(m_tex, NULL, m_rect);
 }
 
 int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
@@ -65,28 +62,31 @@ int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
             return 0;
 
         case SDL_KEYDOWN:
-            if(event->key.keysym.sym == SDLK_RETURN){
-                if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Stopping TextInput handling" << std::endl;
-                SDL_StopTextInput();
-                return 1; // Return key has been pressed, the calling function may use this information
-            }
-            else if(event->key.keysym.sym == SDLK_BACKSPACE){
-                //Handle backspace
-                if(m_current_input.length() > 0){
-                    m_current_input.pop_back();
+            if(SDL_IsTextInputActive()){
+                if(event->key.keysym.sym == SDLK_RETURN){
+                    if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Stopping TextInput handling" << std::endl;
+                    SDL_StopTextInput();
+                    return 1; // Return key has been pressed, the calling function may use this information
+                }
+                else if(event->key.keysym.sym == SDLK_BACKSPACE){
+                    //Handle backspace
+                    if(m_current_input.length() > 0){
+                        m_current_input.pop_back();
+                        update_image(screen, font);
+                    }
+                }
+                else if(event->key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL){
+                    //Handle copy
+                    SDL_SetClipboardText(m_current_input.c_str());
+                }
+                else if(event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL){
+                    //Handle paste
+                    m_current_input = SDL_GetClipboardText();
                     update_image(screen, font);
                 }
+                return 0; // Text has been modified
             }
-            else if(event->key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL){
-                //Handle copy
-                SDL_SetClipboardText(m_current_input.c_str());
-            }
-            else if(event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL){
-                //Handle paste
-                m_current_input = SDL_GetClipboardText();
-                update_image(screen, font);
-            }
-            return 0; // Text has been modified
+            break;
         case SDL_MOUSEBUTTONUP:
             if(collide(event)){
                 if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Starting TextInput handling" << std::endl;
