@@ -1,3 +1,6 @@
+#ifndef widgets_h
+    #define widgets_h
+
 #include <iostream>
 #include <vector>
 #include "screen.h"
@@ -19,3 +22,5 @@ class Widget{
         virtual int draw(Screen*) = 0;
         virtual int update(SDL_Event*, Screen*) = 0;
 };
+
+#endif
