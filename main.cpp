@@ -31,7 +31,7 @@ int main(){
 
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating console" << std::endl;
 	Console* cons = new Console(10, 200, 250, 400);
-	cons->set_font("assets/fonts/Roboto-Regular.ttf", 70);
+	cons->set_font("assets/fonts/Roboto-Regular.ttf", 20);
 	cons->init(&screen);
 	cons->update_layout(&screen);
 	widgets[0] = cons;
