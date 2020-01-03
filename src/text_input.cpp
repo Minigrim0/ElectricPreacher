@@ -8,6 +8,7 @@ TextInput::TextInput()
 :m_tex(nullptr),
 m_background_image(nullptr),
 m_rect({0, 0, 0, 0}),
+m_font(nullptr),
 m_current_input("aeeae"),
 m_cursor_pos(0),
 m_selection_len(0),
@@ -20,6 +21,8 @@ m_is_active(false)
 TextInput::~TextInput(){
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> freeing TextInput" << std::endl;
     free(m_background_image);
+    SDL_FreeSurface(m_background_image);
+    SDL_DestroyTexture(m_tex);
 }
 
 // Getters
@@ -47,18 +50,28 @@ void TextInput::set_text_size(int w, int h){
     m_rect.h = h;
 }
 
+void TextInput::set_font(std::string font_path, int size){
+    m_font = TTF_OpenFont(font_path.c_str(), size);
+    if(m_font == nullptr){
+        std::cout << "Error while loading font for text input : " << TTF_GetError() << std::endl;
+    }
+}
+
+void TextInput::set_font(TTF_Font* font){
+    m_font = font;
+}
+
 // Others
 int TextInput::draw(Screen* screen){
     return screen->blit(m_tex, NULL, m_rect);
 }
 
-int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
+int TextInput::update(SDL_Event* event, Screen* screen){
     switch(event->type){
         case SDL_TEXTINPUT:
             //Append character
-            std::cout << "SDL_TEXTINPUT triggered" << std::endl;
             m_current_input += event->text.text;
-            update_image(screen, font);
+            update_image(screen);
             return 0;
 
         case SDL_KEYDOWN:
@@ -72,7 +85,7 @@ int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
                     //Handle backspace
                     if(m_current_input.length() > 0){
                         m_current_input.pop_back();
-                        update_image(screen, font);
+                        update_image(screen);
                     }
                 }
                 else if(event->key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL){
@@ -82,7 +95,7 @@ int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
                 else if(event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL){
                     //Handle paste
                     m_current_input = SDL_GetClipboardText();
-                    update_image(screen, font);
+                    update_image(screen);
                 }
                 return 0; // Text has been modified
             }
@@ -104,14 +117,19 @@ int TextInput::update(SDL_Event* event, Screen* screen, TTF_Font* font){
     return -1;
 }
 
-void TextInput::update_image(Screen* screen, TTF_Font* font){
+void TextInput::update_image(Screen* screen){
     if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> updating TextInput image" << std::endl;
 
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
     SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
-    SDL_BlitSurface(screen->render_text_solid(m_current_input, font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
+    SDL_BlitSurface(screen->render_text_solid(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
 
     m_tex = screen->convert_surface_to_texure(tmp_image);
 
     SDL_FreeSurface(tmp_image);
+}
+
+void TextInput::flush(Screen* screen){
+    m_current_input = "";
+    update_image(screen);
 }
