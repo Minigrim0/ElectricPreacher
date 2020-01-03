@@ -156,11 +156,14 @@ int Console::draw(Screen* screen){
 }
 
 int Console::update(SDL_Event* event, Screen* screen){
-    if(m_input->update(event, screen, m_font) == 1){
+    if(m_input->update(event, screen, m_font) == 1 || m_send_button->update(event, screen) == 1){
         int max = static_cast<int>(m_history.size())<m_nb_visible_lines?static_cast<int>(m_history.size()):m_nb_visible_lines;
         for(int x=0;x<max;x++)
             m_history[static_cast<long unsigned int>(x)]->move(0, -m_line_height);
-        if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Processing input text" << std::endl;
+
+        if(DEBUG)
+            std::cout << __PRETTY_FUNCTION__ << "> Processing input text" << std::endl;
+
         Button* tmp_button = new Button();
         tmp_button->set_rect({0, m_line_height*(m_nb_visible_lines-1), m_rect.w, m_line_height});
         tmp_button->set_text(m_input->get_text());

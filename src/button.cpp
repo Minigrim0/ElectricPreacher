@@ -209,6 +209,12 @@ void Button::resize(int off_w, int off_h){
 }
 
 //Others
+
+int Button::draw(Screen* screen){
+    return screen->blit(m_image, NULL, *m_rect);
+}
+
+
 int Button::update_layout(Screen* screen, TTF_Font* font){
     m_font = font;
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
@@ -274,19 +280,28 @@ int Button::draw_contour(SDL_Surface* surf, SDL_Color color){
     return 0;
 }
 
-int Button::draw(Screen* screen){
-    return screen->blit(m_image, NULL, *m_rect);
-}
+int Button::update(SDL_Event* event, Screen* screen){
 
-void Button::update(Screen* screen){
     bool prev_hov = m_hover;
-    if(collide(screen->get_mouse_pos()))
-        m_hover = true;
-    else
-        m_hover = false;
+    switch(event->type){
+        case SDL_MOUSEMOTION:
+            if(collide(screen->get_mouse_pos()))
+                m_hover = true;
+            else
+                m_hover = false;
 
-    if(prev_hov != m_hover)
-        update_layout(screen, m_font);
+            if(prev_hov != m_hover)
+                update_layout(screen, m_font);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            if(collide({event->button.x, event->button.y, 0, 0}))
+                return 1; //Button was clicked
+            break;
+        default:
+            break;
+    }
+
+    return 0; //Nothing hapenned
 }
 
 bool Button::collide(SDL_Rect rect) const{
@@ -294,5 +309,4 @@ bool Button::collide(SDL_Rect rect) const{
         if(rect.y > m_rect->y && rect.y < m_rect->y + m_rect->h)
             return true;
     return false;
-
 }

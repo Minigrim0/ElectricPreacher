@@ -8,9 +8,11 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "screen.h"
 
-class Button{
+#include "screen.h"
+#include "widgets.h"
+
+class Button: public Widget{
     public:
         //Constructors
         Button();
@@ -46,10 +48,10 @@ class Button{
         void resize(int, int);
 
         //Others
+        int draw(Screen*) override;
+        int update(SDL_Event*, Screen*) override;
         int update_layout(Screen*, TTF_Font*);
         int draw_contour(SDL_Surface*, SDL_Color);
-        int draw(Screen*);
-        void update(Screen*);
         bool collide(SDL_Rect) const;
 
     private:
