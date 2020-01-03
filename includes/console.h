@@ -44,6 +44,8 @@ class Console: public Widget{
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
         int update_layout(Screen*);
+        void init_send_button();
+        void create_entry(Screen*);
 
     private:
         SDL_Rect m_rect;
