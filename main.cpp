@@ -5,6 +5,7 @@
 #include "includes/screen.h"
 #include "includes/image_set.h"
 #include "includes/map_manager.h"
+#include "includes/widgets.h"
 #include "includes/console.h"
 
 int main(){
@@ -12,6 +13,8 @@ int main(){
 	Screen screen;
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating Image set" << std::endl;
 	ImageSet set;
+
+	Widget** widgets = (Widget**)malloc(sizeof(Widget*)*5);
 
 	SDL_Event* event_handler = new SDL_Event;
 	SDL_StopTextInput();
@@ -27,10 +30,11 @@ int main(){
 	set.set_array();
 
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating console" << std::endl;
-	Console cons(10, 200, 250, 400);
-	cons.set_font("assets/fonts/Roboto-Regular.ttf", 70);
-	cons.init(&screen);
-	cons.update_layout(&screen);
+	Console* cons = new Console(10, 200, 250, 400);
+	cons->set_font("assets/fonts/Roboto-Regular.ttf", 70);
+	cons->init(&screen);
+	cons->update_layout(&screen);
+	widgets[0] = cons;
 
 	while(screen.is_running()){
 
@@ -46,16 +50,17 @@ int main(){
 		screen.blit(set.get_texture(), set.get_sub(2, 10), 64, 42);
 		screen.blit(set.get_texture(), set.get_sub(2, 11), 64, 74);
 
-		cons.draw(&screen);
+		widgets[0]->draw(&screen);
 
 
 	    while(SDL_PollEvent(event_handler) != 0){
 			screen.handle_events(event_handler);
-			cons.update(event_handler, &screen);
+			widgets[0]->update(event_handler, &screen);
 		}
 
 		screen.update_screen();
 	}
 
+	free(widgets);
 	return EXIT_SUCCESS;
 }
