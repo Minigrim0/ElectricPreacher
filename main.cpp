@@ -14,7 +14,7 @@ int main(){
 	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating Image set" << std::endl;
 	ImageSet set;
 
-	Widget** widgets = (Widget**)malloc(sizeof(Widget*)*5);
+	Widget** widgets = static_cast<Widget**>(malloc(sizeof(Widget*)*5));
 
 	SDL_Event* event_handler = new SDL_Event;
 	SDL_StopTextInput();

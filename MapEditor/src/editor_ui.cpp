@@ -15,7 +15,7 @@
 #include "../../includes/screen.h"
 #include "../../includes/constants.h"
 
-#include "../../src/widgets.cpp"
+#include "../../includes/widgets.h"
 
 //Constructors
 EditorUI::EditorUI()

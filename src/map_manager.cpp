@@ -10,7 +10,7 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/map_manager.h"
-#include "../includes/ground_element.h"
+#include "../includes/map_element.h"
 
 //Constructors
 MapManager::MapManager()

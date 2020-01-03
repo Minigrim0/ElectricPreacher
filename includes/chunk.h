@@ -11,9 +11,7 @@
 
 #include <iostream>
 #include "image_set.h"
-#include "ground_element.h"
-#include "wall_element.h"
-#include "scenery_element.h"
+#include "map_element.h"
 #include "constants.h"
 
 class Chunk{
@@ -43,9 +41,9 @@ class Chunk{
         ImageSet* m_image_set;
         SDL_Rect* m_position;
 
-        GroundElement*  m_layer1[CHUNK_SIZE][CHUNK_SIZE];
-        WallElement*    m_layer2[CHUNK_SIZE][CHUNK_SIZE];
-        SceneryElement* m_layer3[CHUNK_SIZE][CHUNK_SIZE];
+        MapElement*** m_layer1;
+        MapElement*** m_layer2;
+        MapElement*** m_layer3;
 };
 
 #endif

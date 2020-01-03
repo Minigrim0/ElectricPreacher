@@ -13,7 +13,10 @@
 //Constructors
 Chunk::Chunk()
 :m_image_set(new ImageSet),
-m_position(new SDL_Rect)
+m_position(new SDL_Rect),
+m_layer1(nullptr),
+m_layer2(nullptr),
+m_layer3(nullptr)
 {
     m_position->x = 0;
     m_position->y = 0;
@@ -21,7 +24,10 @@ m_position(new SDL_Rect)
 
 Chunk::Chunk(Chunk& chunk)
 :m_image_set(new ImageSet),
-m_position(new SDL_Rect)
+m_position(new SDL_Rect),
+m_layer1(nullptr),
+m_layer2(nullptr),
+m_layer3(nullptr)
 {
     *m_position = chunk.get_position();
     m_image_set = chunk.get_image_set();

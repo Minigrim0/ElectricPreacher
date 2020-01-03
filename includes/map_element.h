@@ -3,7 +3,8 @@
 
 /**
     name : map_element.h
-    purpose : A 'Super' class, defining the base for each element of the map (Ground, wall, ...)
+    purpose : An abstract class, defining the base for each
+    element of the map (Ground, wall, ...)
 */
 
 #include <iostream>
@@ -14,32 +15,21 @@
 class MapElement{
     public:
         //Constructors
-        MapElement();
-        MapElement(const MapElement&);
-        ~MapElement();
-
-        //Operators
-        MapElement& operator=(const MapElement&);
+        virtual ~MapElement();
 
         //Getters
-        std::string get_type() const;
-        bool get_accessibility(int) const;
-        SDL_Rect get_rect() const;
+        virtual std::string get_type() const = 0;
+        virtual bool get_accessibility(int) const = 0;
+        virtual SDL_Rect* get_rect() const = 0;
 
         //Setters
-        void set_accessibility(int, bool) const;
-        void set_type(std::string);
-        void set_rect(SDL_Rect);
-        void set_rect(int, int, int, int);
+        virtual void set_accessibility(int, bool) = 0;
+        virtual void set_rect(SDL_Rect) = 0;
+        virtual void set_rect(int, int, int, int) = 0;
 
         //Others
-        int draw(Screen*, int, int);
-        int draw(Screen*, SDL_Rect);
-
-    protected:
-        SDL_Rect* m_image_rect;
-        std::string m_type;
-        bool m_accessibility[4];
+        virtual int draw(Screen*, int, int) = 0;
+        virtual int draw(Screen*, SDL_Rect) = 0;
 };
 
 #endif
