@@ -51,6 +51,7 @@ m_running(screen.is_running()),
 m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
+m_keyConf(std::map<SDL_Keycode, bool>()),
 m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
@@ -132,7 +133,7 @@ void Screen::toggle_fps_show(){
 
 //Others
 int Screen::init(){
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC) < 0){
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
@@ -165,7 +166,7 @@ int Screen::build_window(){
         std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
         return 1;
     }
-    SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
 
     //Initialize PNG loading
     int imgFlags = IMG_INIT_PNG;
