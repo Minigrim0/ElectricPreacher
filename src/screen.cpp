@@ -85,6 +85,7 @@ Screen& Screen::operator=(const Screen& screen){
 //Getters
 int Screen::get_width() const{return m_width;}
 int Screen::get_height() const{return m_height;}
+int Screen::get_time_elapsed() const{return static_cast<int>(m_time_elapsed);}
 
 bool Screen::is_running() const{return m_running;}
 bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
@@ -209,10 +210,6 @@ SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf){
 
 SDL_Surface* Screen::render_text_blend(std::string text){
     return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
-}
-
-SDL_Surface* Screen::render_text_blend(std::string text, SDL_Color color){
-    return TTF_RenderText_Blended(m_font, text.c_str(), color);
 }
 
 SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Color color){

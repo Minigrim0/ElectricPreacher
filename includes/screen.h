@@ -28,6 +28,7 @@ class Screen{
         //Getters
         int get_width() const;
         int get_height() const;
+        int get_time_elapsed() const;
 
         bool is_running() const;
         bool get_key(SDL_Keycode);
@@ -56,7 +57,6 @@ class Screen{
         SDL_Texture* load_texture(std::string);
         SDL_Texture* convert_surface_to_texure(SDL_Surface*);
         SDL_Surface* render_text_blend(std::string);
-        SDL_Surface* render_text_blend(std::string, SDL_Color);
         SDL_Surface* render_text_blend(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
         SDL_Surface* render_text_solid(std::string);
         SDL_Surface* render_text_solid(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
