@@ -16,9 +16,9 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "screen.h"
-#include "ltexture.h"
+#include "widgets.h"
 
-class TextInput{
+class TextInput: public Widget{
     public:
         TextInput();
         TextInput(const TextInput&);
@@ -31,6 +31,7 @@ class TextInput{
         bool collide(SDL_Event*) const;
         bool collide(int, int) const;
         TTF_Font* get_font() const;
+        bool is_empty() const;
 
         // Setters
         void set_position(int, int);
@@ -39,13 +40,15 @@ class TextInput{
         void set_font(TTF_Font*);
 
         // Others
-        int draw(Screen*);
-        int update(SDL_Event*, Screen*);
+        int draw(Screen*) override;
+        int update(SDL_Event*, Screen*) override;
+
         void update_image(Screen*);
         void flush(Screen*);
 
     private:
         SDL_Texture* m_tex;
+        SDL_Texture* m_cursor;
         SDL_Surface* m_background_image;
         SDL_Rect m_rect;
         TTF_Font* m_font;

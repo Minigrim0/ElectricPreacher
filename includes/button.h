@@ -37,8 +37,8 @@ class Button: public Widget{
         void set_position(int, int);
         void set_text_pos(std::string);
         void set_text_pos(int, int);
-        void set_text_color(int, int, int);
-        void set_background_color(int, int, int);
+        void set_text_color(int, int, int, int a=255);
+        void set_background_color(int, int, int, int a=255);
         void set_contour_color(int, int, int);
         void set_size(SDL_Rect);
         void set_size(int, int);
@@ -50,12 +50,14 @@ class Button: public Widget{
         //Others
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
+
         int update_layout(Screen*, TTF_Font*);
         int draw_contour(SDL_Surface*, SDL_Color);
         bool collide(SDL_Rect) const;
 
     private:
         SDL_Rect* m_rect;
+        SDL_Rect* m_text_rect;
         SDL_Rect* m_absolute_text_position;
         int m_text_position;
         bool m_hover;
@@ -64,7 +66,8 @@ class Button: public Widget{
         SDL_Color m_foreground_color;
         SDL_Color m_contour_color;
 
-        SDL_Texture* m_image;
+        SDL_Texture* m_background_texture;
+        SDL_Texture* m_foreground_texture;
 
         std::string m_text;
         bool m_pos_as_text;

@@ -54,6 +54,7 @@ class Screen{
         SDL_Texture* convert_surface_to_texure(SDL_Surface*);
         SDL_Surface* render_text_blend(std::string);
         SDL_Surface* render_text_blend(std::string, SDL_Color);
+        SDL_Surface* render_text_blend(std::string, TTF_Font* font, SDL_Color color);
         SDL_Surface* render_text_solid(std::string);
         SDL_Surface* render_text_solid(std::string, TTF_Font* font);
         SDL_Surface* render_text_solid(std::string, TTF_Font* font, SDL_Color color);

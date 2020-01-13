@@ -18,7 +18,6 @@ pre:
 $(EXECUTABLE): main.cpp $(OBJECTS)
 	@echo "\e[1;32mcompiling : $^ -> $@\e[0m"
 	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
-	@rm count.txt
 
 build/%.o: src/%.cpp
 	@mkdir -p build
@@ -33,13 +32,16 @@ clean :
 
 run: all
 	@echo "\e[0;31m================= Run ================\e[0m"
-	./$(EXECUTABLE)
+	@rm -f count.txt
+	@echo "\e[0;31m"
+	@./$(EXECUTABLE)
+	@echo "\e[0m"
 
 valrun: all
 	@echo "\e[0;31m============ Valgrind Run ============\e[0m"
 	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --log-file=supdata.log ./$(EXECUTABLE)
 
 mrproper: clean
-	rm -f $(FINAL)
+	rm -f $(EXECUTABLE)
 
 .PHONY: clean mrproper

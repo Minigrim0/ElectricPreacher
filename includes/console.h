@@ -53,9 +53,12 @@ class Console: public Widget{
         TextInput* m_input;
         Button* m_send_button;
         TTF_Font* m_font;
+        SDL_Texture* m_background_texture;
 
         int m_nb_visible_lines;
         int m_line_height;
+
+        Uint8 m_alpha;
 };
 
 #endif

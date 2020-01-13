@@ -9,9 +9,7 @@
 #include "includes/console.h"
 
 int main(){
-	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating screen" << std::endl;
 	Screen screen;
-	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating Image set" << std::endl;
 	ImageSet set;
 
 	Widget** widgets = static_cast<Widget**>(malloc(sizeof(Widget*)*5));
@@ -29,8 +27,7 @@ int main(){
 	set.set_image(&screen, "assets/images/Doors.png");
 	set.set_array();
 
-	if(DEBUG) std::cout << __PRETTY_FUNCTION__ << "> Creating console" << std::endl;
-	Console* cons = new Console(10, 200, 250, 400);
+	Console* cons = new Console(10, 150, 250, 400);
 	cons->set_font("assets/fonts/Roboto-Regular.ttf", 20);
 	cons->init(&screen);
 	cons->update_layout(&screen);

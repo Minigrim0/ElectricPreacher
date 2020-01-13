@@ -4,13 +4,15 @@
 //Constructors
 Button::Button()
 :m_rect(new SDL_Rect),
+m_text_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
 m_hover(false),
 m_background_color({0, 0, 0, 0}),
 m_foreground_color({255, 255, 255, 0}),
 m_contour_color({255, 255, 255, 0}),
-m_image(nullptr),
+m_background_texture(nullptr),
+m_foreground_texture(nullptr),
 m_text(""),
 m_pos_as_text(true),
 m_font(nullptr)
@@ -18,13 +20,15 @@ m_font(nullptr)
 
 Button::Button(const Button& button)
 :m_rect(new SDL_Rect),
+m_text_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_position(4),
 m_hover(false),
 m_background_color(button.get_background_color()),
 m_foreground_color(button.get_foreground_color()),
 m_contour_color(button.get_contour_color()),
-m_image(nullptr),
+m_background_texture(nullptr),
+m_foreground_texture(nullptr),
 m_text(button.get_text()),
 m_pos_as_text(true),
 m_font(nullptr)
@@ -34,7 +38,8 @@ m_font(nullptr)
 
 Button::~Button(){
     delete m_rect;
-    SDL_DestroyTexture(m_image);
+    SDL_DestroyTexture(m_background_texture);
+    SDL_DestroyTexture(m_foreground_texture);
 }
 
 //Operators
@@ -119,6 +124,9 @@ std::string Button::get_text() const{
 //Setters
 void Button::set_rect(SDL_Rect rect){
     *m_rect = rect;
+
+    m_text_rect->x = rect.x;
+    m_text_rect->y = rect.y;
 }
 
 void Button::set_rect(int x, int y, int w, int h){
@@ -126,16 +134,25 @@ void Button::set_rect(int x, int y, int w, int h){
     m_rect->y = y;
     m_rect->w = w;
     m_rect->h = h;
+
+    m_text_rect->x = x;
+    m_text_rect->y = y;
 }
 
 void Button::set_position(SDL_Rect rect){
     m_rect->x = rect.x;
     m_rect->y = rect.y;
+
+    m_text_rect->x = rect.x;
+    m_text_rect->y = rect.y;
 }
 
 void Button::set_position(int x, int y){
     m_rect->x = x;
     m_rect->y = y;
+
+    m_text_rect->x = x;
+    m_text_rect->y = y;
 }
 
 void Button::set_text_pos(std::string position){
@@ -157,22 +174,24 @@ void Button::set_text_pos(int x, int y){
     m_absolute_text_position->y = y;
 }
 
-void Button::set_text_color(int r, int g, int b){
+void Button::set_text_color(int r, int g, int b, int a){
     m_foreground_color = {
         static_cast<Uint8>(r),
         static_cast<Uint8>(g),
         static_cast<Uint8>(b),
-        0
+        static_cast<Uint8>(a)
+
     };
 }
 
-void Button::set_background_color(int r, int g, int b){
+void Button::set_background_color(int r, int g, int b, int a){
     m_background_color = {
         static_cast<Uint8>(r),
         static_cast<Uint8>(g),
         static_cast<Uint8>(b),
-        0
+        static_cast<Uint8>(a)
     };
+
 }
 
 void Button::set_contour_color(int r, int g, int b){
@@ -201,6 +220,9 @@ void Button::set_text(std::string text){
 void Button::move(int off_x, int off_y){
     m_rect->x += off_x;
     m_rect->y += off_y;
+
+    m_text_rect->x += off_x;
+    m_text_rect->y += off_y;
 }
 
 void Button::resize(int off_w, int off_h){
@@ -211,24 +233,35 @@ void Button::resize(int off_w, int off_h){
 //Others
 
 int Button::draw(Screen* screen){
-    return screen->blit(m_image, NULL, *m_rect);
+    screen->blit(m_background_texture, NULL, *m_rect);
+    screen->blit(m_foreground_texture, NULL, *m_text_rect);
+    return 0;
 }
 
 
 int Button::update_layout(Screen* screen, TTF_Font* font){
     m_font = font;
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
-    if(m_hover)
+
+    SDL_Surface* tmp_text;
+
+    if(m_hover){
         SDL_FillRect(
             tmp_image, NULL,
             SDL_MapRGB(
                 tmp_image->format,
-                m_contour_color.r,
-                m_contour_color.g,
-                m_contour_color.b
+                m_foreground_color.r,
+                m_foreground_color.g,
+                m_foreground_color.b
             )
         );
-    else
+        tmp_text = TTF_RenderText_Blended(
+            font,
+            m_text.c_str(),
+            m_background_color
+        );
+    }
+    else{
         SDL_FillRect(
             tmp_image, NULL,
             SDL_MapRGB(
@@ -238,20 +271,36 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
                 m_background_color.b
             )
         );
+        tmp_text = TTF_RenderText_Blended(
+            font,
+            m_text.c_str(),
+            m_foreground_color
+        );
+    }
 
-    SDL_Surface* tmp_text = TTF_RenderText_Blended(
-        font,
-        m_text.c_str(),
-        m_foreground_color
-    );
-    SDL_Rect position = get_text_position(tmp_text);
+    SDL_Rect position_offset = get_text_position(tmp_text);
+    m_text_rect->x = m_rect->x + position_offset.x;
+    m_text_rect->y = m_rect->y + position_offset.y;
+    m_text_rect->w = tmp_text->w;
+    m_text_rect->h = tmp_text->h;
 
-    if(SDL_BlitSurface(tmp_text, NULL, tmp_image, &position) == -1)
+    /*if(SDL_BlitSurface(tmp_text, NULL, tmp_image, &position) == -1)
         std::cout << "Error : " << SDL_GetError() << std::endl;
+    */
 
     if(draw_contour(tmp_image, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
 
-    m_image = screen->convert_surface_to_texure(tmp_image);
+    m_background_texture = screen->convert_surface_to_texure(tmp_image);
+    if(m_background_color.a != 255){
+        SDL_SetTextureBlendMode(m_background_texture, SDL_BLENDMODE_BLEND);
+        SDL_SetTextureAlphaMod(m_background_texture, m_background_color.a);
+    }
+    m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
+    if(m_foreground_color.a != 255){
+        SDL_SetTextureBlendMode(m_foreground_texture, SDL_BLENDMODE_BLEND);
+        SDL_SetTextureAlphaMod(m_foreground_texture, m_foreground_color.a);
+    }
+
 
     SDL_FreeSurface(tmp_text);
     SDL_FreeSurface(tmp_image);
