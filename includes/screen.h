@@ -7,7 +7,7 @@
         naming it, loading images, rendering text, setting fullscreen, ...
 
     @author : minigrim0
-    @version : 1.3
+    @version : 1.5
 */
 
 #include <iostream>
@@ -26,20 +26,23 @@ class Screen{
         Screen& operator=(const Screen&);
 
         //Getters
-        int get_height() const;
         int get_width() const;
-        std::string get_caption() const;
-        SDL_Window* get_window() const;
-        SDL_Color get_background_color() const;
-        TTF_Font* get_font() const;
+        int get_height() const;
+
         bool is_running() const;
         bool get_key(SDL_Keycode);
+
+        std::string get_caption() const;
+
+        TTF_Font* get_font() const;
         SDL_Rect get_mouse_pos() const;
+        SDL_Window* get_window() const;
         SDL_Renderer* get_renderer() const;
+        SDL_Color get_background_color() const;
 
         //Setters
-        int set_height(int);
-        int set_width(int);
+        void set_width(int);
+        void set_height(int);
         void set_background_color(SDL_Color);
         void set_background_color(Uint8, Uint8, Uint8);
         void set_font(std::string);
@@ -54,10 +57,9 @@ class Screen{
         SDL_Texture* convert_surface_to_texure(SDL_Surface*);
         SDL_Surface* render_text_blend(std::string);
         SDL_Surface* render_text_blend(std::string, SDL_Color);
-        SDL_Surface* render_text_blend(std::string, TTF_Font* font, SDL_Color color);
+        SDL_Surface* render_text_blend(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
         SDL_Surface* render_text_solid(std::string);
-        SDL_Surface* render_text_solid(std::string, TTF_Font* font);
-        SDL_Surface* render_text_solid(std::string, TTF_Font* font, SDL_Color color);
+        SDL_Surface* render_text_solid(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
         int blit(SDL_Texture*, const SDL_Rect*, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int);
         int blit(SDL_Texture*, const SDL_Rect*, int, int, int, int);

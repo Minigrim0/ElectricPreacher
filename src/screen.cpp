@@ -81,31 +81,30 @@ Screen& Screen::operator=(const Screen& screen){
     return *this;
 }
 
+
 //Getters
-int Screen::get_height() const{return m_height;}
 int Screen::get_width() const{return m_width;}
-std::string Screen::get_caption() const{return m_window_caption;}
-SDL_Window* Screen::get_window() const{return m_window;}
-SDL_Color Screen::get_background_color() const{return m_background_color;}
-TTF_Font* Screen::get_font() const{return m_font;}
+int Screen::get_height() const{return m_height;}
+
 bool Screen::is_running() const{return m_running;}
 bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
+
+std::string Screen::get_caption() const{return m_window_caption;}
+
+TTF_Font* Screen::get_font() const{return m_font;}
 SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
+SDL_Window* Screen::get_window() const{return m_window;}
 SDL_Renderer* Screen::get_renderer() const{return m_Renderer;}
+SDL_Color Screen::get_background_color() const{return m_background_color;}
+
 
 //Setters
-int Screen::set_height(int height){
-    if(height <= 0)
-        return 1;
-    m_height = height;
-    return 0;
+void Screen::set_width(int width){
+    m_width = width;
 }
 
-int Screen::set_width(int width){
-    if(width <= 0)
-        return 1;
-    m_width = width;
-    return 0;
+void Screen::set_height(int height){
+    m_height = height;
 }
 
 void Screen::set_background_color(SDL_Color color){
@@ -155,12 +154,12 @@ int Screen::init(){
 int Screen::build_window(){
     if(m_width <= 0 || m_height <= 0) return 1;
 
-    m_window = SDL_CreateWindow("Fuzzy Waddle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+    m_window = SDL_CreateWindow(m_window_caption.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
     if(m_window == NULL){
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
-    //m_screen_surface = SDL_GetWindowSurface(m_window);
+
     m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
     if(m_Renderer == nullptr){
         std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
@@ -195,7 +194,7 @@ SDL_Texture* Screen::load_texture(std::string path){
     if(loadedSurface != NULL){
         newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
         if(newTexture == NULL){
-            printf( "Unable to create texture from %s ! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+            std::cout << "Unable to create texture from " << path.c_str() << " ! SDL Error: " << SDL_GetError() << std::endl;
         }
 
         SDL_FreeSurface(loadedSurface);
@@ -222,10 +221,6 @@ SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Col
 
 SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
-}
-
-SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font){
-    return TTF_RenderText_Solid(font, text.c_str(), m_font_color);
 }
 
 SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Color color){
