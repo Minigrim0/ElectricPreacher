@@ -20,17 +20,36 @@ class Notification: public Widget{
         void set_text(std::string);
         void set_icon(SDL_Texture*);
 
+        void set_width(int);
+
+        // Getters
+        int get_height() const;
+
+        bool is_alive() const;
+
         // Others
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
 
+        void init(Screen*);
+
     private:
         std::string m_content;
 
+        SDL_Rect m_position;
+
+        SDL_Color m_progress_bar_color;
+        SDL_Color m_text_color;
+
         SDL_Texture* m_background;
         SDL_Texture* m_text_texture;
+        SDL_Texture* m_progress_bar;
         SDL_Texture* m_icon;
 
+        Uint32 m_total_lifetime;
+        Uint32 m_current_lifetime;
+
+        Uint8 m_alpha;
 };
 
 #endif
