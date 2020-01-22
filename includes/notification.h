@@ -45,8 +45,8 @@ class Notification: public Widget{
         SDL_Texture* m_progress_bar;
         SDL_Texture* m_icon;
 
-        Uint32 m_total_lifetime;
-        Uint32 m_current_lifetime;
+        Uint16 m_total_lifetime;   // Max 65536
+        Uint16 m_current_lifetime; // Max 65536
 
         Uint8 m_alpha;
 };
