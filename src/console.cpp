@@ -136,7 +136,7 @@ void Console::init(Screen* screen){
 int Console::draw(Screen* screen){
     screen->blit(m_background_texture, nullptr, m_rect);
 
-    int start = m_history.size()>static_cast<long unsigned int>(m_nb_visible_lines)?m_history.size()-m_nb_visible_lines:0;
+    int start = m_history.size()>static_cast<long unsigned int>(m_nb_visible_lines)?static_cast<int>(m_history.size())-m_nb_visible_lines:0;
     for(int x=start;x<static_cast<int>(m_history.size());x++){
         m_history[static_cast<long unsigned int>(x)]->draw(screen);//draw_offset_y(screen, x*30);
     }
