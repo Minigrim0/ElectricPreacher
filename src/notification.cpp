@@ -19,6 +19,33 @@ Notification::~Notification(){
 }
 
 
+// Setters
+void Notification::set_position(int x, int y){
+    m_position.x = x;
+    m_position.y = y;
+}
+
+void Notification::set_text(std::string text){
+    m_content = text;
+}
+
+void Notification::set_icon(SDL_Texture* tex){
+    m_icon = tex;
+}
+
+void Notification::set_width(int w){
+    m_position.w = w;
+}
+
+// Getters
+int Notification::get_height() const{
+    return m_position.h;
+}
+
+bool Notification::is_alive() const{
+    return m_current_lifetime<m_total_lifetime;
+}
+
 int Notification::draw(Screen*){
     return 0;
 }
@@ -28,5 +55,5 @@ int Notification::update(SDL_Event*, Screen*){
 }
 
 void Notification::init(Screen* screen){
-
+    
 }
