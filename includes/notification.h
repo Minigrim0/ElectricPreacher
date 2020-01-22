@@ -9,7 +9,6 @@ class Notification: public Widget{
     public:
         // Constructors
         Notification();
-        Notification(const Notification&);
         ~Notification();
 
         // Operator

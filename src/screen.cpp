@@ -39,29 +39,6 @@ m_font(nullptr),
 m_mouse_pos({0, 0, 0, 0})
 {}
 
-Screen::Screen(const Screen& screen)
-:m_width(screen.get_width()),
-m_height(screen.get_height()),
-m_tile_size(32),
-m_start_time(0),
-m_time_elapsed(0),
-m_time_since_last_fps_update(0),
-m_fps(0),
-m_running(screen.is_running()),
-m_showing_fps(false),
-m_window_caption("Fuzzy Waddle"),
-m_font_path("assets/fonts/courrier_new.ttf"),
-m_keyConf(std::map<SDL_Keycode, bool>()),
-m_fps_texture(nullptr),
-m_fps_surface(nullptr),
-m_window(nullptr),
-m_Renderer(nullptr),
-m_font_color({255, 255, 255, 255}),
-m_background_color({0, 0, 0, 0}),
-m_font(nullptr),
-m_mouse_pos({0, 0, 0, 0})
-{}
-
 Screen::~Screen(){
     TTF_CloseFont(m_font);
     SDL_FreeSurface(m_fps_surface);

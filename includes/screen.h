@@ -19,7 +19,6 @@ class Screen{
     public:
         //Constructors
         Screen();
-        Screen(const Screen&);
         ~Screen();
 
         //Override

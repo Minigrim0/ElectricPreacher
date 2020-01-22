@@ -18,11 +18,6 @@ MapManager::MapManager()
 m_chunk(new Chunk)
 {}
 
-MapManager::MapManager(const MapManager& mm)
-:m_position(mm.get_position()),
-m_chunk(new Chunk)
-{}
-
 MapManager::MapManager(int x, int y)
 :m_position(nullptr),
 m_chunk(new Chunk)

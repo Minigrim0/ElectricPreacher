@@ -20,7 +20,6 @@ class ImageSet{
     public:
         //Constructors
         ImageSet();
-        ImageSet(const ImageSet&);
         ImageSet(SDL_Texture*);
         ~ImageSet();
 

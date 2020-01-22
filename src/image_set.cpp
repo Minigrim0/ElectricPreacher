@@ -20,15 +20,6 @@ m_height(0),
 m_rects()
 {}
 
-ImageSet::ImageSet(const ImageSet& set)
-:m_tex(set.get_texture()),
-m_width(set.get_width()),
-m_height(set.get_height()),
-m_rects()
-{
-    set_array();
-}
-
 ImageSet::ImageSet(SDL_Texture* img)
 :m_tex(img),
 m_width(0),

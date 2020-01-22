@@ -7,7 +7,6 @@
 class NotificationCenter: public Widget{
     public:
         NotificationCenter();
-        NotificationCenter(const NotificationCenter&);
         ~NotificationCenter();
 
         // Getters

@@ -16,7 +16,6 @@ class Button: public Widget{
     public:
         //Constructors
         Button();
-        Button(const Button&);
         ~Button();
 
         //Operators

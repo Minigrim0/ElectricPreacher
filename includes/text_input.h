@@ -21,7 +21,6 @@
 class TextInput: public Widget{
     public:
         TextInput();
-        TextInput(const TextInput&);
         ~TextInput();
 
         TextInput& operator=(const TextInput&);

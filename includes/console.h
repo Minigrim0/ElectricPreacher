@@ -25,7 +25,6 @@ class Console: public Widget{
         Console(int, int, int);
         Console(int, int, int, int);
         Console(TTF_Font*);
-        Console(const Console&);
         ~Console();
 
         Console& operator=(const Console&);

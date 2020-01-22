@@ -24,7 +24,6 @@ class MapManager{
     public:
         //Constructors
         MapManager();
-        MapManager(const MapManager&);
         MapManager(int, int);
         MapManager(SDL_Rect);
         ~MapManager();

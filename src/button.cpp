@@ -18,24 +18,6 @@ m_pos_as_text(true),
 m_font(nullptr)
 {}
 
-Button::Button(const Button& button)
-:m_rect(new SDL_Rect),
-m_text_rect(new SDL_Rect),
-m_absolute_text_position(new SDL_Rect),
-m_text_position(4),
-m_hover(false),
-m_background_color(button.get_background_color()),
-m_foreground_color(button.get_foreground_color()),
-m_contour_color(button.get_contour_color()),
-m_background_texture(nullptr),
-m_foreground_texture(nullptr),
-m_text(button.get_text()),
-m_pos_as_text(true),
-m_font(nullptr)
-{
-    *m_rect = button.get_rect();
-}
-
 Button::~Button(){
     delete m_rect;
     SDL_DestroyTexture(m_background_texture);

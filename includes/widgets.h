@@ -16,7 +16,7 @@
 class Widget{
     public:
         //Constructors
-        virtual ~Widget(){}
+        virtual ~Widget() = default;
 
         //Others
         virtual int draw(Screen*) = 0;

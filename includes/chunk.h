@@ -18,7 +18,6 @@ class Chunk{
     public:
         //Constructors
         Chunk();
-        Chunk(Chunk&);
         ~Chunk();
 
         //Overrides
