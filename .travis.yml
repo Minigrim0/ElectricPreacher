@@ -2,6 +2,8 @@ name: fuzzy-waddle CI
 
 language: c++
 
+compiler: g++
+
 jobs:
   build:
 
