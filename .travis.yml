@@ -1,10 +1,6 @@
-name: C/C++ CI
-
+name: fuzzy-waddle CI
 
 language: c++
-
-services:
-  - docker
 
 jobs:
   build:
