@@ -2,8 +2,6 @@ name: fuzzy-waddle CI
 
 language: c++
 
-compiler: g++
-
 script: make
 
 before_install:
