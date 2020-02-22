@@ -2,6 +2,9 @@ name: C/C++ CI
 
 on: [push]
 
+services:
+  - docker
+
 jobs:
   build:
 
