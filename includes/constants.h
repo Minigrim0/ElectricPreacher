@@ -29,4 +29,8 @@ enum Directions
 // DEBUG
 #define DEBUG true
 
+#define VERSION 0
+#define SUBVERSION 1
+#define SUBSUBVERSION 1
+
 #endif

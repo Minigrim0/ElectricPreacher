@@ -143,7 +143,7 @@ int Screen::build_window(){
         std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
         return 1;
     }
-    SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, 255);
+    SDL_SetRenderDrawColor(m_Renderer, m_background_color.r, m_background_color.g, m_background_color.b, m_background_color.a);
 
     //Initialize PNG loading
     int imgFlags = IMG_INIT_PNG;
@@ -271,7 +271,7 @@ void Screen::update_screen(){
 
 void Screen::compute_fps(){
     if(m_time_since_last_fps_update >= 500){
-        m_fps = static_cast<unsigned int> (1000.0/static_cast<double>(m_time_elapsed));
+        m_fps = static_cast<unsigned int>(1000.0/m_time_elapsed);
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
         SDL_FreeSurface(m_fps_surface);
