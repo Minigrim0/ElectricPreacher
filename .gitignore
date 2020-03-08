@@ -3,3 +3,4 @@ MapEditor/fuzzyWaddle_Editor
 *.o
 *.zip
 *.gch
+count.txt
