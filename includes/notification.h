@@ -30,7 +30,7 @@ class Notification: public Widget{
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
 
-        void init(Screen*);
+        void init(Screen*, TTF_Font*);
 
     private:
         std::string m_content;

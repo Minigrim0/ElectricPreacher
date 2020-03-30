@@ -15,7 +15,9 @@ m_alpha(255)
 {}
 
 Notification::~Notification(){
-
+    SDL_DestroyTexture(m_background);
+    SDL_DestroyTexture(m_text_texture);
+    SDL_DestroyTexture(m_progress_bar);
 }
 
 
@@ -54,6 +56,10 @@ int Notification::update(SDL_Event*, Screen*){
     return 0;
 }
 
-void Notification::init(Screen* screen){
-    
+void Notification::init(Screen* screen, TTF_Font* font){
+    SDL_Surface* tmp_text = screen->render_text_blend(m_content, font);
+
+
+    //SDL_Surface* tmp_background = SDL_CreateRGBSurface(0, x, x, 32, 0, 0, 0, 0);
+
 }

@@ -50,7 +50,7 @@ int NotificationCenter::create_notification(std::string text, Screen* screen){
     notif.set_text(text);
 
     notif.set_width(150);
-    notif.init(screen);
+    notif.init(screen, nullptr);
     m_notifications.push_back(notif);
 
     return 0;
