@@ -7,6 +7,7 @@
 #include "includes/map_manager.h"
 #include "includes/widgets.h"
 #include "includes/console.h"
+#include "includes/window.h"
 
 int main(){
 	Screen screen;
