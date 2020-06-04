@@ -12,30 +12,30 @@ all: pre $(EXECUTABLE)
 
 
 pre:
-	@echo "\e[0;32m============== Compiling  =============\e[0m"
+	@echo -e "\e[0;32m============== Compiling  =============\e[0m"
 
 $(EXECUTABLE): main.cpp $(OBJECTS)
-	@echo "\e[1;32mcompiling : $^ -> $@\e[0m"
+	@echo -e "\e[1;32mcompiling : $^ -> $@\e[0m"
 	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
 
 build/%.o: src/%.cpp
 	@mkdir -p build
-	@echo "\e[1;33m >> $^ -> $@\e[0m"
+	@echo -e "\e[1;33m >> $^ -> $@\e[0m"
 	@$(CXX) $(COMPILER_FLAGS) -c $^ -o $@
 
 clean :
 	clear
-	@echo "\e[0;33m============== Cleaning  ==============\e[0m"
+	@echo -e "\e[0;33m============== Cleaning  ==============\e[0m"
 	rm -f build/*.o
 
 run: all
-	@echo "\e[0;31m================= Run ================\e[0m"
-	@echo "\e[0;31m"
+	@echo -e "\e[0;31m================= Run ================\e[0m"
+	@echo -e "\e[0;31m"
 	@./$(EXECUTABLE)
 	@echo "\e[0m"
 
 valrun: all
-	@echo "\e[0;31m============ Valgrind Run ============\e[0m"
+	@echo -e "\e[0;31m============ Valgrind Run ============\e[0m"
 	valgrind --leak-check=full --show-reachable=yes --show-leak-kinds=all --error-limit=no --gen-suppressions=all --log-file=supdata.log ./$(EXECUTABLE)
 
 mrproper: clean
