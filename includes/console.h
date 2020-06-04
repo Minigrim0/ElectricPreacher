@@ -48,7 +48,7 @@ class Console: public Widget{
 
     private:
         SDL_Rect m_rect;
-        std::vector<Button*> m_history;
+        std::vector<Button*> m_history; //The previous inputs and outputs
         TextInput* m_input;
         Button* m_send_button;
         TTF_Font* m_font;

@@ -3,7 +3,7 @@
 
 /**
     name : image_set.h
-    purpose : Image managing trough SDL_rects. Each objets represents a 'big'
+    purpose : Image managing trough SDL_rects. Each object represents a 'big'
     set of images, divideable into smaller bits
 
     @author : minigrim0
@@ -29,6 +29,7 @@ class ImageSet{
         //Getters
         SDL_Texture* get_texture() const;
         const SDL_Rect* get_sub(int, int) const;
+        int blit_sub(Screen*, int, int, int, int) const;
         int get_width() const;
         int get_height() const;
 

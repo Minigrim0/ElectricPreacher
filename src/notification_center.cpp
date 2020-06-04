@@ -1,10 +1,16 @@
 #include "../includes/notification_center.h"
 
-NotificationCenter::NotificationCenter()
-:m_notifications(std::vector<Notification>()),
-m_icons(std::vector<SDL_Texture*>()),
+#include "../includes/screen.h"
+#include "../includes/image_set.h"
+
+NotificationCenter::NotificationCenter(Screen* sc)
+:m_notifications(new std::vector<Notification>),
+m_icons(new ImageSet),
 m_position({0, 0, 0, 0})
-{}
+{
+    m_icons->set_image(sc, "assets/images/icons.png");
+    m_icons->set_array();
+}
 
 NotificationCenter::~NotificationCenter(){
 
@@ -29,16 +35,16 @@ void NotificationCenter::set_pos(int x, int y){
 
 //Others
 int NotificationCenter::draw(Screen* screen){
-    for(size_t x=0;x<m_notifications.size();x++){
-        m_notifications[x].draw(screen);
+    for(size_t x=0;x<m_notifications->size();x++){
+        (*m_notifications)[x].draw(screen);
     }
 
     return 0;
 }
 
 int NotificationCenter::update(SDL_Event* event, Screen* screen){
-    for(size_t x=0;x<m_notifications.size();x++){
-        m_notifications[x].update(event, screen);
+    for(size_t x=0;x<m_notifications->size();x++){
+        (*m_notifications)[x].update(event, screen);
     }
 
     return 0;
@@ -51,7 +57,7 @@ int NotificationCenter::create_notification(std::string text, Screen* screen){
 
     notif.set_width(150);
     notif.init(screen, nullptr);
-    m_notifications.push_back(notif);
+    m_notifications->push_back(notif);
 
     return 0;
 }

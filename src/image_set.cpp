@@ -49,6 +49,12 @@ const SDL_Rect* ImageSet::get_sub(int x, int y) const{
     return &m_rects.at(pos);
 }
 
+int ImageSet::blit_sub(Screen* sc, int img_x, int img_y, int pos_x, int pos_y) const{
+    sc->blit(m_tex, get_sub(img_x, img_y), pos_x, pos_y);
+
+    return 0;
+}
+
 int ImageSet::get_width() const{
     return m_width;
 }

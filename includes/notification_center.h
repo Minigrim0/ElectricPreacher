@@ -3,10 +3,12 @@
 
 #include "widgets.h"
 #include "notification.h"
+#include "image_set.h"
+#include "screen.h"
 
 class NotificationCenter: public Widget{
     public:
-        NotificationCenter();
+        NotificationCenter(Screen*);
         ~NotificationCenter();
 
         // Getters
@@ -23,8 +25,8 @@ class NotificationCenter: public Widget{
         int create_notification(std::string, Screen*);
 
     private:
-        std::vector<Notification> m_notifications;
-        std::vector<SDL_Texture*> m_icons;
+        std::vector<Notification>* m_notifications;
+        ImageSet* m_icons;
 
         SDL_Rect m_position;
 };
