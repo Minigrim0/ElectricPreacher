@@ -2,31 +2,33 @@
     #define window_h
 
 #include <iostream>
+#include <vector>
 #include <SDL2/SDL.h>
 
 #include "button.h"
+#include "screen.h"
 
 class Window{
     public:
-        Window() = default;
-        virtual ~Window() = default;
+        Window();
+        virtual ~Window();
 
         //Getter
         bool is_running() const;
         std::string get_title() const;
 
         //Setter
-        bool set_running(bool);
-        bool set_title(bool);
+        void set_running(bool);
+        void set_title(std::string);
 
         //Others
         int add_button(Button*);
         void update();
-        void draw();
+        void draw(Screen*);
 
     private:
         bool m_window_running;
-        Button* m_buttons;
+        std::vector<Button*> m_buttons;
         std::string m_window_title;
 };
 
