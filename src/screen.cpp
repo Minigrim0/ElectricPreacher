@@ -19,6 +19,7 @@
 Screen::Screen()
 :m_width(480),
 m_height(640),
+m_tile_size(32),
 m_start_time(0),
 m_time_elapsed(0),
 m_time_since_last_fps_update(0),
@@ -28,33 +29,11 @@ m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
 m_font_path("assets/fonts/courrier_new.ttf"),
 m_keyConf(std::map<SDL_Keycode, bool>()),
-m_screen_surface(nullptr),
+m_fps_texture(nullptr),
 m_fps_surface(nullptr),
 m_window(nullptr),
-m_event_handler(new SDL_Event),
-m_font_color({255, 255, 255, 0}),
-m_background_color({0, 0, 0, 0}),
-m_font(nullptr),
-m_mouse_pos({0, 0, 0, 0})
-{}
-
-Screen::Screen(const Screen& screen)
-:m_width(screen.get_width()),
-m_height(screen.get_height()),
-m_start_time(0),
-m_time_elapsed(0),
-m_time_since_last_fps_update(0),
-m_fps(0),
-m_running(screen.is_running()),
-m_showing_fps(false),
-m_window_caption("Fuzzy Waddle"),
-m_font_path("assets/fonts/courrier_new.ttf"),
-m_keyConf(std::map<SDL_Keycode, bool>()),
-m_screen_surface(nullptr),
-m_fps_surface(nullptr),
-m_window(nullptr),
-m_event_handler(new SDL_Event),
-m_font_color({255, 255, 255, 0}),
+m_Renderer(nullptr),
+m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_font(nullptr),
 m_mouse_pos({0, 0, 0, 0})
@@ -62,9 +41,8 @@ m_mouse_pos({0, 0, 0, 0})
 
 Screen::~Screen(){
     TTF_CloseFont(m_font);
-    delete m_event_handler;
-    SDL_FreeSurface(m_screen_surface);
     SDL_FreeSurface(m_fps_surface);
+    SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(m_window);
     TTF_Quit();
     SDL_Quit();
@@ -73,7 +51,6 @@ Screen::~Screen(){
 //Override
 Screen& Screen::operator=(const Screen& screen){
     m_window = screen.get_window();
-    m_screen_surface = screen.get_surface();
     m_width = screen.get_width();
     m_height = screen.get_height();
     m_font = screen.get_font();
@@ -81,32 +58,31 @@ Screen& Screen::operator=(const Screen& screen){
     return *this;
 }
 
+
 //Getters
-int Screen::get_height() const{return m_height;}
 int Screen::get_width() const{return m_width;}
-std::string Screen::get_caption() const{return m_window_caption;}
-SDL_Window* Screen::get_window() const{return m_window;}
-SDL_Surface* Screen::get_surface() const{return m_screen_surface;}
-const SDL_PixelFormat* Screen::get_format() const{return m_screen_surface->format;}
-SDL_Color Screen::get_background_color() const{return m_background_color;}
-TTF_Font* Screen::get_font() const{return m_font;}
+int Screen::get_height() const{return m_height;}
+int Screen::get_time_elapsed() const{return static_cast<int>(m_time_elapsed);}
+
 bool Screen::is_running() const{return m_running;}
 bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
+
+std::string Screen::get_caption() const{return m_window_caption;}
+
+TTF_Font* Screen::get_font() const{return m_font;}
 SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
+SDL_Window* Screen::get_window() const{return m_window;}
+SDL_Renderer* Screen::get_renderer() const{return m_Renderer;}
+SDL_Color Screen::get_background_color() const{return m_background_color;}
+
 
 //Setters
-int Screen::set_height(int height){
-    if(height <= 0)
-        return 1;
-    m_height = height;
-    return 0;
+void Screen::set_width(int width){
+    m_width = width;
 }
 
-int Screen::set_width(int width){
-    if(width <= 0)
-        return 1;
-    m_width = width;
-    return 0;
+void Screen::set_height(int height){
+    m_height = height;
 }
 
 void Screen::set_background_color(SDL_Color color){
@@ -134,7 +110,7 @@ void Screen::toggle_fps_show(){
 
 //Others
 int Screen::init(){
-    if(SDL_Init(SDL_INIT_VIDEO) < 0){
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC) < 0){
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
@@ -156,12 +132,25 @@ int Screen::init(){
 int Screen::build_window(){
     if(m_width <= 0 || m_height <= 0) return 1;
 
-    m_window = SDL_CreateWindow("Fuzzy Waddle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+    m_window = SDL_CreateWindow(m_window_caption.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
     if(m_window == NULL){
         std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return 1;
     }
-    m_screen_surface = SDL_GetWindowSurface(m_window);
+
+    m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    if(m_Renderer == nullptr){
+        std::cout << "Couldn't create renderer : " << SDL_GetError() << std::endl;
+        return 1;
+    }
+    SDL_SetRenderDrawColor(m_Renderer, m_background_color.r, m_background_color.g, m_background_color.b, m_background_color.a);
+
+    //Initialize PNG loading
+    int imgFlags = IMG_INIT_PNG;
+    if(!(IMG_Init(imgFlags) & imgFlags)){
+        std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+        return 1;
+    }
 
     m_running = true;
     return 0;
@@ -176,57 +165,95 @@ SDL_Surface* Screen::load_image(std::string path){
     return surf;
 }
 
+SDL_Texture* Screen::load_texture(std::string path){
+    SDL_Texture* newTexture = NULL;
+
+    SDL_Surface* loadedSurface = load_image(path.c_str());
+    if(loadedSurface != NULL){
+        newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
+        if(newTexture == NULL){
+            std::cout << "Unable to create texture from " << path.c_str() << " ! SDL Error: " << SDL_GetError() << std::endl;
+        }
+
+        SDL_FreeSurface(loadedSurface);
+    }
+
+    return newTexture;
+}
+
+SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf){
+    return SDL_CreateTextureFromSurface(m_Renderer, surf);
+}
+
 SDL_Surface* Screen::render_text_blend(std::string text){
     return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
 }
 
-SDL_Surface* Screen::render_text_blend(std::string text, SDL_Color color){
-    return TTF_RenderText_Blended(m_font, text.c_str(), color);
+SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Color color){
+    return TTF_RenderText_Blended(font, text.c_str(), color);
 }
 
 SDL_Surface* Screen::render_text_solid(std::string text){
     return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
 }
 
-int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, int x, int y){
-    SDL_Rect dst_rect;
-    dst_rect.x = x;
-    dst_rect.y = y;
-    return SDL_BlitSurface(
-        surf,
-        src_rect,
-        m_screen_surface,
-        &dst_rect);
+SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Color color){
+    return TTF_RenderText_Solid(font, text.c_str(), color);
 }
 
-int Screen::blit_surface(SDL_Surface* surf, const SDL_Rect* src_rect, SDL_Rect position){
-    return SDL_BlitSurface(
-        surf, //Src image
-        src_rect, //Src rect
-        m_screen_surface, //Dest surf
-        &position); //Dest rect
+//Blit an image using default tile size
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
+    SDL_Rect dst_rect = {x, y, m_tile_size, m_tile_size};
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
 }
 
-void Screen::handle_events(){
-    while( SDL_PollEvent(m_event_handler) != 0){
-        if(m_event_handler->type == SDL_QUIT)
+//Blit a square image, using w parameter as width
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w){
+    SDL_Rect dst_rect = {x, y, w, w};
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+//Blit an image with the given width and height
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w, int h){
+    SDL_Rect dst_rect = {x, y, w, h};
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+//Blits an image using the give rect
+int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
+    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
+}
+
+void Screen::handle_events(SDL_Event* event){
+    switch(event->type){
+        case SDL_QUIT:
             m_running = false;
-        else if(m_event_handler->type == SDL_KEYDOWN)
-            m_keyConf[m_event_handler->key.keysym.sym] = true;
-        else if(m_event_handler->type == SDL_KEYUP){
-            m_keyConf[m_event_handler->key.keysym.sym] = false;
-            switch(m_event_handler->key.keysym.sym){
+            break;
+        case SDL_KEYDOWN:
+            m_keyConf[event->key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            m_keyConf[event->key.keysym.sym] = false;
+            switch(event->key.keysym.sym){
                 case SDLK_F3:
                     toggle_fps_show();
                     break;
                 default:
                     break;
             }
-        }
-        else if(m_event_handler->type == SDL_MOUSEMOTION){
-            m_mouse_pos.x = m_event_handler->button.x;
-            m_mouse_pos.y = m_event_handler->button.y;
-        }
+            break;
+        case SDL_MOUSEMOTION:
+            m_mouse_pos.x = event->button.x;
+            m_mouse_pos.y = event->button.y;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            m_keyConf[event->button.button] = true;
+            break;
+        case SDL_MOUSEBUTTONUP:
+            m_keyConf[event->button.button] = false;
+            break;
+        default:
+            break;
     }
 }
 
@@ -238,28 +265,21 @@ void Screen::update_screen(){
         compute_fps();
     }
 
-    SDL_UpdateWindowSurface(m_window);
-    SDL_FillRect(
-        m_screen_surface,
-        NULL,
-        SDL_MapRGB(
-            m_screen_surface->format,
-            m_background_color.r,
-            m_background_color.b,
-            m_background_color.b
-        )
-    );
+    SDL_RenderPresent(m_Renderer);
+    SDL_RenderClear(m_Renderer);
 }
 
 void Screen::compute_fps(){
     if(m_time_since_last_fps_update >= 500){
-        m_fps = static_cast<unsigned int> (1000.0/static_cast<double>(m_time_elapsed));
+        m_fps = static_cast<unsigned int>(1000.0/m_time_elapsed);
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
+        SDL_FreeSurface(m_fps_surface);
         m_fps_surface = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
         if(m_fps_surface == NULL)
             std::cout << "Error : " << TTF_GetError() << std::endl;
+        m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
     }
-    if(blit_surface(m_fps_surface, NULL, 15, 15) != 0)
+    if(blit(m_fps_texture, NULL, 15, 15, m_fps_surface->w, m_fps_surface->h) != 0)
         std::cout << "Error : " << SDL_GetError() << std::endl;
 }

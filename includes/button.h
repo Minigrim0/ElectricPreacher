@@ -3,22 +3,19 @@
 
 /**
     name : button.h
-    purpose : contains the prototypes for the methods of the class Button
+    purpose : Defines a button and its methods (with animations, ...)
 */
 
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "../../includes/screen.h"
 
-/**
-    Class : Button
-    purpose : Defines a button in the editor (with animations, ...)
-*/
-class Button{
+#include "screen.h"
+#include "widgets.h"
+
+class Button: public Widget{
     public:
         //Constructors
         Button();
-        Button(const Button&);
         ~Button();
 
         //Operators
@@ -39,22 +36,27 @@ class Button{
         void set_position(int, int);
         void set_text_pos(std::string);
         void set_text_pos(int, int);
-        void set_text_color(int, int, int);
-        void set_background_color(int, int, int);
+        void set_text_color(int, int, int, int a=255);
+        void set_background_color(int, int, int, int a=255);
         void set_contour_color(int, int, int);
         void set_size(SDL_Rect);
         void set_size(int, int);
         void set_text(std::string);
 
+        void move(int, int);
+        void resize(int, int);
+
         //Others
+        int draw(Screen*) override;
+        int update(SDL_Event*, Screen*) override;
+
         int update_layout(Screen*, TTF_Font*);
-        int draw_contour(Screen*, SDL_Color);
-        int draw(Screen*);
-        void update(Screen*);
+        int draw_contour(SDL_Surface*, SDL_Color);
         bool collide(SDL_Rect) const;
 
     private:
         SDL_Rect* m_rect;
+        SDL_Rect* m_text_rect;
         SDL_Rect* m_absolute_text_position;
         int m_text_position;
         bool m_hover;
@@ -63,7 +65,8 @@ class Button{
         SDL_Color m_foreground_color;
         SDL_Color m_contour_color;
 
-        SDL_Surface* m_image;
+        SDL_Texture* m_background_texture;
+        SDL_Texture* m_foreground_texture;
 
         std::string m_text;
         bool m_pos_as_text;

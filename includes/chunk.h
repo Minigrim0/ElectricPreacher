@@ -3,7 +3,7 @@
 
 /**
     name : chunk.h
-    purpose : Contains the prototypes of the chunk Class
+    purpose : Handles a 'chunk' of the map, defined by a global variable as a square of CHUNK_SIZE by CHUNK_SIZE
 
     @author : mingirim0
     @version : 1.0
@@ -11,16 +11,13 @@
 
 #include <iostream>
 #include "image_set.h"
-#include "ground_element.h"
-#include "wall_element.h"
-#include "scenery_element.h"
+#include "map_element.h"
 #include "constants.h"
 
 class Chunk{
     public:
         //Constructors
         Chunk();
-        Chunk(Chunk&);
         ~Chunk();
 
         //Overrides
@@ -43,9 +40,9 @@ class Chunk{
         ImageSet* m_image_set;
         SDL_Rect* m_position;
 
-        GroundElement*  m_layer1[CHUNK_SIZE][CHUNK_SIZE];
-        WallElement*    m_layer2[CHUNK_SIZE][CHUNK_SIZE];
-        SceneryElement* m_layer3[CHUNK_SIZE][CHUNK_SIZE];
+        MapElement*** m_layer1;
+        MapElement*** m_layer2;
+        MapElement*** m_layer3;
 };
 
 #endif

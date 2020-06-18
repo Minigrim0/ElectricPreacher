@@ -14,54 +14,71 @@
 
 //Constructors
 ImageSet::ImageSet()
-:m_image(nullptr),
+:m_tex(nullptr),
+m_width(0),
+m_height(0),
 m_rects()
 {}
 
-ImageSet::ImageSet(const ImageSet& set)
-:m_image(set.get_image()),
+ImageSet::ImageSet(SDL_Texture* img)
+:m_tex(img),
+m_width(0),
+m_height(0),
 m_rects()
 {
-    set_array();
+    SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
 }
 
-ImageSet::ImageSet(SDL_Surface* img)
-:m_image(img),
-m_rects()
-{}
-
 ImageSet::~ImageSet(){
-    SDL_FreeSurface(m_image);
+    SDL_DestroyTexture(m_tex);
 }
 
 //Override
 ImageSet& ImageSet::operator=(const ImageSet& set){
-    m_image = set.get_image();
+    m_tex = set.get_texture();
 
     return *this;
 }
 
 //Getters
-SDL_Surface* ImageSet::get_image() const{return m_image;}
+SDL_Texture* ImageSet::get_texture() const{return m_tex;}
 
 const SDL_Rect* ImageSet::get_sub(int x, int y) const{
-    long unsigned int pos = static_cast<long unsigned int>(y*m_image->w/32 + x);
+    long unsigned int pos = static_cast<long unsigned int>(y*m_width/32 + x);
     if(pos > m_rects.size()) return NULL;
     return &m_rects.at(pos);
 }
 
+int ImageSet::blit_sub(Screen* sc, int img_x, int img_y, int pos_x, int pos_y) const{
+    sc->blit(m_tex, get_sub(img_x, img_y), pos_x, pos_y);
+
+    return 0;
+}
+
+int ImageSet::get_width() const{
+    return m_width;
+}
+
+int ImageSet::get_height() const{
+    return m_height;
+}
+
 //Setters
 void ImageSet::set_image(Screen* screen, std::string image){
-	m_image = screen->load_image(image.c_str());
-    if(m_image == NULL || m_image->w%32 != 0 || m_image->h%32 != 0)
+	m_tex = screen->load_texture(image.c_str());
+    SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
+
+    if(m_tex == NULL || m_width%32 != 0 || m_height%32 != 0)
         exit(EXIT_FAILURE);
 }
 
 //Others
 int ImageSet::set_array(){
-    if(m_image == NULL) return 1;
-    for(int y=0;y<m_image->h;y+=32){
-        for(int x=0;x<m_image->w;x+=32){
+    //int width, height;
+
+    if(m_tex == NULL) return 1;
+    for(int y=0;y<m_height;y+=32){
+        for(int x=0;x<m_width;x+=32){
             SDL_Rect tmp_rect;
             tmp_rect.x = x;
             tmp_rect.y = y;
