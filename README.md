@@ -1,4 +1,4 @@
-# fuzzy-waddle
+# ElectricPreacher
 
 ## Deps
 
