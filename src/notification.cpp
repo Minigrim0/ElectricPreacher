@@ -59,7 +59,5 @@ int Notification::update(SDL_Event*, Screen*){
 void Notification::init(Screen* screen, TTF_Font* font){
     SDL_Surface* tmp_text = screen->render_text_blend(m_content, font);
 
-
     //SDL_Surface* tmp_background = SDL_CreateRGBSurface(0, x, x, 32, 0, 0, 0, 0);
-
 }

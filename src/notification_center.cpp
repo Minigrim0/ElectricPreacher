@@ -21,7 +21,6 @@ SDL_Rect NotificationCenter::get_pos() const{
     return m_position;
 }
 
-
 //Setters
 void NotificationCenter::set_pos(SDL_Rect position){
     m_position = position;
