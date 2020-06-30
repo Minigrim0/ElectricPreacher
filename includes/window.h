@@ -5,6 +5,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
+#include "../includes/json/json.h"
 #include "button.h"
 #include "screen.h"
 
@@ -13,24 +14,29 @@ class Window{
         Window();
         virtual ~Window();
 
-        //Getter
+        //Getters
         bool is_running() const;
         std::string get_title() const;
 
-        //Setter
+        //Setters
         void set_running(bool);
-        void set_title(std::string);
+        void set_title(Screen* screen, Json::Value title);
+        int set_font(std::string path);
 
         //Others
-        int add_button(Button*);
+        void add_button(Button* newButton);
+        int add_button(Screen* screen, Json::Value buttons);
         void update();
         void draw(Screen*);
         int createfrom(Screen* screen, std::string JSONsource);
 
     private:
-        bool m_window_running;
-        std::vector<Button*> m_buttons;
-        std::string m_window_title;
+        bool m_window_running; // Should be shown and updated ?
+        std::string m_window_name; // Name to identify the window
+        
+        std::vector<Button*> m_buttons; // Buttons on the window
+        Button* m_title; // Title of the window
+        TTF_Font* m_fonts[5]; // Fonts
 };
 
 #endif
