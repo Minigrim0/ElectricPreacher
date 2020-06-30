@@ -26,7 +26,7 @@ class Window{
         //Others
         void add_button(Button* newButton);
         int add_button(Screen* screen, Json::Value buttons);
-        void update();
+        void update(SDL_Event* event, Screen* screen);
         void draw(Screen*);
         int createfrom(Screen* screen, std::string JSONsource);
 
