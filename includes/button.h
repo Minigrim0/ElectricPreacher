@@ -44,6 +44,7 @@ class Button: public Widget{
         void set_text(std::string);
 
         void move(int, int);
+        void set_text_offset(int, int);
         void resize(int, int);
 
         //Others
@@ -58,6 +59,7 @@ class Button: public Widget{
         SDL_Rect* m_rect;
         SDL_Rect* m_text_rect;
         SDL_Rect* m_absolute_text_position;
+        SDL_Rect* m_text_offset;
         int m_text_position;
         bool m_hover;
 

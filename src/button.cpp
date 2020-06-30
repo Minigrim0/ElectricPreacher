@@ -6,6 +6,7 @@ Button::Button()
 :m_rect(new SDL_Rect),
 m_text_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
+m_text_offset(new SDL_Rect),
 m_text_position(4),
 m_hover(false),
 m_background_color({0, 0, 0, 0}),
@@ -16,7 +17,11 @@ m_foreground_texture(nullptr),
 m_text(""),
 m_pos_as_text(true),
 m_font(nullptr)
-{}
+{
+    // The offset should be default 0
+    m_text_offset->x = 0;
+    m_text_offset->y = 0;
+}
 
 Button::~Button(){
     delete m_rect;
@@ -207,6 +212,13 @@ void Button::move(int off_x, int off_y){
     m_text_rect->y += off_y;
 }
 
+void Button::set_text_offset(int off_x, int off_y){
+    if(m_pos_as_text){ // Offset is used only with relative positioning
+        m_text_offset->x += off_x;
+        m_text_offset->y += off_y;
+    }
+}
+
 void Button::resize(int off_w, int off_h){
     m_rect->x += off_w;
     m_rect->y += off_h;
@@ -261,8 +273,8 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
     }
 
     SDL_Rect position_offset = get_text_position(tmp_text);
-    m_text_rect->x = m_rect->x + position_offset.x;
-    m_text_rect->y = m_rect->y + position_offset.y;
+    m_text_rect->x = m_rect->x + position_offset.x + m_text_offset->x;
+    m_text_rect->y = m_rect->y + position_offset.y + m_text_offset->y;
     m_text_rect->w = tmp_text->w;
     m_text_rect->h = tmp_text->h;
 
