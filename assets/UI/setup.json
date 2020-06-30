@@ -76,8 +76,17 @@
             "text-position": "MID_CENTER"
         }
     ],
-    "Grid" : {
-        "position_x": 500,
-        "position_y": 125
+    "Title" : {
+        "window_name" : "Main",
+        "text" : "Electric Preacher",
+        "text_position_type": "txt",
+        "position" : "TOP_CENTERED",
+        "offset" : [0, 40],
+        "text-color": {
+            "r": 150,
+            "g": 75,
+            "b": 75
+        },
+        "font_size": 5
     }
 }
