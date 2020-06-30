@@ -35,3 +35,7 @@ void Window::draw(Screen* screen){
         m_buttons[i]->draw(screen);
     }
 }
+
+int Window::createfrom(std::string JSONsource){
+    
+}

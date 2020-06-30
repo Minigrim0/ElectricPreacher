@@ -25,6 +25,7 @@ class Window{
         int add_button(Button*);
         void update();
         void draw(Screen*);
+        int createfrom(std::string JSONsource);
 
     private:
         bool m_window_running;

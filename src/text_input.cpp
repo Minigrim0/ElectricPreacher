@@ -76,14 +76,6 @@ void TextInput::set_font(TTF_Font* font){
 
 // Others
 int TextInput::draw(Screen* screen){
-    /*if((SDL_GetTicks()/1000) % 2 == 0){
-        m_current_input += "|";
-        update_image(screen);
-    }
-    else{
-        m_current_input.pop_back();
-        update_image(screen);
-    }*/
     return screen->blit(m_tex, NULL, m_rect);
 }
 
