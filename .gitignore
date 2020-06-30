@@ -2,6 +2,3 @@ ElectricPreacher
 *.o
 *.zip
 *.gch
-count.txt
-exampleJSON.cpp
-exampleJSON.hpp
