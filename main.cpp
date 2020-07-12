@@ -35,7 +35,7 @@ int main(){
 	window.set_font("assets/fonts/Roboto-Regular.ttf");
 
 	std::cout << "Creating main window" << std::endl;
-	window.createfrom(&screen, "assets/UI/setup.json");
+	window.createfrom(&screen, "assets/UI/MainWindow.json");
 
 	while(screen.is_running()){
 
