@@ -1,6 +1,9 @@
 #ifndef constants_h
     #define constants_h
 
+#include <iostream>
+#include <mutex>
+
 //Map
 #define CHUNK_SIZE 20
 
@@ -26,5 +29,7 @@ enum Directions
 #define VERSION 0
 #define SUBVERSION 1
 #define SUBSUBVERSION 1
+
+extern std::mutex screenMutex;
 
 #endif

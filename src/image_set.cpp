@@ -11,6 +11,7 @@
 
 #include "../includes/image_set.h"
 #include "../includes/screen.h"
+#include "../includes/constants.h"
 
 //Constructors
 ImageSet::ImageSet()
@@ -65,7 +66,9 @@ int ImageSet::get_height() const{
 
 //Setters
 void ImageSet::set_image(Screen* screen, std::string image){
-	m_tex = screen->load_texture(image.c_str());
+    screenMutex.lock();
+	    m_tex = screen->load_texture(image.c_str());
+    screenMutex.unlock();
     SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
 
     if(m_tex == NULL || m_width%32 != 0 || m_height%32 != 0)

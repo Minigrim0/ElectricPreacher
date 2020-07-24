@@ -19,16 +19,21 @@ class NotificationCenter: public Widget{
         void set_pos(int, int);
         void set_size(int, int);
 
+        void set_running(bool running);
+
         // Others
         int draw(Screen*) override;
         int update(SDL_Event*, Screen*) override;
         int create_notification(std::string, Screen*);
+
+        void run(Screen*);
 
     private:
         std::vector<Notification>* m_notifications;
         ImageSet* m_icons;
 
         SDL_Rect m_position;
+        bool m_running;
 };
 
 #endif

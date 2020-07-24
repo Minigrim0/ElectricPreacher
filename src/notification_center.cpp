@@ -2,11 +2,13 @@
 
 #include "../includes/screen.h"
 #include "../includes/image_set.h"
+#include "../includes/constants.h"
 
 NotificationCenter::NotificationCenter(Screen* sc)
 :m_notifications(new std::vector<Notification>),
 m_icons(new ImageSet),
-m_position({0, 0, 0, 0})
+m_position({0, 0, 0, 0}),
+m_running(false)
 {
     m_icons->set_image(sc, "assets/images/icons.png");
     m_icons->set_array();
@@ -31,6 +33,9 @@ void NotificationCenter::set_pos(int x, int y){
     m_position.y = y;
 }
 
+void NotificationCenter::set_running(bool running){
+    m_running = running;
+}
 
 //Others
 int NotificationCenter::draw(Screen* screen){
@@ -59,4 +64,15 @@ int NotificationCenter::create_notification(std::string text, Screen* screen){
     m_notifications->push_back(notif);
 
     return 0;
+}
+
+void NotificationCenter::run(Screen* screen){
+    while(m_running){
+        //Do stuff here
+
+        screenMutex.lock();
+        // Draw stuff on screen
+
+        screenMutex.unlock();
+    }
 }

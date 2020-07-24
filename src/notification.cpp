@@ -1,4 +1,5 @@
 #include "../includes/notification.h"
+#include "../includes/constants.h"
 
 //Constructors
 Notification::Notification()
@@ -57,7 +58,9 @@ int Notification::update(SDL_Event*, Screen*){
 }
 
 void Notification::init(Screen* screen, TTF_Font* font){
-    SDL_Surface* tmp_text = screen->render_text_blend(m_content, font);
+    screenMutex.lock();
+        SDL_Surface* tmp_text = screen->render_text_blend(m_content, font);
+    screenMutex.unlock();
 
     //SDL_Surface* tmp_background = SDL_CreateRGBSurface(0, x, x, 32, 0, 0, 0, 0);
 }
