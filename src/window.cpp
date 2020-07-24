@@ -1,4 +1,5 @@
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_mouse.h>
 #include <fstream>
 #include <SDL2/SDL.h>
 
@@ -43,28 +44,21 @@ int Window::set_font(std::string path){
 
 // Create a button that holds the title
 void Window::set_title(Screen* screen, Json::Value title){
-	std::cout << "Setting window's identifier" << std::endl;
     m_window_name = title["window_name"].asString();
-	std::cout << "Creating title's button object" << std::endl;
     m_title = new Button;
-	std::cout << "  Setting text" << std::endl;
     m_title->set_text(title["text"].asString());
-	std::cout << "  Setting position" << std::endl;
     m_title->set_position(0, 0);
-	std::cout << "  Setting size" << std::endl;
-    m_title->set_size(
-        screen->get_width(),
-        screen->get_height()
-    );
-	std::cout << "  Setting color" << std::endl;
+	
+    screenMutex.lock();
+        m_title->set_size(screen->get_width(), screen->get_height());
+    screenMutex.unlock();
+
     m_title->set_text_color(
         title["text-color"]["r"].asInt(),
         title["text-color"]["g"].asInt(),
         title["text-color"]["b"].asInt()
     );
-	std::cout << "  Setting background color" << std::endl;
     m_title->set_background_color(0, 0, 0, 0);
-	std::cout << "  Setting text position" << std::endl;
     if(title["text_position_type"].asString() == "txt")
         m_title->set_text_pos(
             title["text-position"].asString()
@@ -78,15 +72,12 @@ void Window::set_title(Screen* screen, Json::Value title){
     int off_x = title["offset"][0].asInt();
     int off_y = title["offset"][1].asInt();
 
-    std::cout << "  Moving the text (" << off_x << ", " << off_y << ")" << std::endl;
     m_title->set_text_offset(off_x, off_y);
 
-	std::cout << "  Updating the layout" << std::endl;
     m_title->update_layout(
         screen,
         m_fonts[title["font_size"].asInt()]
     );
-	std::cout << "Title created" << std::endl;
 }
 
 // Add an already created button to the list of buttons
@@ -97,39 +88,32 @@ void Window::add_button(Button* newButton){
 // Add a button from a parsed json object
 int Window::add_button(Screen* screen, Json::Value buttons){
     for (unsigned int index=0;index<buttons.size();++index){
-        std::cout << "Creating button " << index << std::endl;
         m_buttons.push_back(new Button);
 
-        std::cout << "  Setting text" << std::endl;
         m_buttons.back()->set_text(buttons[index]["name"].asString());
 
-        std::cout << "  Setting position" << std::endl;
         m_buttons.back()->set_position(
             buttons[index]["position_x"].asInt(),
             buttons[index]["position_y"].asInt()
         );
 
-        std::cout << "  Setting size" << std::endl;
         m_buttons.back()->set_size(
             buttons[index]["size_x"].asInt(),
             buttons[index]["size_y"].asInt()
         );
 
-        std::cout << "  Setting text color" << std::endl;
         m_buttons.back()->set_text_color(
             buttons[index]["text-color"]["r"].asInt(),
             buttons[index]["text-color"]["g"].asInt(),
             buttons[index]["text-color"]["b"].asInt()
         );
 
-        std::cout << "  Setting background color" << std::endl;
         m_buttons.back()->set_background_color(
             buttons[index]["background-color"]["r"].asInt(),
             buttons[index]["background-color"]["g"].asInt(),
             buttons[index]["background-color"]["b"].asInt()
         );
 
-        std::cout << "  Setting contour color" << std::endl;
         m_buttons.back()->set_contour_color(
             buttons[index]["contour-color"]["r"].asInt(),
             buttons[index]["contour-color"]["g"].asInt(),
@@ -137,7 +121,6 @@ int Window::add_button(Screen* screen, Json::Value buttons){
         );
 
         //Set text-position, via text or absolute coordinates
-        std::cout << "  Setting text position" << std::endl;
         if(buttons[index]["text_position_type"].asString() == "txt")
             m_buttons.back()->set_text_pos(
                 buttons[index]["text-position"].asString()
@@ -148,8 +131,14 @@ int Window::add_button(Screen* screen, Json::Value buttons){
                 buttons[index]["text-position_y"].asInt()
             );
 
+        if(buttons[index]["linksto"].asString() != "null"){
+            m_buttons.back()->set_action_type(ACTION_SWITCH_WINDOW, buttons[index]["linksto"].asString());
+        }
+        else{
+            m_buttons.back()->set_action_type(ACTION_QUIT_PROGRAM);
+        }
+
         //Finally update the button image
-        std::cout << "  Updating the layout" << std::endl;
         m_buttons.back()->update_layout(
             screen,
             m_fonts[buttons[index]["font_size"].asInt()]
@@ -159,9 +148,23 @@ int Window::add_button(Screen* screen, Json::Value buttons){
 }
 
 // Updates the window
-void Window::update(SDL_Event* event, Screen* screen){
+void Window::update(SDL_Event* event, Screen* screen, std::string *current_window){
     for(unsigned i = 0; i < m_buttons.size(); i++){
         m_buttons[i]->update(event, screen);
+        int mouseX, mouseY;
+        if(event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT){
+            SDL_GetMouseState(&mouseX, &mouseY);
+            if(m_buttons[i]->collide(mouseX, mouseY)){
+                switch(m_buttons[i]->get_action_type()){
+                    case ACTION_SWITCH_WINDOW:
+                        *current_window = m_buttons[i]->get_action_operand();
+                        break;
+                    case ACTION_QUIT_PROGRAM:
+                        screen->set_running(false);
+                }
+                
+            }
+        }
     }
 }
 
@@ -179,12 +182,10 @@ int Window::createfrom(Screen* screen, std::string JSONsource){
     Json::Value root;
     json_in >> root;
 
-    std::cout << "Setting up buttons" << std::endl;
     // Setup Buttons
     const Json::Value buttons = root["Buttons"];
     this->add_button(screen, buttons);
 
-    std::cout << "Setting up the title" << std::endl;
     // Setup title
     const Json::Value title = root["Title"];
     this->set_title(screen, title);

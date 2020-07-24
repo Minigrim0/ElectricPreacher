@@ -48,6 +48,7 @@ class Screen{
         void set_font(std::string);
         void set_caption(std::string);
         void toggle_fps_show();
+        void set_running(bool running);
 
         //Others
         int init();

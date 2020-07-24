@@ -28,32 +28,36 @@ class Button: public Widget{
         SDL_Color get_contour_color() const;
         SDL_Rect get_text_position(SDL_Surface*) const;
         std::string get_text() const;
+        std::string get_action_operand() const;
+        int get_action_type() const;
 
         //Setters
-        void set_rect(SDL_Rect);
-        void set_rect(int, int, int, int);
-        void set_position(SDL_Rect);
-        void set_position(int, int);
-        void set_text_pos(std::string);
-        void set_text_pos(int, int);
-        void set_text_color(int, int, int, int a=255);
-        void set_background_color(int, int, int, int a=255);
-        void set_contour_color(int, int, int);
-        void set_size(SDL_Rect);
-        void set_size(int, int);
-        void set_text(std::string);
+        void set_rect(SDL_Rect rect);
+        void set_rect(int x, int y, int w, int h);
+        void set_position(SDL_Rect pos);
+        void set_position(int x, int y);
+        void set_text_pos(std::string pos);
+        void set_text_pos(int x, int y);
+        void set_text_color(int r, int g, int b, int a=255);
+        void set_background_color(int r, int g, int b, int a=255);
+        void set_contour_color(int r, int g, int b);
+        void set_size(SDL_Rect size);
+        void set_size(int w, int h);
+        void set_text(std::string text);
+        void set_action_type(int action_type, std::string action_operand="");
 
         void move(int, int);
         void set_text_offset(int, int);
         void resize(int, int);
 
         //Others
-        int draw(Screen*) override;
-        int update(SDL_Event*, Screen*) override;
+        int draw(Screen*  screen) override;
+        int update(SDL_Event* event, Screen* screen) override;
 
         int update_layout(Screen*, TTF_Font*);
         int draw_contour(SDL_Surface*, SDL_Color);
         bool collide(SDL_Rect) const;
+        bool collide(int x, int y) const;
 
     private:
         SDL_Rect* m_rect;
@@ -61,6 +65,8 @@ class Button: public Widget{
         SDL_Rect* m_absolute_text_position;
         SDL_Rect* m_text_offset;
         int m_text_position;
+        int m_action_type;
+        std::string m_action_operand;
         bool m_hover;
 
         SDL_Color m_background_color;

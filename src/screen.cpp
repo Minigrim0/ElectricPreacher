@@ -108,6 +108,10 @@ void Screen::toggle_fps_show(){
     m_showing_fps = !m_showing_fps;
 }
 
+void Screen::set_running(bool running){
+    m_running = running;
+}
+
 //Others
 int Screen::init(){
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC) < 0){

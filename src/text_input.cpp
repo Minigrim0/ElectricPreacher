@@ -76,7 +76,10 @@ void TextInput::set_font(TTF_Font* font){
 
 // Others
 int TextInput::draw(Screen* screen){
-    return screen->blit(m_tex, NULL, m_rect);
+    screenMutex.lock();
+        int result = screen->blit(m_tex, NULL, m_rect);
+    screenMutex.unlock();
+    return result;
 }
 
 int TextInput::update(SDL_Event* event, Screen* screen){
@@ -132,10 +135,12 @@ void TextInput::update_image(Screen* screen){
 
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
     SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
-    SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
 
-    m_tex = screen->convert_surface_to_texure(tmp_image);
-
+    screenMutex.lock();
+        SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
+        m_tex = screen->convert_surface_to_texure(tmp_image);
+    screenMutex.unlock();
+    
     SDL_FreeSurface(tmp_image);
 }
 

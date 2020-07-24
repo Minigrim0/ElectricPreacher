@@ -24,7 +24,7 @@
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "Second"
+            "linksto": "new_game_window"
         },
         {
             "name": "Load",
@@ -76,12 +76,12 @@
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "null"
+            "linksto": "quit"
         }
     ],
     "Title" : {
-        "window_name" : "Main",
-        "text" : "Electric Preacher",
+        "window_name" : "Second",
+        "text" : "Electric Peacher",
         "text_position_type": "txt",
         "text-position" : "TOP_CENTER",
         "offset" : [0, 40],

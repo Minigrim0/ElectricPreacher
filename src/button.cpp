@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../includes/button.h"
+#include "../includes/constants.h"
 
 //Constructors
 Button::Button()
@@ -8,6 +9,8 @@ m_text_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_offset(new SDL_Rect),
 m_text_position(4),
+m_action_type(0),
+m_action_operand(""),
 m_hover(false),
 m_background_color({0, 0, 0, 0}),
 m_foreground_color({255, 255, 255, 0}),
@@ -108,6 +111,15 @@ std::string Button::get_text() const{
     return m_text;
 }
 
+std::string Button::get_action_operand() const{
+    return m_action_operand;
+}
+
+int Button::get_action_type() const{
+    return m_action_type;
+}
+
+
 //Setters
 void Button::set_rect(SDL_Rect rect){
     *m_rect = rect;
@@ -204,6 +216,12 @@ void Button::set_text(std::string text){
     m_text = text;
 }
 
+void Button::set_action_type(int action_type, std::string action_operand){
+    m_action_type = action_type;
+    m_action_operand = action_operand;
+}
+
+
 void Button::move(int off_x, int off_y){
     m_rect->x += off_x;
     m_rect->y += off_y;
@@ -227,8 +245,10 @@ void Button::resize(int off_w, int off_h){
 //Others
 
 int Button::draw(Screen* screen){
-    screen->blit(m_background_texture, NULL, *m_rect);
-    screen->blit(m_foreground_texture, NULL, *m_text_rect);
+    screenMutex.lock();
+        screen->blit(m_background_texture, NULL, *m_rect);
+        screen->blit(m_foreground_texture, NULL, *m_text_rect);
+    screenMutex.unlock();
     return 0;
 }
 
@@ -284,12 +304,16 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
 
     if(draw_contour(tmp_image, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
 
-    m_background_texture = screen->convert_surface_to_texure(tmp_image);
+    screenMutex.lock();
+        m_background_texture = screen->convert_surface_to_texure(tmp_image);
+    screenMutex.unlock();
     if(m_background_color.a != 255){
         SDL_SetTextureBlendMode(m_background_texture, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(m_background_texture, m_background_color.a);
     }
-    m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
+    screenMutex.lock();
+        m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
+    screenMutex.unlock();
     if(m_foreground_color.a != 255){
         SDL_SetTextureBlendMode(m_foreground_texture, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(m_foreground_texture, m_foreground_color.a);
@@ -328,10 +352,12 @@ int Button::update(SDL_Event* event, Screen* screen){
     bool prev_hov = m_hover;
     switch(event->type){
         case SDL_MOUSEMOTION:
-            if(collide(screen->get_mouse_pos()))
-                m_hover = true;
-            else
-                m_hover = false;
+            screenMutex.lock();
+                if(collide(screen->get_mouse_pos()))
+                    m_hover = true;
+                else
+                    m_hover = false;
+            screenMutex.unlock();
 
             if(prev_hov != m_hover)
                 update_layout(screen, m_font);
@@ -350,6 +376,13 @@ int Button::update(SDL_Event* event, Screen* screen){
 bool Button::collide(SDL_Rect rect) const{
     if(rect.x > m_rect->x && rect.x < m_rect->x + m_rect->w)
         if(rect.y > m_rect->y && rect.y < m_rect->y + m_rect->h)
+            return true;
+    return false;
+}
+
+bool Button::collide(int x, int y) const{
+    if(x > m_rect->x && x < m_rect->x + m_rect->w)
+        if(y > m_rect->y && y < m_rect->y + m_rect->h)
             return true;
     return false;
 }
