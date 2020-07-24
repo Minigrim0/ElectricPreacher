@@ -1,7 +1,7 @@
 {
     "Buttons" : [
         {
-            "name": "New",
+            "name": "<- Retour",
             "text-color": {
                 "r": 150,
                 "g": 150,
@@ -17,17 +17,17 @@
                 "g": 150,
                 "b": 50
             },
-            "position_x": 860,
-            "position_y": 485,
+            "position_x": 20,
+            "position_y": 20,
             "size_x": 200,
             "size_y": 25,
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "new_game_window"
+            "linksto": "Main"
         },
         {
-            "name": "Load",
+            "name": "Here are the save files",
             "text-color": {
                 "r": 150,
                 "g": 150,
@@ -80,8 +80,8 @@
         }
     ],
     "Title" : {
-        "window_name" : "Main",
-        "text" : "Electric Preacher",
+        "window_name" : "load_game_window",
+        "text" : "Load Game",
         "text_position_type": "txt",
         "text-position" : "TOP_CENTER",
         "offset" : [0, 40],
