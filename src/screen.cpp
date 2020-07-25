@@ -11,6 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <string>
 
 #include "../includes/screen.h"
 #include "../includes/constants.h"
@@ -27,7 +28,6 @@ m_fps(0),
 m_running(false),
 m_showing_fps(false),
 m_window_caption("Fuzzy Waddle"),
-m_font_path("assets/fonts/courrier_new.ttf"),
 m_keyConf(std::map<SDL_Keycode, bool>()),
 m_fps_texture(nullptr),
 m_fps_surface(nullptr),
@@ -35,12 +35,12 @@ m_window(nullptr),
 m_Renderer(nullptr),
 m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
-m_font(nullptr),
+m_fonts(std::map<std::string, TTF_Font*>()),
 m_mouse_pos({0, 0, 0, 0})
 {}
 
 Screen::~Screen(){
-    TTF_CloseFont(m_font);
+    //TTF_CloseFont(m_font);
     SDL_FreeSurface(m_fps_surface);
     SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(m_window);
@@ -53,7 +53,7 @@ Screen& Screen::operator=(const Screen& screen){
     m_window = screen.get_window();
     m_width = screen.get_width();
     m_height = screen.get_height();
-    m_font = screen.get_font();
+    m_fonts = screen.get_fonts();
 
     return *this;
 }
@@ -69,7 +69,8 @@ bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
 
 std::string Screen::get_caption() const{return m_window_caption;}
 
-TTF_Font* Screen::get_font() const{return m_font;}
+std::map<std::string, TTF_Font*> Screen::get_fonts() const{return m_fonts;}
+TTF_Font* Screen::get_font(std::string font_id){return m_fonts[font_id];}
 SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
 SDL_Window* Screen::get_window() const{return m_window;}
 SDL_Renderer* Screen::get_renderer() const{return m_Renderer;}
@@ -95,8 +96,8 @@ void Screen::set_background_color(Uint8 r, Uint8 g, Uint8 b){
     m_background_color.b = b;
 }
 
-void Screen::set_font(std::string path){
-    m_font_path = path;
+void Screen::set_default_font(std::string font_id){
+    m_default_font = font_id;
 }
 
 void Screen::set_caption(std::string caption){
@@ -124,17 +125,12 @@ int Screen::init(){
         return 2;
     }
 
-    m_font = TTF_OpenFont(m_font_path.c_str(), 16);
-    if(!m_font){
-        std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
-        return 3;
-    }
-
     return 0;
 }
 
 int Screen::build_window(){
     if(m_width <= 0 || m_height <= 0) return 1;
+    if(m_default_font == "") return 1;
 
     m_window = SDL_CreateWindow(m_window_caption.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
     if(m_window == NULL){
@@ -157,6 +153,22 @@ int Screen::build_window(){
     }
 
     m_running = true;
+    return 0;
+}
+
+int Screen::add_font(std::string path, int size, std::string font_id){
+    if(font_id == "")
+        font_id = path + "_" + std::to_string(size);
+
+    if(m_fonts.count(font_id))
+        return 0;
+
+    m_fonts[font_id] = TTF_OpenFont(path.c_str(), size);
+    if(!m_fonts[font_id]){
+        std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
+        return 3;
+    }
+
     return 0;
 }
 
@@ -190,7 +202,7 @@ SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf){
 }
 
 SDL_Surface* Screen::render_text_blend(std::string text){
-    return TTF_RenderText_Blended(m_font, text.c_str(), m_font_color);
+    return TTF_RenderText_Blended(m_fonts[m_default_font], text.c_str(), m_font_color);
 }
 
 SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Color color){
@@ -198,7 +210,7 @@ SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Col
 }
 
 SDL_Surface* Screen::render_text_solid(std::string text){
-    return TTF_RenderText_Solid(m_font, text.c_str(), m_font_color);
+    return TTF_RenderText_Solid(m_fonts[m_default_font], text.c_str(), m_font_color);
 }
 
 SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Color color){
@@ -279,7 +291,7 @@ void Screen::compute_fps(){
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
         SDL_FreeSurface(m_fps_surface);
-        m_fps_surface = TTF_RenderText_Solid(m_font, fps_text.c_str(), m_font_color);
+        m_fps_surface = TTF_RenderText_Solid(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
         if(m_fps_surface == NULL)
             std::cout << "Error : " << TTF_GetError() << std::endl;
         m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);

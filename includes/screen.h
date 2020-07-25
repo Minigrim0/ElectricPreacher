@@ -34,7 +34,8 @@ class Screen{
 
         std::string get_caption() const;
 
-        TTF_Font* get_font() const;
+        std::map<std::string, TTF_Font*> get_fonts() const;
+        TTF_Font* get_font(std::string ID);
         SDL_Rect get_mouse_pos() const;
         SDL_Window* get_window() const;
         SDL_Renderer* get_renderer() const;
@@ -45,7 +46,7 @@ class Screen{
         void set_height(int);
         void set_background_color(SDL_Color);
         void set_background_color(Uint8, Uint8, Uint8);
-        void set_font(std::string);
+        void set_default_font(std::string font_id);
         void set_caption(std::string);
         void toggle_fps_show();
         void set_running(bool running);
@@ -53,6 +54,7 @@ class Screen{
         //Others
         int init();
         int build_window();
+        int add_font(std::string font_path, int size, std::string font_id="");
         SDL_Surface* load_image(std::string);
         SDL_Texture* load_texture(std::string);
         SDL_Texture* convert_surface_to_texure(SDL_Surface*);
@@ -84,7 +86,6 @@ class Screen{
         bool m_showing_fps;
 
         std::string m_window_caption;
-        std::string m_font_path;
         std::map<SDL_Keycode, bool> m_keyConf;
 
         SDL_Texture* m_fps_texture;
@@ -94,7 +95,8 @@ class Screen{
 
         SDL_Color m_font_color;
         SDL_Color m_background_color;
-        TTF_Font* m_font;
+        std::string m_default_font;
+        std::map<std::string, TTF_Font*> m_fonts;
 
         SDL_Rect m_mouse_pos;
 };

@@ -36,7 +36,6 @@ class Window{
         
         std::vector<Button*> m_buttons; // Buttons on the window
         Button* m_title; // Title of the window
-        TTF_Font* m_fonts[5]; // Fonts
 };
 
 #endif

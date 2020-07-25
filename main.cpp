@@ -32,8 +32,11 @@ int main(){
 		std::to_string(VERSION) + "." +
 		std::to_string(SUBVERSION) + "." +
 		std::to_string(SUBSUBVERSION) + ")");
-
 	screen.init();
+
+    screen.add_font("assets/fonts/Roboto-Regular.ttf", 16, "Roboto_16");
+    screen.set_default_font("Roboto_16");
+
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
     // Starting the notification center thread
@@ -49,7 +52,6 @@ int main(){
         if(entry.is_regular_file()){
             std::cout << "Found window " << filenameStr << std::endl;
             Window tmp_window;
-            tmp_window.set_font("assets/fonts/Roboto-Regular.ttf");
             tmp_window.createfrom(&screen, static_cast<std::string>(pathToShow) + static_cast<std::string>(filenameStr));
 
             std::cout << "Saving window as " << tmp_window.get_title() << std::endl;

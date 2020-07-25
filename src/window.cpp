@@ -29,22 +29,8 @@ void Window::set_running(bool running){
     m_window_running = running;
 }
 
-int Window::set_font(std::string path){
-    int sizes[] = {12, 15, 20, 25, 30};
-    int result = 0;
-    for(int x=0;x<5;x++){
-        m_fonts[x] = TTF_OpenFont(path.c_str(), sizes[x]);
-        if(m_fonts[x] == NULL){
-            result = 1;
-            std::cout << "TTF_OpenFont: " << TTF_GetError() << std::endl;
-        }
-    }
-    return result;
-}
-
 // Create a button that holds the title
 void Window::set_title(Screen* screen, Json::Value title){
-    m_window_name = title["window_name"].asString();
     m_title = new Button;
     m_title->set_text(title["text"].asString());
     m_title->set_position(0, 0);
@@ -76,7 +62,7 @@ void Window::set_title(Screen* screen, Json::Value title){
 
     m_title->update_layout(
         screen,
-        m_fonts[title["font_size"].asInt()]
+        screen->get_font(title["font_id"].asString())
     );
 }
 
@@ -141,7 +127,7 @@ int Window::add_button(Screen* screen, Json::Value buttons){
         //Finally update the button image
         m_buttons.back()->update_layout(
             screen,
-            m_fonts[buttons[index]["font_size"].asInt()]
+            screen->get_font(buttons[index]["font_id"].asString())
         );
     }
     return 0;
@@ -181,6 +167,10 @@ int Window::createfrom(Screen* screen, std::string JSONsource){
     std::ifstream json_in(JSONsource.c_str());
     Json::Value root;
     json_in >> root;
+
+    // Setup window-wide informations
+    m_window_name = root["window_name"].asString();
+    screen->add_font(root["font_path"].asString(), root["font_size"].asInt(), root["font_id"].asString());
 
     // Setup Buttons
     const Json::Value buttons = root["Buttons"];
