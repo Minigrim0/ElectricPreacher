@@ -4,10 +4,10 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/json/json.h"
-#include "../includes/window.h"
-#include "../includes/button.h"
-#include "../includes/screen.h"
-#include "../includes/constants.h"
+#include "../includes/window.hpp"
+#include "../includes/button.hpp"
+#include "../includes/screen.hpp"
+#include "../includes/constants.hpp"
 
 
 Window::Window(){}
@@ -35,9 +35,7 @@ void Window::set_title(Screen* screen, Json::Value title){
     m_title->set_text(title["text"].asString());
     m_title->set_position(0, 0);
 	
-    screenMutex.lock();
-        m_title->set_size(screen->get_width(), screen->get_height());
-    screenMutex.unlock();
+    m_title->set_size(screen->get_width(), screen->get_height());
 
     m_title->set_text_color(
         title["text-color"]["r"].asInt(),

@@ -1,8 +1,9 @@
 #ifndef container_h
     #define container_h
 
-#include "widgets.h"
 #include <SDL2/SDL_rect.h>
+
+#include "widgets.hpp"
 
 class Container : public Widget{
     public:
@@ -16,6 +17,7 @@ class Container : public Widget{
         int update(SDL_Event* event, Screen* screen) override;
 
     private:
+        int type;
         SDL_Rect m_rect;
         std::vector<Widget*> m_widgets;
 };

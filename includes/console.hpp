@@ -12,10 +12,10 @@
 
 #include <vector>
 
-#include "screen.h"
-#include "button.h"
-#include "text_input.h"
-#include "widgets.h"
+#include "screen.hpp"
+#include "button.hpp"
+#include "text_input.hpp"
+#include "widgets.hpp"
 
 class Console: public Widget{
     public:

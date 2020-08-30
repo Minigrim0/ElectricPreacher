@@ -10,9 +10,10 @@
 */
 
 #include <iostream>
-#include "image_set.h"
-#include "map_element.h"
-#include "constants.h"
+
+#include "image_set.hpp"
+#include "map_element.hpp"
+#include "constants.hpp"
 
 class Chunk{
     public:

@@ -1,78 +1,53 @@
-#include "../includes/notification_center.h"
+#include "../includes/notification_center.hpp"
 
-#include "../includes/screen.h"
-#include "../includes/image_set.h"
-#include "../includes/constants.h"
+#include "../includes/screen.hpp"
+#include "../includes/image_set.hpp"
+#include "../includes/constants.hpp"
 
-NotificationCenter::NotificationCenter(Screen* sc)
-:m_notifications(new std::vector<Notification>),
+NotificationCenter::NotificationCenter(Screen* sc, std::string default_font)
+:m_notifications(std::vector<Notification*>()),
 m_icons(new ImageSet),
-m_position({0, 0, 0, 0}),
-m_running(false)
+m_default_font(default_font)
 {
     m_icons->set_image(sc, "assets/images/icons.png");
     m_icons->set_array();
 }
 
 NotificationCenter::~NotificationCenter(){
-
-}
-
-//Getters
-SDL_Rect NotificationCenter::get_pos() const{
-    return m_position;
-}
-
-//Setters
-void NotificationCenter::set_pos(SDL_Rect position){
-    m_position = position;
-}
-
-void NotificationCenter::set_pos(int x, int y){
-    m_position.x = x;
-    m_position.y = y;
-}
-
-void NotificationCenter::set_running(bool running){
-    m_running = running;
+    delete m_icons;
 }
 
 //Others
 int NotificationCenter::draw(Screen* screen){
-    for(size_t x=0;x<m_notifications->size();x++){
-        (*m_notifications)[x].draw(screen);
+    for(size_t x=0;x<m_notifications.size();x++){
+        m_notifications[x]->set_offset(static_cast<int>(x) * 51);
+        m_notifications[x]->draw(screen);
     }
 
     return 0;
 }
 
 int NotificationCenter::update(SDL_Event* event, Screen* screen){
-    for(size_t x=0;x<m_notifications->size();x++){
-        (*m_notifications)[x].update(event, screen);
+    for(size_t x=0;x<m_notifications.size();x++){
+        if(m_notifications[x]->update(event, screen) == 0){
+            m_notifications.erase(m_notifications.begin() + static_cast<long int>(x));
+        }
     }
 
     return 0;
 }
 
-int NotificationCenter::create_notification(std::string text, Screen* screen){
-    Notification notif;
-    notif.set_position(10, 10);
-    notif.set_text(text);
+int NotificationCenter::create_notification(std::string text, Screen* screen, std::string font, Uint16 lifetime){
+    m_notifications.push_back(new Notification);
+    m_notifications.back()->set_position(10, 10);
+    m_notifications.back()->set_text(text);
+    m_notifications.back()->set_lifetime(lifetime);
 
-    notif.set_width(150);
-    notif.init(screen, nullptr);
-    m_notifications->push_back(notif);
+    m_notifications.back()->set_width(150);
+    if(font != "")
+        m_notifications.back()->init(screen, font);
+    else
+        m_notifications.back()->init(screen, m_default_font);
 
     return 0;
-}
-
-void NotificationCenter::run(Screen* screen){
-    while(m_running){
-        //Do stuff here
-
-        screenMutex.lock();
-        // Draw stuff on screen
-
-        screenMutex.unlock();
-    }
 }

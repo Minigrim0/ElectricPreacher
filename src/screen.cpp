@@ -6,6 +6,7 @@
     @version : 1.3
 */
 
+#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <map>
 #include <SDL2/SDL.h>
@@ -13,8 +14,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
-#include "../includes/screen.h"
-#include "../includes/constants.h"
+#include "../includes/screen.hpp"
+#include "../includes/constants.hpp"
+#include "../includes/utils.hpp"
 
 //Constructors
 Screen::Screen()
@@ -36,7 +38,8 @@ m_Renderer(nullptr),
 m_font_color({255, 255, 255, 255}),
 m_background_color({0, 0, 0, 0}),
 m_fonts(std::map<std::string, TTF_Font*>()),
-m_mouse_pos({0, 0, 0, 0})
+m_mouse_pos({0, 0, 0, 0}),
+m_fps_pos({0, 0, 0, 0})
 {}
 
 Screen::~Screen(){
@@ -217,29 +220,6 @@ SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Col
     return TTF_RenderText_Solid(font, text.c_str(), color);
 }
 
-//Blit an image using default tile size
-int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y){
-    SDL_Rect dst_rect = {x, y, m_tile_size, m_tile_size};
-    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
-}
-
-//Blit a square image, using w parameter as width
-int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w){
-    SDL_Rect dst_rect = {x, y, w, w};
-    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
-}
-
-//Blit an image with the given width and height
-int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, int x, int y, int w, int h){
-    SDL_Rect dst_rect = {x, y, w, h};
-    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
-}
-
-//Blits an image using the give rect
-int Screen::blit(SDL_Texture* tex, const SDL_Rect* src_rect, SDL_Rect dst_rect){
-    return SDL_RenderCopy(m_Renderer, tex, src_rect, &dst_rect);
-}
-
 void Screen::handle_events(SDL_Event* event){
     switch(event->type){
         case SDL_QUIT:
@@ -291,11 +271,13 @@ void Screen::compute_fps(){
         m_time_since_last_fps_update = 0;
         std::string fps_text = std::to_string(m_fps) + " FPS";
         SDL_FreeSurface(m_fps_surface);
-        m_fps_surface = TTF_RenderText_Solid(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
+        m_fps_surface = TTF_RenderText_Blended(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
+        m_fps_pos = {15, 15, m_fps_surface->w, m_fps_surface->h};
         if(m_fps_surface == NULL)
             std::cout << "Error : " << TTF_GetError() << std::endl;
         m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
     }
-    if(blit(m_fps_texture, NULL, 15, 15, m_fps_surface->w, m_fps_surface->h) != 0)
+
+    if(SDL_RenderCopy(m_Renderer, m_fps_texture, NULL, &m_fps_pos) != 0)
         std::cout << "Error : " << SDL_GetError() << std::endl;
 }

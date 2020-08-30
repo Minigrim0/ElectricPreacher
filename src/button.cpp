@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../includes/button.h"
-#include "../includes/constants.h"
+#include "../includes/button.hpp"
+#include "../includes/constants.hpp"
 
 //Constructors
 Button::Button()
@@ -245,10 +245,8 @@ void Button::resize(int off_w, int off_h){
 //Others
 
 int Button::draw(Screen* screen){
-    screenMutex.lock();
-        screen->blit(m_background_texture, NULL, *m_rect);
-        screen->blit(m_foreground_texture, NULL, *m_text_rect);
-    screenMutex.unlock();
+    SDL_RenderCopy(screen->get_renderer(), m_background_texture, NULL, m_rect);
+    SDL_RenderCopy(screen->get_renderer(), m_foreground_texture, NULL, m_text_rect);
     return 0;
 }
 
@@ -298,22 +296,14 @@ int Button::update_layout(Screen* screen, TTF_Font* font){
     m_text_rect->w = tmp_text->w;
     m_text_rect->h = tmp_text->h;
 
-    /*if(SDL_BlitSurface(tmp_text, NULL, tmp_image, &position) == -1)
-        std::cout << "Error : " << SDL_GetError() << std::endl;
-    */
-
     if(draw_contour(tmp_image, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
 
-    screenMutex.lock();
-        m_background_texture = screen->convert_surface_to_texure(tmp_image);
-    screenMutex.unlock();
+    m_background_texture = screen->convert_surface_to_texure(tmp_image);
     if(m_background_color.a != 255){
         SDL_SetTextureBlendMode(m_background_texture, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(m_background_texture, m_background_color.a);
     }
-    screenMutex.lock();
-        m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
-    screenMutex.unlock();
+    m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
     if(m_foreground_color.a != 255){
         SDL_SetTextureBlendMode(m_foreground_texture, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(m_foreground_texture, m_foreground_color.a);
@@ -352,12 +342,10 @@ int Button::update(SDL_Event* event, Screen* screen){
     bool prev_hov = m_hover;
     switch(event->type){
         case SDL_MOUSEMOTION:
-            screenMutex.lock();
-                if(collide(screen->get_mouse_pos()))
-                    m_hover = true;
-                else
-                    m_hover = false;
-            screenMutex.unlock();
+            if(collide(screen->get_mouse_pos()))
+                m_hover = true;
+            else
+                m_hover = false;
 
             if(prev_hov != m_hover)
                 update_layout(screen, m_font);

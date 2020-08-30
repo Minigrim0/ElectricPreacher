@@ -9,8 +9,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../includes/map_manager.h"
-#include "../includes/map_element.h"
+#include "../includes/map_manager.hpp"
+#include "../includes/map_element.hpp"
 
 //Constructors
 MapManager::MapManager()

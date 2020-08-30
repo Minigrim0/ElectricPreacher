@@ -7,8 +7,8 @@
 */
 
 #include <SDL2/SDL.h>
-#include "../includes/chunk.h"
-#include "../includes/image_set.h"
+#include "../includes/chunk.hpp"
+#include "../includes/image_set.hpp"
 
 //Constructors
 Chunk::Chunk()

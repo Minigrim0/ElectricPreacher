@@ -12,8 +12,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "constants.h"
-#include "chunk.h"
+#include "constants.hpp"
+#include "chunk.hpp"
 
 /**
     class : MapManager

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "screen.h"
+#include "screen.hpp"
 
 class MapElement{
     public:

@@ -1,20 +1,19 @@
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
 #include <iostream>
-#include <thread>
 #include <mutex>
 #include <map>
 #include <SDL2/SDL.h>
 #include <filesystem>
 
-#include "includes/constants.h"
-#include "includes/notification_center.h"
-#include "includes/screen.h"
-#include "includes/image_set.h"
-#include "includes/map_manager.h"
-#include "includes/widgets.h"
-#include "includes/console.h"
-#include "includes/window.h"
-
-std::mutex screenMutex;
+#include "includes/constants.hpp"
+#include "includes/notification_center.hpp"
+#include "includes/screen.hpp"
+#include "includes/image_set.hpp"
+#include "includes/map_manager.hpp"
+#include "includes/widgets.hpp"
+#include "includes/console.hpp"
+#include "includes/window.hpp"
 
 int main(){
 	Screen screen;
@@ -39,10 +38,7 @@ int main(){
 
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
-    // Starting the notification center thread
-    NotificationCenter notification_center(&screen);
-    notification_center.set_running(true);
-    std::thread notification_thread(&NotificationCenter::run, &notification_center, &screen);
+    NotificationCenter notification_center(&screen, "Roboto_16");
 
     std::string UI_path = static_cast<std::string>(std::filesystem::current_path()) + "/assets/UI/";
     const std::filesystem::path pathToShow{ UI_path };
@@ -59,22 +55,23 @@ int main(){
         }
     }
 
-	while(screen.is_running()){
+    while(screen.is_running()){
 
-		windows[current_window].draw(&screen);
+        windows[current_window].draw(&screen);
+        notification_center.draw(&screen);
 
-	    while(SDL_PollEvent(event_handler) != 0){
-			screen.handle_events(event_handler);
-			windows[current_window].update(event_handler, &screen, &current_window);
-		}
+        while(SDL_PollEvent(event_handler) != 0){
+            screen.handle_events(event_handler);
+            windows[current_window].update(event_handler, &screen, &current_window);
+            notification_center.update(event_handler, &screen);
+            if(event_handler->type == SDL_KEYUP){
+                notification_center.create_notification("Keyup !", &screen, "Roboto_16", 2500);
+            }
+        }
+        notification_center.update(nullptr, &screen);
 
-        screenMutex.lock();
-		screen.update_screen();
-        screenMutex.unlock();
+        screen.update_screen();
     }
 
-    notification_center.set_running(false);
-    notification_thread.join();
-
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

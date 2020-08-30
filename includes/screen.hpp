@@ -62,10 +62,6 @@ class Screen{
         SDL_Surface* render_text_blend(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
         SDL_Surface* render_text_solid(std::string);
         SDL_Surface* render_text_solid(std::string, TTF_Font*, SDL_Color color={255, 255, 255, 255});
-        int blit(SDL_Texture*, const SDL_Rect*, int, int);
-        int blit(SDL_Texture*, const SDL_Rect*, int, int, int);
-        int blit(SDL_Texture*, const SDL_Rect*, int, int, int, int);
-        int blit(SDL_Texture*, const SDL_Rect*, SDL_Rect);
 
         void handle_events(SDL_Event*);
         void update_screen();
@@ -99,6 +95,7 @@ class Screen{
         std::map<std::string, TTF_Font*> m_fonts;
 
         SDL_Rect m_mouse_pos;
+        SDL_Rect m_fps_pos;
 };
 
 #endif

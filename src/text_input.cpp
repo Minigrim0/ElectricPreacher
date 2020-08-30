@@ -1,8 +1,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "../includes/text_input.h"
-#include "../includes/constants.h"
+#include "../includes/text_input.hpp"
+#include "../includes/constants.hpp"
 
 TextInput::TextInput()
 :m_tex(nullptr),
@@ -76,9 +76,7 @@ void TextInput::set_font(TTF_Font* font){
 
 // Others
 int TextInput::draw(Screen* screen){
-    screenMutex.lock();
-        int result = screen->blit(m_tex, NULL, m_rect);
-    screenMutex.unlock();
+    int result = SDL_RenderCopy(screen->get_renderer(), m_tex, NULL, &m_rect);
     return result;
 }
 
@@ -136,10 +134,8 @@ void TextInput::update_image(Screen* screen){
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
     SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
 
-    screenMutex.lock();
-        SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
-        m_tex = screen->convert_surface_to_texure(tmp_image);
-    screenMutex.unlock();
+    SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
+    m_tex = screen->convert_surface_to_texure(tmp_image);
     
     SDL_FreeSurface(tmp_image);
 }

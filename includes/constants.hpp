@@ -2,7 +2,6 @@
     #define constants_h
 
 #include <iostream>
-#include <mutex>
 
 //Map
 #define CHUNK_SIZE 20
@@ -25,15 +24,16 @@ enum Directions
 };
 
 //SceneryElement
-#define TYPE_SIGN  1
-#define TYPE_LEVER 2
-#define TYPE_TABLE 3
-#define TYPE_ITEM  4
+enum ElementType
+{
+    TYPE_SIGN,
+    TYPE_LEVER,
+    TYPE_TABLE,
+    TYPE_ITEM,
+};
 
 #define VERSION 0
 #define SUBVERSION 1
 #define SUBSUBVERSION 1
-
-extern std::mutex screenMutex;
 
 #endif

@@ -15,8 +15,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "screen.h"
-#include "widgets.h"
+#include "screen.hpp"
+#include "widgets.hpp"
 
 class TextInput: public Widget{
     public:

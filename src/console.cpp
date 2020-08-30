@@ -1,5 +1,5 @@
-#include "../includes/constants.h"
-#include "../includes/console.h"
+#include "../includes/constants.hpp"
+#include "../includes/console.hpp"
 
 Console::Console()
 :m_rect({0, 0, 0, 0}),
@@ -134,7 +134,7 @@ void Console::init(Screen* screen){
 }
 
 int Console::draw(Screen* screen){
-    screen->blit(m_background_texture, nullptr, m_rect);
+    SDL_RenderCopy(screen->get_renderer(), m_background_texture, nullptr, &m_rect);
 
     int start = m_history.size()>static_cast<long unsigned int>(m_nb_visible_lines)?static_cast<int>(m_history.size())-m_nb_visible_lines:0;
     for(int x=start;x<static_cast<int>(m_history.size());x++){

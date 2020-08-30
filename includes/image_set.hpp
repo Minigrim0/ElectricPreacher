@@ -14,7 +14,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-#include "screen.h"
+#include "screen.hpp"
 
 class ImageSet{
     public:

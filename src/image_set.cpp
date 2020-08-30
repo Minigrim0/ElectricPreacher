@@ -9,9 +9,9 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../includes/image_set.h"
-#include "../includes/screen.h"
-#include "../includes/constants.h"
+#include "../includes/image_set.hpp"
+#include "../includes/screen.hpp"
+#include "../includes/constants.hpp"
 
 //Constructors
 ImageSet::ImageSet()
@@ -51,7 +51,8 @@ const SDL_Rect* ImageSet::get_sub(int x, int y) const{
 }
 
 int ImageSet::blit_sub(Screen* sc, int img_x, int img_y, int pos_x, int pos_y) const{
-    sc->blit(m_tex, get_sub(img_x, img_y), pos_x, pos_y);
+    SDL_Rect pos = {pos_x, pos_y, 0, 0};
+    SDL_RenderCopy(sc->get_renderer(), m_tex, get_sub(img_x, img_y), &pos);
 
     return 0;
 }
@@ -66,9 +67,7 @@ int ImageSet::get_height() const{
 
 //Setters
 void ImageSet::set_image(Screen* screen, std::string image){
-    screenMutex.lock();
-	    m_tex = screen->load_texture(image.c_str());
-    screenMutex.unlock();
+    m_tex = screen->load_texture(image.c_str());
     SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
 
     if(m_tex == NULL || m_width%32 != 0 || m_height%32 != 0)

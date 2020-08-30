@@ -6,8 +6,8 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/json/json.h"
-#include "button.h"
-#include "screen.h"
+#include "button.hpp"
+#include "screen.hpp"
 
 class Window{
     public:
