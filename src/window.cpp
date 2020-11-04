@@ -105,22 +105,18 @@ int Window::add_button(Screen* screen, Json::Value buttons){
         );
 
         //Set text-position, via text or absolute coordinates
-        if(buttons[index]["text_position_type"].asString() == "txt")
+        if(buttons[index]["text_position_type"].asString() == "txt"){
             m_buttons.back()->set_text_pos(
                 buttons[index]["text-position"].asString()
             );
-        else
+        } else{
             m_buttons.back()->set_text_pos(
                 buttons[index]["text-position_x"].asInt(),
                 buttons[index]["text-position_y"].asInt()
             );
+        }
 
-        if(buttons[index]["linksto"].asString() != "null"){
-            m_buttons.back()->set_action_type(ACTION_SWITCH_WINDOW, buttons[index]["linksto"].asString());
-        }
-        else{
-            m_buttons.back()->set_action_type(ACTION_QUIT_PROGRAM);
-        }
+            m_buttons.back()->set_action_type(buttons[index]["action_type"].asString(), buttons[index]["action_operand"].asString());
 
         //Finally update the button image
         m_buttons.back()->update_layout(
@@ -132,21 +128,19 @@ int Window::add_button(Screen* screen, Json::Value buttons){
 }
 
 // Updates the window
-void Window::update(SDL_Event* event, Screen* screen, std::string *current_window){
+void Window::update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action){
     for(unsigned i = 0; i < m_buttons.size(); i++){
         m_buttons[i]->update(event, screen);
-        int mouseX, mouseY;
         if(event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT){
+            int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
             if(m_buttons[i]->collide(mouseX, mouseY)){
-                switch(m_buttons[i]->get_action_type()){
-                    case ACTION_SWITCH_WINDOW:
-                        *current_window = m_buttons[i]->get_action_operand();
-                        break;
-                    case ACTION_QUIT_PROGRAM:
-                        screen->set_running(false);
+                *action = m_buttons[i]->get_action_type();
+                if(*action == "switch_window"){
+                    *current_window = m_buttons[i]->get_action_operand();
+                } else if(*action == "quit_game"){
+                    screen->set_running(false);
                 }
-                
             }
         }
     }

@@ -24,11 +24,12 @@
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "Main",
+            "action_type": "switch_window",
+            "action_operand": "Main",
             "font_id": "Roboto_25"
         },
         {
-            "name": "Name",
+            "name": "Start",
             "text-color": {
                 "r": 150,
                 "g": 150,
@@ -51,7 +52,8 @@
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "load_game_window",
+            "action_type": "start_new_game",
+            "action_operand": "none",
             "font_id": "Roboto_25"
         },
         {
@@ -78,7 +80,8 @@
             "font_size": 2,
             "text_position_type": "txt",
             "text-position": "MID_CENTER",
-            "linksto": "null",
+            "action_type": "quit_game",
+            "action_operand": "null",
             "font_id": "Roboto_25"
         }
     ],
