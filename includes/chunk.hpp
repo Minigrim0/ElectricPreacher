@@ -26,20 +26,16 @@ class Chunk{
 
         //Getters
         SDL_Rect get_position() const;
-        ImageSet* get_image_set() const;
 
         //Setters
         void set_position(int, int);
         void set_position(SDL_Rect);
-        void set_image_set(ImageSet*);
-        void set_image_set(std::string);
 
         //Others
 
 
     private:
-        ImageSet* m_image_set;
-        SDL_Rect* m_position;
+        SDL_Rect* m_absolute_coordinates;
 
         MapElement*** m_layer1;
         MapElement*** m_layer2;

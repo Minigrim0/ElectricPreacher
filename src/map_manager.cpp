@@ -6,6 +6,8 @@
     @version : 1.0
 */
 
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -14,27 +16,24 @@
 
 //Constructors
 MapManager::MapManager()
-:m_position(nullptr),
-m_chunk(new Chunk)
+:m_position(new SDL_Rect),
+m_chunk()
 {}
 
 MapManager::MapManager(int x, int y)
-:m_position(nullptr),
-m_chunk(new Chunk)
+:MapManager()
 {
     set_position(x, y);
 }
 
 MapManager::MapManager(SDL_Rect position)
-:m_position(nullptr),
-m_chunk(new Chunk)
+:MapManager()
 {
     set_position(position);
 }
 
 MapManager::~MapManager(){
     delete m_position;
-    delete m_chunk;
 }
 
 //Override
@@ -57,4 +56,26 @@ void MapManager::set_position(SDL_Rect pos){
 void MapManager::set_position(int x, int y){
     m_position->x = x;
     m_position->y = y;
+}
+
+void MapManager::init(Screen* screen){
+    m_default_missing = screen->load_texture("assets/images/MISSING.png");
+
+    SDL_QueryTexture(m_default_missing, NULL, NULL, &(m_position->w), &(m_position->h));
+}
+
+int MapManager::load_map(std::string path){
+    for(int x=0;x<9;x++){
+        Chunk* newChunk = new Chunk();
+        newChunk->set_position(x % 3 * CHUNK_SIZE, x / 3 * CHUNK_SIZE);
+        m_chunk.push_back(newChunk);
+    }
+
+    return 0;
+}
+
+int MapManager::render(Screen *screen, SDL_Rect position){
+    SDL_RenderCopy(screen->get_renderer(), m_default_missing, nullptr, m_position);
+
+    return 0;
 }

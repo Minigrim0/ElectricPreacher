@@ -9,8 +9,10 @@
     @version : 1.0
 */
 
+#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <vector>
 
 #include "constants.hpp"
 #include "chunk.hpp"
@@ -39,11 +41,14 @@ class MapManager{
         void set_position(int, int);
 
         //Others
+        void init(Screen* screen);
         int load_map(std::string path);
+        int render(Screen *screen, SDL_Rect position);
 
     private:
+        SDL_Texture* m_default_missing;
         SDL_Rect* m_position;
-        Chunk* m_chunk;
+        std::vector<Chunk*> m_chunk;
 };
 
 #endif

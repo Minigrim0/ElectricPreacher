@@ -7,6 +7,7 @@
     element of the map (Ground, wall, ...)
 */
 
+#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -15,21 +16,36 @@
 class MapElement{
     public:
         //Constructors
-        virtual ~MapElement();
+        MapElement(bool Solid, std::string type);
+        virtual ~MapElement() = default;
 
         //Getters
-        virtual std::string get_type() const = 0;
-        virtual bool get_accessibility(int) const = 0;
-        virtual SDL_Rect* get_rect() const = 0;
+        std::string get_type() const;
+        bool is_solid() const;
 
         //Setters
-        virtual void set_accessibility(int, bool) = 0;
-        virtual void set_rect(SDL_Rect) = 0;
-        virtual void set_rect(int, int, int, int) = 0;
+        void set_solidity(bool);
+        void set_texture(SDL_Texture *tex);
 
         //Others
-        virtual int draw(Screen*, int, int) = 0;
-        virtual int draw(Screen*, SDL_Rect) = 0;
+        int draw(Screen*, int, int);
+        int draw(Screen*, SDL_Rect);
+
+        virtual void interact() = 0;
+
+    private:
+        bool m_is_solid;
+        SDL_Texture* m_texture;
+        std::string m_type;
+};
+
+class GroundElement: public MapElement{
+    public:
+        GroundElement();
+        ~GroundElement() = default;
+
+    private:
+
 };
 
 #endif
