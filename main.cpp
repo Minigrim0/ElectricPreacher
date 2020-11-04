@@ -14,6 +14,8 @@
 #include "includes/widgets.hpp"
 #include "includes/console.hpp"
 #include "includes/window.hpp"
+#include "includes/game.hpp"
+
 
 int main(){
 	Screen screen;
@@ -46,11 +48,9 @@ int main(){
     for (const auto& entry : std::filesystem::directory_iterator(pathToShow)) {
         const auto filenameStr = entry.path().filename().string();
         if(entry.is_regular_file()){
-            std::cout << "Found window " << filenameStr << std::endl;
             Window tmp_window;
             tmp_window.createfrom(&screen, static_cast<std::string>(pathToShow) + static_cast<std::string>(filenameStr));
 
-            std::cout << "Saving window as " << tmp_window.get_title() << std::endl;
             windows[tmp_window.get_title()] = tmp_window;
         }
     }
@@ -62,7 +62,15 @@ int main(){
 
         while(SDL_PollEvent(event_handler) != 0){
             screen.handle_events(event_handler);
-            windows[current_window].update(event_handler, &screen, &current_window);
+            
+            std::string action = "";
+            windows[current_window].update(event_handler, &screen, &current_window, &action);
+            if(action == "start_new_game"){
+                Game* game = new Game(&screen, &notification_center, event_handler);
+                game->init(&screen);
+                game->run();
+            }
+
             notification_center.update(event_handler, &screen);
             if(event_handler->type == SDL_KEYUP){
                 notification_center.create_notification("Keyup !", &screen, "Roboto_16", 2500);
