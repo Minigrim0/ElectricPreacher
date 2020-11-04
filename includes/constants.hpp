@@ -10,10 +10,6 @@
 #define SCREEN_X 1920
 #define SCREEN_Y 1080
 
-//ACTION TYPE
-#define ACTION_SWITCH_WINDOW 0
-#define ACTION_QUIT_PROGRAM 1
-
 //Directions
 enum Directions
 {
