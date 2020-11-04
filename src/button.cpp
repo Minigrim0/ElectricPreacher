@@ -9,7 +9,7 @@ m_text_rect(new SDL_Rect),
 m_absolute_text_position(new SDL_Rect),
 m_text_offset(new SDL_Rect),
 m_text_position(4),
-m_action_type(0),
+m_action_type(""),
 m_action_operand(""),
 m_hover(false),
 m_background_color({0, 0, 0, 0}),
@@ -115,7 +115,7 @@ std::string Button::get_action_operand() const{
     return m_action_operand;
 }
 
-int Button::get_action_type() const{
+std::string Button::get_action_type() const{
     return m_action_type;
 }
 
@@ -216,7 +216,7 @@ void Button::set_text(std::string text){
     m_text = text;
 }
 
-void Button::set_action_type(int action_type, std::string action_operand){
+void Button::set_action_type(std::string action_type, std::string action_operand){
     m_action_type = action_type;
     m_action_operand = action_operand;
 }

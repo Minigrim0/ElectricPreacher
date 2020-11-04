@@ -28,8 +28,8 @@ class Button: public Widget{
         SDL_Color get_contour_color() const;
         SDL_Rect get_text_position(SDL_Surface*) const;
         std::string get_text() const;
+        std::string get_action_type() const;
         std::string get_action_operand() const;
-        int get_action_type() const;
 
         //Setters
         void set_rect(SDL_Rect rect);
@@ -44,7 +44,7 @@ class Button: public Widget{
         void set_size(SDL_Rect size);
         void set_size(int w, int h);
         void set_text(std::string text);
-        void set_action_type(int action_type, std::string action_operand="");
+        void set_action_type(std::string action_type, std::string action_operand="");
 
         void move(int, int);
         void set_text_offset(int, int);
@@ -65,7 +65,7 @@ class Button: public Widget{
         SDL_Rect* m_absolute_text_position;
         SDL_Rect* m_text_offset;
         int m_text_position;
-        int m_action_type;
+        std::string m_action_type;
         std::string m_action_operand;
         bool m_hover;
 
