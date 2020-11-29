@@ -1,5 +1,5 @@
 #ifndef player_hpp
-    #define plyaer_hpp
+    #define player_hpp
 
 #include "SDL2/SDL.h"
 

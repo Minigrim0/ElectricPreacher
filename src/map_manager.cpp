@@ -62,6 +62,10 @@ void MapManager::init(Screen* screen){
     m_default_missing = screen->load_texture("assets/images/MISSING.png");
 
     SDL_QueryTexture(m_default_missing, NULL, NULL, &(m_position->w), &(m_position->h));
+
+    for(int x=0;x<9;x++){
+        m_chunk[x]->init(screen);
+    }
 }
 
 int MapManager::load_map(std::string path){
@@ -75,7 +79,14 @@ int MapManager::load_map(std::string path){
 }
 
 int MapManager::render(Screen *screen, SDL_Rect position){
-    SDL_RenderCopy(screen->get_renderer(), m_default_missing, nullptr, m_position);
+    SDL_Rect initial_position = position;
+    for(int x=0;x<3;x++){
+        position.x = initial_position.x + x*32*CHUNK_SIZE;
+        for(int y=0;y<3;y++){
+            position.y = initial_position.y + y*32*CHUNK_SIZE;
+            m_chunk[x]->render(screen, position);
+        }
+    }
 
     return 0;
 }

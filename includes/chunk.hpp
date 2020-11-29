@@ -32,10 +32,13 @@ class Chunk{
         void set_position(SDL_Rect);
 
         //Others
-
+        void init(Screen* screen);
+        void render(Screen* screen, SDL_Rect position);
 
     private:
         SDL_Rect* m_absolute_coordinates;
+
+        SDL_Texture* m_default_missing;
 
         MapElement*** m_layer1;
         MapElement*** m_layer2;

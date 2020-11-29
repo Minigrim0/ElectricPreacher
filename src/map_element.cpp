@@ -26,9 +26,23 @@ void MapElement::set_texture(SDL_Texture *tex){
 
 int MapElement::draw(Screen* screen, int x, int y){
     SDL_Rect position = {x, y, 0, 0};
-    SDL_RenderCopy(screen->get_renderer(), m_texture, NULL, &position);
+    SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
+    //SDL_RenderCopy(screen->get_renderer(), m_texture, NULL, &position);
+
+    return 0;
+}
+
+int MapElement::draw(Screen* screen, SDL_Rect position){
+    SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
+    //SDL_RenderCopy(screen->get_renderer(), m_texture, NULL, &position);
+
+    return 0;
 }
 
 GroundElement::GroundElement()
 :MapElement(false, "ground")
 {}
+
+void GroundElement::interact(Player* player){
+    std::cout << "interacting with player" << std::endl;
+}
