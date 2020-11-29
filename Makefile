@@ -14,7 +14,7 @@ all: pre $(EXECUTABLE)
 pre:
 	@echo -e "\e[0;32m============== Compiling  =============\e[0m"
 
-$(EXECUTABLE): main.cpp $(OBJECTS)
+$(EXECUTABLE): main.cpp $(OBJECTS) $(HEADER)
 	@echo -e "\e[1;32mcompiling : $^ -> $@\e[0m"
 	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
 
