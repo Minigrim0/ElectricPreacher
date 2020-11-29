@@ -2,3 +2,4 @@ ElectricPreacher
 *.o
 *.zip
 *.gch
+.vscode
