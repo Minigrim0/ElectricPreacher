@@ -79,7 +79,7 @@ int MapManager::load_map(std::string path){
 }
 
 int MapManager::render(Screen *screen, SDL_Rect position){
-    SDL_Rect initial_position = position;
+    SDL_Rect initial_position = {position.x - SCREEN_X/2, position.y - SCREEN_Y/2, 0, 0};
     for(int x=0;x<3;x++){
         position.x = initial_position.x + x*32*CHUNK_SIZE;
         for(int y=0;y<3;y++){

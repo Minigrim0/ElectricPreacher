@@ -14,19 +14,23 @@ Game::~Game(){}
 void Game::init(Screen* screen){
     m_screen = screen;
     m_map_manager->load_map("non");
-    m_map_manager->set_position(200, 200);
+    m_map_manager->set_position(0, 0);
     m_map_manager->init(screen);
+    m_player->init(screen);
+    m_player->set_position(100, 100);
 }
 
 void Game::run(){
     m_in_game = true;
 
     while(m_in_game){
-        m_map_manager->render(m_screen, m_player->get_position());
+        m_map_manager->render(m_screen, {0, 0, 0, 0}); // m_player->get_position());
+        m_player->draw(m_screen);
         m_notification_center->draw(m_screen);
 
         while(SDL_PollEvent(m_event_handler) != 0){
             m_screen->handle_events(m_event_handler);
+            m_player->update(m_event_handler);
             // Do updates
 
             m_notification_center->update(m_event_handler, m_screen);

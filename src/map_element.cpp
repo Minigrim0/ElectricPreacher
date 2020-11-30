@@ -20,23 +20,20 @@ void MapElement::set_solidity(bool Solid){
     m_is_solid = Solid;
 }
 
-void MapElement::set_texture(SDL_Texture *tex){
+void MapElement::set_texture(SDL_Texture *tex, int w, int h){
+    m_texture_size = {0, 0, w, h};
     m_texture = tex;
 }
 
 int MapElement::draw(Screen* screen, int x, int y){
-    SDL_Rect position = {x, y, 0, 0};
-    SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
-    //SDL_RenderCopy(screen->get_renderer(), m_texture, NULL, &position);
-
-    return 0;
+    SDL_Rect position = {x, y, m_texture_size.w, m_texture_size.h};
+    return SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
 }
 
 int MapElement::draw(Screen* screen, SDL_Rect position){
-    SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
-    //SDL_RenderCopy(screen->get_renderer(), m_texture, NULL, &position);
-
-    return 0;
+    position.w = m_texture_size.w;
+    position.h = m_texture_size.h;
+    return SDL_RenderCopy(screen->get_renderer(), m_texture, nullptr, &position);
 }
 
 GroundElement::GroundElement()
