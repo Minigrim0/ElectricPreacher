@@ -243,14 +243,25 @@ void Button::resize(int off_w, int off_h){
 }
 
 //Others
-
+/**
+ * @brief Draws the button on the screen
+ * 
+ * @param screen The screen on which to draw
+ * @return int 0 on success, -1 on error
+ */
 int Button::draw(Screen* screen){
     SDL_RenderCopy(screen->get_renderer(), m_background_texture, NULL, m_rect);
     SDL_RenderCopy(screen->get_renderer(), m_foreground_texture, NULL, m_text_rect);
     return 0;
 }
 
-
+/**
+ * @brief Updates the layout of a button
+ * 
+ * @param screen 
+ * @param font 
+ * @return int 
+ */
 int Button::update_layout(Screen* screen, TTF_Font* font){
     m_font = font;
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);

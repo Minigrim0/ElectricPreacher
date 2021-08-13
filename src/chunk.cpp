@@ -1,10 +1,10 @@
 /**
-    name : chunk.cpp
-    purpose : Contains the source code for the chunk class
-
-    @author : minigrim0
-    @version : 1.0
-*/
+  * name : chunk.cpp
+  * purpose : Contains the source code for the chunk class
+  *
+  * @author : minigrim0
+  * @version : 1.0
+  */
 
 #include <SDL2/SDL.h>
 #include <initializer_list>
