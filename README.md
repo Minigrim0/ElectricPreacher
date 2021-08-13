@@ -1,6 +1,8 @@
 # ElectricPreacher
 
-## Deps
+A c++ written open-source role-play game
+
+## Dependencies
 
 ### SDL2
 
