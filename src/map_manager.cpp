@@ -6,10 +6,13 @@
     @version : 1.0
 */
 
+#include <iostream>
+#include <fstream>
+
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
-#include <iostream>
 #include <SDL2/SDL.h>
+#include "../includes/json/json.h"
 
 #include "../includes/map_manager.hpp"
 #include "../includes/map_element.hpp"
@@ -69,6 +72,24 @@ void MapManager::init(Screen* screen){
 }
 
 int MapManager::load_map(std::string path){
+    std::ifstream json_in(path.c_str());
+    Json::Value root;
+    json_in >> root;
+
+    const Json::Value layers = root["layers"];
+    // screen->add_font(root["font_path"].asString(), root["font_size"].asInt(), root["font_id"].asString());
+
+    // Setup Buttons
+    // const Json::Value buttons = root["Buttons"];
+    // this->add_button(screen, buttons);
+
+    // Setup title
+    // const Json::Value title = root["Title"];
+    // this->set_title(screen, title);
+
+    json_in.close();
+    // return 0;
+
     for(int x=0;x<9;x++){
         Chunk* newChunk = new Chunk();
         newChunk->set_position(x % 3 * CHUNK_SIZE, x / 3 * CHUNK_SIZE);
