@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/json/json.h"
+
 #include "../includes/window.hpp"
 #include "../includes/button.hpp"
 #include "../includes/screen.hpp"
