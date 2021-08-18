@@ -17,6 +17,26 @@ sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dev
 sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
 ```
 
+# Windows compilation
+
+Using MSYS2 :
+
+```bash
+# Install required packages
+pacman -Syu
+pacman -S mingw-w64-x86_64-toolchain
+pacman -S make
+pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
+
+#external lib
+pacman -S mingw-w64-x86_64-nlohmann-json
+
+# Build the executable
+make all
+```
+
 ### JsonCpp
 
-This project uses [this library](https://github.com/open-source-parsers/jsoncpp) to read and write json files.
+This project uses the [JSON for Modern C++](https://github.com/nlohmann/json) library to read and write json files
+
+`Lohmann, N. JSON for Modern C++ (Version 3.10.0) [Computer software]. https://github.com/nlohmann`
