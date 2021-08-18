@@ -99,6 +99,11 @@ int MapManager::load_map(std::string path){
     return 0;
 }
 
+int add_layers(json::Value layers){
+
+    return 0;
+}
+
 int MapManager::render(Screen *screen, SDL_Rect position){
     SDL_Rect initial_position = {position.x - SCREEN_X/2, position.y - SCREEN_Y/2, 0, 0};
     for(int x=0;x<3;x++){

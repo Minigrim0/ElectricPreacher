@@ -9,10 +9,12 @@
     @version : 1.0
 */
 
-#include <SDL2/SDL_render.h>
 #include <iostream>
-#include <SDL2/SDL.h>
 #include <vector>
+
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL.h>
+#include "../includes/json/json.h"
 
 #include "constants.hpp"
 #include "chunk.hpp"
@@ -43,6 +45,7 @@ class MapManager{
         //Others
         void init(Screen* screen);
         int load_map(std::string path);
+        int add_layers(json::Value layers);
         int render(Screen *screen, SDL_Rect position);
 
     private:
