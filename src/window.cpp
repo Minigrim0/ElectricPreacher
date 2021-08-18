@@ -3,13 +3,12 @@
 #include <fstream>
 #include <SDL2/SDL.h>
 
-#include "../includes/json/json.h"
+#include "../includes/nlohmann/json.hpp"
 
 #include "../includes/window.hpp"
 #include "../includes/button.hpp"
 #include "../includes/screen.hpp"
 #include "../includes/constants.hpp"
-
 
 Window::Window(){}
 
@@ -31,37 +30,37 @@ void Window::set_running(bool running){
 }
 
 // Create a button that holds the title
-void Window::set_title(Screen* screen, Json::Value title){
+void Window::set_title(Screen* screen, nlohmann::json title){
     m_title = new Button;
-    m_title->set_text(title["text"].asString());
+    m_title->set_text(title["text"]);
     m_title->set_position(0, 0);
 	
     m_title->set_size(screen->get_width(), screen->get_height());
 
     m_title->set_text_color(
-        title["text-color"]["r"].asInt(),
-        title["text-color"]["g"].asInt(),
-        title["text-color"]["b"].asInt()
+        title["text-color"]["r"],
+        title["text-color"]["g"],
+        title["text-color"]["b"]
     );
     m_title->set_background_color(0, 0, 0, 0);
-    if(title["text_position_type"].asString() == "txt")
+    if(title["text_position_type"] == "txt")
         m_title->set_text_pos(
-            title["text-position"].asString()
+            title["text-position"]
         );
     else
         m_title->set_text_pos(
-            title["text-position_x"].asInt(),
-            title["text-position_y"].asInt()
+            title["text-position_x"],
+            title["text-position_y"]
         );
 
-    int off_x = title["offset"][0].asInt();
-    int off_y = title["offset"][1].asInt();
+    int off_x = title["offset"][0];
+    int off_y = title["offset"][1];
 
     m_title->set_text_offset(off_x, off_y);
 
     m_title->update_layout(
         screen,
-        screen->get_font(title["font_id"].asString())
+        screen->get_font(title["font_id"])
     );
 }
 
@@ -71,58 +70,58 @@ void Window::add_button(Button* newButton){
 }
 
 // Add a button from a parsed json object
-int Window::add_button(Screen* screen, Json::Value buttons){
+int Window::add_button(Screen* screen, nlohmann::json buttons){
     for (unsigned int index=0;index<buttons.size();++index){
         m_buttons.push_back(new Button);
 
-        m_buttons.back()->set_text(buttons[index]["name"].asString());
+        m_buttons.back()->set_text(buttons[index]["name"]);
 
         m_buttons.back()->set_position(
-            buttons[index]["position_x"].asInt(),
-            buttons[index]["position_y"].asInt()
+            buttons[index]["position_x"],
+            buttons[index]["position_y"]
         );
 
         m_buttons.back()->set_size(
-            buttons[index]["size_x"].asInt(),
-            buttons[index]["size_y"].asInt()
+            buttons[index]["size_x"],
+            buttons[index]["size_y"]
         );
 
         m_buttons.back()->set_text_color(
-            buttons[index]["text-color"]["r"].asInt(),
-            buttons[index]["text-color"]["g"].asInt(),
-            buttons[index]["text-color"]["b"].asInt()
+            buttons[index]["text-color"]["r"],
+            buttons[index]["text-color"]["g"],
+            buttons[index]["text-color"]["b"]
         );
 
         m_buttons.back()->set_background_color(
-            buttons[index]["background-color"]["r"].asInt(),
-            buttons[index]["background-color"]["g"].asInt(),
-            buttons[index]["background-color"]["b"].asInt()
+            buttons[index]["background-color"]["r"],
+            buttons[index]["background-color"]["g"],
+            buttons[index]["background-color"]["b"]
         );
 
         m_buttons.back()->set_contour_color(
-            buttons[index]["contour-color"]["r"].asInt(),
-            buttons[index]["contour-color"]["g"].asInt(),
-            buttons[index]["contour-color"]["b"].asInt()
+            buttons[index]["contour-color"]["r"],
+            buttons[index]["contour-color"]["g"],
+            buttons[index]["contour-color"]["b"]
         );
 
         //Set text-position, via text or absolute coordinates
-        if(buttons[index]["text_position_type"].asString() == "txt"){
+        if(buttons[index]["text_position_type"] == "txt"){
             m_buttons.back()->set_text_pos(
-                buttons[index]["text-position"].asString()
+                buttons[index]["text-position"]
             );
         } else{
             m_buttons.back()->set_text_pos(
-                buttons[index]["text-position_x"].asInt(),
-                buttons[index]["text-position_y"].asInt()
+                buttons[index]["text-position_x"],
+                buttons[index]["text-position_y"]
             );
         }
 
-            m_buttons.back()->set_action_type(buttons[index]["action_type"].asString(), buttons[index]["action_operand"].asString());
+            m_buttons.back()->set_action_type(buttons[index]["action_type"], buttons[index]["action_operand"]);
 
         //Finally update the button image
         m_buttons.back()->update_layout(
             screen,
-            screen->get_font(buttons[index]["font_id"].asString())
+            screen->get_font(buttons[index]["font_id"])
         );
     }
     return 0;
@@ -158,19 +157,19 @@ void Window::draw(Screen* screen){
 // Create the window from a json file
 int Window::createfrom(Screen* screen, std::string JSONsource){
     std::ifstream json_in(JSONsource.c_str());
-    Json::Value root;
+    nlohmann::json root;
     json_in >> root;
 
     // Setup window-wide informations
-    m_window_name = root["window_name"].asString();
-    screen->add_font(root["font_path"].asString(), root["font_size"].asInt(), root["font_id"].asString());
+    m_window_name = root["window_name"];
+    screen->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
     // Setup Buttons
-    const Json::Value buttons = root["Buttons"];
+    const nlohmann::json buttons = root["Buttons"];
     this->add_button(screen, buttons);
 
     // Setup title
-    const Json::Value title = root["Title"];
+    const nlohmann::json title = root["Title"];
     this->set_title(screen, title);
 
     json_in.close();

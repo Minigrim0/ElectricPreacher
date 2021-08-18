@@ -1,11 +1,12 @@
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
 #include <iostream>
 #include <mutex>
 #include <map>
-#include <SDL2/SDL.h>
-#include <filesystem>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
+
+#include "includes/build_windows.hpp"
 #include "includes/constants.hpp"
 #include "includes/notification_center.hpp"
 #include "includes/screen.hpp"
@@ -16,8 +17,7 @@
 #include "includes/window.hpp"
 #include "includes/game.hpp"
 
-
-int main(){
+int main(int argc, char *argv[]){
 	Screen screen;
     std::string current_window = "Main";
 
@@ -41,19 +41,7 @@ int main(){
 	if(screen.build_window() != 0) return EXIT_FAILURE;
 
     NotificationCenter notification_center(&screen, "Roboto_16");
-
-    std::string UI_path = static_cast<std::string>(std::filesystem::current_path()) + "/assets/UI/";
-    const std::filesystem::path pathToShow{ UI_path };
-
-    for (const auto& entry : std::filesystem::directory_iterator(pathToShow)) {
-        const auto filenameStr = entry.path().filename().string();
-        if(entry.is_regular_file()){
-            Window tmp_window;
-            tmp_window.createfrom(&screen, static_cast<std::string>(pathToShow) + static_cast<std::string>(filenameStr));
-
-            windows[tmp_window.get_title()] = tmp_window;
-        }
-    }
+    build_windows(&screen, &windows);
 
     while(screen.is_running()){
 

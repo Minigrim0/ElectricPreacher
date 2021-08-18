@@ -5,7 +5,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-#include "../includes/json/json.h"
+#include "../includes/nlohmann/json.hpp"
 #include "button.hpp"
 #include "screen.hpp"
 
@@ -20,12 +20,12 @@ class Window{
 
         //Setters
         void set_running(bool);
-        void set_title(Screen* screen, Json::Value title);
+        void set_title(Screen* screen, nlohmann::json title);
         int set_font(std::string path);
 
         //Others
         void add_button(Button* newButton);
-        int add_button(Screen* screen, Json::Value buttons);
+        int add_button(Screen* screen, nlohmann::json buttons);
         void update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action);
         void draw(Screen*);
         int createfrom(Screen* screen, std::string JSONsource);

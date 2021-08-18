@@ -14,7 +14,7 @@
 
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL.h>
-#include "../includes/json/json.h"
+#include "../includes/nlohmann/json.hpp"
 
 #include "constants.hpp"
 #include "chunk.hpp"
@@ -45,7 +45,7 @@ class MapManager{
         //Others
         void init(Screen* screen);
         int load_map(std::string path);
-        int add_layers(json::Value layers);
+        int add_layers(nlohmann::json layers);
         int render(Screen *screen, SDL_Rect position);
 
     private:
