@@ -2,6 +2,9 @@
 
 A c++ written open-source role-play game
 
+![Linux Build](https://github.com/Minigrim0/ElectricPreacher/actions/workflows/linux_build.yml/badge.svg) 
+![Windows Build](https://github.com/Minigrim0/ElectricPreacher/actions/workflows/windows_build.yml/badge.svg)
+
 ## Dependencies
 
 ### SDL2
