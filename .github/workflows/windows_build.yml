@@ -39,5 +39,5 @@ jobs:
           mingw-w64-${{matrix.env}}-SDL2_mixer
           mingw-w64-${{matrix.env}}-nlohmann-json
 
-      - name: make
-        run: make
+    - name: make
+      run: make
