@@ -20,8 +20,14 @@ jobs:
             git
 
       - uses: actions/checkout@v2
-      - name: install libs
-        run: yes | pacman -S mingw-w64-x86_64-toolchain make mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-nlohmann-json
+      - name: install libs 
+      - shell: msys2 {0}
+        run: |
+          yes | pacman -S mingw-w64-x86_64-toolchain
+          yes | make
+          yes | mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
+          yes | mingw-w64-x86_64-nlohmann-json
 
       - name: make
+      - shell: msys2 {0}
         run: make
