@@ -1,4 +1,4 @@
-name: Windows Building
+name: Windows build
 
 on:
   push:
@@ -20,6 +20,7 @@ jobs:
             git
 
       - uses: actions/checkout@v2
+
       - name: install libs 
       - shell: msys2 {0}
         run: |

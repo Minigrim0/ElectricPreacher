@@ -1,4 +1,4 @@
-name: Linux Building test
+name: Linux build
 on:
   push:
     branches: [ master ]
@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: install needed libs
+    - name: install libs
       run: sudo apt update && sudo apt install -y libsdl2-2.0-0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dev libsdl2-mixer-2.0-0 libsdl2-mixer-dev libsdl2-ttf-2.0-0 libsdl2-ttf-dev
 
     - name: make
