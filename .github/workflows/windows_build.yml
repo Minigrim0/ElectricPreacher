@@ -25,7 +25,6 @@ jobs:
         shell: msys2 {0}
         run: |
           pacman -S mingw-w64-x86_64-toolchain --noconfirm
-          yes | pacman -S make
           yes | pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
           yes | pacman -S mingw-w64-x86_64-nlohmann-json
 
