@@ -25,10 +25,10 @@ endif
 
 bin/$(EXECUTABLE): main.cpp $(OBJECTS) $(HEADER)
 	@echo -e "\e[1;32mcompiling final $@\e[0m"
-ifeq ($(os),Windows_NT)
-	$(CXX) $^ $(COMPILER_FLAGS) $(WIN_LINKER_FLAGS) $(LINKER_FLAGS) -o $@
+ifeq ($(OS),Windows_NT)
+	@$(CXX) $^ $(COMPILER_FLAGS) $(WIN_LINKER_FLAGS) $(LINKER_FLAGS) -o $@
 else
-	$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
+	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
 endif
 
 build/%.o: src/%.cpp
