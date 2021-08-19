@@ -40,4 +40,4 @@ jobs:
           mingw-w64-${{matrix.env}}-nlohmann-json
 
     - name: make
-      run: make
+      run: make -j4
