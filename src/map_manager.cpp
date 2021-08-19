@@ -77,19 +77,10 @@ int MapManager::load_map(std::string path){
     nlohmann::json root;
     json_in >> root;
 
-    const nlohmann::json layers = root["layers"];
-    // screen->add_font(root["font_path"].asString(), root["font_size"].asInt(), root["font_id"].asString());
-
-    // Setup Buttons
-    // const nlohmann::json buttons = root["Buttons"];
-    // this->add_button(screen, buttons);
-
-    // Setup title
-    // const nlohmann::json title = root["Title"];
-    // this->set_title(screen, title);
+    nlohmann::json layers = root["layers"];
+    this->add_layers(&layers);
 
     json_in.close();
-    // return 0;
 
     for(int x=0;x<9;x++){
         Chunk* newChunk = new Chunk();
@@ -100,9 +91,9 @@ int MapManager::load_map(std::string path){
     return 0;
 }
 
-int add_layers(nlohmann::json layers){
-    for(int layer_id=0;layer_id<layers.size();layer_id++){
-        std::cout << layers[layer_id]["name"];
+int add_layers(nlohmann::json *layers){
+    for(int layer_id=0;layer_id<layers->size();layer_id++){
+        std::cout << (*layers)[layer_id]["name"];
     }
     return 0;
 }
