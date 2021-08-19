@@ -1,5 +1,6 @@
 COMPILER_FLAGS= -std=c++17 -masm=intel -mlong-double-128 -ggdb3 -Wpedantic -Wall -Wextra -Wconversion -Wsign-conversion -Wstrict-null-sentinel -Wold-style-cast -Wnoexcept -Wctor-dtor-privacy -Woverloaded-virtual -Wsign-promo -Wzero-as-null-pointer-constant -Wsuggest-final-types -Wsuggest-final-methods -Wsuggest-override
-LINKER_FLAGS= -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+WIN_LINKER_FLAGS= -lmingw32 
+LINKER_FLAGS= -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 EXECUTABLE=ElectricPreacher
 CXX=g++ -ggdb
 
@@ -24,7 +25,11 @@ endif
 
 bin/$(EXECUTABLE): main.cpp $(OBJECTS) $(HEADER)
 	@echo -e "\e[1;32mcompiling final $@\e[0m"
+ifeq ($(os),Windows_NT)
+	@$(CXX) $^ $(COMPILER_FLAGS) $(WIN_LINKER_FLAGS) $(LINKER_FLAGS) -o $@
+else
 	@$(CXX) $^ $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $@
+endif
 
 build/%.o: src/%.cpp
 	@echo -e "\e[1;33m >> $^ -> $@\e[0m"
