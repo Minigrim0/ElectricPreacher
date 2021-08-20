@@ -14,9 +14,9 @@
 
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL.h>
-#include "../includes/nlohmann/json.hpp"
+#include "../../includes/nlohmann/json.hpp"
 
-#include "constants.hpp"
+#include "../constants.hpp"
 #include "chunk.hpp"
 
 /**

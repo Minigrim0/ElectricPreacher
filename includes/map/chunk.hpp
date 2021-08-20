@@ -11,9 +11,9 @@
 
 #include <iostream>
 
-#include "image_set.hpp"
+#include "../image_set.hpp"
 #include "map_element.hpp"
-#include "constants.hpp"
+#include "../constants.hpp"
 
 class Chunk{
     public:

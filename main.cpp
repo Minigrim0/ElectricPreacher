@@ -11,7 +11,7 @@
 #include "includes/notification_center.hpp"
 #include "includes/screen.hpp"
 #include "includes/image_set.hpp"
-#include "includes/map_manager.hpp"
+#include "includes/map/map_manager.hpp"
 #include "includes/widgets.hpp"
 #include "includes/console.hpp"
 #include "includes/window.hpp"
@@ -30,9 +30,8 @@ int main(int argc, char *argv[]){
 	screen.set_height(SCREEN_Y);
 	screen.set_caption(
 		"The Electric Preacher (" +
-		std::to_string(VERSION) + "." +
-		std::to_string(SUBVERSION) + "." +
-		std::to_string(SUBSUBVERSION) + ")");
+		std::to_string(VERSION_MAJOR) + "." +
+		std::to_string(VERSION_MINOR) + ")");
 	screen.init();
 
     screen.add_font("assets/fonts/Roboto-Regular.ttf", 16, "Roboto_16");

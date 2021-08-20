@@ -2,7 +2,7 @@
     #define game_hpp
 
 #include "player.hpp"
-#include "map_manager.hpp"
+#include "map/map_manager.hpp"
 #include "notification_center.hpp"
 
 /**

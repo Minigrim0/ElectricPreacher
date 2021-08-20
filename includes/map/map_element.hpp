@@ -11,8 +11,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "screen.hpp"
-#include "player.hpp"
+#include "../screen.hpp"
+#include "../player.hpp"
 
 class MapElement{
     public:

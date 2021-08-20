@@ -28,8 +28,7 @@ enum ElementType
     TYPE_ITEM,
 };
 
-#define VERSION 0
-#define SUBVERSION 1
-#define SUBSUBVERSION 1
+#define VERSION_MAJOR @Tutorial_VERSION_MAJOR@
+#define VERSION_MINOR @Tutorial_VERSION_MINOR@
 
 #endif

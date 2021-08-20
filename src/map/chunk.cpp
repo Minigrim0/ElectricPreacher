@@ -8,9 +8,9 @@
 
 #include <SDL2/SDL.h>
 #include <initializer_list>
-#include "../includes/chunk.hpp"
-#include "../includes/map_element.hpp"
-#include "../includes/image_set.hpp"
+#include "../../includes/map/chunk.hpp"
+#include "../../includes/map/map_element.hpp"
+#include "../../includes/image_set.hpp"
 
 //Constructors
 Chunk::Chunk()
