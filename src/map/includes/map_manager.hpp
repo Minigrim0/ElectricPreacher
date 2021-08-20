@@ -1,22 +1,15 @@
 #ifndef map_manager_h
     #define map_manager_h
 
-/**
-    name : map_manager.h
-    purpose : Contains the prototypes for the MapManager class
-
-    @author : mingirim0
-    @version : 1.0
-*/
-
 #include <iostream>
 #include <vector>
 
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL.h>
-#include "../../includes/nlohmann/json.hpp"
 
-#include "../constants.hpp"
+#include "../../nlohmann/json.hpp"
+#include "../../constants/constants.hpp"
+
 #include "chunk.hpp"
 
 /**

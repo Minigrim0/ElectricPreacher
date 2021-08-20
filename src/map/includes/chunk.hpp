@@ -1,19 +1,12 @@
 #ifndef chunk_h
     #define chunk_h
 
-/**
-    name : chunk.h
-    purpose : Handles a 'chunk' of the map, defined by a global variable as a square of CHUNK_SIZE by CHUNK_SIZE
-
-    @author : mingirim0
-    @version : 1.0
-*/
-
 #include <iostream>
 
-#include "../image_set.hpp"
+#include "../../screen/includes/image_set.hpp"
+#include "../../constants/constants.hpp"
+
 #include "map_element.hpp"
-#include "../constants.hpp"
 
 class Chunk{
     public:

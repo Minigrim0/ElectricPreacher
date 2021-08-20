@@ -1,3 +1,5 @@
+#include "../includes/map_manager.hpp"
+
 #include <iostream>
 #include <fstream>
 
@@ -5,10 +7,9 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
-#include "../includes/nlohmann/json.hpp"
+#include "../../nlohmann/json.hpp"
 
-#include "../../includes/map/map_manager.hpp"
-#include "../../includes/map/map_element.hpp"
+#include "../includes/map_element.hpp"
 
 //Constructors
 MapManager::MapManager()

@@ -2,7 +2,8 @@
 #include <SDL2/SDL_image.h>
 
 #include "../includes/text_input.hpp"
-#include "../includes/constants.hpp"
+
+#include "../../constants/constants.hpp"
 
 TextInput::TextInput()
 :m_tex(nullptr),

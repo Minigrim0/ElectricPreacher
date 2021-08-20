@@ -1,10 +1,11 @@
+#include "../includes/chunk.hpp"
+
 #include <SDL2/SDL.h>
 #include <initializer_list>
 
-#include "../includes/chunk.hpp"
 #include "../includes/map_element.hpp"
 
-#include "../../includes/image_set.hpp"
+#include "../../screen/includes/image_set.hpp"
 
 //Constructors
 Chunk::Chunk()

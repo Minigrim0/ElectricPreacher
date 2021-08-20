@@ -1,6 +1,8 @@
-#include <iostream>
 #include "../includes/button.hpp"
-#include "../includes/constants.hpp"
+
+#include <iostream>
+
+#include "../../constants/constants.hpp"
 
 //Constructors
 Button::Button()

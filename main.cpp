@@ -6,16 +6,17 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 
-#include "includes/constants/constants.hpp"
+#include "src/constants/constants.hpp"
 
-#include "includes/build_windows.hpp"
-#include "includes/notification_center.hpp"
-#include "includes/screen.hpp"
-#include "includes/image_set.hpp"
-#include "includes/map/map_manager.hpp"
-#include "includes/widgets.hpp"
-#include "includes/console.hpp"
+#include "src/screen/includes/notification_center.hpp"
+#include "src/screen/includes/screen.hpp"
+#include "src/screen/includes/image_set.hpp"
+#include "src/map/includes/map_manager.hpp"
+#include "src/UI/includes/widgets.hpp"
+#include "src/UI/includes/console.hpp"
+
 #include "includes/window.hpp"
+#include "includes/build_windows.hpp"
 #include "includes/game.hpp"
 
 int main(int argc, char *argv[]){

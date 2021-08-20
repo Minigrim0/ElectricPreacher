@@ -28,8 +28,8 @@ enum ElementType
     TYPE_ITEM,
 };
 
-#define VERSION_MAJOR @Tutorial_VERSION_MAJOR@
-#define VERSION_MINOR @Tutorial_VERSION_MINOR@
-#define VERSION_MINOR @Tutorial_VERSION_PATCH@
+#define VERSION_MAJOR @ElectricPreacher_VERSION_MAJOR@
+#define VERSION_MINOR @ElectricPreacher_VERSION_MINOR@
+#define VERSION_PATCH @ElectricPreacher_VERSION_PATCH@
 
 #endif

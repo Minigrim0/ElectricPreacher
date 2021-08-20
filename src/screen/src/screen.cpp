@@ -1,10 +1,4 @@
-/**
-    name : screen.cpp
-    purpose : Contains source code of the screen class
-
-    @author : minigrim0
-    @version : 1.3
-*/
+#include "../includes/screen.hpp"
 
 #include <SDL2/SDL_render.h>
 #include <iostream>
@@ -14,9 +8,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
-#include "../includes/screen.hpp"
-#include "../includes/constants.hpp"
-#include "../includes/utils.hpp"
+#include "../../constants/constants.hpp"
+
+#include "../../../includes/utils.hpp"
 
 //Constructors
 Screen::Screen()

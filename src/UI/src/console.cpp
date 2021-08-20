@@ -1,5 +1,7 @@
-#include "../includes/constants.hpp"
 #include "../includes/console.hpp"
+
+#include "../../constants/constants.hpp"
+
 
 Console::Console()
 :m_rect({0, 0, 0, 0}),

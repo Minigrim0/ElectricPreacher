@@ -2,7 +2,7 @@
     #define utils_hpp
 
 #include <SDL2/SDL.h>
-#include "screen.hpp"
+#include "../src/screen/includes/screen.hpp"
 
 void save_texture(Screen* screen, SDL_Texture* texture, const char* filename);
 

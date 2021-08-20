@@ -1,18 +1,12 @@
 #ifndef map_element_h
     #define map_element_h
 
-/**
-    name : map_element.h
-    purpose : An abstract class, defining the base for each
-    element of the map (Ground, wall, ...)
-*/
-
 #include <SDL2/SDL_render.h>
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../screen.hpp"
-#include "../player.hpp"
+#include "../../screen/includes/screen.hpp"
+#include "../../../includes/player.hpp"
 
 class MapElement{
     public:

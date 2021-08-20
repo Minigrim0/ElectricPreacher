@@ -2,13 +2,8 @@
     #define game_hpp
 
 #include "player.hpp"
-#include "map/map_manager.hpp"
-#include "notification_center.hpp"
-
-/**
-    class : Game
-    purpose : Manages everything game related, the player, the different actors, the environment, ...
-*/
+#include "../src/map/includes/map_manager.hpp"
+#include "../src/screen/includes/notification_center.hpp"
 
 class Game{
     public:

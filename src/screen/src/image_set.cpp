@@ -1,17 +1,11 @@
-/**
-    name : image_set.cpp
-    purpose : contains the source code for the ImageSet class
-
-    @author : minigrim0
-    @version : 1.1
-*/
+#include "../includes/image_set.hpp"
 
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../includes/image_set.hpp"
 #include "../includes/screen.hpp"
-#include "../includes/constants.hpp"
+
+#include "../../constants/constants.hpp"
 
 //Constructors
 ImageSet::ImageSet()
