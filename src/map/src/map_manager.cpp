@@ -1,11 +1,3 @@
-/**
-    name : map_manager.cpp
-    purpose : Contains the source code for the MapManager class
-
-    @author : minigrim0
-    @version : 1.0
-*/
-
 #include <iostream>
 #include <fstream>
 
@@ -13,7 +5,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
-#include "../../includes/nlohmann/json.hpp"
+#include "../includes/nlohmann/json.hpp"
 
 #include "../../includes/map/map_manager.hpp"
 #include "../../includes/map/map_element.hpp"

@@ -1,15 +1,9 @@
-/**
-  * name : chunk.cpp
-  * purpose : Contains the source code for the chunk class
-  *
-  * @author : minigrim0
-  * @version : 1.0
-  */
-
 #include <SDL2/SDL.h>
 #include <initializer_list>
-#include "../../includes/map/chunk.hpp"
-#include "../../includes/map/map_element.hpp"
+
+#include "../includes/chunk.hpp"
+#include "../includes/map_element.hpp"
+
 #include "../../includes/image_set.hpp"
 
 //Constructors
