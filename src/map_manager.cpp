@@ -76,11 +76,9 @@ int MapManager::load_map(std::string path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
-
-    nlohmann::json layers = root["layers"];
-    this->add_layers(&layers);
-
     json_in.close();
+
+    this->add_layers(root["layers"]);
 
     for(int x=0;x<9;x++){
         Chunk* newChunk = new Chunk();
@@ -91,9 +89,9 @@ int MapManager::load_map(std::string path){
     return 0;
 }
 
-int add_layers(nlohmann::json *layers){
-    for(int layer_id=0;layer_id<layers->size();layer_id++){
-        std::cout << (*layers)[layer_id]["name"];
+int MapManager::add_layers(nlohmann::json layers){
+    for(int layer_id=0;layer_id<layers.size();layer_id++){
+        std::cout << layers[layer_id]["name"];
     }
     return 0;
 }
