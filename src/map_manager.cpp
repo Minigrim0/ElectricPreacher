@@ -91,7 +91,14 @@ int MapManager::load_map(std::string path){
 
 int MapManager::add_layers(nlohmann::json layers){
     for(int layer_id=0;layer_id<layers.size();layer_id++){
-        std::cout << layers[layer_id]["name"];
+        this->add_chunks(layers[layer_id]["chunks"]);
+    }
+    return 0;
+}
+
+int MapManager::add_chunks(nlohmann::json chunks){
+    for(int chunk_id=0;chunk_id<chunks.size();chunk_id++){
+        std::cout << chunks[chunk_id]["x"] << chunks[chunk_id]["y"] << std::endl;
     }
     return 0;
 }

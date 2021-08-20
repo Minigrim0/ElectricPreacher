@@ -45,10 +45,12 @@ class MapManager{
         //Others
         void init(Screen* screen);
         int load_map(std::string path);
-        int add_layers(nlohmann::json layers);
         int render(Screen *screen, SDL_Rect position);
 
     private:
+        int add_layers(nlohmann::json layers);
+        int add_chunks(nlohmann::json chunks);
+
         SDL_Texture* m_default_missing;
         SDL_Rect* m_position;
         std::vector<Chunk*> m_chunk;
