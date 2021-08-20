@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 //Constructors
 Button::Button()

@@ -1,6 +1,6 @@
 #include "../includes/console.hpp"
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 
 Console::Console()

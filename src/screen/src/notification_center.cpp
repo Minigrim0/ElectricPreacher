@@ -3,7 +3,7 @@
 #include "../includes/screen.hpp"
 #include "../includes/image_set.hpp"
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 NotificationCenter::NotificationCenter(Screen* sc, std::string default_font)
 :m_notifications(std::vector<Notification*>()),

@@ -8,7 +8,8 @@
 #include "../includes/window.hpp"
 #include "../includes/button.hpp"
 #include "../includes/screen.hpp"
-#include "../includes/constants.hpp"
+
+#include "constants.hpp"
 
 Window::Window(){}
 

@@ -8,7 +8,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 #include "../../../includes/utils.hpp"
 

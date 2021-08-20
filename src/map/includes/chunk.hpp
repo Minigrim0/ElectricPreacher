@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../../screen/includes/image_set.hpp"
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 #include "map_element.hpp"
 

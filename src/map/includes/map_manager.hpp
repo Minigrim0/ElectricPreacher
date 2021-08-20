@@ -8,7 +8,7 @@
 #include <SDL2/SDL.h>
 
 #include "../../nlohmann/json.hpp"
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 #include "chunk.hpp"
 

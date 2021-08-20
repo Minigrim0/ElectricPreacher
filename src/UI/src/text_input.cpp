@@ -3,7 +3,7 @@
 
 #include "../includes/text_input.hpp"
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 TextInput::TextInput()
 :m_tex(nullptr),

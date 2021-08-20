@@ -6,7 +6,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 
-#include "src/constants/constants.hpp"
+#include "constants.hpp"
 
 #include "src/screen/includes/notification_center.hpp"
 #include "src/screen/includes/screen.hpp"

@@ -5,7 +5,7 @@
 
 #include "../includes/screen.hpp"
 
-#include "../../constants/constants.hpp"
+#include "constants.hpp"
 
 //Constructors
 ImageSet::ImageSet()

@@ -5,3 +5,7 @@ add_library(
     src/notification_center.cpp
     src/image_set.cpp
 )
+
+target_include_directories(Screen PUBLIC
+                          "${PROJECT_BINARY_DIR}"
+)
