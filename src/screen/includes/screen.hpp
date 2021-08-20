@@ -1,30 +1,22 @@
 #ifndef screen_h
     #define screen_h
 
-/**
-    name : screen.h
-    purpose : Handle all the screen/window related things, such as creating it,
-        naming it, loading images, rendering text, setting fullscreen, ...
-
-    @author : minigrim0
-    @version : 1.5
-*/
-
 #include <iostream>
 #include <map>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
 class Screen{
     public:
-        //Constructors
+        // Constructors
         Screen();
         ~Screen();
 
-        //Override
+        // Override
         Screen& operator=(const Screen&);
 
-        //Getters
+        // Getters
         int get_width() const;
         int get_height() const;
         int get_time_elapsed() const;
@@ -41,7 +33,7 @@ class Screen{
         SDL_Renderer* get_renderer() const;
         SDL_Color get_background_color() const;
 
-        //Setters
+        // Setters
         void set_width(int);
         void set_height(int);
         void set_background_color(SDL_Color);
@@ -51,7 +43,7 @@ class Screen{
         void toggle_fps_show();
         void set_running(bool running);
 
-        //Others
+        // Others
         int init();
         int build_window();
         int add_font(std::string font_path, int size, std::string font_id="");
