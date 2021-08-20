@@ -11,11 +11,13 @@
 #include "src/screen/includes/notification_center.hpp"
 #include "src/screen/includes/screen.hpp"
 #include "src/screen/includes/image_set.hpp"
+
 #include "src/map/includes/map_manager.hpp"
+
 #include "src/UI/includes/widgets.hpp"
 #include "src/UI/includes/console.hpp"
+#include "src/UI/includes/window.hpp"
 
-#include "includes/window.hpp"
 #include "includes/build_windows.hpp"
 #include "includes/game.hpp"
 

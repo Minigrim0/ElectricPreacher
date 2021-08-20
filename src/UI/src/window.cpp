@@ -3,11 +3,11 @@
 #include <fstream>
 #include <SDL2/SDL.h>
 
-#include "../includes/nlohmann/json.hpp"
+#include "../../nlohmann/json.hpp"
 
 #include "../includes/window.hpp"
 #include "../includes/button.hpp"
-#include "../includes/screen.hpp"
+#include "../../screen/includes/screen.hpp"
 
 #include "constants.hpp"
 

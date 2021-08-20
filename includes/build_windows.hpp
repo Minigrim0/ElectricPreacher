@@ -4,7 +4,7 @@
 #include <map>
 
 #include "../src/screen/includes/screen.hpp"
-#include "window.hpp"
+#include "../src/UI/includes/window.hpp"
 
 void build_windows(Screen *screen, std::map<std::string, Window> *windows);
 
