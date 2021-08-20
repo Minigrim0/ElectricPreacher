@@ -4,7 +4,7 @@
 #include <iostream>
 
 //Map
-#define CHUNK_SIZE 20
+#define CHUNK_SIZE 16
 
 //Screen
 #define SCREEN_X 1920
