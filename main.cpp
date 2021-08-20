@@ -6,8 +6,9 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 
+#include "includes/constants/constants.hpp"
+
 #include "includes/build_windows.hpp"
-#include "includes/constants.hpp"
 #include "includes/notification_center.hpp"
 #include "includes/screen.hpp"
 #include "includes/image_set.hpp"
@@ -18,26 +19,27 @@
 #include "includes/game.hpp"
 
 int main(int argc, char *argv[]){
-	Screen screen;
+    Screen screen;
     std::string current_window = "Main";
 
-	std::map<std::string, Window> windows;
+    std::map<std::string, Window> windows;
 
-	SDL_Event* event_handler = new SDL_Event;
-	SDL_StopTextInput();
+    SDL_Event* event_handler = new SDL_Event;
+    SDL_StopTextInput();
 
-	screen.set_width(SCREEN_X);
-	screen.set_height(SCREEN_Y);
-	screen.set_caption(
-		"The Electric Preacher (" +
-		std::to_string(VERSION_MAJOR) + "." +
-		std::to_string(VERSION_MINOR) + ")");
-	screen.init();
+    screen.set_width(SCREEN_X);
+    screen.set_height(SCREEN_Y);
+    screen.set_caption(
+        "The Electric Preacher (" +
+        std::to_string(VERSION_MAJOR) + "." +
+        std::to_string(VERSION_MINOR) + "." +
+        std::to_string(VERSION_PATCH) + ")");
+    screen.init();
 
     screen.add_font("assets/fonts/Roboto-Regular.ttf", 16, "Roboto_16");
     screen.set_default_font("Roboto_16");
 
-	if(screen.build_window() != 0) return EXIT_FAILURE;
+    if(screen.build_window() != 0) return EXIT_FAILURE;
 
     NotificationCenter notification_center(&screen, "Roboto_16");
     build_windows(&screen, &windows);
