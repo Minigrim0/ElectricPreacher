@@ -4,7 +4,7 @@
 #include <SDL2/SDL_stdinc.h>
 #include <iostream>
 
-#include "widgets.hpp"
+#include "../../UI/includes/widgets.hpp"
 
 class Notification: public Widget{
     public:

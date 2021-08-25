@@ -1,22 +1,15 @@
 #ifndef map_manager_h
     #define map_manager_h
 
-/**
-    name : map_manager.h
-    purpose : Contains the prototypes for the MapManager class
-
-    @author : mingirim0
-    @version : 1.0
-*/
-
 #include <iostream>
 #include <vector>
 
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL.h>
-#include "../includes/nlohmann/json.hpp"
 
+#include "../../nlohmann/json.hpp"
 #include "constants.hpp"
+
 #include "chunk.hpp"
 
 /**
@@ -45,10 +38,12 @@ class MapManager{
         //Others
         void init(Screen* screen);
         int load_map(std::string path);
-        int add_layers(nlohmann::json layers);
         int render(Screen *screen, SDL_Rect position);
 
     private:
+        int add_layers(nlohmann::json layers);
+        int add_chunks(nlohmann::json chunks);
+
         SDL_Texture* m_default_missing;
         SDL_Rect* m_position;
         std::vector<Chunk*> m_chunk;

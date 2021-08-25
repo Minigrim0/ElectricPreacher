@@ -3,15 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include "screen.hpp"
 
-/**
-    name : widgets.h
-    purpose : Defines an abstract class for all the widgets of the game (console, button, text input, ...)
-
-    @author : minigrim0
-    @version : 1.0
-*/
+#include "../../screen/includes/screen.hpp"
 
 class Widget{
     public:

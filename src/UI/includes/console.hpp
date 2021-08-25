@@ -12,7 +12,8 @@
 
 #include <vector>
 
-#include "screen.hpp"
+#include "../../screen/includes/screen.hpp"
+
 #include "button.hpp"
 #include "text_input.hpp"
 #include "widgets.hpp"

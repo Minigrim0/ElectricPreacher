@@ -2,7 +2,8 @@
     #define player_hpp
 
 #include "SDL2/SDL.h"
-#include "screen.hpp"
+
+#include "../src/screen/includes/screen.hpp"
 
 
 class Player{

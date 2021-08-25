@@ -5,9 +5,9 @@
 #include <vector>
 #include <SDL2/SDL.h>
 
-#include "../includes/nlohmann/json.hpp"
-#include "button.hpp"
-#include "screen.hpp"
+#include "../../nlohmann/json.hpp"
+#include "../../UI/includes/button.hpp"
+#include "../../screen/includes/screen.hpp"
 
 class Window{
     public:

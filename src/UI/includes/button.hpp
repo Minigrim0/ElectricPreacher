@@ -9,7 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "screen.hpp"
+#include "../../screen/includes/screen.hpp"
 #include "widgets.hpp"
 
 class Button: public Widget{

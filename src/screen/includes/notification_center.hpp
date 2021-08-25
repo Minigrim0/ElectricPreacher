@@ -4,9 +4,10 @@
 #include <SDL2/SDL_stdinc.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "widgets.hpp"
-#include "notification.hpp"
+#include "../../UI/includes/widgets.hpp"
+
 #include "image_set.hpp"
+#include "notification.hpp"
 #include "screen.hpp"
 
 class NotificationCenter: public Widget{

@@ -18,15 +18,15 @@
                  "x":0,
                  "y":-16
                 }],
-         "height":96,
+         "height":16,
          "id":1,
-         "name":"Tile Layer 1",
+         "name":"ground",
          "opacity":1,
-         "startx":-192,
-         "starty":-96,
+         "startx":-16,
+         "starty":-16,
          "type":"tilelayer",
          "visible":true,
-         "width":336,
+         "width":32,
          "x":0,
          "y":0
         }, 
@@ -62,7 +62,7 @@
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"left-up",
- "tiledversion":"1.7.1",
+ "tiledversion":"1.7.2",
  "tileheight":32,
  "tilesets":[
         {

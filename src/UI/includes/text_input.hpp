@@ -1,21 +1,13 @@
 #ifndef text_input_h
     #define text_input_h
 
-/**
-    name : text_input.h
-    purpose : Handle a complete text input, drawing, handling events (such as copy/paste), and text keeping
-
-    @author : minigrim0
-    @version : 1.5
-*/
-
 #include <iostream>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "screen.hpp"
+#include "../../screen/includes/screen.hpp"
 #include "widgets.hpp"
 
 class TextInput: public Widget{

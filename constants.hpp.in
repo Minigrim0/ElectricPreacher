@@ -4,7 +4,7 @@
 #include <iostream>
 
 //Map
-#define CHUNK_SIZE 20
+#define CHUNK_SIZE 16
 
 //Screen
 #define SCREEN_X 1920
@@ -28,8 +28,8 @@ enum ElementType
     TYPE_ITEM,
 };
 
-#define VERSION 0
-#define SUBVERSION 1
-#define SUBSUBVERSION 1
+#define VERSION_MAJOR @ElectricPreacher_VERSION_MAJOR@
+#define VERSION_MINOR @ElectricPreacher_VERSION_MINOR@
+#define VERSION_PATCH @ElectricPreacher_VERSION_PATCH@
 
 #endif

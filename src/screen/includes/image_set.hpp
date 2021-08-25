@@ -1,15 +1,6 @@
 #ifndef image_set_h
     #define image_set_h
 
-/**
-    name : image_set.h
-    purpose : Image managing trough SDL_rects. Each object represents a 'big'
-    set of images, divideable into smaller bits
-
-    @author : minigrim0
-    @version : 1.1
-*/
-
 #include <iostream>
 #include <vector>
 #include <SDL2/SDL.h>

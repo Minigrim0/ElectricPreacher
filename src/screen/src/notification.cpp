@@ -3,8 +3,9 @@
 #include <SDL2/SDL_surface.h>
 
 #include "../includes/notification.hpp"
-#include "../includes/constants.hpp"
 #include "../includes/utils.hpp"
+
+#include "constants.hpp"
 
 //Constructors
 Notification::Notification()

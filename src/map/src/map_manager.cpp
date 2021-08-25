@@ -1,10 +1,4 @@
-/**
-    name : map_manager.cpp
-    purpose : Contains the source code for the MapManager class
-
-    @author : minigrim0
-    @version : 1.0
-*/
+#include "../includes/map_manager.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -13,9 +7,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
-#include "../includes/nlohmann/json.hpp"
+#include "../../nlohmann/json.hpp"
 
-#include "../includes/map_manager.hpp"
 #include "../includes/map_element.hpp"
 
 //Constructors
@@ -76,20 +69,9 @@ int MapManager::load_map(std::string path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
-
-    const nlohmann::json layers = root["layers"];
-    // screen->add_font(root["font_path"].asString(), root["font_size"].asInt(), root["font_id"].asString());
-
-    // Setup Buttons
-    // const nlohmann::json buttons = root["Buttons"];
-    // this->add_button(screen, buttons);
-
-    // Setup title
-    // const nlohmann::json title = root["Title"];
-    // this->set_title(screen, title);
-
     json_in.close();
-    // return 0;
+
+    this->add_layers(root["layers"]);
 
     for(int x=0;x<9;x++){
         Chunk* newChunk = new Chunk();
@@ -100,9 +82,16 @@ int MapManager::load_map(std::string path){
     return 0;
 }
 
-int add_layers(nlohmann::json layers){
+int MapManager::add_layers(nlohmann::json layers){
     for(int layer_id=0;layer_id<layers.size();layer_id++){
-        std::cout << layers[layer_id]["name"];
+        this->add_chunks(layers[layer_id]["chunks"]);
+    }
+    return 0;
+}
+
+int MapManager::add_chunks(nlohmann::json chunks){
+    for(int chunk_id=0;chunk_id<chunks.size();chunk_id++){
+        std::cout << chunks[chunk_id]["x"] << chunks[chunk_id]["y"] << std::endl;
     }
     return 0;
 }
