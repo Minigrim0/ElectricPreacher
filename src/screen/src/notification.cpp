@@ -3,7 +3,7 @@
 #include <SDL2/SDL_surface.h>
 
 #include "../includes/notification.hpp"
-#include "../includes/utils.hpp"
+#include "../src/utils/includes/utils.hpp"
 
 #include "constants.hpp"
 

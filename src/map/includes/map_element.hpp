@@ -5,8 +5,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "../../screen/includes/screen.hpp"
-#include "../../../includes/player.hpp"
+#include "../src/screen/includes/screen.hpp"
+#include "../src/player/includes/player.hpp"
 
 class MapElement{
     public:

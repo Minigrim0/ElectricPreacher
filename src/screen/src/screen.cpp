@@ -10,7 +10,7 @@
 
 #include "constants.hpp"
 
-#include "../../../includes/utils.hpp"
+#include "../src/utils/includes/utils.hpp"
 
 //Constructors
 Screen::Screen()

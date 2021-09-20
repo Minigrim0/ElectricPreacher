@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
 #include "../includes/utils.hpp"
-#include "../includes/screen.hpp"
+#include "../src/screen/includes/screen.hpp"
 
 void save_texture(Screen* screen, SDL_Texture* texture, const char* filename){
     SDL_Texture* target = SDL_GetRenderTarget(screen->get_renderer());
