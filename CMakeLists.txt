@@ -9,9 +9,11 @@ if (WIN32)
 endif (WIN32)
 if (UNIX)
     find_package(SDL2 REQUIRED)
+    find_package(SDL2TTF REQUIRED)
+    find_package(SDL2_image REQUIRED)
 endif(UNIX)
 
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${SDL2TTF_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -24,7 +26,7 @@ add_subdirectory(src/screen)
 
 add_executable(ElectricPreacher main.cpp)
 
-target_link_libraries(ElectricPreacher PUBLIC ${SDL2_LIBRARY})
+target_link_libraries(ElectricPreacher PUBLIC ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2_IMAGE_LIBRARIES})
 
 target_link_libraries(ElectricPreacher PUBLIC MapManaging)
 target_link_libraries(ElectricPreacher PUBLIC UserInterface)
