@@ -23,6 +23,9 @@ configure_file(constants.hpp.in constants.hpp)
 add_subdirectory(src/map)
 add_subdirectory(src/UI)
 add_subdirectory(src/screen)
+add_subdirectory(src/player)
+add_subdirectory(src/utils)
+add_subdirectory(src/game)
 
 add_executable(ElectricPreacher main.cpp)
 
@@ -31,10 +34,16 @@ target_link_libraries(ElectricPreacher PUBLIC ${SDL2_LIBRARY} ${SDL2TTF_LIBRARY}
 target_link_libraries(ElectricPreacher PUBLIC MapManaging)
 target_link_libraries(ElectricPreacher PUBLIC UserInterface)
 target_link_libraries(ElectricPreacher PUBLIC Screen)
+target_link_libraries(ElectricPreacher PUBLIC Player)
+target_link_libraries(ElectricPreacher PUBLIC Utils)
+target_link_libraries(ElectricPreacher PUBLIC Game)
 
 target_include_directories(ElectricPreacher PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           "${PROJECT_SOURCE_DIR}/MapManaging"
                           "${PROJECT_SOURCE_DIR}/UserInterface"
                           "${PROJECT_SOURCE_DIR}/Screen"
+                          "${PROJECT_SOURCE_DIR}/Player"
+                          "${PROJECT_SOURCE_DIR}/Game"
+                          "${PROJECT_SOURCE_DIR}/Utils"
                           )
