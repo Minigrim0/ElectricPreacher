@@ -18,8 +18,8 @@
 #include "src/UI/includes/console.hpp"
 #include "src/UI/includes/window.hpp"
 
-#include "includes/build_windows.hpp"
-#include "includes/game.hpp"
+#include "src/utils/includes/build_windows.hpp"
+#include "src/game/includes/game.hpp"
 
 int main(int argc, char *argv[]){
     Screen screen;
