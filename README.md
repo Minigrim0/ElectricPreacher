@@ -20,15 +20,31 @@ sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dev
 sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
 ```
 
-# Windows compilation
+# Compilation
 
+## Linux
+
+```bash
+# From repository's root
+cd build
+cmake ..
+make
+```
+
+To launch the game then :
+```
+cp ../assets/ ./ -r
+./ElectricPreacher
+```
+
+## Windows
 Using MSYS2 :
 
 ```bash
 # Install required packages
 pacman -Syu
 pacman -S mingw-w64-x86_64-toolchain
-pacman -S make
+pacman -S make cmake
 pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
 
 #external lib
