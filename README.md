@@ -54,8 +54,10 @@ pacman -S mingw-w64-x86_64-nlohmann-json
 make all
 ```
 
-### JsonCpp
+### 3rd party libraries
 
-This project uses the [JSON for Modern C++](https://github.com/nlohmann/json) library to read and write json files
+* [JSON for Modern C++](https://github.com/nlohmann/json)
 
-`Lohmann, N. JSON for Modern C++ (Version 3.10.0) [Computer software]. https://github.com/nlohmann`
+  `Lohmann, N. JSON for Modern C++ (Version 3.10.0) [Computer software]. https://github.com/nlohmann`
+
+* [Tiny XML II](https://github.com/leethomason/tinyxml2)
