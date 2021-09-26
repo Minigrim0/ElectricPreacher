@@ -34,12 +34,6 @@ void Game::run(){
             // Do updates
 
             m_notification_center->update(m_event_handler, m_screen);
-            if(m_event_handler->type == SDL_KEYUP){
-                m_notification_center->create_notification("Keyup !", m_screen, "Roboto_16", 2500);
-                if(m_event_handler->key.keysym.sym == SDLK_ESCAPE){
-                    m_in_game = false;
-                }
-            }
         }
         m_notification_center->update(nullptr, m_screen);
 

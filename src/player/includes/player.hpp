@@ -3,7 +3,7 @@
 
 #include "SDL2/SDL.h"
 
-#include "../src/screen/includes/screen.hpp"
+#include "../../screen/includes/screen.hpp"
 
 
 class Player{

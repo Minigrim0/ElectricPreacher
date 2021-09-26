@@ -33,7 +33,7 @@ void Player::update(SDL_Event* event){
             //move(event);
             break;
         default:
-            std::cout << "no keyboard action" << std::endl;
+            break;
     }
 }
 

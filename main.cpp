@@ -10,7 +10,6 @@
 
 #include "src/screen/includes/notification_center.hpp"
 #include "src/screen/includes/screen.hpp"
-#include "src/screen/includes/tileset.hpp"
 
 #include "src/map/includes/map_manager.hpp"
 
@@ -64,9 +63,11 @@ int main(int argc, char *argv[]){
             }
 
             notification_center.update(event_handler, &screen);
-            if(event_handler->type == SDL_KEYUP){
-                notification_center.create_notification("Keyup !", &screen, "Roboto_16", 2500);
-            }
+            /* Example code to create a notification
+                if(event_handler->type == SDL_KEYUP){
+                    notification_center.create_notification("Keyup !", &screen, "Roboto_16", 2500);
+                }
+            */
         }
         notification_center.update(nullptr, &screen);
 
