@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "../includes/screen.hpp"
+#include "../../tinyxml/includes/tinyxml2.h"
 
 #include "constants.hpp"
 
@@ -12,6 +13,7 @@ TileSet::TileSet()
 :m_tex(nullptr),
 m_width(0),
 m_height(0),
+m_name("null"),
 m_rects()
 {}
 
@@ -19,6 +21,7 @@ TileSet::TileSet(SDL_Texture* img)
 :m_tex(img),
 m_width(0),
 m_height(0),
+m_name("null"),
 m_rects()
 {
     SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
@@ -66,6 +69,20 @@ void TileSet::set_image(Screen* screen, std::string image){
 
     if(m_tex == NULL || m_width%32 != 0 || m_height%32 != 0)
         exit(EXIT_FAILURE);
+}
+
+void TileSet::load(Screen* screen, std::string filePath){
+    tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
+    doc->LoadFile(filePath.c_str());
+
+    tinyxml2::XMLElement* tileset_element = doc->FirstChildElement("tileset");
+    tinyxml2::XMLElement* tileset_image = tileset_element->FirstChildElement("image");
+
+    m_width = std::stoi(tileset_element->Attribute("tilewidth"));
+    m_height = std::stoi(tileset_element->Attribute("tileheight"));
+    m_name = tileset_element->Attribute("name");
+
+    m_tex = screen->load_texture(tileset_image->Attribute("source"));
 }
 
 //Others

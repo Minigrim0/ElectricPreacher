@@ -30,9 +30,12 @@ class TileSet{
         //Others
         int set_array();
 
+        void load(Screen* screen, std::string filePath);
+
     private:
         SDL_Texture* m_tex;
         int m_width, m_height;
+        std::string m_name;
 
         std::vector<SDL_Rect> m_rects;
 };
