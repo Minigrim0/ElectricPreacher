@@ -5,7 +5,7 @@
 
 #include "../includes/map_element.hpp"
 
-#include "../../screen/includes/image_set.hpp"
+#include "../../screen/includes/tileset.hpp"
 
 //Constructors
 Chunk::Chunk()

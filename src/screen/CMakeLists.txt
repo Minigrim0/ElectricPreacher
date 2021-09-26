@@ -3,7 +3,7 @@ add_library(
     src/screen.cpp
     src/notification.cpp
     src/notification_center.cpp
-    src/image_set.cpp
+    src/tileset.cpp
 )
 
 target_include_directories(Screen PUBLIC

@@ -1,5 +1,5 @@
-#ifndef image_set_h
-    #define image_set_h
+#ifndef tileset_hpp
+    #define tileset_hpp
 
 #include <iostream>
 #include <vector>
@@ -7,15 +7,15 @@
 
 #include "screen.hpp"
 
-class ImageSet{
+class TileSet{
     public:
         //Constructors
-        ImageSet();
-        ImageSet(SDL_Texture*);
-        ~ImageSet();
+        TileSet();
+        TileSet(SDL_Texture*);
+        ~TileSet();
 
         //Override
-        ImageSet& operator=(const ImageSet&);
+        TileSet& operator=(const TileSet&);
 
         //Getters
         SDL_Texture* get_texture() const;

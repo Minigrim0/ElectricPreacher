@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "../../screen/includes/image_set.hpp"
+#include "../../screen/includes/tileset.hpp"
 #include "constants.hpp"
 
 #include "map_element.hpp"

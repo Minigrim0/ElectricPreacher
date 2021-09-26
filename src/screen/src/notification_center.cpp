@@ -1,13 +1,13 @@
 #include "../includes/notification_center.hpp"
 
 #include "../includes/screen.hpp"
-#include "../includes/image_set.hpp"
+#include "../includes/tileset.hpp"
 
 #include "constants.hpp"
 
 NotificationCenter::NotificationCenter(Screen* sc, std::string default_font)
 :m_notifications(std::vector<Notification*>()),
-m_icons(new ImageSet),
+m_icons(new TileSet),
 m_default_font(default_font)
 {
     m_icons->set_image(sc, "assets/images/icons.png");

@@ -10,7 +10,7 @@
 
 #include "src/screen/includes/notification_center.hpp"
 #include "src/screen/includes/screen.hpp"
-#include "src/screen/includes/image_set.hpp"
+#include "src/screen/includes/tileset.hpp"
 
 #include "src/map/includes/map_manager.hpp"
 

@@ -6,7 +6,7 @@
 
 #include "../../UI/includes/widgets.hpp"
 
-#include "image_set.hpp"
+#include "tileset.hpp"
 #include "notification.hpp"
 #include "screen.hpp"
 
@@ -22,7 +22,7 @@ class NotificationCenter: public Widget{
 
     private:
         std::vector<Notification*> m_notifications;
-        ImageSet* m_icons;
+        TileSet* m_icons;
 
         std::string m_default_font;
 };
