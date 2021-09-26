@@ -13,7 +13,7 @@ Game::~Game(){}
 
 void Game::init(Screen* screen){
     m_screen = screen;
-    m_map_manager->load_map("assets/maps/start.json");
+    m_map_manager->load_map(screen, "assets/maps/start.json");
     m_map_manager->set_position(0, 0);
     m_map_manager->init(screen);
     m_player->init(screen);

@@ -37,7 +37,7 @@ class MapManager{
 
         //Others
         void init(Screen* screen);
-        int load_map(std::string path);
+        int load_map(Screen* screen, std::string path);
         int render(Screen *screen, SDL_Rect position);
 
     private:

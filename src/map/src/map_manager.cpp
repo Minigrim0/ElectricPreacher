@@ -65,12 +65,15 @@ void MapManager::init(Screen* screen){
     }
 }
 
-int MapManager::load_map(std::string path){
+int MapManager::load_map(Screen* screen, std::string path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
     json_in.close();
 
+    TileSet* tileset = new TileSet();
+
+    tileset->load(screen, root["tilesets"][0]["source"]);
     this->add_layers(root["layers"]);
 
     for(int x=0;x<9;x++){

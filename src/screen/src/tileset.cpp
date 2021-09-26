@@ -76,6 +76,7 @@ void TileSet::load(Screen* screen, std::string filePath){
     doc->LoadFile(filePath.c_str());
 
     tinyxml2::XMLElement* tileset_element = doc->FirstChildElement("tileset");
+    if(tileset_element == nullptr) std::cout << "tileset_element is null" << std::endl;
     tinyxml2::XMLElement* tileset_image = tileset_element->FirstChildElement("image");
 
     m_width = std::stoi(tileset_element->Attribute("tilewidth"));
@@ -83,6 +84,11 @@ void TileSet::load(Screen* screen, std::string filePath){
     m_name = tileset_element->Attribute("name");
 
     m_tex = screen->load_texture(tileset_image->Attribute("source"));
+
+    std::cout << "width " << m_width << std::endl;
+    std::cout << "height " << m_height << std::endl;
+    std::cout << "name " << m_name << std::endl;
+    std::cout << "tex path " << tileset_image->Attribute("source") << std::endl;
 }
 
 //Others
