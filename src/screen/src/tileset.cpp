@@ -71,7 +71,7 @@ void TileSet::set_image(Screen* screen, std::string image){
         exit(EXIT_FAILURE);
 }
 
-void TileSet::load(Screen* screen, std::string filePath){
+void TileSet::load(Screen* screen, fs::path filePath){
     tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
     doc->LoadFile(filePath.c_str());
 

@@ -6,6 +6,8 @@
 #include <SDL2/SDL.h>
 
 #include "screen.hpp"
+#include <filesystem>
+namespace fs = std::filesystem;
 
 class TileSet{
     public:
@@ -30,7 +32,7 @@ class TileSet{
         //Others
         int set_array();
 
-        void load(Screen* screen, std::string filePath);
+        void load(Screen* screen, fs::path filePath);
 
     private:
         SDL_Texture* m_tex;

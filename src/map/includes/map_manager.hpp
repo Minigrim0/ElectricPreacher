@@ -12,6 +12,9 @@
 
 #include "chunk.hpp"
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 /**
     class : MapManager
     purpose : Manages a "chunk" of the total map, which size is defined by CHUNK_SIZE
@@ -37,7 +40,7 @@ class MapManager{
 
         //Others
         void init(Screen* screen);
-        int load_map(Screen* screen, std::string path);
+        int load_map(Screen* screen, fs::path path);
         int render(Screen *screen, SDL_Rect position);
 
     private:

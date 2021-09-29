@@ -11,6 +11,7 @@
 
 #include "../includes/map_element.hpp"
 
+
 //Constructors
 MapManager::MapManager()
 :m_position(new SDL_Rect),
@@ -65,7 +66,7 @@ void MapManager::init(Screen* screen){
     }
 }
 
-int MapManager::load_map(Screen* screen, std::string path){
+int MapManager::load_map(Screen* screen, fs::path path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
@@ -73,7 +74,8 @@ int MapManager::load_map(Screen* screen, std::string path){
 
     TileSet* tileset = new TileSet();
 
-    tileset->load(screen, root["tilesets"][0]["source"]);
+    fs::path tileset_path = path.remove_filename() / root["tilesets"][0]["source"];
+    tileset->load(screen, tileset_path);
     this->add_layers(root["layers"]);
 
     for(int x=0;x<9;x++){
