@@ -23,7 +23,7 @@ class MapElement{
 
         //Setters
         void set_solidity(bool);
-        void set_texture(TileSet* tileset, int id);
+        void set_texture(TileSet* tileset, int id, SDL_Point tileset_size);
 
         //Others
         int draw(Screen*, int, int);
@@ -36,7 +36,7 @@ class MapElement{
         TileSet* m_tileset;
         int m_texture_id;
 
-        SDL_Rect m_texture_size;
+        SDL_Point m_texture_size;
         std::string m_type;
 };
 

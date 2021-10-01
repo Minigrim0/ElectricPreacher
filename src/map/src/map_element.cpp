@@ -20,13 +20,14 @@ void MapElement::set_solidity(bool Solid){
     m_is_solid = Solid;
 }
 
-void MapElement::set_texture(TileSet* tileset, int id){
+void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size){
     m_tileset = tileset;
     m_texture_id = id;
+    m_texture_size = tileset_size;
 }
 
 int MapElement::draw(Screen* screen, int x, int y){
-    SDL_Rect position = {x, y, m_texture_size.w, m_texture_size.h};
+    SDL_Rect position = {x, y, m_texture_size.x, m_texture_size.y};
     return SDL_RenderCopy(
         screen->get_renderer(),
         m_tileset->get_texture(),
@@ -36,8 +37,8 @@ int MapElement::draw(Screen* screen, int x, int y){
 }
 
 int MapElement::draw(Screen* screen, SDL_Rect position){
-    position.w = m_texture_size.w;
-    position.h = m_texture_size.h;
+    position.w = m_texture_size.x;
+    position.h = m_texture_size.y;
     return SDL_RenderCopy(
         screen->get_renderer(),
         m_tileset->get_texture(),
