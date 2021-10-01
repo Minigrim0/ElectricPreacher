@@ -91,7 +91,7 @@ void TileSet::load(Screen* screen, fs::path filePath){
     m_height = std::stoi(tileset_element->Attribute("tileheight"));
     m_name = tileset_element->Attribute("name");
 
-    m_tex = screen->load_texture(tileset_image->Attribute("source"));
+    m_tex = screen->load_texture(filePath.remove_filename() / tileset_image->Attribute("source"));
 
     set_array();
 }
