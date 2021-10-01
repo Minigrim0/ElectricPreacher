@@ -1,12 +1,15 @@
 #ifndef map_element_h
     #define map_element_h
 
-#include <SDL2/SDL_render.h>
 #include <iostream>
-#include <SDL2/SDL.h>
 
-#include "../src/screen/includes/screen.hpp"
-#include "../src/player/includes/player.hpp"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_render.h>
+
+#include "../../screen/includes/screen.hpp"
+#include "../../screen/includes/tileset.hpp"
+#include "../../player/includes/player.hpp"
+
 
 class MapElement{
     public:
@@ -20,7 +23,7 @@ class MapElement{
 
         //Setters
         void set_solidity(bool);
-        void set_texture(SDL_Texture *tex, int w=32, int h=32);
+        void set_texture(TileSet* tileset, int id);
 
         //Others
         int draw(Screen*, int, int);
@@ -30,7 +33,9 @@ class MapElement{
 
     private:
         bool m_is_solid;
-        SDL_Texture* m_texture;
+        TileSet* m_tileset;
+        int m_texture_id;
+
         SDL_Rect m_texture_size;
         std::string m_type;
 };
