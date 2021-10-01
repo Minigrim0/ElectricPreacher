@@ -32,7 +32,7 @@ class MapManager{
         MapManager& operator=(const MapManager&);
 
         //Getters
-        SDL_Rect* get_position() const;
+        SDL_Rect get_position() const;
 
         //Setters
         void set_position(SDL_Rect);
@@ -48,8 +48,12 @@ class MapManager{
         int add_chunks(nlohmann::json chunks);
 
         SDL_Texture* m_default_missing;
-        SDL_Rect* m_position;
-        std::vector<Chunk*> m_chunk;
+        SDL_Rect m_position;
+        SDL_Point origin;
+        std::vector<Chunk*> m_chunks;
+        std::map<std::string, TileSet*> m_tilesets;
+
+        int m_tilewidth, m_tileheight;
 };
 
 #endif
