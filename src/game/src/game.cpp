@@ -24,19 +24,36 @@ void Game::run(){
     m_in_game = true;
 
     while(m_in_game){
-        m_map_manager->render(m_screen, {0, 0, 0, 0}); // m_player->get_position());
-        m_player->draw(m_screen);
-        m_notification_center->draw(m_screen);
-
-        while(SDL_PollEvent(m_event_handler) != 0){
-            m_screen->handle_events(m_event_handler);
-            m_player->update(m_event_handler);
-            // Do updates
-
-            m_notification_center->update(m_event_handler, m_screen);
-        }
-        m_notification_center->update(nullptr, m_screen);
-
-        m_screen->update_screen();
+        draw();
+        handle_events();
+        update();
     }
+}
+
+void Game::draw(){
+    m_map_manager->render(m_screen, {0, 0, 0, 0}); // m_player->get_position());
+    m_player->draw(m_screen);
+    m_notification_center->draw(m_screen);
+}
+
+void Game::handle_events(){
+    while(SDL_PollEvent(m_event_handler) != 0){
+        m_screen->handle_events(m_event_handler);
+        m_player->update(m_event_handler);
+        // Do updates
+        switch(m_event_handler->type){
+            case SDL_KEYDOWN:
+                if(m_event_handler->key.keysym.sym == SDLK_ESCAPE) m_in_game = false;
+                break;
+            default:
+                break;
+        }
+
+        m_notification_center->update(m_event_handler, m_screen);
+    }
+}
+
+void Game::update(){
+    m_notification_center->update(nullptr, m_screen);
+    m_screen->update_screen();
 }

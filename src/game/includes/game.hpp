@@ -1,9 +1,14 @@
 #ifndef game_hpp
 #define game_hpp
 
-#include "../src/player/includes/player.hpp"
-#include "../src/map/includes/map_manager.hpp"
-#include "../src/screen/includes/notification_center.hpp"
+#include <filesystem>
+
+#include "../../player/includes/player.hpp"
+#include "../../map/includes/map_manager.hpp"
+#include "../../screen/includes/notification_center.hpp"
+
+namespace fs = std::filesystem;
+
 
 class Game{
     public:
@@ -13,7 +18,11 @@ class Game{
         void init(Screen *screen);
         void run();
 
-        void render();
+        void draw();
+        void handle_events();
+        void update();
+
+        void load(fs::path savefile_path);
         void save();
 
     private:
