@@ -19,7 +19,7 @@ class TileSet{
 
         //Override
         TileSet& operator=(const TileSet&);
-        SDL_Rect& operator[](std::size_t idx);
+        SDL_Rect* operator[](std::size_t idx);
 
         //Getters
         SDL_Texture* get_texture() const;

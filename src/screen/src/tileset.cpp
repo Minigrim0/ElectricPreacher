@@ -38,8 +38,8 @@ TileSet& TileSet::operator=(const TileSet& set){
     return *this;
 }
 
-SDL_Rect& TileSet::operator[](std::size_t idx){
-    return m_rects[idx];
+SDL_Rect* TileSet::operator[](std::size_t idx){
+    return &m_rects[idx];
 }
 
 //Getters
