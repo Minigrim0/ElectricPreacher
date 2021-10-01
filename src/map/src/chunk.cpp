@@ -60,7 +60,7 @@ void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
             m_layer1[x][y] = new GroundElement();
 
             m_layer1[x][y]->set_texture(
-                tileset, chunk["data"][x * m_chunk_size.y + y]
+                tileset, chunk["data"][x * m_chunk_size.y + y], {32, 32}
             );
         }
     }
@@ -68,6 +68,7 @@ void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
 
 void Chunk::render(Screen* screen, SDL_Rect position){
     SDL_Rect initial_position = position;
+
     for(int x=0;x<CHUNK_SIZE;x++){
         position.x = initial_position.x + x*32;
         for(int y=0;y<CHUNK_SIZE;y++){
