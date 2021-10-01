@@ -38,6 +38,10 @@ TileSet& TileSet::operator=(const TileSet& set){
     return *this;
 }
 
+SDL_Rect& TileSet::operator[](std::size_t idx){
+    return m_rects[idx];
+}
+
 //Getters
 SDL_Texture* TileSet::get_texture() const{return m_tex;}
 
@@ -60,6 +64,10 @@ int TileSet::get_width() const{
 
 int TileSet::get_height() const{
     return m_height;
+}
+
+std::string TileSet::get_name() const{
+    return m_name;
 }
 
 //Setters
@@ -85,16 +93,11 @@ void TileSet::load(Screen* screen, fs::path filePath){
 
     m_tex = screen->load_texture(tileset_image->Attribute("source"));
 
-    std::cout << "width " << m_width << std::endl;
-    std::cout << "height " << m_height << std::endl;
-    std::cout << "name " << m_name << std::endl;
-    std::cout << "tex path " << tileset_image->Attribute("source") << std::endl;
+    set_array();
 }
 
 //Others
 int TileSet::set_array(){
-    //int width, height;
-
     if(m_tex == NULL) return 1;
     for(int y=0;y<m_height;y+=32){
         for(int x=0;x<m_width;x+=32){
