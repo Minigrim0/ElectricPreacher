@@ -7,6 +7,7 @@
 
 #include "screen.hpp"
 #include <filesystem>
+
 namespace fs = std::filesystem;
 
 class TileSet{
@@ -33,10 +34,10 @@ class TileSet{
         void set_image(Screen* screen, std::string);
 
         //Others
+        int set_array();
         void load(Screen* screen, fs::path filePath);
 
     private:
-        int set_array();
         SDL_Texture* m_tex;
         int m_width, m_height;
         std::string m_name;
