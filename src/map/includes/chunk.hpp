@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../../screen/includes/tileset.hpp"
+#include "../../nlohmann/json.hpp"
 #include "constants.hpp"
 
 #include "map_element.hpp"
@@ -18,18 +19,20 @@ class Chunk{
         Chunk& operator=(const Chunk&);
 
         //Getters
-        SDL_Rect get_position() const;
+        SDL_Point get_position() const;
 
         //Setters
         void set_position(int, int);
-        void set_position(SDL_Rect);
+        void set_position(SDL_Point);
 
         //Others
-        void init(Screen* screen);
+        void init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets);
         void render(Screen* screen, SDL_Rect position);
 
     private:
-        SDL_Rect* m_absolute_coordinates;
+        SDL_Point m_absolute_coordinates;
+        SDL_Point m_position;
+        SDL_Point m_chunk_size;
 
         SDL_Texture* m_default_missing;
 
