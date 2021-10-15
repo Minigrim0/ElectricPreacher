@@ -99,10 +99,10 @@ int MapManager::add_chunks(nlohmann::json chunks){
 int MapManager::render(Screen *screen, SDL_Rect position){
     // Completely ignore position for now, will be used with the camera
 
-    for(long long unsigned int x=0;x<3;x++){
-        position.x = x * 32 * CHUNK_SIZE;
-        for(int y=0;y<3;y++){
-            position.y = y * 32 * CHUNK_SIZE;
+    for(auto y=0;y<1;y++){
+        position.y = y * 32 * CHUNK_SIZE;
+        for(auto x=0;x<m_chunks.size();x++){
+            position.x = x * 32 * CHUNK_SIZE;
             m_chunks[x]->render(screen, position);
         }
     }

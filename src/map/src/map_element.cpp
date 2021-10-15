@@ -37,14 +37,17 @@ int MapElement::draw(Screen* screen, int x, int y){
 }
 
 int MapElement::draw(Screen* screen, SDL_Rect position){
-    position.w = m_texture_size.x;
-    position.h = m_texture_size.y;
-    return SDL_RenderCopy(
-        screen->get_renderer(),
-        m_tileset->get_texture(),
-        (*m_tileset)[m_texture_id],
-        &position
-    );
+    if(m_texture_id != -1){
+        position.w = m_texture_size.x;
+        position.h = m_texture_size.y;
+
+        SDL_RenderCopy(
+            screen->get_renderer(),
+            m_tileset->get_texture(),
+            (*m_tileset)[m_texture_id],
+            &position
+        );
+    }
 }
 
 

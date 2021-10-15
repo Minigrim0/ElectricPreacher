@@ -39,7 +39,7 @@ TileSet& TileSet::operator=(const TileSet& set){
 }
 
 SDL_Rect* TileSet::operator[](std::size_t idx){
-    return &m_rects[idx];
+    return &(m_rects[idx]);
 }
 
 //Getters
@@ -101,12 +101,7 @@ int TileSet::set_array(){
     if(m_tex == NULL) return 1;
     for(int y=0;y<m_height;y+=32){
         for(int x=0;x<m_width;x+=32){
-            SDL_Rect tmp_rect;
-            tmp_rect.x = x;
-            tmp_rect.y = y;
-            tmp_rect.w = 32;
-            tmp_rect.h = 32;
-
+            SDL_Rect tmp_rect = {x, y, 32, 32};
             m_rects.push_back(tmp_rect);
         }
     }
