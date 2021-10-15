@@ -37,7 +37,7 @@ cp ../assets/ ./ -r
 ./ElectricPreacher
 ```
 
-## Windows
+## Windows (Not working for now)
 Using MSYS2 :
 
 ```bash
