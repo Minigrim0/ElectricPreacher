@@ -59,6 +59,7 @@ void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
         for(int x=0;x<m_chunk_size.x;x++){
             m_layer1[y][x] = new GroundElement();
             m_layer1[y][x]->set_texture(
+                tileset, chunk["data"][x * m_chunk_size.y + y].get<int>() - 1, {32, 32}
             );
         }
     }
