@@ -1,5 +1,5 @@
 #ifndef game_hpp
-#define game_hpp
+    #define game_hpp
 
 #include <filesystem>
 
@@ -12,15 +12,15 @@ namespace fs = std::filesystem;
 
 class Game{
     public:
-        Game(Screen *screen, NotificationCenter *notif_center, SDL_Event *event_handler);
+        Game(NotificationCenter *notif_center, SDL_Event *event_handler);
         ~Game();
 
-        void init(Screen *screen);
+        void init();
         void run();
 
-        void draw();
-        void handle_events();
-        void update();
+        void draw(Screen* screen);
+        void handle_events(Screen* screen);
+        void update(Screen* screen);
 
         void load(fs::path savefile_path);
         void save();
@@ -30,7 +30,6 @@ class Game{
 
         Player *m_player;
         MapManager *m_map_manager;
-        Screen *m_screen;
         NotificationCenter *m_notification_center;
         SDL_Event *m_event_handler;
 };
