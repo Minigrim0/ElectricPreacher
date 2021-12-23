@@ -26,7 +26,7 @@ class Chunk{
         void set_position(SDL_Point);
 
         //Others
-        void init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets);
+        void init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets, Screen* screen);
         void render(Screen* screen, SDL_Rect position);
 
     private:

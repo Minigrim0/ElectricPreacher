@@ -71,25 +71,25 @@ int MapManager::load_map(Screen* screen, fs::path path){
         m_tilesets[tileset->get_name()] = tileset;
     }
 
-    this->add_layers(root["layers"]);
+    this->add_layers(root["layers"], screen);
 
     return 0;
 }
 
-int MapManager::add_layers(nlohmann::json layers){
+int MapManager::add_layers(nlohmann::json layers, Screen* screen){
     for(int layer_id=0;layer_id<layers.size();layer_id++){
-        this->add_chunks(layers[layer_id]["chunks"]);
+        this->add_chunks(layers[layer_id]["chunks"], screen);
     }
     return 0;
 }
 
-int MapManager::add_chunks(nlohmann::json chunks){
+int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
     for(int chunk_id=0;chunk_id<chunks.size();chunk_id++){
         nlohmann::json chunk = chunks[chunk_id];
 
         Chunk* newChunk = new Chunk();
         newChunk->set_position(chunk["x"], chunk["y"]);
-        newChunk->init(chunk, &m_tilesets);
+        newChunk->init(chunk, &m_tilesets, screen);
         m_chunks.push_back(newChunk);
     }
 

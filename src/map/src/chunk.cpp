@@ -45,7 +45,7 @@ void Chunk::set_position(SDL_Point position){
     m_absolute_coordinates = position;
 }
 
-void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets){
+void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets, Screen* screen){
     TileSet* tileset = (*tilesets)["Outside"];
 
     m_chunk_size = {chunk["width"], chunk["height"]};
@@ -59,6 +59,7 @@ void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
         for(int x=0;x<m_chunk_size.x;x++){
             m_layer1[y][x] = new GroundElement();
             m_layer1[y][x]->set_texture(
+                tileset, chunk["data"][x * m_chunk_size.y + y].get<int>() - 1, {32, 32}, screen
             );
         }
     }

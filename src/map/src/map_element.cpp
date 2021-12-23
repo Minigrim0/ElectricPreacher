@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_ttf.h>
 
 MapElement::MapElement(bool Solid, std::string type)
 :m_is_solid(Solid),
@@ -20,20 +21,11 @@ void MapElement::set_solidity(bool Solid){
     m_is_solid = Solid;
 }
 
-void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size){
+void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size, Screen* screen){
     m_tileset = tileset;
     m_texture_id = id;
     m_texture_size = tileset_size;
-}
-
-int MapElement::draw(Screen* screen, int x, int y){
-    SDL_Rect position = {x, y, m_texture_size.x, m_texture_size.y};
-    return SDL_RenderCopy(
-        screen->get_renderer(),
-        m_tileset->get_texture(),
-        (*m_tileset)[m_texture_id],
-        &position
-    );
+    m_text = screen->convert_surface_to_texure(screen->render_text_solid(std::to_string(m_texture_id)));
 }
 
 int MapElement::draw(Screen* screen, SDL_Rect position){
@@ -48,6 +40,14 @@ int MapElement::draw(Screen* screen, SDL_Rect position){
             &position
         );
     }
+    SDL_QueryTexture(m_text, NULL, NULL, &(position.w), &(position.h));
+    return SDL_RenderCopy(
+        screen->get_renderer(),
+        m_text,
+        nullptr,
+        &position
+    );
+    std::cout << position.w << " " << position.h << std::endl;
 }
 
 

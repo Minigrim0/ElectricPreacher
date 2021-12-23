@@ -44,8 +44,8 @@ class MapManager{
         int render(Screen *screen, SDL_Rect position);
 
     private:
-        int add_layers(nlohmann::json layers);
-        int add_chunks(nlohmann::json chunks);
+        int add_layers(nlohmann::json layers, Screen* screen);
+        int add_chunks(nlohmann::json chunks, Screen* screen);
 
         SDL_Texture* m_default_missing;
         SDL_Rect m_position;
