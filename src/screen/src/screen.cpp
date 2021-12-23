@@ -12,8 +12,10 @@
 
 #include "../src/utils/includes/utils.hpp"
 
+Screen* Screen::screen_ = nullptr;
+
 //Constructors
-Screen::Screen()
+Screen::Screen(std::string title)
 :m_width(480),
 m_height(640),
 m_tile_size(32),
@@ -23,7 +25,7 @@ m_time_since_last_fps_update(0),
 m_fps(0),
 m_running(false),
 m_showing_fps(false),
-m_window_caption("Fuzzy Waddle"),
+m_window_caption(title),
 m_keyConf(std::map<SDL_Keycode, bool>()),
 m_fps_texture(nullptr),
 m_fps_surface(nullptr),
@@ -45,14 +47,11 @@ Screen::~Screen(){
     SDL_Quit();
 }
 
-//Override
-Screen& Screen::operator=(const Screen& screen){
-    m_window = screen.get_window();
-    m_width = screen.get_width();
-    m_height = screen.get_height();
-    m_fonts = screen.get_fonts();
-
-    return *this;
+Screen *Screen::GetInstance(const std::string& title){
+    if(screen_ == nullptr){
+        screen_ = new Screen(title);
+    }
+    return screen_;
 }
 
 

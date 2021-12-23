@@ -1,5 +1,5 @@
-#ifndef screen_h
-    #define screen_h
+#ifndef screen_hpp
+    #define screen_hpp
 
 #include <iostream>
 #include <map>
@@ -8,13 +8,20 @@
 #include <SDL2/SDL_ttf.h>
 
 class Screen{
+    protected:
+        // Avoid direct instantiation
+        Screen(std::string title);
+
     public:
         // Constructors
-        Screen();
-        ~Screen();
+        virtual ~Screen();
 
         // Override
-        Screen& operator=(const Screen&);
+        Screen(Screen &other) = delete;
+        void operator=(const Screen &) = delete;
+
+        // Singleton pattern
+        static Screen *GetInstance(const std::string& value);
 
         // Getters
         int get_width() const;
@@ -88,6 +95,8 @@ class Screen{
 
         SDL_Rect m_mouse_pos;
         SDL_Rect m_fps_pos;
+
+        static Screen* screen_;
 };
 
 #endif
