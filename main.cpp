@@ -2,23 +2,23 @@
 #include <mutex>
 #include <map>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
+#include <SDL.h>
+#include <SDL_events.h>
+#include <SDL_render.h>
 
 #include "constants.hpp"
 
-#include "src/screen/includes/notification_center.hpp"
-#include "src/screen/includes/screen.hpp"
+#include "screen/notification_center.hpp"
+#include "screen/screen.hpp"
 
-#include "src/map/includes/map_manager.hpp"
+#include "map/map_manager.hpp"
 
-#include "src/UI/includes/widgets.hpp"
-#include "src/UI/includes/console.hpp"
-#include "src/UI/includes/window.hpp"
+#include "UI/widgets.hpp"
+#include "UI/console.hpp"
+#include "UI/window.hpp"
 
-#include "src/utils/includes/build_windows.hpp"
-#include "src/game/includes/game.hpp"
+#include "utils/build_windows.hpp"
+#include "game/game.hpp"
 
 int main(int argc, char *argv[]){
     Screen* screen = Screen::GetInstance("Electric Preacher");
