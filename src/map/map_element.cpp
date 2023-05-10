@@ -25,7 +25,6 @@ void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size, S
     m_tileset = tileset;
     m_texture_id = id;
     m_texture_size = tileset_size;
-    m_text = screen->convert_surface_to_texure(screen->render_text_solid(std::to_string(m_texture_id)));
 }
 
 int MapElement::draw(Screen* screen, SDL_Rect position){
@@ -40,14 +39,6 @@ int MapElement::draw(Screen* screen, SDL_Rect position){
             &position
         );
     }
-    SDL_QueryTexture(m_text, NULL, NULL, &(position.w), &(position.h));
-    return SDL_RenderCopy(
-        screen->get_renderer(),
-        m_text,
-        nullptr,
-        &position
-    );
-    std::cout << position.w << " " << position.h << std::endl;
 }
 
 
