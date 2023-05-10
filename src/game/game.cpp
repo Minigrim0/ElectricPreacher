@@ -12,9 +12,13 @@ Game::~Game(){}
 
 void Game::init(){
     Screen* screen = Screen::GetInstance("Electric Preacher");
+
+    // Load the map
     m_map_manager->load_map(screen, "assets/maps/start.json");
     m_map_manager->set_position(0, 0);
     m_map_manager->init(screen);
+
+    // Load the player
     m_player->init(screen);
     m_player->set_position(100, 100);
 }

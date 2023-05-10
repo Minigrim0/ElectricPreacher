@@ -45,14 +45,15 @@ int main(int argc, char *argv[]){
 
     NotificationCenter notification_center(screen, "Roboto_16");
     build_windows(screen, &windows);
+    std::string action;
 
     while(screen->is_running()){
+        action = "";
         windows[current_window].draw(screen);
         notification_center.draw(screen);
 
         while(SDL_PollEvent(event_handler) != 0){
             screen->handle_events(event_handler);
-            std::string action = "";
             windows[current_window].update(event_handler, screen, &current_window, &action);
             if(action == "start_new_game"){
                 Game* game = new Game(&notification_center, event_handler);
