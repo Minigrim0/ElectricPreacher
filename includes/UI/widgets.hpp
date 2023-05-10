@@ -5,12 +5,13 @@
 
 #include "screen/screen.hpp"
 
-class Widget{
-    public:
-        //Constructors
-        virtual ~Widget() = default;
+class Widget
+{
+public:
+    // Constructors
+    virtual ~Widget() = default;
 
-        //Others
-        virtual int draw(Screen*) = 0;
-        virtual int update(SDL_Event*, Screen*) = 0;
+    // Others
+    virtual int draw(Screen *) = 0;
+    virtual int update(SDL_Event *, Screen *) = 0;
 };
