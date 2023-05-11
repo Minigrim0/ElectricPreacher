@@ -45,16 +45,16 @@ int Player::draw(Screen* sc) const{
 void Player::move(SDL_Event* event){
     switch(event->key.keysym.sym){
         case SDLK_z:
-            m_position.y -= 10;
+            m_position.y -= 32;
             break;
         case SDLK_q:
-            m_position.x -= 10;
+            m_position.x -= 32;
             break;
         case SDLK_s:
-            m_position.y += 10;
+            m_position.y += 32;
             break;
         case SDLK_d:
-            m_position.x += 10;
+            m_position.x += 32;
             break;
         default:
             std::cout << "unhandled case" << std::endl;
