@@ -18,27 +18,27 @@ public:
     ~TileSet();
 
     // Override
-    TileSet &operator=(const TileSet &);
     SDL_Rect *operator[](std::size_t idx);
 
     // Getters
-    SDL_Surface *get_texture() const;
+    inline SDL_Surface *get_texture() const { return m_tex; }
+
     const SDL_Rect *get_sub(int, int) const;
 
-    int get_width() const;
-    int get_height() const;
-    std::string get_name() const;
+    inline int get_width() const { return m_width; }
+    inline int get_height() const { return m_height; }
+    inline int get_tile_width() const { return m_tile_width; }
+    inline int get_tile_height() const { return m_tile_height; }
+    inline std::string get_name() const { return m_name; }
 
-    // Setters
-    void set_image(Screen *screen, std::string);
-
-    // Others
-    int set_array();
     void load(Screen *screen, fs::path filePath);
 
 private:
+    int set_array();
+
     SDL_Surface *m_tex;
     int m_width, m_height;
+    int m_tile_width, m_tile_height;
     std::string m_name;
 
     std::vector<SDL_Rect> m_rects;
