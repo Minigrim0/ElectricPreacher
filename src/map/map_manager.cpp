@@ -88,12 +88,18 @@ int MapManager::add_layers(nlohmann::json layers, Screen* screen){
     return 0;
 }
 
+/**
+ * @brief Adds some chunks to the map
+ * 
+ * @param chunks The list of chunks
+ * @param screen The screen to render the chunks on
+ * @return int 0 if success, -1 if error
+ */
 int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
     for(int chunk_id=0;chunk_id<chunks.size();chunk_id++){
         nlohmann::json chunk = chunks[chunk_id];
 
         Chunk* newChunk = new Chunk();
-        newChunk->set_position(chunk["x"], chunk["y"]);
         newChunk->load(chunk, &m_tilesets, screen);
         m_chunks.push_back(newChunk);
     }
@@ -103,10 +109,8 @@ int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
 
 int MapManager::render(Screen *screen){
     // Completely ignore position for now, will be used with the camera
-    for(auto y=0;y<1;y++){
-        for(auto x=0;x<m_chunks.size();x++){
-            m_chunks[x]->render(screen);
-        }
+    for(auto x=0;x<m_chunks.size();x++){
+        m_chunks[x]->render(screen);
     }
 
     return 0;
