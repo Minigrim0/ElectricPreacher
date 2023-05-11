@@ -40,10 +40,11 @@ public:
 
     // Others
     void init(Screen *screen);
-    int load_map(Screen *screen, fs::path path);
-    int render(Screen *screen, SDL_Rect position);
+    int load(Screen *screen, fs::path path);
+    int render(Screen *screen);
 
 private:
+    int load_tilesets(nlohmann::json tilesets, Screen *screen, fs::path path);
     int add_layers(nlohmann::json layers, Screen *screen);
     int add_chunks(nlohmann::json chunks, Screen *screen);
 
@@ -54,4 +55,5 @@ private:
     std::map<std::string, TileSet *> m_tilesets;
 
     int m_tilewidth, m_tileheight;
+    int chunk_width, chunk_height;
 };

@@ -59,21 +59,26 @@ void MapManager::init(Screen* screen){
     SDL_QueryTexture(m_default_missing, NULL, NULL, &(m_position.w), &(m_position.h));
 }
 
-int MapManager::load_map(Screen* screen, fs::path path){
+int MapManager::load(Screen* screen, fs::path path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
     json_in.close();
 
-    for(int tileset_id=0;tileset_id<root["tilesets"].size();tileset_id++){
+    bool result = 0;
+
+    result |= this->load_tilesets(root["tilesets"], screen, path);
+    result |= this->add_layers(root["layers"], screen);
+
+    return result;
+}
+
+int MapManager::load_tilesets(nlohmann::json tilesets, Screen* screen, fs::path path){
+    for(int tileset_id=0;tileset_id<tilesets.size();tileset_id++){
         TileSet* tileset = new TileSet();
-        tileset->load(screen, path.remove_filename() / root["tilesets"][tileset_id]["source"]);
+        tileset->load(screen, path.remove_filename() / tilesets[tileset_id]["source"]);
         m_tilesets[tileset->get_name()] = tileset;
     }
-
-    this->add_layers(root["layers"], screen);
-
-    return 0;
 }
 
 int MapManager::add_layers(nlohmann::json layers, Screen* screen){
@@ -89,21 +94,18 @@ int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
 
         Chunk* newChunk = new Chunk();
         newChunk->set_position(chunk["x"], chunk["y"]);
-        newChunk->init(chunk, &m_tilesets, screen);
+        newChunk->load(chunk, &m_tilesets, screen);
         m_chunks.push_back(newChunk);
     }
 
     return 0;
 }
 
-int MapManager::render(Screen *screen, SDL_Rect position){
+int MapManager::render(Screen *screen){
     // Completely ignore position for now, will be used with the camera
-
     for(auto y=0;y<1;y++){
-        position.y = y * 32 * CHUNK_SIZE;
         for(auto x=0;x<m_chunks.size();x++){
-            position.x = x * 32 * CHUNK_SIZE;
-            m_chunks[x]->render(screen, position);
+            m_chunks[x]->render(screen);
         }
     }
 

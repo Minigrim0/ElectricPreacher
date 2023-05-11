@@ -14,6 +14,7 @@ class MapElement
 public:
     // Constructors
     MapElement(bool Solid, std::string type);
+    MapElement(bool Solid, std::string type, SDL_Point position);
     virtual ~MapElement() = default;
 
     // Getters
@@ -21,12 +22,12 @@ public:
     bool is_solid() const;
 
     // Setters
-    void set_solidity(bool);
-    void set_texture(TileSet *tileset, int id, SDL_Point tileset_size, Screen *screen);
+    void set_solidity(bool solid);
+    void set_position(SDL_Point position);
+    void set_texture(TileSet *tileset, int id, SDL_Point tileset_size);
 
     // Others
-    int draw(Screen *, int, int);
-    int draw(Screen *, SDL_Rect);
+    int draw(SDL_Surface *dest);
 
     virtual void interact(Player *player) = 0;
 
@@ -36,13 +37,14 @@ private:
     int m_texture_id;
 
     SDL_Point m_texture_size;
+    SDL_Rect m_position;
     std::string m_type;
 };
 
 class GroundElement : public MapElement
 {
 public:
-    GroundElement();
+    GroundElement(SDL_Point position);
     ~GroundElement() = default;
 
     void interact(Player *player) override;
