@@ -58,7 +58,7 @@ void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
     TileSet* tileset = (*tilesets)["Outside"];
 
     m_chunk_size = {chunk["width"], chunk["height"]};
-    m_position = {chunk["x"], chunk["y"]};
+    m_position = {chunk["x"], chunk["y"], m_chunk_size.x * 32, m_chunk_size.y * 32};
 
     m_elements = static_cast<MapElement**>(malloc(m_chunk_size.x * m_chunk_size.y * sizeof(MapElement)));
 
