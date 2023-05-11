@@ -67,12 +67,13 @@ void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
 
     m_elements = static_cast<MapElement**>(malloc(m_chunk_size.x * m_chunk_size.y * sizeof(MapElement)));
 
-    // Create a Surface for chunk pre-rendering
+    // Create an empty transparent surface for chunk pre-rendering
     SDL_Surface* surface = SDL_CreateRGBSurface(
         0,
         m_chunk_size.x * tileset->get_tile_width(),
         m_chunk_size.y * tileset->get_tile_height(),
-        32, 0, 0, 0, 0
+        32,
+        0xff, 0xff00, 0xff0000, 0xff000000
     );
 
     for(int y=0;y<m_chunk_size.y;y++){
