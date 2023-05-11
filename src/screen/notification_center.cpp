@@ -10,8 +10,7 @@ NotificationCenter::NotificationCenter(Screen* sc, std::string default_font)
 m_icons(new TileSet),
 m_default_font(default_font)
 {
-    m_icons->set_image(sc, "assets/images/icons.png");
-    m_icons->set_array();
+    m_icons->load(sc, "assets/images/tilesets/icons.tsx");
 }
 
 NotificationCenter::~NotificationCenter(){
