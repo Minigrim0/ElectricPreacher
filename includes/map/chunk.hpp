@@ -13,10 +13,8 @@ class Chunk
 public:
     // Constructors
     Chunk();
+    Chunk(int chunk_size, SDL_Point position);
     ~Chunk();
-
-    // Overrides
-    Chunk &operator=(const Chunk &);
 
     // Getters
     SDL_Point get_position() const;
@@ -26,17 +24,14 @@ public:
     void set_position(SDL_Point);
 
     // Others
-    void init(nlohmann::json chunk, std::map<std::string, TileSet *> *tilesets, Screen *screen);
-    void render(Screen *screen, SDL_Rect position);
+    void load(nlohmann::json chunk, std::map<std::string, TileSet *> *tilesets, Screen *screen);
+    void render(Screen *screen);
 
 private:
     SDL_Point m_absolute_coordinates;
-    SDL_Point m_position;
     SDL_Point m_chunk_size;
+    SDL_Rect m_position;
 
-    SDL_Texture *m_default_missing;
-
-    MapElement ***m_layer1;
-    MapElement ***m_layer2;
-    MapElement ***m_layer3;
+    SDL_Texture *m_texture;
+    MapElement **m_elements;
 };

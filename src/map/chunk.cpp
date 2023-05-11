@@ -6,30 +6,28 @@
 #include "map/map_element.hpp"
 
 #include "screen/tileset.hpp"
+#include "utils/utils.hpp"
+
 
 //Constructors
 Chunk::Chunk()
 :m_absolute_coordinates({0, 0}),
 m_position({0, 0}),
-m_chunk_size({16, 16}),
-m_default_missing(nullptr),
-m_layer1(nullptr),
-m_layer2(nullptr),
-m_layer3(nullptr)
+m_chunk_size({0, 0}),
+m_texture(nullptr),
+m_elements(nullptr)
 {}
 
-Chunk::~Chunk(){
-    delete m_layer1;
-    delete m_layer2;
-    delete m_layer3;
-}
 
-//Overrides
-Chunk& Chunk::operator=(const Chunk& chunk){
-    m_absolute_coordinates = chunk.get_position();
+Chunk::Chunk(int chunk_size, SDL_Point position)
+:m_absolute_coordinates({0, 0}),
+m_position(position),
+m_chunk_size({chunk_size, chunk_size}),
+m_texture(nullptr),
+m_elements(nullptr)
+{}
 
-    return *this;
-}
+Chunk::~Chunk(){}
 
 //Getters
 SDL_Point Chunk::get_position() const{
@@ -39,40 +37,61 @@ SDL_Point Chunk::get_position() const{
 //Setters
 void Chunk::set_position(int x, int y){
     m_absolute_coordinates = {x, y};
+    m_position.x = x;
+    m_position.y = y;
 }
 
 void Chunk::set_position(SDL_Point position){
     m_absolute_coordinates = position;
+    m_position = {position.x, position.y, 0, 0};
 }
 
-void Chunk::init(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets, Screen* screen){
+/**
+ * @brief Loads the chunk from the json file
+ * 
+ * @param chunk The json description of the chunk
+ * @param tilesets The available tilesets
+ * @param screen The screen to render the chunk on
+ */
+void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets, Screen* screen){
+    // TODO: Change this hardcoded tileset name
     TileSet* tileset = (*tilesets)["Outside"];
 
     m_chunk_size = {chunk["width"], chunk["height"]};
     m_position = {chunk["x"], chunk["y"]};
 
-    m_layer1 = static_cast<MapElement***>(malloc(CHUNK_SIZE * sizeof(MapElement)));
+    m_elements = static_cast<MapElement**>(malloc(m_chunk_size.x * m_chunk_size.y * sizeof(MapElement)));
+
+    // Create a Surface for chunk pre-rendering
+    SDL_Surface* surface = SDL_CreateRGBSurface(0, m_chunk_size.x * 32, m_chunk_size.y * 32, 32, 0, 0, 0, 0);
 
     for(int y=0;y<m_chunk_size.y;y++){
-        m_layer1[y] = static_cast<MapElement**>(malloc(m_chunk_size.y * sizeof(MapElement)));
-
         for(int x=0;x<m_chunk_size.x;x++){
-            m_layer1[y][x] = new GroundElement();
-            m_layer1[y][x]->set_texture(
-                tileset, chunk["data"][x * m_chunk_size.y + y].get<int>() - 1, {32, 32}, screen
+            GroundElement* newElem = new GroundElement({x * m_chunk_size.x, y * m_chunk_size.y});
+            newElem->set_texture(
+                tileset, chunk["data"][coord_to_index(x, y, m_chunk_size.x)].get<int>() - 1, {32, 32}
             );
+            // Draw the element on the surface
+            newElem->draw(surface);
+            m_elements[coord_to_index(x, y, m_chunk_size.x)] = newElem;
         }
     }
+
+    // Convert the surface to a texture
+    m_texture = SDL_CreateTextureFromSurface(screen->get_renderer(), surface);
 }
 
-void Chunk::render(Screen* screen, SDL_Rect position){
-    SDL_Rect initial_position = position;
-
-    for(int y=0;y<CHUNK_SIZE;y++){
-        position.y = initial_position.y + y*32;
-        for(int x=0;x<CHUNK_SIZE;x++){
-            position.x = initial_position.x + x*32;
-            m_layer1[x][y]->draw(screen, position);
-        }
-    }
+/**
+ * @brief Renders the chunk on the screen
+ * 
+ * @param screen The screen object to render the chunk to
+ * @param position The position on the screen
+ */
+void Chunk::render(Screen* screen){
+    SDL_RenderCopy(
+        screen->get_renderer(),
+        m_texture,
+        NULL,
+        &m_position
+    );
 }
