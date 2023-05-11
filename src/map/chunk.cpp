@@ -12,8 +12,8 @@
 //Constructors
 Chunk::Chunk()
 :m_absolute_coordinates({0, 0}),
-m_position({0, 0}),
 m_chunk_size({0, 0}),
+m_position({0, 0}),
 m_texture(nullptr),
 m_elements(nullptr)
 {}
@@ -21,8 +21,8 @@ m_elements(nullptr)
 
 Chunk::Chunk(int chunk_size, SDL_Point position)
 :m_absolute_coordinates({0, 0}),
-m_position({position.x, position.y, 0, 0}),
 m_chunk_size({chunk_size, chunk_size}),
+m_position({position.x, position.y, 0, 0}),
 m_texture(nullptr),
 m_elements(nullptr)
 {}
@@ -63,13 +63,20 @@ void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
     m_elements = static_cast<MapElement**>(malloc(m_chunk_size.x * m_chunk_size.y * sizeof(MapElement)));
 
     // Create a Surface for chunk pre-rendering
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, m_chunk_size.x * 32, m_chunk_size.y * 32, 32, 0, 0, 0, 0);
+    SDL_Surface* surface = SDL_CreateRGBSurface(
+        0,
+        m_chunk_size.x * tileset->get_tile_width(),
+        m_chunk_size.y * tileset->get_tile_height(),
+        32, 0, 0, 0, 0
+    );
 
     for(int y=0;y<m_chunk_size.y;y++){
         for(int x=0;x<m_chunk_size.x;x++){
-            GroundElement* newElem = new GroundElement({x * m_chunk_size.x, y * m_chunk_size.y});
+            GroundElement* newElem = new GroundElement(
+                {x * tileset->get_tile_width(), y * tileset->get_tile_height()}
+            );
             newElem->set_texture(
-                tileset, chunk["data"][coord_to_index(x, y, m_chunk_size.x)].get<int>() - 1, {32, 32}
+                tileset, chunk["data"][coord_to_index(x, y, m_chunk_size.x)].get<int>() - 1
             );
             // Draw the element on the surface
             newElem->draw(surface);
