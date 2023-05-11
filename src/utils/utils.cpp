@@ -18,3 +18,12 @@ void save_texture(Screen* screen, SDL_Texture* texture, const char* filename){
     SDL_FreeSurface(surface);
     SDL_SetRenderTarget(screen->get_renderer(), target);
 }
+
+
+SDL_Point index_to_coord(int index, int width){
+    return {index % width, index / width};
+}
+
+int coord_to_index(int x, int y, int width){
+    return y * width + x;
+}
