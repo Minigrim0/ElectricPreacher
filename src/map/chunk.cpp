@@ -21,7 +21,7 @@ m_elements(nullptr)
 
 Chunk::Chunk(int chunk_size, SDL_Point position)
 :m_absolute_coordinates({0, 0}),
-m_position(position),
+m_position({position.x, position.y, 0, 0}),
 m_chunk_size({chunk_size, chunk_size}),
 m_texture(nullptr),
 m_elements(nullptr)
