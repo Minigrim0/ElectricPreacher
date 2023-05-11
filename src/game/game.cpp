@@ -14,7 +14,7 @@ void Game::init(){
     Screen* screen = Screen::GetInstance("Electric Preacher");
 
     // Load the map
-    m_map_manager->load_map(screen, "assets/maps/start.json");
+    m_map_manager->load(screen, "assets/maps/start.json");
     m_map_manager->set_position(0, 0);
     m_map_manager->init(screen);
 
@@ -36,7 +36,7 @@ void Game::run(){
 }
 
 void Game::draw(Screen* screen){
-    m_map_manager->render(screen, {0, 0, 0, 0}); // m_player->get_position());
+    m_map_manager->render(screen); // m_player->get_position());
     m_player->draw(screen);
     m_notification_center->draw(screen);
 }

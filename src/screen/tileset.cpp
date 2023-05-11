@@ -16,19 +16,20 @@ TileSet::TileSet()
 {
 }
 
-TileSet::TileSet(SDL_Texture *img)
+TileSet::TileSet(SDL_Surface *img)
     : m_tex(img),
       m_width(0),
       m_height(0),
       m_name("null"),
       m_rects()
 {
-    SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
+    m_width = img->w;
+    m_height = img->h;
 }
 
 TileSet::~TileSet()
 {
-    SDL_DestroyTexture(m_tex);
+    SDL_FreeSurface(m_tex);
 }
 
 // Override
@@ -45,7 +46,7 @@ SDL_Rect *TileSet::operator[](std::size_t idx)
 }
 
 // Getters
-SDL_Texture *TileSet::get_texture() const { return m_tex; }
+SDL_Surface *TileSet::get_texture() const { return m_tex; }
 
 const SDL_Rect *TileSet::get_sub(int x, int y) const
 {
@@ -73,8 +74,9 @@ std::string TileSet::get_name() const
 // Setters
 void TileSet::set_image(Screen *screen, std::string image)
 {
-    m_tex = screen->load_texture(image.c_str());
-    SDL_QueryTexture(m_tex, NULL, NULL, &m_width, &m_height);
+    m_tex = screen->load_image(image.c_str());
+    m_width = m_tex->w;
+    m_height = m_tex->h;
 
     if (m_tex == NULL || m_width % 32 != 0 || m_height % 32 != 0)
         exit(EXIT_FAILURE);
@@ -94,7 +96,7 @@ void TileSet::load(Screen *screen, fs::path filePath)
     m_height = std::stoi(tileset_image->Attribute("height"));
     m_name = tileset_element->Attribute("name");
 
-    m_tex = screen->load_texture(filePath.remove_filename() / tileset_image->Attribute("source"));
+    m_tex = screen->load_image(filePath.remove_filename() / tileset_image->Attribute("source"));
 
     if (set_array() != 0)
         std::cout << "Error while setting array" << std::endl;
@@ -116,10 +118,3 @@ int TileSet::set_array()
     return 0;
 }
 
-int TileSet::blit_sub(Screen *sc, int img_x, int img_y, int pos_x, int pos_y) const
-{
-    SDL_Rect pos = {pos_x, pos_y, 0, 0};
-    SDL_RenderCopy(sc->get_renderer(), m_tex, get_sub(img_x, img_y), &pos);
-
-    return 0;
-}
