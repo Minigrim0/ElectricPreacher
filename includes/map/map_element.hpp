@@ -24,7 +24,7 @@ public:
     // Setters
     void set_solidity(bool solid);
     void set_position(SDL_Point position);
-    void set_texture(TileSet *tileset, int id, SDL_Point tileset_size);
+    void set_texture(TileSet *tileset, int id);
 
     // Others
     int draw(SDL_Surface *dest);

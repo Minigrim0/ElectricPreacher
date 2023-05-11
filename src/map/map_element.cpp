@@ -41,10 +41,11 @@ void MapElement::set_solidity(bool Solid){
  * @param id The id of the texture in the tileset
  * @param tileset_size The size of the texture in the tileset
  */
-void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size){
+void MapElement::set_texture(TileSet* tileset, int id){
     m_tileset = tileset;
     m_texture_id = id;
-    m_texture_size = tileset_size;
+    m_position.w = tileset->get_tile_width();
+    m_position.h = tileset->get_tile_height();
 }
 
 /**
@@ -55,9 +56,6 @@ void MapElement::set_texture(TileSet* tileset, int id, SDL_Point tileset_size){
  */
 int MapElement::draw(SDL_Surface* dest){
     if(m_texture_id != -1){
-        m_position.w = m_texture_size.x;
-        m_position.h = m_texture_size.y;
-
         return SDL_BlitSurface(
             m_tileset->get_texture(),
             (*m_tileset)[m_texture_id],
