@@ -4,6 +4,22 @@
 
 #include "screen/screen.hpp"
 
+enum class STATUS
+{
+    IDLE,
+    WALKING,
+    ATTACKING,
+    DEAD
+};
+
+enum class DIR
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
 class Player
 {
 public:
@@ -20,12 +36,21 @@ public:
     // Others
     void init(Screen *sc);
 
-    void update(SDL_Event *event);
+    void handle_event(SDL_Event *event);
+    void update(Screen *sc);
     int draw(Screen *sc) const;
 
     void move(SDL_Event *event);
 
 private:
-    SDL_Rect m_position;
+    void walk(Screen *sc);
+
+    SDL_Rect m_position;  // The position on the map (in tiles)
+    float m_walking_offset;  // The offset of the player when walking
     SDL_Texture *m_texture;
+
+    int m_speed;  // Pixels per second
+
+    STATUS m_status;
+    DIR m_dir;
 };
