@@ -44,7 +44,7 @@ void Game::draw(Screen* screen){
 void Game::handle_events(Screen* screen){
     while(SDL_PollEvent(m_event_handler) != 0){
         screen->handle_events(m_event_handler);
-        m_player->update(m_event_handler);
+        m_player->handle_event(m_event_handler);
         // Do updates
         switch(m_event_handler->type){
             case SDL_KEYDOWN:
@@ -60,5 +60,6 @@ void Game::handle_events(Screen* screen){
 
 void Game::update(Screen* screen){
     m_notification_center->update(nullptr, screen);
+    m_player->update(screen);
     screen->update_screen();
 }
