@@ -40,12 +40,13 @@ public:
     void update(Screen *sc);
     int draw(Screen *sc) const;
 
-    void move(SDL_Event *event);
-
 private:
+    void move(SDL_Event *event);
     void walk(Screen *sc);
+    void update_position();
 
     SDL_Rect m_position;  // The position on the map (in tiles)
+    SDL_Rect m_draw_position;  // The position on the screen (in pixels)
     float m_walking_offset;  // The offset of the player when walking
     SDL_Texture *m_texture;
 

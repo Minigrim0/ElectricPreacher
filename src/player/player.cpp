@@ -6,18 +6,28 @@ Player::Player()
 :m_position({0, 0, 32, 32}),
 m_walking_offset(0),
 m_texture(nullptr),
-m_speed(16),
+m_speed(64),
 m_status(STATUS::IDLE),
 m_dir(DIR::DOWN)
 {}
 
 Player::~Player(){}
 
-// Setters
+/**
+ * @brief Sets the position of the player using a SDL_Rect
+ * 
+ * @param position The position (in tiles)
+ */
 void Player::set_position(SDL_Rect position){
     m_position = position;
 }
 
+/**
+ * @brief Sets the position of the player using x and y coordinates
+ * 
+ * @param x The x coordinate (in tiles)
+ * @param y The y coordinate (in tiles)
+ */
 void Player::set_position(int x, int y){
     m_position.x = x;
     m_position.y = y;
@@ -32,34 +42,69 @@ void Player::init(Screen* sc){
 void Player::handle_event(SDL_Event* event){
     if(m_status != STATUS::IDLE) return;
 
-    switch(event->type){
-        case SDL_KEYDOWN:
-            move(event);
-            std::cout << "Move" << std::endl;
-            break;
-        case SDL_KEYUP:
-            //move(event);
-            break;
-        default:
-            break;
-    }
+    if(event->type == SDL_KEYDOWN)
+        move(event);
 }
 
 void Player::update(Screen* sc){
-    std::cout << m_walking_offset << std::endl;
+    std::cout << m_position.x << " " << m_position.y << std::endl;
     switch(m_status){
         case STATUS::IDLE:
             break;
         case STATUS::WALKING:
-            m_walking_offset += m_speed * sc->get_time_elapsed() / 1000;
+            m_walking_offset += m_speed * sc->get_time_elapsed() / 1000.0;
+            std::cout << m_speed * sc->get_time_elapsed() / 1000.0 << std::endl;
             if(m_walking_offset >= 32.0){
                 m_walking_offset = 0;
+                update_position();
                 m_status = STATUS::IDLE;
             }
             break;
         case STATUS::ATTACKING:
             break;
         case STATUS::DEAD:
+            break;
+        default:
+            break;
+    }
+
+    m_draw_position = {m_position.x * 32, m_position.y * 32, 32, 32};
+    if(m_status == STATUS::WALKING){
+        switch(m_dir){
+            case DIR::UP:
+                m_draw_position.y -= m_walking_offset;
+                break;
+            case DIR::DOWN:
+                m_draw_position.y += m_walking_offset;
+                break;
+            case DIR::LEFT:
+                m_draw_position.x -= m_walking_offset;
+                break;
+            case DIR::RIGHT:
+                m_draw_position.x += m_walking_offset;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+/**
+ * @brief Updates the position of the player after the walking animation
+ */
+void Player::update_position(){
+    switch(m_dir){
+        case DIR::UP:
+            m_position.y -= 1;
+            break;
+        case DIR::DOWN:
+            m_position.y += 1;
+            break;
+        case DIR::LEFT:
+            m_position.x -= 1;
+            break;
+        case DIR::RIGHT:
+            m_position.x += 1;
             break;
         default:
             break;
@@ -73,28 +118,7 @@ void Player::update(Screen* sc){
  * @return int 
  */
 int Player::draw(Screen* sc) const{
-    if(m_status == STATUS::WALKING){
-        SDL_Rect dst = m_position;
-        switch(m_dir){
-            case DIR::UP:
-                dst.y -= m_walking_offset;
-                break;
-            case DIR::DOWN:
-                dst.y += m_walking_offset;
-                break;
-            case DIR::LEFT:
-                dst.x -= m_walking_offset;
-                break;
-            case DIR::RIGHT:
-                dst.x += m_walking_offset;
-                break;
-            default:
-                break;
-        }
-        return SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &dst);
-    } else {
-        return SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &m_position);
-    }
+    return SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &m_draw_position);
 }
 
 
