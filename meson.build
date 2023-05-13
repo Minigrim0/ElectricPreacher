@@ -28,6 +28,9 @@ subdir('src/utils')
 # Actual code
 source_files = files('main.cpp') + game_sources + map_sources + player_sources + screen_sources + ui_sources + utils_sources
 
+run_target('cppcheck', command : ['cppcheck', '--project=' + 
+  join_paths(meson.build_root(), 'compile_commands.json'),
+  '--enable=all', '--inconclusive', '--std=c++17', '--language=c++']) 
 
 executable(
   'ElectricPreacher', source_files,
