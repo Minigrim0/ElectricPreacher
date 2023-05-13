@@ -20,7 +20,7 @@ void Game::init(){
 
     // Load the player
     m_player->init(screen);
-    m_player->set_position(96, 96);
+    m_player->set_position(2, 2);
 }
 
 void Game::run(){
