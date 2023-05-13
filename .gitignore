@@ -4,3 +4,4 @@ build
 *.gch
 .vscode
 subprojects
+documentation/html
