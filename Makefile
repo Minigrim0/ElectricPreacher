@@ -4,6 +4,9 @@ build:
 	meson build
 	ninja -C build
 
+run: build
+	./build/ElectricPreacher
+
 documentation:
 	doxygen
 
