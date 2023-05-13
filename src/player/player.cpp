@@ -47,7 +47,6 @@ void Player::handle_event(SDL_Event* event){
 }
 
 void Player::update(Screen* sc){
-    std::cout << m_position.x << " " << m_position.y << std::endl;
     switch(m_status){
         case STATUS::IDLE:
             if(sc->get_key(SDLK_z)) move(SDLK_z);
@@ -57,7 +56,6 @@ void Player::update(Screen* sc){
             break;
         case STATUS::WALKING:
             m_walking_offset += m_speed * sc->get_time_elapsed() / 1000.0;
-            std::cout << m_speed * sc->get_time_elapsed() / 1000.0 << std::endl;
             if(m_walking_offset >= 32.0){
                 m_walking_offset = 0;
                 update_position();

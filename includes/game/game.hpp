@@ -8,27 +8,40 @@
 
 namespace fs = std::filesystem;
 
-class Game
-{
+/**
+ * @brief The Game class is the main class of the game
+ * It handles the game loop and the main events during a game
+ */
+class Game {
+protected:
+    Game();
+
 public:
-    Game(NotificationCenter *notif_center, SDL_Event *event_handler);
     ~Game();
+
+    // Override
+    Game(Game &other) = delete;
+    void operator=(const Game &) = delete;
+
+    // Singleton pattern
+    static Game *GetInstance();
 
     void init();
     void run();
-
-    void draw(Screen *screen);
-    void handle_events(Screen *screen);
-    void update(Screen *screen);
 
     void load(fs::path savefile_path);
     void save();
 
 private:
+    void draw(Screen *screen, NotificationCenter *notification_center);
+    void handle_events(Screen *screen, NotificationCenter *notification_center);
+    void update(Screen *screen, NotificationCenter *notification_center);
+
     bool m_in_game;
 
     Player *m_player;
     MapManager *m_map_manager;
-    NotificationCenter *m_notification_center;
     SDL_Event *m_event_handler;
+
+    static Game *game_;
 };

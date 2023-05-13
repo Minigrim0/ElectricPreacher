@@ -6,11 +6,15 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+/**
+ * @brief The Screen class is a singleton that handles the window and the renderer of the game
+ * It is responsible for handling some basic event and drawing functions
+ */
 class Screen
 {
 protected:
     // Avoid direct instantiation
-    Screen(std::string title);
+    explicit Screen(std::string title);
 
 public:
     // Constructors

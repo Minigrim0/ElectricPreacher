@@ -24,7 +24,7 @@ public:
     Console(int, int);
     Console(int, int, int);
     Console(int, int, int, int);
-    Console(TTF_Font *);
+    explicit Console(TTF_Font *);
     ~Console();
 
     Console &operator=(const Console &);

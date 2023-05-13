@@ -11,9 +11,17 @@
 
 class NotificationCenter : public Widget
 {
+protected:
+    NotificationCenter();
+
 public:
-    NotificationCenter(Screen *, std::string default_font);
     ~NotificationCenter();
+
+    // Singleton pattern
+    static NotificationCenter *GetInstance();
+
+    // Setter
+    void set_default_font(std::string font);
 
     // Others
     int draw(Screen *) override;
@@ -25,4 +33,6 @@ private:
     TileSet *m_icons;
 
     std::string m_default_font;
+
+    static NotificationCenter *nc_;
 };

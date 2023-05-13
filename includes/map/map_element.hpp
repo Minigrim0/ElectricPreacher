@@ -44,7 +44,7 @@ private:
 class GroundElement : public MapElement
 {
 public:
-    GroundElement(SDL_Point position);
+    explicit GroundElement(SDL_Point position);
     ~GroundElement() = default;
 
     void interact(Player *player) override;

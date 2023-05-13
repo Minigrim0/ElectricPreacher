@@ -25,7 +25,7 @@ public:
     // Constructors
     MapManager();
     MapManager(int, int);
-    MapManager(SDL_Rect);
+    explicit MapManager(SDL_Rect);
     ~MapManager();
 
     // Override

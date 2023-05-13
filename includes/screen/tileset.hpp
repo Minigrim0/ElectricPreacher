@@ -14,7 +14,7 @@ class TileSet
 public:
     // Constructors
     TileSet();
-    TileSet(SDL_Surface *);
+    explicit TileSet(SDL_Surface *);
     ~TileSet();
 
     // Override

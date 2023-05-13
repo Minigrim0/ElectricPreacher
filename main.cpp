@@ -43,31 +43,31 @@ int main(int argc, char *argv[]){
 
     if(screen->build_window() != 0) return EXIT_FAILURE;
 
-    NotificationCenter notification_center(screen, "Roboto_16");
+    NotificationCenter* notification_center = NotificationCenter::GetInstance();
+    notification_center->set_default_font("Roboto_16");
     build_windows(screen, &windows);
     std::string action;
 
     while(screen->is_running()){
         action = "";
         windows[current_window].draw(screen);
-        notification_center.draw(screen);
+        notification_center->draw(screen);
 
         while(SDL_PollEvent(event_handler) != 0){
             screen->handle_events(event_handler);
             windows[current_window].update(event_handler, screen, &current_window, &action);
             if(action == "start_new_game"){
-                Game* game = new Game(&notification_center, event_handler);
-                game->init();
-                game->run();
+                Game::GetInstance()->init();
+                Game::GetInstance()->run();
             }
 
-            notification_center.update(event_handler, screen);
+            notification_center->update(event_handler, screen);
             /* Example code to create a notification */
             if(event_handler->type == SDL_KEYUP){
-                notification_center.create_notification("Keyup !", screen, "Roboto_16", 2500);
+                notification_center->create_notification("Keyup !", screen, "Roboto_16", 2500);
             }
         }
-        notification_center.update(nullptr, screen);
+        notification_center->update(nullptr, screen);
 
         screen->update_screen();
     }

@@ -3,18 +3,29 @@
 #include "screen/screen.hpp"
 #include "screen/tileset.hpp"
 
-// #include "constants.hpp"
+NotificationCenter* NotificationCenter::nc_ = nullptr;
 
-NotificationCenter::NotificationCenter(Screen* sc, std::string default_font)
+NotificationCenter::NotificationCenter()
 :m_notifications(std::vector<Notification*>()),
 m_icons(new TileSet),
-m_default_font(default_font)
+m_default_font("")
 {
-    m_icons->load(sc, "assets/images/tilesets/icons.tsx");
+    m_icons->load(Screen::GetInstance("Electric Preacher"), "assets/images/tilesets/icons.tsx");
 }
 
 NotificationCenter::~NotificationCenter(){
     delete m_icons;
+}
+
+NotificationCenter *NotificationCenter::GetInstance(){
+    if(nc_ == nullptr){
+        nc_ = new NotificationCenter();
+    }
+    return nc_;
+}
+
+void NotificationCenter::set_default_font(std::string font){
+    m_default_font = font;
 }
 
 //Others
