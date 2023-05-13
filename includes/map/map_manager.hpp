@@ -15,9 +15,9 @@
 namespace fs = std::filesystem;
 
 /**
-    class : MapManager
-    purpose : Manages a "chunk" of the total map, which size is defined by CHUNK_SIZE
-    A chunk is composed of three layers of "items/images", the ground, the scenery, and the "objects"
+ * @author Minigrim0
+ * @brief Manages a "chunk" of the total map, which size is defined by CHUNK_SIZE
+ * A chunk is composed of three layers of "items/images", the ground, the scenery, and the "objects"
 */
 class MapManager
 {
@@ -27,9 +27,6 @@ public:
     MapManager(int, int);
     explicit MapManager(SDL_Rect);
     ~MapManager();
-
-    // Override
-    MapManager &operator=(const MapManager &);
 
     // Getters
     SDL_Rect get_position() const;
@@ -50,7 +47,7 @@ private:
 
     SDL_Texture *m_default_missing;
     SDL_Rect m_position;
-    SDL_Point origin;
+    SDL_Point m_origin;
     std::vector<Chunk *> m_chunks;
     std::map<std::string, TileSet *> m_tilesets;
 

@@ -9,12 +9,27 @@
 #include "screen/tileset.hpp"
 #include "player/player.hpp"
 
+namespace MAP_ELEMENT
+{
+    const std::string GROUND = "ground";
+    const std::string WALL = "wall";
+    const std::string DOOR = "door";
+    const std::string INTERACTIBLE = "interactible";
+    const std::string NPC = "npc";
+    const std::string ENEMY = "enemy";
+} // namespace MAP_ELEMENT
+
+/**
+ * @author Minigrim0
+ * @brief A map element is an element of the map, which can be interacted with
+ * This class is abstract, and should be inherited by other classes
+ */
 class MapElement
 {
 public:
     // Constructors
-    MapElement(bool Solid, std::string type);
-    MapElement(bool Solid, std::string type, SDL_Point position);
+    MapElement(bool solid, const std::string *type);
+    MapElement(bool solid, const std::string *type, SDL_Point position);
     virtual ~MapElement() = default;
 
     // Getters
@@ -41,6 +56,12 @@ private:
     std::string m_type;
 };
 
+/**
+ * @author Minigrim0
+ * @brief A ground element is a map element that can be walked on
+ * It is not solid, and cannot be interacted with
+ * It may contain a hitbox, but it is not required (For a cliff for example)
+ */
 class GroundElement : public MapElement
 {
 public:

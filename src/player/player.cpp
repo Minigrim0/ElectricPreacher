@@ -4,6 +4,7 @@
 
 Player::Player()
 :m_position({0, 0, 32, 32}),
+m_draw_position(m_position),
 m_walking_offset(0),
 m_texture(nullptr),
 m_speed(64),
@@ -34,11 +35,21 @@ void Player::set_position(int x, int y){
 }
 
 // Others
+/**
+ * @brief Initializes the player, loading the texture
+ * 
+ * @param sc The screen to load the texture from
+ */
 void Player::init(Screen* sc){
     m_texture = sc->load_texture("assets/images/player.png");
     if(m_texture == nullptr) std::cout << "Error :" << SDL_GetError() << std::endl;
 }
 
+/**
+ * @brief Handles the events of the player
+ * 
+ * @param event The event to handle
+ */
 void Player::handle_event(SDL_Event* event){
     if(m_status != STATUS::IDLE) return;
 
@@ -49,8 +60,8 @@ void Player::handle_event(SDL_Event* event){
 void Player::update(Screen* sc){
     switch(m_status){
         case STATUS::IDLE:
-            if(sc->get_key(SDLK_z)) move(SDLK_z);
-            else if(sc->get_key(SDLK_q)) move(SDLK_q);
+            if(sc->get_key(SDLK_w)) move(SDLK_w);
+            else if(sc->get_key(SDLK_a)) move(SDLK_a);
             else if(sc->get_key(SDLK_s)) move(SDLK_s);
             else if(sc->get_key(SDLK_d)) move(SDLK_d);
             break;
@@ -130,11 +141,11 @@ int Player::draw(Screen* sc) const{
  */
 void Player::move(SDL_Keycode sym){
     switch(sym){
-        case SDLK_z:
+        case SDLK_w:
             m_status = STATUS::WALKING;
             m_dir = DIR::UP;
             break;
-        case SDLK_q:
+        case SDLK_a:
             m_status = STATUS::WALKING;
             m_dir = DIR::LEFT;
             break;

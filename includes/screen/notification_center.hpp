@@ -9,6 +9,11 @@
 #include "screen/notification.hpp"
 #include "screen/screen.hpp"
 
+/**
+ * @author Minigrim0
+ * @brief The notification center is a widget that manages notifications
+ * It can be used to display messages to the player
+ */
 class NotificationCenter : public Widget
 {
 protected:

@@ -9,6 +9,12 @@
 
 namespace fs = std::filesystem;
 
+/**
+ * @author Minigrim0
+ * @brief A tileset is a set of tiles, which can be used to draw a map
+ * It is loaded from a .tsx file, which is an XML file.
+ * It contains the path to the texture, the size of the tiles, and the size of the texture
+ */
 class TileSet
 {
 public:

@@ -20,6 +20,15 @@ enum class DIR
     RIGHT
 };
 
+/**
+ * @author Minigrim0
+ * @brief The player class
+ * The player is the character controlled by the player
+ * The player can walk, attack, interact with objects and NPCs
+ * 
+ * The player is represented by a rectangle, which position is in tiles
+ * The player is drawn on screen, and can be animated
+ */
 class Player
 {
 public:
@@ -45,12 +54,12 @@ private:
     void walk(Screen *sc);
     void update_position();
 
-    SDL_Rect m_position;  // The position on the map (in tiles)
-    SDL_Rect m_draw_position;  // The position on the screen (in pixels)
-    float m_walking_offset;  // The offset of the player when walking
-    SDL_Texture *m_texture;
+    SDL_Rect m_position;  //! The position on the map (in tiles)
+    SDL_Rect m_draw_position;  //! The position on the screen (in pixels)
+    float m_walking_offset;  //! The offset of the player when walking
+    SDL_Texture *m_texture;  //! Temporary texture, will be replaced by an animation
 
-    int m_speed;  // Pixels per second
+    int m_speed;  //! Pixels per second
 
     STATUS m_status;
     DIR m_dir;

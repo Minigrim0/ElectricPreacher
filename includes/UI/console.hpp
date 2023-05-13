@@ -1,11 +1,3 @@
-/**
-    name : console.h
-    purpose : Handles a complete console with text input for the user,
-    text output from the rest of the game, the drawing of itself and the updating
-
-    @author : mingirim0
-    @version : 1.0
-*/
 #pragma once
 
 #include <vector>
@@ -16,6 +8,12 @@
 #include "UI/text_input.hpp"
 #include "UI/widgets.hpp"
 
+/**
+ * @author Minigrim0
+ * @brief A console is a widget that can be used to display text to the player
+ * It contains a text input that can be used to either send a message to a server,
+ * or to enter a command
+ */
 class Console : public Widget
 {
 public:

@@ -4,22 +4,22 @@
 #include <SDL_rect.h>
 #include <SDL_ttf.h>
 
-MapElement::MapElement(bool solid, std::string type)
+MapElement::MapElement(bool solid, const std::string *type)
 :m_is_solid(solid),
 m_tileset(nullptr),
 m_texture_id(-1),
 m_texture_size({0, 0}),
 m_position({0, 0, 0, 0}),
-m_type(type)
+m_type(*type)
 {}
 
-MapElement::MapElement(bool solid, std::string type, SDL_Point position)
+MapElement::MapElement(bool solid, const std::string *type, SDL_Point position)
 :m_is_solid(solid),
 m_tileset(nullptr),
 m_texture_id(-1),
 m_texture_size({0, 0}),
 m_position({position.x, position.y, 0, 0}),
-m_type(type)
+m_type(*type)
 {}
 
 std::string MapElement::get_type() const{
@@ -30,8 +30,8 @@ bool MapElement::is_solid() const{
     return m_is_solid;
 }
 
-void MapElement::set_solidity(bool Solid){
-    m_is_solid = Solid;
+void MapElement::set_solidity(bool solid){
+    m_is_solid = solid;
 }
 
 /**
@@ -68,7 +68,7 @@ int MapElement::draw(SDL_Surface* dest){
 
 
 GroundElement::GroundElement(SDL_Point position)
-:MapElement(false, "ground", position)
+:MapElement(false, &MAP_ELEMENT::GROUND, position)
 {}
 
 void GroundElement::interact(Player* player){

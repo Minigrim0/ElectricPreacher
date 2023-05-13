@@ -14,8 +14,15 @@
 
 //Constructors
 MapManager::MapManager()
-:m_position({0, 0}),
-m_chunks()
+:m_default_missing(nullptr),
+m_position({0, 0}),
+m_origin({0, 0}),
+m_chunks(std::vector<Chunk*>()),
+m_tilesets(std::map<std::string, TileSet*>()),
+m_tilewidth(32),
+m_tileheight(32),
+chunk_width(16),
+chunk_height(16)
 {}
 
 MapManager::MapManager(int x, int y)
@@ -31,13 +38,6 @@ MapManager::MapManager(SDL_Rect position)
 }
 
 MapManager::~MapManager(){}
-
-//Override
-MapManager& MapManager::operator=(const MapManager& mm){
-    m_position = mm.get_position();
-
-    return *this;
-}
 
 //Getters
 SDL_Rect MapManager::get_position() const{

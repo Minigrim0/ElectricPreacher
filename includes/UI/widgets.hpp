@@ -5,6 +5,10 @@
 
 #include "screen/screen.hpp"
 
+/**
+ * @brief A widget is a part of the UI that can be drawn and updated
+ * This is an abstract class that must be inherited by all widgets
+ */
 class Widget
 {
 public:

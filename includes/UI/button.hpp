@@ -1,7 +1,3 @@
-/**
-    name : button.h
-    purpose : Defines a button and its methods (with animations, ...)
-*/
 #pragma once
 
 #include <iostream>
@@ -10,6 +6,9 @@
 #include "screen/screen.hpp"
 #include "UI/widgets.hpp"
 
+/**
+ * @brief A button is a widget that can be clicked by the player
+ */
 class Button : public Widget
 {
 public:

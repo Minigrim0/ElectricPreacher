@@ -263,10 +263,12 @@ void Screen::compute_fps(){
         std::string fps_text = std::to_string(m_fps) + " FPS";
         SDL_FreeSurface(m_fps_surface);
         m_fps_surface = TTF_RenderText_Blended(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
-        m_fps_pos = {15, 15, m_fps_surface->w, m_fps_surface->h};
-        if(m_fps_surface == NULL)
+        if(m_fps_surface == NULL){
             std::cout << "Error : " << TTF_GetError() << std::endl;
-        m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
+        } else {
+            m_fps_pos = {15, 15, m_fps_surface->w, m_fps_surface->h};
+            m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
+        }
     }
 
     if(SDL_RenderCopy(m_Renderer, m_fps_texture, NULL, &m_fps_pos) != 0)

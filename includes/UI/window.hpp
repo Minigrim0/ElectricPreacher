@@ -8,6 +8,10 @@
 #include "UI/button.hpp"
 #include "screen/screen.hpp"
 
+/**
+ * @brief A window is a part of the UI that can be drawn and updated
+ * Windows can be generated from a JSON file
+ */
 class Window{
     public:
         Window();

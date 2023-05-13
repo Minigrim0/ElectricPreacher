@@ -9,6 +9,9 @@
 #include "screen/screen.hpp"
 #include "widgets.hpp"
 
+/**
+ * @brief A text input is a widget that can be used to get text input from the player
+ */
 class TextInput : public Widget
 {
 public:

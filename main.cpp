@@ -20,6 +20,13 @@
 #include "utils/build_windows.hpp"
 #include "game/game.hpp"
 
+/**
+ * @brief The main function
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char *argv[]){
     Screen* screen = Screen::GetInstance("Electric Preacher");
     std::string current_window = "Main";

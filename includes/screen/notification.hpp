@@ -5,6 +5,12 @@
 
 #include "UI/widgets.hpp"
 
+/**
+ * @author Minigrim0
+ * @brief A notification is a widget that displays a message to the player
+ * It is given a lifetime in milliseconds, and will disappear after that time
+ * It can contain a text, an icon, and a progress bar
+ */
 class Notification : public Widget
 {
 public:

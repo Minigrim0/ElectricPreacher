@@ -8,6 +8,10 @@
 
 #include "map/map_element.hpp"
 
+/**
+ * @brief A chunk is a part of the map, which size is defined by the map manager
+ * It is pre-loaded and rendered, and can be unloaded when the player is too far away
+ */
 class Chunk
 {
 public:
