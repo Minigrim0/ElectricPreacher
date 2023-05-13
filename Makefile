@@ -1,17 +1,20 @@
 ALL_CPP_FILES=$(wildcard src/*/*.cpp)
 ALL_H_FILES=$(wildcard includes/*/*.hpp)
 
-all: build check documentation
+all: compile doc
 
-build: $(ALL_CPP_FILES) $(ALL_H_FILES) main.cpp constants.hpp
-	meson build
+compile:
+	meson setup build
 	ninja -C build
 
-run: build
+run: compile
 	./build/ElectricPreacher
 
-documentation:
+doc:
 	doxygen
 
 check:
 	ninja cppcheck -C build
+
+clean:
+	ninja -C build clean
