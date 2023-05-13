@@ -41,7 +41,7 @@ public:
     int draw(Screen *sc) const;
 
 private:
-    void move(SDL_Event *event);
+    void move(SDL_Keycode sym);
     void walk(Screen *sc);
     void update_position();
 
