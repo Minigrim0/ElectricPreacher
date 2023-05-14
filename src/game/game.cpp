@@ -20,7 +20,7 @@ Game *Game::GetInstance(){
 }
 
 void Game::init(){
-    Screen* screen = Screen::GetInstance("Electric Preacher");
+    Screen* screen = Screen::GetInstance(PROJECT_NAME);
 
     // Load the map
     m_map_manager->load(screen, "assets/maps/start.json");
@@ -35,7 +35,7 @@ void Game::init(){
 void Game::run(){
     m_in_game = true;
     // Avoid querying for the singleton at each loop, ask once in the begining
-    Screen* screen = Screen::GetInstance("Electric Preacher");
+    Screen* screen = Screen::GetInstance(PROJECT_NAME);
     NotificationCenter* notification_center = NotificationCenter::GetInstance();
 
     while(m_in_game){

@@ -28,7 +28,7 @@
  * @return int 
  */
 int main(int argc, char *argv[]){
-    Screen* screen = Screen::GetInstance("Electric Preacher");
+    Screen* screen = Screen::GetInstance(PROJECT_NAME);
     std::string current_window = "Main";
 
     std::map<std::string, Window> windows;

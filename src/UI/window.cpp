@@ -15,23 +15,45 @@ Window::Window(){}
 
 Window::~Window(){}
 
-// Returns the current state of the window
+/**
+ * @brief Get the running state of the window
+ * 
+ * @return true The window is currently running
+ * @return false The window is not running
+ */
 bool Window::is_running() const{
     return m_window_running;
 }
 
-// Returns the name (identifier) of the window
+/**
+ * @brief Get the title of the window
+ * 
+ * @return std::string The title of the window
+ */
 std::string Window::get_title() const{
     return m_window_name;
 }
 
-// Defines wether the window is running or not
+/**
+ * @brief Set the running state of the window
+ * 
+ * @param running Whether the window should be running or not
+ */
 void Window::set_running(bool running){
     m_window_running = running;
 }
 
-// Create a button that holds the title
-void Window::set_title(Screen* screen, nlohmann::json title){
+/**
+ * @brief Create a button that holds the title
+ * 
+ * @param title The json description of the title
+ */
+void Window::set_title(nlohmann::json title){
+    const Screen *screen = Screen::GetInstance(PROJECT_NAME);
+
+    int off_x = title["offset"][0];
+    int off_y = title["offset"][1];
+
     m_title = new Button;
     m_title->set_text(title["text"]);
     m_title->set_position(0, 0);
@@ -54,24 +76,30 @@ void Window::set_title(Screen* screen, nlohmann::json title){
             title["text-position_y"]
         );
 
-    int off_x = title["offset"][0];
-    int off_y = title["offset"][1];
-
     m_title->set_text_offset(off_x, off_y);
-
     m_title->update_layout(
         screen,
         screen->get_font(title["font_id"])
     );
 }
 
-// Add an already created button to the list of buttons
+/**
+ * @brief Add an already created button to the list of buttons
+ * 
+ * @param newButton The button to add
+ */
 void Window::add_button(Button* newButton){
     m_buttons.push_back(newButton);
 }
 
-// Add a button from a parsed json object
-int Window::add_button(Screen* screen, nlohmann::json buttons){
+/**
+ * @brief Add a collection of button from a parsed json list
+ * 
+ * @param buttons The list of buttons to add
+ * @return int 0 on success, -1 on error
+ */
+int Window::add_buttons(nlohmann::json buttons){
+    const Screen *screen = Screen::GetInstance(PROJECT_NAME);
     for (unsigned int index=0;index<buttons.size();++index){
         m_buttons.push_back(new Button);
 
@@ -105,7 +133,7 @@ int Window::add_button(Screen* screen, nlohmann::json buttons){
             buttons[index]["contour-color"]["b"]
         );
 
-        //Set text-position, via text or absolute coordinates
+        // Set text-position, via text or absolute coordinates
         if(buttons[index]["text_position_type"] == "txt"){
             m_buttons.back()->set_text_pos(
                 buttons[index]["text-position"]
@@ -128,7 +156,14 @@ int Window::add_button(Screen* screen, nlohmann::json buttons){
     return 0;
 }
 
-// Updates the window
+/**
+ * @brief Updates the window, handles events
+ * 
+ * @param event The event handler, used to get current event if any
+ * @param screen The screen on which to draw and from which to get informations
+ * @param current_window A pointer to the current window name, used to switch windows
+ * @param action A pointer to the current action, used to switch windows or quit the game
+ */
 void Window::update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action){
     for(unsigned i = 0; i < m_buttons.size(); i++){
         m_buttons[i]->update(event, screen);
@@ -147,7 +182,11 @@ void Window::update(SDL_Event* event, Screen* screen, std::string *current_windo
     }
 }
 
-// Draws the window to the screen
+/**
+ * @brief Draws the window to the screen
+ * 
+ * @param screen The screen on which to draw
+ */
 void Window::draw(Screen* screen){
     for(unsigned i = 0; i < m_buttons.size(); i++){
         m_buttons[i]->draw(screen);
@@ -155,7 +194,13 @@ void Window::draw(Screen* screen){
     m_title->draw(screen);
 }
 
-// Create the window from a json file
+/**
+ * @brief Create a window from a JSON file
+ * 
+ * @param screen The screen on which to draw
+ * @param JSONsource The path to the JSON file
+ * @return 0 on success, -1 on error
+ */
 int Window::createfrom(Screen* screen, std::string JSONsource){
     std::ifstream json_in(JSONsource.c_str());
     nlohmann::json root;
@@ -167,11 +212,11 @@ int Window::createfrom(Screen* screen, std::string JSONsource){
 
     // Setup Buttons
     const nlohmann::json buttons = root["Buttons"];
-    this->add_button(screen, buttons);
+    this->add_buttons(buttons);
 
     // Setup title
     const nlohmann::json title = root["Title"];
-    this->set_title(screen, title);
+    this->set_title(title);
 
     json_in.close();
     return 0;
