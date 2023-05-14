@@ -78,7 +78,6 @@ void Window::set_title(nlohmann::json title){
 
     m_title->set_text_offset(off_x, off_y);
     m_title->update_layout(
-        screen,
         screen->get_font(title["font_id"])
     );
 }
@@ -149,7 +148,6 @@ int Window::add_buttons(nlohmann::json buttons){
 
         //Finally update the button image
         m_buttons.back()->update_layout(
-            screen,
             screen->get_font(buttons[index]["font_id"])
         );
     }
@@ -185,13 +183,13 @@ void Window::update(SDL_Event* event, Screen* screen, std::string *current_windo
 /**
  * @brief Draws the window to the screen
  * 
- * @param screen The screen on which to draw
+ * @param sc The screen on which to draw
  */
-void Window::draw(Screen* screen){
+void Window::draw(Screen* sc){
     for(unsigned i = 0; i < m_buttons.size(); i++){
-        m_buttons[i]->draw(screen);
+        m_buttons[i]->draw(sc);
     }
-    m_title->draw(screen);
+    m_title->draw(sc);
 }
 
 /**
@@ -201,14 +199,14 @@ void Window::draw(Screen* screen){
  * @param JSONsource The path to the JSON file
  * @return 0 on success, -1 on error
  */
-int Window::createfrom(Screen* screen, std::string JSONsource){
+int Window::createfrom(std::string JSONsource){
     std::ifstream json_in(JSONsource.c_str());
     nlohmann::json root;
     json_in >> root;
 
     // Setup window-wide informations
     m_window_name = root["window_name"];
-    screen->add_font(root["font_path"], root["font_size"], root["font_id"]);
+    Screen::GetInstance(PROJECT_NAME)->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
     // Setup Buttons
     const nlohmann::json buttons = root["Buttons"];

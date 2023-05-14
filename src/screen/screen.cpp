@@ -54,21 +54,30 @@ Screen *Screen::GetInstance(const std::string& title){
 
 
 //Getters
-int Screen::get_width() const{return m_width;}
-int Screen::get_height() const{return m_height;}
-int Screen::get_time_elapsed() const{return static_cast<int>(m_time_elapsed);}
+int Screen::get_width() const {return m_width;}
+int Screen::get_height() const {return m_height;}
+int Screen::get_time_elapsed() const {return static_cast<int>(m_time_elapsed);}
 
-bool Screen::is_running() const{return m_running;}
-bool Screen::get_key(SDL_Keycode code){return m_keyConf[code];}
+bool Screen::is_running() const {return m_running;}
+bool Screen::get_key(SDL_Keycode code) const {
+    if(m_keyConf.count(code))
+        return m_keyConf.at(code);
+    return false;
+}
 
-std::string Screen::get_caption() const{return m_window_caption;}
+std::string Screen::get_caption() const {return m_window_caption;}
 
-std::map<std::string, TTF_Font*> Screen::get_fonts() const{return m_fonts;}
-TTF_Font* Screen::get_font(std::string font_id){return m_fonts[font_id];}
-SDL_Rect Screen::get_mouse_pos() const{return m_mouse_pos;}
-SDL_Window* Screen::get_window() const{return m_window;}
-SDL_Renderer* Screen::get_renderer() const{return m_Renderer;}
-SDL_Color Screen::get_background_color() const{return m_background_color;}
+std::map<std::string, TTF_Font*> Screen::get_fonts() const {return m_fonts;}
+TTF_Font* Screen::get_font(std::string font_id) const {
+    if(!m_fonts.count(font_id))
+        return m_fonts.at(m_default_font);
+    return m_fonts.at(font_id);
+}
+
+SDL_Rect Screen::get_mouse_pos() const {return m_mouse_pos;}
+SDL_Window* Screen::get_window() const {return m_window;}
+SDL_Renderer* Screen::get_renderer() const {return m_Renderer;}
+SDL_Color Screen::get_background_color() const {return m_background_color;}
 
 
 //Setters
@@ -191,7 +200,7 @@ SDL_Texture* Screen::load_texture(std::string path){
     return newTexture;
 }
 
-SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf){
+SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf) const {
     return SDL_CreateTextureFromSurface(m_Renderer, surf);
 }
 

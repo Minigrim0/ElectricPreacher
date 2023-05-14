@@ -33,12 +33,12 @@ public:
     int get_time_elapsed() const;
 
     bool is_running() const;
-    bool get_key(SDL_Keycode);
+    bool get_key(SDL_Keycode) const;
 
     std::string get_caption() const;
 
     std::map<std::string, TTF_Font *> get_fonts() const;
-    TTF_Font *get_font(std::string ID);
+    TTF_Font *get_font(std::string ID) const;
     SDL_Rect get_mouse_pos() const;
     SDL_Window *get_window() const;
     SDL_Renderer *get_renderer() const;
@@ -60,7 +60,7 @@ public:
     int add_font(std::string font_path, int size, std::string font_id = "");
     SDL_Surface *load_image(std::string);
     SDL_Texture *load_texture(std::string);
-    SDL_Texture *convert_surface_to_texure(SDL_Surface *);
+    SDL_Texture *convert_surface_to_texure(SDL_Surface *) const;
     SDL_Surface *render_text_blend(std::string);
     SDL_Surface *render_text_blend(std::string, TTF_Font *, SDL_Color color = {255, 255, 255, 255});
     SDL_Surface *render_text_solid(std::string);

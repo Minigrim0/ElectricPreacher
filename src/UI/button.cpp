@@ -264,7 +264,8 @@ int Button::draw(Screen* screen){
  * @param font 
  * @return int 
  */
-int Button::update_layout(Screen* screen, TTF_Font* font){
+int Button::update_layout(TTF_Font* font){
+    const Screen* screen = Screen::GetInstance(PROJECT_NAME);
     m_font = font;
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
 
@@ -361,7 +362,7 @@ int Button::update(SDL_Event* event, Screen* screen){
                 m_hover = false;
 
             if(prev_hov != m_hover)
-                update_layout(screen, m_font);
+                update_layout(m_font);
             break;
         case SDL_MOUSEBUTTONUP:
             if(collide({event->button.x, event->button.y, 0, 0}))

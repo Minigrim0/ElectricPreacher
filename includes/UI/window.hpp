@@ -30,8 +30,8 @@ class Window{
         void add_button(Button* newButton);
         int add_buttons(nlohmann::json buttons);
         void update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action);
-        void draw(Screen*);
-        int createfrom(Screen* screen, std::string JSONsource);
+        void draw(Screen* sc);
+        int createfrom(std::string JSONsource);
 
     private:
         bool m_window_running; //! Should be shown and updated ?

@@ -9,6 +9,8 @@
 #include "screen/notification.hpp"
 #include "screen/screen.hpp"
 
+#include "constants.hpp"
+
 /**
  * @author Minigrim0
  * @brief The notification center is a widget that manages notifications

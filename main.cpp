@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
 
     NotificationCenter* notification_center = NotificationCenter::GetInstance();
     notification_center->set_default_font("Roboto_16");
-    build_windows(screen, &windows);
+    build_windows(&windows);
     std::string action;
 
     while(screen->is_running()){
