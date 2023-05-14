@@ -10,7 +10,7 @@ NotificationCenter::NotificationCenter()
 m_icons(new TileSet),
 m_default_font("")
 {
-    m_icons->load(Screen::GetInstance(PROJECT_NAME), "assets/images/tilesets/icons.tsx");
+    m_icons->load(Screen::GetInstance(PROJECT_NAME), "assets/maps/tilesets/icons.tsx");
 }
 
 NotificationCenter::~NotificationCenter(){

@@ -266,10 +266,10 @@ void Screen::update_screen(){
 }
 
 void Screen::compute_fps(){
-    if(m_time_since_last_fps_update >= 500){
-        m_fps = static_cast<unsigned int>(1000.0/m_time_elapsed);
+    if(m_time_since_last_fps_update >= 500 && m_time_elapsed != 0){
+        m_fps = static_cast<unsigned int>(1000.0/static_cast<float>(m_time_elapsed));
         m_time_since_last_fps_update = 0;
-        std::string fps_text = std::to_string(m_fps) + " FPS";
+        std::string fps_text = std::to_string(m_fps) + " fps";
         SDL_FreeSurface(m_fps_surface);
         m_fps_surface = TTF_RenderText_Blended(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
         if(m_fps_surface == NULL){
