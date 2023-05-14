@@ -18,15 +18,15 @@
                  "x":16,
                  "y":0
                 }],
-         "height":32,
+         "height":16,
          "id":1,
          "name":"ground",
          "opacity":1,
-         "startx":-16,
-         "starty":-16,
+         "startx":0,
+         "starty":0,
          "type":"tilelayer",
          "visible":true,
-         "width":80,
+         "width":32,
          "x":0,
          "y":0
         }, 
@@ -46,26 +46,15 @@
                  "x":16,
                  "y":0
                 }],
-         "height":32,
+         "height":16,
          "id":5,
          "name":"Objects",
          "opacity":1,
-         "startx":-16,
-         "starty":-16,
+         "startx":0,
+         "starty":0,
          "type":"tilelayer",
          "visible":true,
-         "width":64,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "draworder":"topdown",
-         "id":6,
-         "name":"Objects",
-         "objects":[],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
+         "width":32,
          "x":0,
          "y":0
         }],
@@ -78,7 +67,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/images\/tilesets\/outside.tsx"
+         "source":"tilesets\/outside.tsx"
         }],
  "tilewidth":32,
  "type":"map",
