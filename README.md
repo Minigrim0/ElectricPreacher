@@ -43,15 +43,19 @@ Using MSYS2 :
 ```bash
 # Install required packages
 pacman -Syu
-pacman -S mingw-w64-x86_64-toolchain
-pacman -S make cmake
+# Build tools
+pacman -S mingw-w64-x86_64-meson make mingw-w64-x86_64-toolchain mingw-w64-x86_64-freetype
+# SDL2
 pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
 
 #external lib
-pacman -S mingw-w64-x86_64-nlohmann-json
+pacman -S mingw-w64-x86_64-nlohmann-json mingw-w64-x86_64-tinyxml2
 
-# Build the executable
-make all
+# Tools
+pacman -S mingw-w64-x86_64-cppcheck
+
+meson setup build
+make
 ```
 
 ### 3rd party libraries

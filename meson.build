@@ -1,6 +1,7 @@
 project(
   'ElectricPreacher',
   'cpp',
+  version: '0.1.0',
   default_options: 'default_library=static')
 
 dependencies = []
