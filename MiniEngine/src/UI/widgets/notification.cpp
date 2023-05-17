@@ -2,7 +2,7 @@
 #include <SDL_render.h>
 #include <SDL_surface.h>
 
-#include "ui/widgets/notification.hpp"
+#include "UI/widgets/notification.hpp"
 #include "core/screen.hpp"
 
 namespace MiniEngine {
