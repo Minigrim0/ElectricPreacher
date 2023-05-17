@@ -5,9 +5,9 @@ workspace "ElectricPreacher"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["SDL2"] = "MiniEngine/vendor/SDL/win32/include"
-IncludeDir["SDL_image"] = "MiniEngine/vendor/SDL_image/win32/include"
-IncludeDir["SDL_ttf"] = "MiniEngine/vendor/SDL_ttf/win32/include"
+IncludeDir["SDL2"] = "MiniEngine/vendor/SDL2/win32/include"
+IncludeDir["SDL2_image"] = "MiniEngine/vendor/SDL2_image/win32/include"
+IncludeDir["SDL2_ttf"] = "MiniEngine/vendor/SDL2_ttf/win32/include"
 IncludeDir["JSON"] = "MiniEngine/vendor/json/include"
 IncludeDir["spdlog"] = "MiniEngine/vendor/spdlog/include"
 IncludeDir["tinyxml2"] = "MiniEngine/vendor/tinyxml2/include"
@@ -28,9 +28,9 @@ project "MiniEngine"
     objdir (".obj/" .. outputdir .. "/%{prj.name}")
 
     links {
-        "SDL",
-        "SDL_image",
-        "SDL_ttf",
+        "SDL2",
+        "SDL2_image",
+        "SDL2_ttf",
         "tinyxml2"
     }
 
@@ -42,8 +42,8 @@ project "MiniEngine"
     includedirs {
         "%{prj.name}/src/",
         "%{IncludeDir.SDL2}",
-        "%{IncludeDir.SDL_image}",
-        "%{IncludeDir.SDL_ttf}",
+        "%{IncludeDir.SDL2_image}",
+        "%{IncludeDir.SDL2_ttf}",
         "%{IncludeDir.JSON}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.tinyxml2}"
@@ -68,16 +68,10 @@ project "MiniEngine"
         staticruntime "On"
         systemversion "latest"
 
-        -- buildoptions {
-        --     "%{Linux_SDL_build_options.SDL}",
-        --     "%{Linux_SDL_build_options.SDL_image}",
-        --     "%{Linux_SDL_build_options.SDL_ttf}"
-        -- }
-
         linkoptions {
-            "%{Linux_SDL_build_options.SDL}",
-            "%{Linux_SDL_build_options.SDL_image}",
-            "%{Linux_SDL_build_options.SDL_ttf}"
+            "%{Linux_SDL_build_options.SDL2}",
+            "%{Linux_SDL_build_options.SDL2_image}",
+            "%{Linux_SDL_build_options.SDL2_ttf}"
         }
 
         defines {
@@ -142,12 +136,6 @@ project "ElectricPreacher"
         cppdialect "C++17"
         staticruntime "On"
         systemversion "latest"
-
-        -- buildoptions {
-        --     "%{Linux_SDL_build_options.SDL}",
-        --     "%{Linux_SDL_build_options.SDL_image}",
-        --     "%{Linux_SDL_build_options.SDL_ttf}"
-        -- }
 
         linkoptions {
             "%{Linux_SDL_build_options.SDL}",

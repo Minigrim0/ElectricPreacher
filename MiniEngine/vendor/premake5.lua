@@ -1,47 +1,73 @@
 filter "system:windows"
-    project "SDL"
-        kind "StaticLib"
-        language "C"
+    project "SDL2"
+        kind "SharedLib"
         includedirs "SDL/win32/include"
 
         filter "architecture:x86_64"
             libdirs "SDL/win32/lib/x64"
+
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2.lib bin/Debug/"
+            }
+
         filter "architecture:x86"
             libdirs "SDL/win32/lib/x86"
 
-    project "SDL_ttf"
-        filter "system:windows"
-            kind "StaticLib"
-            language "C"
-            includedirs "SDL_ttf/win32/include"
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2.lib bin/Debug/"
+            }
 
-            filter "architecture:x86_64"
-                libdirs "SDL_ttf/win32/lib/x64"
-            filter "architecture:x86"
-                libdirs "SDL_ttf/win32/lib/x86"
+    project "SDL2_ttf"
+        kind "SharedLib"
+        includedirs "SDL_ttf/win32/include"
 
-        filter {"system:linux", "action:gmake" }
-            kind "SharedLib"
-            language "C"
-            buildoptions { "-lSDL_ttf" }
+        filter "architecture:x86_64"
+            libdirs "SDL_ttf/win32/lib/x64"
 
-    project "SDL_image"
-        filter "system:windows"
-            kind "SharedLib"
-            language "C"
-            includedirs "SDL_image/win32/include"
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2_ttf.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2_ttf.lib bin/Debug/"
+            }
 
-            filter "architecture:x86_64"
-                libdirs "SDL_image/win32/lib/x64"
-            filter "architecture:x86"
-                libdirs "SDL_image/win32/lib/x86"
+        filter "architecture:x86"
+            libdirs "SDL_ttf/win32/lib/x86"
+
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2_ttf.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2_ttf.lib bin/Debug/"
+            }
+
+    project "SDL2_image"
+        kind "SharedLib"
+        includedirs "SDL_image/win32/include"
+
+        filter "architecture:x86_64"
+            libdirs "SDL_image/win32/lib/x64"
+            
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2_image.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2_image.lib bin/Debug/"
+            }
+
+        filter "architecture:x86"
+            libdirs "SDL_image/win32/lib/x86"
+
+            postbuildcommands {
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2_image.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2_image.lib bin/Debug/"
+            }
 
 project "tinyxml2"
-    location "%{prj.name}"
     kind "SharedLib"
     language "C++"
+    location "%{prj.name}"
     includedirs "tinyxml2/include"
     files "tinyxml2/src/tinyxml2.cpp"
 
-    targetdir ("bin/%{prj.name}")
-    objdir (".obj/%{prj.name}")
+    filter "system:windows"
+        postbuildcommands {
+            "{COPY} %{prj.name}/bin/Debug/tinyxml2.dll bin/Debug/",
+            "{COPY} %{prj.name}/bin/Debug/tinyxml2.lib bin/Debug/"
+        }
