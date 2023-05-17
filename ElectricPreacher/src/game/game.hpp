@@ -2,9 +2,12 @@
 
 #include <filesystem>
 
+#include <UI/notification_center.hpp>
+
 #include "player/player.hpp"
 #include "map/map_manager.hpp"
-#include "screen/notification_center.hpp"
+
+#include "constants.hpp"
 
 namespace fs = std::filesystem;
 
@@ -33,9 +36,9 @@ public:
     void save();
 
 private:
-    void draw(Screen *screen, NotificationCenter *notification_center);
-    void handle_events(Screen *screen, NotificationCenter *notification_center);
-    void update(Screen *screen, NotificationCenter *notification_center);
+    void draw(CORE::Screen *sc, UI::NotificationCenter *nc);
+    void handle_events(CORE::Screen *sc, UI::NotificationCenter *nc);
+    void update(CORE::Screen *sc, UI::NotificationCenter *nc);
 
     bool m_in_game;
 

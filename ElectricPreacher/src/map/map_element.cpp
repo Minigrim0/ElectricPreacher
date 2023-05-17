@@ -41,7 +41,7 @@ void MapElement::set_solidity(bool solid){
  * @param id The id of the texture in the tileset
  * @param tileset_size The size of the texture in the tileset
  */
-void MapElement::set_texture(TileSet* tileset, int id){
+void MapElement::set_texture(GRAPHICS::TileSet* tileset, int id){
     m_tileset = tileset;
     m_texture_id = id;
     m_position.w = tileset->get_tile_width();

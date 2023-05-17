@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "screen/tileset.hpp"
+#include "graphics/tileset.hpp"
 #include "nlohmann/json.hpp"
 #include "constants.hpp"
 
@@ -28,8 +28,8 @@ public:
     void set_position(SDL_Point);
 
     // Others
-    void load(nlohmann::json chunk, std::map<std::string, TileSet *> *tilesets, Screen *screen);
-    void render(Screen *screen);
+    void load(nlohmann::json chunk, std::map<std::string, GRAPHICS::TileSet *> *tilesets, CORE::Screen *screen);
+    void render(CORE::Screen *screen);
 
 private:
     SDL_Point m_absolute_coordinates;

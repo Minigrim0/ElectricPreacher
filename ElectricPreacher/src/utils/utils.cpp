@@ -1,9 +1,10 @@
+#include "utils/utils.hpp"
+
 #include <SDL.h>
 #include <SDL_error.h>
-#include "utils/utils.hpp"
-#include "screen/screen.hpp"
+#include <core/screen.hpp>
 
-void save_texture(Screen* screen, SDL_Texture* texture, const char* filename){
+void save_texture(CORE::Screen* screen, SDL_Texture* texture, const char* filename){
     SDL_Texture* target = SDL_GetRenderTarget(screen->get_renderer());
     SDL_SetRenderTarget(screen->get_renderer(), texture);
     int width, height;

@@ -1,4 +1,5 @@
 #include "game/game.hpp"
+
 #include <SDL_keycode.h>
 
 Game* Game::game_ = nullptr;
@@ -20,7 +21,7 @@ Game *Game::GetInstance(){
 }
 
 void Game::init(){
-    Screen* screen = Screen::GetInstance(PROJECT_NAME);
+    CORE::Screen* screen = CORE::Screen::GetInstance(PROJECT_NAME);
 
     // Load the map
     m_map_manager->load(screen, "assets/maps/start.json");
@@ -35,8 +36,8 @@ void Game::init(){
 void Game::run(){
     m_in_game = true;
     // Avoid querying for the singleton at each loop, ask once in the begining
-    Screen* screen = Screen::GetInstance(PROJECT_NAME);
-    NotificationCenter* notification_center = NotificationCenter::GetInstance();
+    CORE::Screen* screen = CORE::Screen::GetInstance(PROJECT_NAME);
+    UI::NotificationCenter* notification_center = UI::NotificationCenter::GetInstance();
 
     while(m_in_game){
         handle_events(screen, notification_center);
@@ -45,16 +46,16 @@ void Game::run(){
     }
 }
 
-void Game::draw(Screen* screen, NotificationCenter* notification_center){
-    m_map_manager->render(screen); // m_player->get_position());
-    m_player->draw(screen);
+void Game::draw(CORE::Screen* sc, UI::NotificationCenter* nc){
+    m_map_manager->render(sc); // m_player->get_position());
+    m_player->draw(sc);
 
-    notification_center->draw(screen);
+    nc->draw(sc);
 }
 
-void Game::handle_events(Screen* screen, NotificationCenter* notification_center){
+void Game::handle_events(CORE::Screen* sc, UI::NotificationCenter* nc){
     while(SDL_PollEvent(m_event_handler) != 0){
-        screen->handle_events(m_event_handler);
+        sc->handle_events(m_event_handler);
         m_player->handle_event(m_event_handler);
         // Do updates
         switch(m_event_handler->type){
@@ -65,13 +66,13 @@ void Game::handle_events(Screen* screen, NotificationCenter* notification_center
                 break;
         }
 
-        notification_center->update(m_event_handler, screen);
+        nc->update(m_event_handler, sc);
     }
 }
 
-void Game::update(Screen* screen, NotificationCenter* notification_center){
-    notification_center->update(nullptr, screen);
+void Game::update(CORE::Screen* sc, UI::NotificationCenter* nc){
+    nc->update(nullptr, sc);
 
-    m_player->update(screen);
-    screen->update_screen();
+    m_player->update(sc);
+    sc->update_screen();
 }

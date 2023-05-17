@@ -36,20 +36,20 @@ public:
     void set_position(int, int);
 
     // Others
-    void init(Screen *screen);
-    int load(Screen *screen, fs::path path);
-    int render(Screen *screen);
+    void init(CORE::Screen *screen);
+    int load(CORE::Screen *screen, fs::path path);
+    int render(CORE::Screen *screen);
 
 private:
-    int load_tilesets(nlohmann::json tilesets, Screen *screen, fs::path path);
-    int add_layers(nlohmann::json layers, Screen *screen);
-    int add_chunks(nlohmann::json chunks, Screen *screen);
+    int load_tilesets(nlohmann::json tilesets, CORE::Screen *screen, fs::path path);
+    int add_layers(nlohmann::json layers, CORE::Screen *screen);
+    int add_chunks(nlohmann::json chunks, CORE::Screen *screen);
 
     SDL_Texture *m_default_missing;
     SDL_Rect m_position;
     SDL_Point m_origin;
     std::vector<Chunk *> m_chunks;
-    std::map<std::string, TileSet *> m_tilesets;
+    std::map<std::string, GRAPHICS::TileSet*> m_tilesets;
 
     int m_tilewidth, m_tileheight;
     int chunk_width, chunk_height;

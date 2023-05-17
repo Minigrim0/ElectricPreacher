@@ -5,8 +5,10 @@
 #include <SDL.h>
 #include <SDL_render.h>
 
-#include "screen/screen.hpp"
-#include "screen/tileset.hpp"
+#include <core/screen.hpp>
+#include <graphics/tileset.hpp>
+
+#include "constants.hpp"
 #include "player/player.hpp"
 
 namespace MAP_ELEMENT
@@ -39,7 +41,7 @@ public:
     // Setters
     void set_solidity(bool solid);
     void set_position(SDL_Point position);
-    void set_texture(TileSet *tileset, int id);
+    void set_texture(GRAPHICS::TileSet *tileset, int id);
 
     // Others
     int draw(SDL_Surface *dest);
@@ -48,7 +50,7 @@ public:
 
 private:
     bool m_is_solid;
-    TileSet *m_tileset;
+    GRAPHICS::TileSet *m_tileset;
     int m_texture_id;
 
     SDL_Point m_texture_size;

@@ -1,7 +1,9 @@
 #pragma once
 
 #include <SDL.h>
-#include "screen/screen.hpp"
+#include <core/screen.hpp>
+
+#include "constants.hpp"
 
 /**
  * @brief Save a texture to a file
@@ -10,7 +12,7 @@
  * @param texture The texture to save
  * @param filename The name of the file to save to
  */
-void save_texture(Screen *screen, SDL_Texture *texture, const char *filename);
+void save_texture(CORE::Screen *screen, SDL_Texture *texture, const char *filename);
 
 /**
  * @brief Convert an index to a coordinate

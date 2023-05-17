@@ -18,7 +18,7 @@ MapManager::MapManager()
 m_position({0, 0}),
 m_origin({0, 0}),
 m_chunks(std::vector<Chunk*>()),
-m_tilesets(std::map<std::string, TileSet*>()),
+m_tilesets(std::map<std::string, GRAPHICS::TileSet*>()),
 m_tilewidth(32),
 m_tileheight(32),
 chunk_width(16),
@@ -53,13 +53,13 @@ void MapManager::set_position(int x, int y){
     m_position = {x, y};
 }
 
-void MapManager::init(Screen* screen){
+void MapManager::init(CORE::Screen* screen){
     m_default_missing = screen->load_texture("assets/images/MISSING.png");
 
     SDL_QueryTexture(m_default_missing, NULL, NULL, &(m_position.w), &(m_position.h));
 }
 
-int MapManager::load(Screen* screen, fs::path path){
+int MapManager::load(CORE::Screen* screen, fs::path path){
     std::ifstream json_in(path.c_str());
     nlohmann::json root;
     json_in >> root;
@@ -73,15 +73,15 @@ int MapManager::load(Screen* screen, fs::path path){
     return result;
 }
 
-int MapManager::load_tilesets(nlohmann::json tilesets, Screen* screen, fs::path path){
+int MapManager::load_tilesets(nlohmann::json tilesets, CORE::Screen* screen, fs::path path){
     for(int tileset_id=0;tileset_id<tilesets.size();tileset_id++){
-        TileSet* tileset = new TileSet();
+        GRAPHICS::TileSet* tileset = new GRAPHICS::TileSet();
         tileset->load(screen, path.remove_filename() / tilesets[tileset_id]["source"]);
         m_tilesets[tileset->get_name()] = tileset;
     }
 }
 
-int MapManager::add_layers(nlohmann::json layers, Screen* screen){
+int MapManager::add_layers(nlohmann::json layers, CORE::Screen* screen){
     for(int layer_id=0;layer_id<layers.size();layer_id++){
         this->add_chunks(layers[layer_id]["chunks"], screen);
     }
@@ -95,7 +95,7 @@ int MapManager::add_layers(nlohmann::json layers, Screen* screen){
  * @param screen The screen to render the chunks on
  * @return int 0 if success, -1 if error
  */
-int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
+int MapManager::add_chunks(nlohmann::json chunks, CORE::Screen* screen){
     for(int chunk_id=0;chunk_id<chunks.size();chunk_id++){
         nlohmann::json chunk = chunks[chunk_id];
 
@@ -107,7 +107,7 @@ int MapManager::add_chunks(nlohmann::json chunks, Screen* screen){
     return 0;
 }
 
-int MapManager::render(Screen *screen){
+int MapManager::render(CORE::Screen* screen){
     // Completely ignore position for now, will be used with the camera
     for(auto x=0;x<m_chunks.size();x++){
         m_chunks[x]->render(screen);

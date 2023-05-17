@@ -5,7 +5,7 @@
 
 #include "map/map_element.hpp"
 
-#include "screen/tileset.hpp"
+#include "graphics/tileset.hpp"
 #include "utils/utils.hpp"
 
 
@@ -53,9 +53,9 @@ void Chunk::set_position(SDL_Point position){
  * @param tilesets The available tilesets
  * @param screen The screen to render the chunk on
  */
-void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets, Screen* screen){
+void Chunk::load(nlohmann::json chunk, std::map<std::string, GRAPHICS::TileSet*>* tilesets, CORE::Screen* screen){
     // TODO: Change this hardcoded tileset name
-    TileSet* tileset = (*tilesets)["Outside"];
+    GRAPHICS::TileSet* tileset = (*tilesets)["Outside"];
 
     m_chunk_size = {chunk["width"], chunk["height"]};
     m_position = {
@@ -100,7 +100,7 @@ void Chunk::load(nlohmann::json chunk, std::map<std::string, TileSet*>* tilesets
  * @param screen The screen object to render the chunk to
  * @param position The position on the screen
  */
-void Chunk::render(Screen* screen){
+void Chunk::render(CORE::Screen* screen){
     SDL_RenderCopy(
         screen->get_renderer(),
         m_texture,

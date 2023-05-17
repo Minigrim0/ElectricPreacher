@@ -6,19 +6,17 @@
 #include <SDL_events.h>
 #include <SDL_render.h>
 
+#include <core/screen.hpp>
+
+#include <UI/notification_center.hpp>
+#include <UI/console.hpp>
+#include <UI/window.hpp>
+#include <UI/widgets/widgets.hpp>
+
 #include "constants.hpp"
-
-#include "screen/notification_center.hpp"
-#include "screen/screen.hpp"
-
-#include "map/map_manager.hpp"
-
-#include "UI/widgets.hpp"
-#include "UI/console.hpp"
-#include "UI/window.hpp"
-
-#include "utils/build_windows.hpp"
 #include "game/game.hpp"
+#include "map/map_manager.hpp"
+#include "utils/build_windows.hpp"
 
 /**
  * @brief The main function
@@ -28,10 +26,10 @@
  * @return int 
  */
 int main(int argc, char *argv[]){
-    Screen* screen = Screen::GetInstance(PROJECT_NAME);
+    CORE::Screen* screen = CORE::Screen::GetInstance(PROJECT_NAME);
     std::string current_window = "Main";
 
-    std::map<std::string, Window> windows;
+    std::map<std::string, UI::Window> windows;
 
     SDL_Event* event_handler = new SDL_Event;
     SDL_StopTextInput();
@@ -50,7 +48,7 @@ int main(int argc, char *argv[]){
 
     if(screen->build_window() != 0) return EXIT_FAILURE;
 
-    NotificationCenter* notification_center = NotificationCenter::GetInstance();
+    UI::NotificationCenter* notification_center = UI::NotificationCenter::GetInstance();
     notification_center->set_default_font("Roboto_16");
     build_windows(&windows);
     std::string action;

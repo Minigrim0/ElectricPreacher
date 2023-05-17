@@ -2,7 +2,9 @@
 
 #include "SDL.h"
 
-#include "screen/screen.hpp"
+#include <core/screen.hpp>
+
+#include "constants.hpp"
 
 enum class STATUS
 {
@@ -43,15 +45,15 @@ public:
     void set_position(int x, int y);
 
     // Others
-    void init(Screen *sc);
+    void init(CORE::Screen *sc);
 
     void handle_event(SDL_Event *event);
-    void update(Screen *sc);
-    int draw(Screen *sc) const;
+    void update(CORE::Screen *sc);
+    int draw(CORE::Screen *sc) const;
 
 private:
     void move(SDL_Keycode sym);
-    void walk(Screen *sc);
+    void walk(CORE::Screen *sc);
     void update_position();
 
     SDL_Rect m_position;  //! The position on the map (in tiles)
