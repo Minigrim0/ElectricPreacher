@@ -83,22 +83,20 @@
 
 #include <MiniEngine.hpp>
 
-class Sandbox : public MiniEngine::Application
-{
+class ElectricPreacher : public MiniEngine::Application {
 public:
-	Sandbox()
+	ElectricPreacher(std::string project_name): Application(project_name)
 	{
 
 	}
 
-	~Sandbox()
+	~ElectricPreacher()
 	{
 
 	}
-
 };
 
 MiniEngine::Application* MiniEngine::CreateApplication()
 {
-	return new Sandbox();
+	return new ElectricPreacher("Electric Preacher");
 }

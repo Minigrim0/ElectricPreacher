@@ -13,5 +13,7 @@ namespace MiniEngine{
 
         s_client_logger = spdlog::stdout_color_mt("App");
         s_client_logger->set_level(spdlog::level::trace);
+
+        s_core_logger->info("Initialized Log!");
     }
 }

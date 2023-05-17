@@ -5,8 +5,10 @@
 #include <SDL.h>
 #include <nlohmann/json.hpp>
 
-#include "UI/widgets/button.hpp"
 #include "core/screen.hpp"
+#include "core/core.hpp"
+
+#include "UI/widgets/button.hpp"
 
 /**
  * @brief A window is a part of the UI that can be drawn and updated
@@ -14,7 +16,7 @@
  */
 namespace MiniEngine {
     namespace UI {
-        class Window{
+        class ME_API Window{
             public:
                 Window();
                 virtual ~Window();
@@ -25,15 +27,15 @@ namespace MiniEngine {
 
                 //Setters
                 void set_running(bool);
-                void set_title(nlohmann::json title);
+                void set_title(nlohmann::json title, Screen* screen);
                 int set_font(std::string path);
 
                 //Others
                 void add_button(Widgets::Button* newButton);
-                int add_buttons(nlohmann::json buttons);
+                int add_buttons(nlohmann::json buttons, Screen* screen);
                 void update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action);
                 void draw(Screen* sc);
-                int createfrom(std::string JSONsource);
+                int createfrom(std::string JSONsource, Screen* screen);
 
             private:
                 bool m_window_running; //! Should be shown and updated ?

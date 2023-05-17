@@ -19,13 +19,13 @@ namespace UI {
 class NotificationCenter
 {
 protected:
-    NotificationCenter();
+    NotificationCenter(Screen* screen);
 
 public:
     ~NotificationCenter();
 
     // Singleton pattern
-    static NotificationCenter *GetInstance();
+    static NotificationCenter *Create(Screen* screen);
 
     // Setter
     void set_default_font(std::string font);

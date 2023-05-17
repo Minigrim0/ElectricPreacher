@@ -48,9 +48,7 @@ namespace MiniEngine {
          *
          * @param title The json description of the title
          */
-        void Window::set_title(nlohmann::json title) {
-            const Screen* screen = Screen::GetInstance();
-
+        void Window::set_title(nlohmann::json title, Screen* screen) {
             int off_x = title["offset"][0];
             int off_y = title["offset"][1];
 
@@ -78,7 +76,8 @@ namespace MiniEngine {
 
             m_title->set_text_offset(off_x, off_y);
             m_title->update_layout(
-                screen->get_font(title["font_id"])
+                screen->get_font(title["font_id"]),
+                screen
             );
         }
 
@@ -97,8 +96,7 @@ namespace MiniEngine {
          * @param buttons The list of buttons to add
          * @return int 0 on success, -1 on error
          */
-        int Window::add_buttons(nlohmann::json buttons) {
-            const Screen* screen = Screen::GetInstance();
+        int Window::add_buttons(nlohmann::json buttons, Screen* screen) {
             for (unsigned int index = 0; index < buttons.size(); ++index) {
                 m_buttons.push_back(new Widgets::Button);
 
@@ -149,7 +147,8 @@ namespace MiniEngine {
 
                 //Finally update the button image
                 m_buttons.back()->update_layout(
-                    screen->get_font(buttons[index]["font_id"])
+                    screen->get_font(buttons[index]["font_id"]),
+                    screen
                 );
             }
             return 0;
@@ -201,22 +200,22 @@ namespace MiniEngine {
          * @param JSONsource The path to the JSON file
          * @return 0 on success, -1 on error
          */
-        int Window::createfrom(std::string JSONsource) {
+        int Window::createfrom(std::string JSONsource, Screen* screen) {
             std::ifstream json_in(JSONsource.c_str());
             nlohmann::json root;
             json_in >> root;
 
             // Setup window-wide informations
             m_window_name = root["window_name"];
-            Screen::GetInstance()->add_font(root["font_path"], root["font_size"], root["font_id"]);
+            screen->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
             // Setup Buttons
             const nlohmann::json buttons = root["Buttons"];
-            this->add_buttons(buttons);
+            this->add_buttons(buttons, screen);
 
             // Setup title
             const nlohmann::json title = root["Title"];
-            this->set_title(title);
+            this->set_title(title, screen);
 
             json_in.close();
             return 0;

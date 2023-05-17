@@ -263,8 +263,7 @@ namespace MiniEngine::UI::Widgets {
      * @param font
      * @return int
      */
-    int Button::update_layout(TTF_Font* font) {
-        const Screen* screen = Screen::GetInstance();
+    int Button::update_layout(TTF_Font* font, Screen* screen) {
         m_font = font;
         SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
 
@@ -361,7 +360,7 @@ namespace MiniEngine::UI::Widgets {
                 m_hover = false;
 
             if (prev_hov != m_hover)
-                update_layout(m_font);
+                update_layout(m_font, screen);
             break;
         case SDL_MOUSEBUTTONUP:
             if (collide({ event->button.x, event->button.y, 0, 0 }))

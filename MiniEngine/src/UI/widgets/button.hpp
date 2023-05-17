@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "core/screen.hpp"
 #include "UI/widgets/widgets.hpp"
@@ -54,7 +55,7 @@ public:
     int draw(Screen *screen) override;
     int update(SDL_Event *event, Screen *screen) override;
 
-    int update_layout(TTF_Font *);
+    int update_layout(TTF_Font* font, Screen* screen);
     int draw_contour(SDL_Surface *, SDL_Color);
     bool collide(SDL_Rect) const;
     bool collide(int x, int y) const;

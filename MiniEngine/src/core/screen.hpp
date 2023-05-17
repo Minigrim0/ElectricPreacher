@@ -6,15 +6,30 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "core/core.hpp"
+
 /**
  * @brief The Screen class is a singleton that handles the window and the renderer of the game
  * It is responsible for handling some basic event and drawing functions
  */
 namespace MiniEngine {
-    class Screen {
+    struct WindowProps {
+        std::string title;
+        unsigned int width;
+        unsigned int height;
+
+        WindowProps(const std::string& title = "MiniEngine",
+            unsigned int width = 1280,
+            unsigned int height = 720)
+            : title(title), width(width), height(height)
+        {
+        }
+    };
+
+    class ME_API Screen {
         protected:
             // Avoid direct instantiation
-            explicit Screen(std::string title);
+            explicit Screen(const WindowProps& props);
 
         public:
             // Constructors
@@ -25,8 +40,7 @@ namespace MiniEngine {
             void operator=(const Screen&) = delete;
 
             // Singleton pattern
-            static Screen* GetInstance();
-            static Screen* GetInstance(const std::string& value);
+            static Screen* Create(const WindowProps& props = WindowProps());
 
             // Getters
             int get_width() const;
@@ -100,7 +114,5 @@ namespace MiniEngine {
 
             SDL_Rect m_mouse_pos;
             SDL_Rect m_fps_pos;
-
-            static Screen* screen_;
     };
 }

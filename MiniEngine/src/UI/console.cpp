@@ -124,7 +124,7 @@ namespace MiniEngine {
 
             m_send_button->set_rect(m_rect.x + width, pos_y, send_width, m_line_height);
 
-            m_send_button->update_layout(m_font);
+            m_send_button->update_layout(m_font, screen);
 
             /* Creating console background */
             SDL_Surface* tmp_surf = SDL_CreateRGBSurface(0, m_rect.w, m_rect.h, 32, 0, 0, 0, 0);
@@ -162,7 +162,7 @@ namespace MiniEngine {
                 return 1;
             }
             m_input->update_image(screen);
-            return m_send_button->update_layout(m_font);
+            return m_send_button->update_layout(m_font, screen);
         }
 
         void Console::init_send_button() {
@@ -186,7 +186,7 @@ namespace MiniEngine {
             tmp_button->set_contour_color(0, 0, 0);
             tmp_button->set_background_color(0, 0, 0, 0);
             tmp_button->set_text_color(255, 255, 255, 255);
-            tmp_button->update_layout(m_font);
+            tmp_button->update_layout(m_font, screen);
             m_history.push_back(tmp_button);
         }
     }

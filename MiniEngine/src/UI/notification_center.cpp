@@ -8,30 +8,27 @@ namespace MiniEngine {
     namespace UI {
         NotificationCenter* NotificationCenter::nc_ = nullptr;
 
-        NotificationCenter::NotificationCenter()
+        NotificationCenter::NotificationCenter(Screen* screen)
             :m_notifications(std::vector<Widgets::Notification*>()),
             m_icons(new Graphics::TileSet),
             m_default_font("")
         {
-            m_icons->load(Screen::GetInstance(), "assets/maps/tilesets/icons.tsx");
+            m_icons->load(screen, "assets/maps/tilesets/icons.tsx");
         }
 
         NotificationCenter::~NotificationCenter() {
             delete m_icons;
         }
 
-        NotificationCenter* NotificationCenter::GetInstance() {
-            if (nc_ == nullptr) {
-                nc_ = new NotificationCenter();
-            }
-            return nc_;
+        NotificationCenter* NotificationCenter::Create(Screen* screen) {
+            return new NotificationCenter(screen);
         }
 
         void NotificationCenter::set_default_font(std::string font) {
             m_default_font = font;
         }
 
-        //Others
+        // Others
         int NotificationCenter::draw(Screen* screen) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
                 m_notifications[x]->set_offset(static_cast<int>(x) * 51);

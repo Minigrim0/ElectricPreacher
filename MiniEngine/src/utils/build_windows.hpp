@@ -12,6 +12,6 @@
  */
 namespace MiniEngine {
     namespace Utils {
-        void build_windows(std::map<std::string, UI::Window> *windows);
+        void build_windows(std::map<std::string, UI::Window> *windows, Screen* screen);
     }
 }
