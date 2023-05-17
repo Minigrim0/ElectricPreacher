@@ -79,6 +79,7 @@ int MapManager::load_tilesets(nlohmann::json tilesets, CORE::Screen* screen, fs:
         tileset->load(screen, path.remove_filename() / tilesets[tileset_id]["source"]);
         m_tilesets[tileset->get_name()] = tileset;
     }
+    return 0;
 }
 
 int MapManager::add_layers(nlohmann::json layers, CORE::Screen* screen){

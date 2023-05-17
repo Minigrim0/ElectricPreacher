@@ -15,18 +15,16 @@ namespace MiniEngine
     {
         namespace Widgets
         {
+            class Widget
+            {
+            public:
+                // Constructors
+                virtual ~Widget() = default;
 
-class Widget
-{
-public:
-    // Constructors
-    virtual ~Widget() = default;
-
-    // Others
-    virtual int draw(Core::Screen* sc) = 0;
-    virtual int update(SDL_Event* e, Core::Screen* sc) = 0;
-};
-
+                // Others
+                virtual int draw(Core::Screen* sc) = 0;
+                virtual int update(SDL_Event* e, Core::Screen* sc) = 0;
+            };
         }
     }
 }
