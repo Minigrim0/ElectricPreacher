@@ -22,8 +22,8 @@ namespace MiniEngine
                 virtual ~Widget() = default;
 
                 // Others
-                virtual int draw(Core::Screen* sc) = 0;
-                virtual int update(SDL_Event* e, Core::Screen* sc) = 0;
+                virtual int draw(Screen* sc) = 0;
+                virtual int update(SDL_Event* e, Screen* sc) = 0;
             };
         }
     }

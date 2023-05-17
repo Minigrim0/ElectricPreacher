@@ -40,11 +40,11 @@ public:
     void set_font(TTF_Font *);
 
     // Others
-    int draw(Core::Screen *) override;
-    int update(SDL_Event *, Core::Screen *) override;
+    int draw(Screen *) override;
+    int update(SDL_Event *, Screen *) override;
 
-    void update_image(Core::Screen *);
-    void flush(Core::Screen *);
+    void update_image(Screen *);
+    void flush(Screen *);
 
 private:
     SDL_Texture *m_tex;

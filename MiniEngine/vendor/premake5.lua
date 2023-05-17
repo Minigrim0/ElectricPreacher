@@ -8,6 +8,7 @@ filter "system:windows"
 
             postbuildcommands {
                 "{COPY} %{prj.name}/win32/lib/x64/SDL2.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x64/SDL2main.lib bin/Debug/",
                 "{COPY} %{prj.name}/win32/lib/x64/SDL2.lib bin/Debug/"
             }
 
@@ -16,6 +17,7 @@ filter "system:windows"
 
             postbuildcommands {
                 "{COPY} %{prj.name}/win32/lib/x86/SDL2.dll bin/Debug/",
+                "{COPY} %{prj.name}/win32/lib/x86/SDL2main.lib bin/Debug/",
                 "{COPY} %{prj.name}/win32/lib/x86/SDL2.lib bin/Debug/"
             }
 

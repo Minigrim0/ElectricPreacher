@@ -11,6 +11,6 @@
 #define VERSION_MINOR 1
 #define VERSION_PATCH 0
 
-#define CORE MiniEngine::Core
+#define CORE MiniEngine
 #define UI MiniEngine::UI
 #define GRAPHICS MiniEngine::Graphics

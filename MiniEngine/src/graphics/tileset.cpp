@@ -50,7 +50,7 @@ const SDL_Rect *TileSet::get_sub(int x, int y) const
 }
 
 // Setters
-void TileSet::load(Core::Screen *screen, fs::path filePath)
+void TileSet::load(Screen *screen, fs::path filePath)
 {
     tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument();
     doc->LoadFile(filePath.string().c_str());

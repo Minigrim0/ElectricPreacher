@@ -13,7 +13,7 @@ namespace MiniEngine {
             m_icons(new Graphics::TileSet),
             m_default_font("")
         {
-            m_icons->load(Core::Screen::GetInstance(), "assets/maps/tilesets/icons.tsx");
+            m_icons->load(Screen::GetInstance(), "assets/maps/tilesets/icons.tsx");
         }
 
         NotificationCenter::~NotificationCenter() {
@@ -32,7 +32,7 @@ namespace MiniEngine {
         }
 
         //Others
-        int NotificationCenter::draw(Core::Screen* screen) {
+        int NotificationCenter::draw(Screen* screen) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
                 m_notifications[x]->set_offset(static_cast<int>(x) * 51);
                 m_notifications[x]->draw(screen);
@@ -41,7 +41,7 @@ namespace MiniEngine {
             return 0;
         }
 
-        int NotificationCenter::update(SDL_Event* event, Core::Screen* screen) {
+        int NotificationCenter::update(SDL_Event* event, Screen* screen) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
                 if (m_notifications[x]->update(event, screen) == 0) {
                     m_notifications.erase(m_notifications.begin() + static_cast<long int>(x));
@@ -51,7 +51,7 @@ namespace MiniEngine {
             return 0;
         }
 
-        int NotificationCenter::create_notification(std::string text, Core::Screen* screen, std::string font, Uint16 lifetime) {
+        int NotificationCenter::create_notification(std::string text, Screen* screen, std::string font, Uint16 lifetime) {
             m_notifications.push_back(new Widgets::Notification);
             m_notifications.back()->set_position(10, 10);
             m_notifications.back()->set_text(text);

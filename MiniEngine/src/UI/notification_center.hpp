@@ -31,9 +31,9 @@ public:
     void set_default_font(std::string font);
 
     // Others
-    int draw(Core::Screen *);
-    int update(SDL_Event *, Core::Screen *);
-    int create_notification(std::string text, Core::Screen *screen, std::string font = "", Uint16 lifetime = 10000);
+    int draw(Screen *);
+    int update(SDL_Event *, Screen *);
+    int create_notification(std::string text, Screen *screen, std::string font = "", Uint16 lifetime = 10000);
 
 private:
     std::vector<Widgets::Notification *> m_notifications;

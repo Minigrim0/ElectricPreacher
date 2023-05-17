@@ -10,12 +10,8 @@
  * @brief The Screen class is a singleton that handles the window and the renderer of the game
  * It is responsible for handling some basic event and drawing functions
  */
-namespace MiniEngine
-{
-    namespace Core
-    {
-        class Screen
-        {
+namespace MiniEngine {
+    class Screen {
         protected:
             // Avoid direct instantiation
             explicit Screen(std::string title);
@@ -106,7 +102,5 @@ namespace MiniEngine
             SDL_Rect m_fps_pos;
 
             static Screen* screen_;
-        };
-
-    }
+    };
 }

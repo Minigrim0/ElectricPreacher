@@ -38,10 +38,10 @@ namespace MiniEngine {
                 bool is_alive() const;
 
                 // Others
-                int draw(Core::Screen*) override;
-                int update(SDL_Event*, Core::Screen*) override;
+                int draw(Screen*) override;
+                int update(SDL_Event*, Screen*) override;
 
-                void init(Core::Screen*, std::string font);
+                void init(Screen*, std::string font);
 
             private:
                 std::string m_content;

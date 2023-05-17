@@ -10,11 +10,11 @@ namespace MiniEngine {
         Container::~Container(){}
 
         // Others
-        int Container::draw(Core::Screen* screen){
+        int Container::draw(Screen* screen){
             return 0;
         }
 
-        int Container::update(SDL_Event* event, Core::Screen* screen){
+        int Container::update(SDL_Event* event, Screen* screen){
             return 0;
         }
     }

@@ -51,8 +51,8 @@ public:
     void resize(int, int);
 
     // Others
-    int draw(Core::Screen *screen) override;
-    int update(SDL_Event *event, Core::Screen *screen) override;
+    int draw(Screen *screen) override;
+    int update(SDL_Event *event, Screen *screen) override;
 
     int update_layout(TTF_Font *);
     int draw_contour(SDL_Surface *, SDL_Color);

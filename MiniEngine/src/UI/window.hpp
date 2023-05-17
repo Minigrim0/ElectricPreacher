@@ -31,8 +31,8 @@ namespace MiniEngine {
                 //Others
                 void add_button(Widgets::Button* newButton);
                 int add_buttons(nlohmann::json buttons);
-                void update(SDL_Event* event, Core::Screen* screen, std::string *current_window, std::string *action);
-                void draw(Core::Screen* sc);
+                void update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action);
+                void draw(Screen* sc);
                 int createfrom(std::string JSONsource);
 
             private:

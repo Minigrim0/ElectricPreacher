@@ -78,12 +78,12 @@ void TextInput::set_font(TTF_Font* font){
 }
 
 // Others
-int TextInput::draw(Core::Screen* screen){
+int TextInput::draw(Screen* screen){
     int result = SDL_RenderCopy(screen->get_renderer(), m_tex, NULL, &m_rect);
     return result;
 }
 
-int TextInput::update(SDL_Event* event, Core::Screen* screen){
+int TextInput::update(SDL_Event* event, Screen* screen){
     switch(event->type){
         case SDL_TEXTINPUT:
             //Append character
@@ -132,7 +132,7 @@ int TextInput::update(SDL_Event* event, Core::Screen* screen){
     return -1;
 }
 
-void TextInput::update_image(Core::Screen* screen){
+void TextInput::update_image(Screen* screen){
 
     SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
     SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
@@ -143,7 +143,7 @@ void TextInput::update_image(Core::Screen* screen){
     SDL_FreeSurface(tmp_image);
 }
 
-void TextInput::flush(Core::Screen* screen){
+void TextInput::flush(Screen* screen){
     m_current_input = "";
     update_image(screen);
 }

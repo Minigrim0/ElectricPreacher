@@ -38,12 +38,12 @@ public:
     int set_font(std::string, int);
 
     // Others
-    void init(Core::Screen *);
-    int draw(Core::Screen *) override;
-    int update(SDL_Event *, Core::Screen*) override;
-    int update_layout(Core::Screen *);
+    void init(Screen *);
+    int draw(Screen *) override;
+    int update(SDL_Event *, Screen*) override;
+    int update_layout(Screen *);
     void init_send_button();
-    void create_entry(Core::Screen *);
+    void create_entry(Screen *);
 
 private:
     SDL_Rect m_rect;

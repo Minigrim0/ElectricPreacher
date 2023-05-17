@@ -15,8 +15,8 @@ public:
     Container &operator=(const Container &);
 
     // Others
-    int draw(Core::Screen *screen) override;
-    int update(SDL_Event *event, Core::Screen *screen) override;
+    int draw(Screen *screen) override;
+    int update(SDL_Event *event, Screen *screen) override;
 
 private:
     int type;

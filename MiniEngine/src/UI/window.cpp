@@ -49,7 +49,7 @@ namespace MiniEngine {
          * @param title The json description of the title
          */
         void Window::set_title(nlohmann::json title) {
-            const Core::Screen* screen = Core::Screen::GetInstance();
+            const Screen* screen = Screen::GetInstance();
 
             int off_x = title["offset"][0];
             int off_y = title["offset"][1];
@@ -98,7 +98,7 @@ namespace MiniEngine {
          * @return int 0 on success, -1 on error
          */
         int Window::add_buttons(nlohmann::json buttons) {
-            const Core::Screen* screen = Core::Screen::GetInstance();
+            const Screen* screen = Screen::GetInstance();
             for (unsigned int index = 0; index < buttons.size(); ++index) {
                 m_buttons.push_back(new Widgets::Button);
 
@@ -163,7 +163,7 @@ namespace MiniEngine {
          * @param current_window A pointer to the current window name, used to switch windows
          * @param action A pointer to the current action, used to switch windows or quit the game
          */
-        void Window::update(SDL_Event* event, Core::Screen* screen, std::string* current_window, std::string* action) {
+        void Window::update(SDL_Event* event, Screen* screen, std::string* current_window, std::string* action) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
                 m_buttons[i]->update(event, screen);
                 if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
@@ -187,7 +187,7 @@ namespace MiniEngine {
          *
          * @param sc The screen on which to draw
          */
-        void Window::draw(Core::Screen* sc) {
+        void Window::draw(Screen* sc) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
                 m_buttons[i]->draw(sc);
             }
@@ -208,7 +208,7 @@ namespace MiniEngine {
 
             // Setup window-wide informations
             m_window_name = root["window_name"];
-            Core::Screen::GetInstance()->add_font(root["font_path"], root["font_size"], root["font_id"]);
+            Screen::GetInstance()->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
             // Setup Buttons
             const nlohmann::json buttons = root["Buttons"];

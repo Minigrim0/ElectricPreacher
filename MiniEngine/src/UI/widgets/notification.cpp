@@ -66,7 +66,7 @@ namespace MiniEngine {
                 return m_current_lifetime < m_total_lifetime;
             }
 
-            int Notification::draw(Core::Screen* screen) {
+            int Notification::draw(Screen* screen) {
                 double percent_death = (1.0 - (static_cast<float>(m_current_lifetime) / static_cast<float>(m_total_lifetime))) * 500.0;
 
                 m_position.y += m_offset;
@@ -78,7 +78,7 @@ namespace MiniEngine {
                 return 0;
             }
 
-            int Notification::update(SDL_Event* event, Core::Screen* screen) {
+            int Notification::update(SDL_Event* event, Screen* screen) {
                 if (event == nullptr) {
                     m_current_lifetime += static_cast<Uint16>(screen->get_time_elapsed());
                 }
@@ -88,7 +88,7 @@ namespace MiniEngine {
                 return m_current_lifetime < m_total_lifetime;
             }
 
-            void Notification::init(Core::Screen* screen, std::string font) {
+            void Notification::init(Screen* screen, std::string font) {
                 SDL_Surface* tmp_text = screen->render_text_blend(m_content, screen->get_font(font));
                 m_text_texture = SDL_CreateTextureFromSurface(screen->get_renderer(), tmp_text);
 

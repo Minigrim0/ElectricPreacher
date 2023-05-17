@@ -106,7 +106,7 @@ namespace MiniEngine {
         }
 
         // Others
-        void Console::init(Core::Screen* screen) {
+        void Console::init(Screen* screen) {
             if (!(m_rect.w && m_rect.h)) {
                 std::cout << "Error initializing the console, missing size !" << std::endl;
             }
@@ -134,7 +134,7 @@ namespace MiniEngine {
             SDL_SetTextureAlphaMod(m_background_texture, m_alpha);
         }
 
-        int Console::draw(Core::Screen* screen) {
+        int Console::draw(Screen* screen) {
             SDL_RenderCopy(screen->get_renderer(), m_background_texture, nullptr, &m_rect);
 
             int start = m_history.size() > static_cast<long unsigned int>(m_nb_visible_lines) ? static_cast<int>(m_history.size()) - m_nb_visible_lines : 0;
@@ -146,7 +146,7 @@ namespace MiniEngine {
             return 0;
         }
 
-        int Console::update(SDL_Event* event, Core::Screen* screen) {
+        int Console::update(SDL_Event* event, Screen* screen) {
             if (m_input->update(event, screen) == 1 || m_send_button->update(event, screen) == 1) {
                 if (!m_input->is_empty()) {
                     create_entry(screen);
@@ -156,7 +156,7 @@ namespace MiniEngine {
             return 0;
         }
 
-        int Console::update_layout(Core::Screen* screen) {
+        int Console::update_layout(Screen* screen) {
             if (m_font == nullptr) {
                 std::cout << "Error updating console layout : Font has not been loaded" << std::endl;
                 return 1;
@@ -174,7 +174,7 @@ namespace MiniEngine {
             m_send_button->set_text_pos("CENTER");
         }
 
-        void Console::create_entry(Core::Screen* screen) {
+        void Console::create_entry(Screen* screen) {
             int max = static_cast<int>(m_history.size()) < m_nb_visible_lines ? static_cast<int>(m_history.size()) : m_nb_visible_lines;
             for (int x = 0; x < max; x++)
                 m_history[static_cast<long unsigned int>(x)]->move(0, -m_line_height);

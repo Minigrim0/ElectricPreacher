@@ -21,7 +21,7 @@ include "MiniEngine/vendor/"
 
 project "MiniEngine"
     location "MiniEngine"
-    kind "StaticLib"
+    kind "SharedLib"
     language "C++"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -61,6 +61,9 @@ project "MiniEngine"
 
         postbuildcommands {
             "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/ElectricPreacher",
+            "{COPY} vendor/bin/Debug/SDL2.dll ../bin/" .. outputdir .. "/ElectricPreacher",
+            "{COPY} vendor/bin/Debug/SDL2_image.dll ../bin/" .. outputdir .. "/ElectricPreacher",
+            "{COPY} vendor/bin/Debug/SDL2_ttf.dll ../bin/" .. outputdir .. "/ElectricPreacher"
         }
 
     filter "system:linux"
@@ -100,8 +103,9 @@ project "ElectricPreacher"
 
     files
     {
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp",
+        -- "%{prj.name}/src/**.hpp",
+        -- "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/main.cpp",
     }
 
     includedirs
