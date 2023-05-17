@@ -2,7 +2,10 @@ bin
 build
 *.zip
 *.gch
+.vs
 .vscode
-subprojects
-documentation/html
+.obj
 *.tiled-session
+*.vcxproj*
+*.sln
+Makefile
