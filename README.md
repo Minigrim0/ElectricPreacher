@@ -7,17 +7,17 @@ A c++ written open-source role-play game
 
 ## Dependencies
 
-### SDL2
+### Linux
 
-#### APT
+* APT
 ```
 sudo apt update
-sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-image-2.0-0 libsdl2-image-dev libsdl2-mixer-2.0-0 libsdl2-mixer-dev libsdl2-ttf-2.0-0 libsdl2-ttf-dev
+sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
 ```
 
-#### Pacman
+* Pacman
 ```
-sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
+sudo pacman -S sdl2 sdl2_image sdl2_ttf
 ```
 
 # Compilation
@@ -25,10 +25,8 @@ sudo pacman -S sdl2 sdl2_image sdl2_mixer sdl2_ttf
 ## Linux
 
 ```bash
-# From repository's root
-cd build
-cmake ..
-make
+premake5 gmake2
+make config={release|debug}
 ```
 
 To launch the game then :
@@ -37,26 +35,12 @@ cp ../assets/ ./ -r
 ./ElectricPreacher
 ```
 
-## Windows (Not working for now)
-Using MSYS2 :
-
-```bash
-# Install required packages
-pacman -Syu
-# Build tools
-pacman -S mingw-w64-x86_64-meson make mingw-w64-x86_64-toolchain mingw-w64-x86_64-freetype
-# SDL2
-pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_ttf mingw-w64-x86_64-SDL2_mixer
-
-#external lib
-pacman -S mingw-w64-x86_64-nlohmann-json mingw-w64-x86_64-tinyxml2
-
-# Tools
-pacman -S mingw-w64-x86_64-cppcheck
-
-meson setup build
-make
+## Windows
 ```
+.\vendor\premake\premake5.exe vs2022
+```
+
+Then open the solution in Visual Studio and build it.
 
 ### 3rd party libraries
 
@@ -64,4 +48,4 @@ make
 
   `Lohmann, N. JSON for Modern C++ (Version 3.10.0) [Computer software]. https://github.com/nlohmann`
 
-* [Tiny XML II](https://github.com/leethomason/tinyxml2)
+* [Tiny XML 2](https://github.com/leethomason/tinyxml2)

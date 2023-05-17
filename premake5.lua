@@ -12,6 +12,11 @@ IncludeDir["JSON"] = "MiniEngine/vendor/json/include"
 IncludeDir["spdlog"] = "MiniEngine/vendor/spdlog/include"
 IncludeDir["tinyxml2"] = "MiniEngine/vendor/tinyxml2/include"
 
+Linux_SDL_build_options = {}
+Linux_SDL_build_options["SDL"] = "`sdl2-config --cflags --libs`"
+Linux_SDL_build_options["SDL_image"] = "-lSDL2_image"
+Linux_SDL_build_options["SDL_ttf"] = "-lSDL2_ttf"
+
 include "MiniEngine/vendor/"
 
 project "MiniEngine"
@@ -22,8 +27,15 @@ project "MiniEngine"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir (".obj/" .. outputdir .. "/%{prj.name}")
 
+    links {
+        "SDL",
+        "SDL_image",
+        "SDL_ttf",
+        "tinyxml2"
+    }
+
     files {
-        "%{prj.name}/src/includes/**.hpp",
+        "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
     }
 
@@ -56,6 +68,18 @@ project "MiniEngine"
         staticruntime "On"
         systemversion "latest"
 
+        -- buildoptions {
+        --     "%{Linux_SDL_build_options.SDL}",
+        --     "%{Linux_SDL_build_options.SDL_image}",
+        --     "%{Linux_SDL_build_options.SDL_ttf}"
+        -- }
+
+        linkoptions {
+            "%{Linux_SDL_build_options.SDL}",
+            "%{Linux_SDL_build_options.SDL_image}",
+            "%{Linux_SDL_build_options.SDL_ttf}"
+        }
+
         defines {
             "ME_PLATFORM_LINUX"
         }
@@ -71,6 +95,7 @@ project "MiniEngine"
     filter { "system:windows", "configurations:Release" }
         buildoptions "/MT"
 
+
 project "ElectricPreacher"
     location "ElectricPreacher"
     kind "ConsoleApp"
@@ -80,13 +105,19 @@ project "ElectricPreacher"
     objdir ".obj/%{cfg.buildcfg}"
 
     files {
-        "%{prj.name}/src/includes/**.hpp",
+        "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
     }
 
     includedirs {
-        "MiniEngine/src/includes",
-        "MiniEngine/vendor/spdlog/include"
+        "%{prj.name}/src/",
+        "MiniEngine/src",
+        "%{IncludeDir.SDL2}",
+        "%{IncludeDir.SDL_image}",
+        "%{IncludeDir.SDL_ttf}",
+        "%{IncludeDir.JSON}",
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.tinyxml2}"
     }
 
     links {
@@ -111,6 +142,18 @@ project "ElectricPreacher"
         cppdialect "C++17"
         staticruntime "On"
         systemversion "latest"
+
+        -- buildoptions {
+        --     "%{Linux_SDL_build_options.SDL}",
+        --     "%{Linux_SDL_build_options.SDL_image}",
+        --     "%{Linux_SDL_build_options.SDL_ttf}"
+        -- }
+
+        linkoptions {
+            "%{Linux_SDL_build_options.SDL}",
+            "%{Linux_SDL_build_options.SDL_image}",
+            "%{Linux_SDL_build_options.SDL_ttf}"
+        }
 
         defines {
             "ME_PLATFORM_LINUX",
