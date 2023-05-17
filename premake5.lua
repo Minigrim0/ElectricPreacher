@@ -21,32 +21,32 @@ include "MiniEngine/vendor/"
 
 project "MiniEngine"
     location "MiniEngine"
-    kind "SharedLib"
-    language "c++"
+    kind "StaticLib"
+    language "C++"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir (".obj/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/tinyxml2/src/tinyxml2.cpp",
+    }
+    
+    includedirs {
+        "%{prj.name}/src/",
+        "%{IncludeDir.tinyxml2}",
+        "%{IncludeDir.SDL2}",
+        "%{IncludeDir.SDL2_image}",
+        "%{IncludeDir.SDL2_ttf}",
+        "%{IncludeDir.JSON}",
+        "%{IncludeDir.spdlog}"
+    }
 
     links {
         "SDL2",
         "SDL2_image",
         "SDL2_ttf",
-        "tinyxml2"
-    }
-
-    files {
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp",
-    }
-
-    includedirs {
-        "%{prj.name}/src/",
-        "%{IncludeDir.SDL2}",
-        "%{IncludeDir.SDL2_image}",
-        "%{IncludeDir.SDL2_ttf}",
-        "%{IncludeDir.JSON}",
-        "%{IncludeDir.spdlog}",
-        "%{IncludeDir.tinyxml2}"
     }
 
     filter "system:windows"
@@ -60,7 +60,7 @@ project "MiniEngine"
         }
 
         postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/ElectricPreacher")
+            "{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/ElectricPreacher",
         }
 
     filter "system:linux"
@@ -86,35 +86,38 @@ project "MiniEngine"
         defines "ME_RELEASE"
         optimize "On"
 
-    filter { "system:windows", "configurations:Release" }
-        buildoptions "/MT"
+    -- filter { "system:windows", "configurations:Release" }
+    --     buildoptions "/MT"
 
 
 project "ElectricPreacher"
     location "ElectricPreacher"
     kind "ConsoleApp"
-    language "c++"
+    language "C++"
 
-    targetdir "bin/%{cfg.buildcfg}"
-    objdir ".obj/%{cfg.buildcfg}"
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files {
+    files
+    {
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
     }
 
-    includedirs {
+    includedirs
+    {
         "%{prj.name}/src/",
         "MiniEngine/src",
         "%{IncludeDir.SDL2}",
-        "%{IncludeDir.SDL_image}",
-        "%{IncludeDir.SDL_ttf}",
+        "%{IncludeDir.SDL2_image}",
+        "%{IncludeDir.SDL2_ttf}",
         "%{IncludeDir.JSON}",
         "%{IncludeDir.spdlog}",
         "%{IncludeDir.tinyxml2}"
     }
 
-    links {
+    links
+    {
         "MiniEngine"
     }
 
@@ -125,11 +128,6 @@ project "ElectricPreacher"
 
         defines {
             "ME_PLATFORM_WINDOWS",
-            "ME_BUILD_DLL"
-        }
-
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/ElectricPreacher")
         }
 
     filter "system:linux"

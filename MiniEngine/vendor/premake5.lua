@@ -58,16 +58,3 @@ filter "system:windows"
                 "{COPY} %{prj.name}/win32/lib/x86/SDL2_image.dll bin/Debug/",
                 "{COPY} %{prj.name}/win32/lib/x86/SDL2_image.lib bin/Debug/"
             }
-
-project "tinyxml2"
-    kind "SharedLib"
-    language "C++"
-    location "%{prj.name}"
-    includedirs "tinyxml2/include"
-    files "tinyxml2/src/tinyxml2.cpp"
-
-    filter "system:windows"
-        postbuildcommands {
-            "{COPY} %{prj.name}/bin/Debug/tinyxml2.dll bin/Debug/",
-            "{COPY} %{prj.name}/bin/Debug/tinyxml2.lib bin/Debug/"
-        }
