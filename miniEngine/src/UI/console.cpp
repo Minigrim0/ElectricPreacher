@@ -5,7 +5,7 @@ namespace MiniEngine {
     namespace UI {
         Console::Console()
             :m_rect({ 0, 0, 0, 0 }),
-            m_history(),
+            m_history(std::vector<Widgets::Button*>()),
             m_font(nullptr),
             m_background_texture(nullptr),
             m_input(new Widgets::TextInput),
@@ -19,7 +19,7 @@ namespace MiniEngine {
 
         Console::Console(int x, int y)
             :m_rect({ x, y, 0, 0 }),
-            m_history(),
+            m_history(std::vector<Widgets::Button*>()),
             m_font(nullptr),
             m_background_texture(nullptr),
             m_input(new Widgets::TextInput),
@@ -33,7 +33,7 @@ namespace MiniEngine {
 
         Console::Console(int x, int y, int w)
             :m_rect({ x, y, w, w }),
-            m_history(),
+            m_history(std::vector<Widgets::Button*>()),
             m_font(nullptr),
             m_background_texture(nullptr),
             m_input(new Widgets::TextInput),
@@ -47,7 +47,7 @@ namespace MiniEngine {
 
         Console::Console(int x, int y, int w, int h)
             :m_rect({ x, y, w, h }),
-            m_history(),
+            m_history(std::vector<Widgets::Button*>()),
             m_font(nullptr),
             m_background_texture(nullptr),
             m_input(new Widgets::TextInput),
@@ -61,7 +61,7 @@ namespace MiniEngine {
 
         Console::Console(TTF_Font* font)
             :m_rect({ 0, 0, 0, 0 }),
-            m_history(),
+            m_history(std::vector<Widgets::Button*>()),
             m_input(new Widgets::TextInput),
             m_send_button(new Widgets::Button),
             m_font(font),
@@ -179,7 +179,7 @@ namespace MiniEngine {
             for (int x = 0; x < max; x++)
                 m_history[static_cast<long unsigned int>(x)]->move(0, -m_line_height);
 
-            Button* tmp_button = new Button();
+            Widgets::Button* tmp_button = new Widgets::Button();
             tmp_button->set_rect(m_rect.x, m_rect.y + m_line_height * (m_nb_visible_lines - 1), m_rect.w, m_line_height);
             tmp_button->set_text(m_input->get_text());
             tmp_button->set_text_pos("MID_LEFT");

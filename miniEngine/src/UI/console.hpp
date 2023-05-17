@@ -40,14 +40,14 @@ public:
     // Others
     void init(Core::Screen *);
     int draw(Core::Screen *) override;
-    int update(SDL_Event *, Core::Screen *) override;
+    int update(SDL_Event *, Core::Screen*) override;
     int update_layout(Core::Screen *);
     void init_send_button();
     void create_entry(Core::Screen *);
 
 private:
     SDL_Rect m_rect;
-    std::vector<Button *> m_history; // The previous inputs and outputs
+    std::vector<Widgets::Button*> m_history; // The previous inputs and outputs
     TTF_Font *m_font;
     SDL_Texture *m_background_texture;
 

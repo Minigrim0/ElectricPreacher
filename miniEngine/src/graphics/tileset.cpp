@@ -1,4 +1,4 @@
-#include "core/tileset.hpp"
+#include "graphics/tileset.hpp"
 
 #include <iostream>
 #include <SDL.h>
@@ -7,7 +7,7 @@
 #include "core/screen.hpp"
 
 namespace MiniEngine {
-
+namespace Graphics {
 // Constructors
 TileSet::TileSet()
     : m_tex(nullptr),
@@ -50,25 +50,25 @@ const SDL_Rect *TileSet::get_sub(int x, int y) const
 }
 
 // Setters
-void TileSet::load(Screen *screen, fs::path filePath)
+void TileSet::load(Core::Screen *screen, fs::path filePath)
 {
     tinyxml2::XMLDocument *doc = new tinyxml2::XMLDocument();
-    doc->LoadFile(filePath.c_str());
+    doc->LoadFile(filePath.string().c_str());
 
     tinyxml2::XMLElement *tileset_element = doc->FirstChildElement("tileset");
     if (tileset_element == nullptr)
         std::cout << "tileset_element is null" << std::endl;
 
-    m_tile_width = std::stoi(tileset_element->Attribute("tilewidth"));
-    m_tile_height = std::stoi(tileset_element->Attribute("tileheight"));
+    m_tile_width = std::atoi(tileset_element->Attribute("tilewidth"));
+    m_tile_height = std::atoi(tileset_element->Attribute("tileheight"));
 
     tinyxml2::XMLElement *tileset_image = tileset_element->FirstChildElement("image");
 
-    m_width = std::stoi(tileset_image->Attribute("width"));
-    m_height = std::stoi(tileset_image->Attribute("height"));
+    m_width = std::atoi(tileset_image->Attribute("width"));
+    m_height = std::atoi(tileset_image->Attribute("height"));
     m_name = tileset_element->Attribute("name");
 
-    m_tex = screen->load_image(filePath.remove_filename() / tileset_image->Attribute("source"));
+    m_tex = screen->load_image((filePath.remove_filename() / tileset_image->Attribute("source")).string());
 
     if (set_array() != 0)
         std::cout << "Error while setting array" << std::endl;
@@ -90,4 +90,4 @@ int TileSet::set_array()
     return 0;
 }
 
-}
+}}

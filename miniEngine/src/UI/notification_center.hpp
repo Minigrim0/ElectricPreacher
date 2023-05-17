@@ -16,7 +16,7 @@
  */
 namespace MiniEngine {
 namespace UI {
-class NotificationCenter : public Widget
+class NotificationCenter
 {
 protected:
     NotificationCenter();
@@ -31,13 +31,13 @@ public:
     void set_default_font(std::string font);
 
     // Others
-    int draw(Screen *) override;
-    int update(SDL_Event *, Screen *) override;
-    int create_notification(std::string text, Screen *screen, std::string font = "", Uint16 lifetime = 10000);
+    int draw(Core::Screen *);
+    int update(SDL_Event *, Core::Screen *);
+    int create_notification(std::string text, Core::Screen *screen, std::string font = "", Uint16 lifetime = 10000);
 
 private:
-    std::vector<Notification *> m_notifications;
-    TileSet *m_icons;
+    std::vector<Widgets::Notification *> m_notifications;
+    Graphics::TileSet *m_icons;
 
     std::string m_default_font;
 

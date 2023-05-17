@@ -6,7 +6,7 @@
 
 namespace MiniEngine {
     namespace UI {
-class Container : public Widget
+class Container : public Widgets::Widget
 {
 public:
     Container();
@@ -21,7 +21,7 @@ public:
 private:
     int type;
     SDL_Rect m_rect;
-    std::vector<Widget *> m_widgets;
+    std::vector<Widgets::Widget *> m_widgets;
 };
     }
 }

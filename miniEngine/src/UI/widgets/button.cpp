@@ -250,7 +250,7 @@ namespace MiniEngine::UI::Widgets {
      * @param screen The screen on which to draw
      * @return int 0 on success, -1 on error
      */
-    int Button::draw(Screen* screen) {
+    int Button::draw(Core::Screen* screen) {
         SDL_RenderCopy(screen->get_renderer(), m_background_texture, NULL, m_rect);
         SDL_RenderCopy(screen->get_renderer(), m_foreground_texture, NULL, m_text_rect);
         return 0;
@@ -264,7 +264,7 @@ namespace MiniEngine::UI::Widgets {
      * @return int
      */
     int Button::update_layout(TTF_Font* font) {
-        const Screen* screen = Screen::GetInstance();
+        const Core::Screen* screen = Core::Screen::GetInstance();
         m_font = font;
         SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
 
@@ -350,7 +350,7 @@ namespace MiniEngine::UI::Widgets {
         return 0;
     }
 
-    int Button::update(SDL_Event* event, Screen* screen) {
+    int Button::update(SDL_Event* event, Core::Screen* screen) {
 
         bool prev_hov = m_hover;
         switch (event->type) {

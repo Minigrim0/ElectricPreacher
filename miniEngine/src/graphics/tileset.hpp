@@ -17,7 +17,7 @@ namespace fs = std::filesystem;
  */
 namespace MiniEngine
 {
-
+namespace Graphics{
 class TileSet
 {
 public:
@@ -40,7 +40,7 @@ public:
     inline int get_tile_height() const { return m_tile_height; }
     inline std::string get_name() const { return m_name; }
 
-    void load(Screen *screen, fs::path filePath);
+    void load(Core::Screen *screen, fs::path filePath);
 
 private:
     int set_array();
@@ -53,4 +53,4 @@ private:
     std::vector<SDL_Rect> m_rects;
 };
 
-}
+}}
