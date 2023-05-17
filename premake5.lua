@@ -10,6 +10,7 @@ IncludeDir["SDL_image"] = "MiniEngine/vendor/SDL_image/win32/include"
 IncludeDir["SDL_ttf"] = "MiniEngine/vendor/SDL_ttf/win32/include"
 IncludeDir["JSON"] = "MiniEngine/vendor/json/include"
 IncludeDir["spdlog"] = "MiniEngine/vendor/spdlog/include"
+IncludeDir["tinyxml2"] = "MiniEngine/vendor/tinyxml2/include"
 
 include "MiniEngine/vendor/"
 
@@ -32,7 +33,8 @@ project "MiniEngine"
         "%{IncludeDir.SDL_image}",
         "%{IncludeDir.SDL_ttf}",
         "%{IncludeDir.JSON}",
-        "%{IncludeDir.spdlog}"
+        "%{IncludeDir.spdlog}",
+        "%{IncludeDir.tinyxml2}"
     }
 
     filter "system:windows"
@@ -55,7 +57,7 @@ project "MiniEngine"
         systemversion "latest"
 
         defines {
-            "ME_PLATFORM_LINUX",
+            "ME_PLATFORM_LINUX"
         }
 
     filter "configurations:Debug"
