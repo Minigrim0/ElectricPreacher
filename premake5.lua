@@ -32,7 +32,7 @@ project "MiniEngine"
         "%{prj.name}/src/**.cpp",
         "%{prj.name}/vendor/tinyxml2/src/tinyxml2.cpp",
     }
-    
+
     includedirs {
         "%{prj.name}/src/",
         "%{IncludeDir.tinyxml2}",
@@ -89,9 +89,11 @@ project "MiniEngine"
         defines "ME_RELEASE"
         optimize "On"
 
-    -- filter { "system:windows", "configurations:Release" }
-    --     buildoptions "/MT"
+    filter { "system:windows", "configurations:Release" }
+        buildoptions "/MT"
 
+    filter { "system:windows", "configurations:Debug" }
+        buildoptions "/MDd"
 
 project "ElectricPreacher"
     location "ElectricPreacher"
@@ -120,21 +122,38 @@ project "ElectricPreacher"
         "%{IncludeDir.tinyxml2}"
     }
 
-    links
-    {
-        "MiniEngine"
-    }
-
     filter "system:windows"
+        links
+        {
+            "SDL2",
+            "SDL2main",
+            "MiniEngine"
+        }
+
         cppdialect "C++17"
         staticruntime "On"
         systemversion "latest"
-
+        
         defines {
             "ME_PLATFORM_WINDOWS",
         }
+        
+        filter { "configurations:Release" }
+            buildoptions "/MT"
+
+        filter {  "configurations:Debug" }
+            buildoptions "/MDd"
 
     filter "system:linux"
+            links
+            {
+                "MiniEngine",
+                "SDL2",
+                "SDL2_image",
+                "SDL2_ttf",
+                "dl",
+                "pthread"
+            }
         cppdialect "C++17"
         staticruntime "On"
         systemversion "latest"
