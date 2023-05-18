@@ -43,6 +43,10 @@ namespace MiniEngine::UI::Widgets {
         return *this;
     }
 
+    bool Button::OnEvent(SDL_Event* event) {
+        return false;
+    }
+
     //Getters
     SDL_Rect Button::get_rect() const {
         return *m_rect;

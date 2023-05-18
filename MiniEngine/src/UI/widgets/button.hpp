@@ -33,6 +33,9 @@ namespace MiniEngine {
                 std::string get_action_type() const;
                 std::string get_action_operand() const;
 
+                // Overrides
+                bool OnEvent(SDL_Event *event) override;
+
                 // Setters
                 void set_rect(SDL_Rect rect);
                 void set_rect(int x, int y, int w, int h);
