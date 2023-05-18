@@ -34,18 +34,6 @@
 //     SDL_Event* event_handler = new SDL_Event;
 //     SDL_StopTextInput();
 
-//     screen->set_width(SCREEN_X);
-//     screen->set_height(SCREEN_Y);
-//     screen->set_caption(
-//         "The Electric Preacher (" +
-//         std::to_string(VERSION_MAJOR) + "." +
-//         std::to_string(VERSION_MINOR) + "." +
-//         std::to_string(VERSION_PATCH) + ")");
-//     screen->init();
-
-//     screen->add_font("assets/fonts/Roboto-Regular.ttf", 16, "Roboto_16");
-//     screen->set_default_font("Roboto_16");
-
 //     if(screen->build_window() != 0) return EXIT_FAILURE;
 
 //     UI::NotificationCenter* notification_center = UI::NotificationCenter::GetInstance();
