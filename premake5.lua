@@ -13,9 +13,9 @@ IncludeDir["spdlog"] = "MiniEngine/vendor/spdlog/include"
 IncludeDir["tinyxml2"] = "MiniEngine/vendor/tinyxml2/include"
 
 Linux_SDL_build_options = {}
-Linux_SDL_build_options["SDL"] = "`sdl2-config --cflags --libs`"
-Linux_SDL_build_options["SDL_image"] = "-lSDL2_image"
-Linux_SDL_build_options["SDL_ttf"] = "-lSDL2_ttf"
+Linux_SDL_build_options["SDL2"] = "`sdl2-config --cflags --libs`"
+Linux_SDL_build_options["SDL2_image"] = "-lSDL2_image"
+Linux_SDL_build_options["SDL2_ttf"] = "-lSDL2_ttf"
 
 include "MiniEngine/vendor/"
 
@@ -123,45 +123,35 @@ project "ElectricPreacher"
     }
 
     filter "system:windows"
+        cppdialect "C++17"
+        staticruntime "On"
+        systemversion "latest"
+
         links
         {
             "SDL2",
             "SDL2main",
             "MiniEngine"
         }
-
-        cppdialect "C++17"
-        staticruntime "On"
-        systemversion "latest"
         
         defines {
             "ME_PLATFORM_WINDOWS",
         }
-        
-        filter { "configurations:Release" }
-            buildoptions "/MT"
-
-        filter {  "configurations:Debug" }
-            buildoptions "/MDd"
 
     filter "system:linux"
-            links
-            {
-                "MiniEngine",
-                "SDL2",
-                "SDL2_image",
-                "SDL2_ttf",
-                "dl",
-                "pthread"
-            }
         cppdialect "C++17"
         staticruntime "On"
-        systemversion "latest"
+        -- systemversion "latest"
+
+        links
+        {
+            "MiniEngine"
+        }
 
         linkoptions {
-            "%{Linux_SDL_build_options.SDL}",
-            "%{Linux_SDL_build_options.SDL_image}",
-            "%{Linux_SDL_build_options.SDL_ttf}"
+            "%{Linux_SDL_build_options.SDL2}",
+            "%{Linux_SDL_build_options.SDL2_image}",
+            "%{Linux_SDL_build_options.SDL2_ttf}"
         }
 
         defines {
@@ -175,3 +165,9 @@ project "ElectricPreacher"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
+
+    filter { "system:windows", "configurations:Release" }
+        buildoptions "/MT"
+
+    filter { "system:windows", "configurations:Debug" }
+        buildoptions "/MDd"
