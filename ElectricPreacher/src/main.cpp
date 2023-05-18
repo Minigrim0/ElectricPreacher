@@ -84,19 +84,12 @@
 #include <MiniEngine.hpp>
 
 class ElectricPreacher : public MiniEngine::Application {
-public:
-	ElectricPreacher(std::string project_name): Application(project_name)
-	{
+    public:
+        ElectricPreacher(std::string project_name): Application(project_name) {}
 
-	}
-
-	~ElectricPreacher()
-	{
-
-	}
+        ~ElectricPreacher() {}
 };
 
-MiniEngine::Application* MiniEngine::CreateApplication()
-{
+MiniEngine::Application* MiniEngine::CreateApplication() {
 	return new ElectricPreacher("Electric Preacher");
 }
