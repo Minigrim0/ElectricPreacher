@@ -129,8 +129,14 @@ namespace MiniEngine {
     }
 
     int Screen::build_window() {
-        if (m_width <= 0 || m_height <= 0) return 1;
-        if (m_default_font == "") return 1;
+        if (m_width <= 0 || m_height <= 0) {
+            ME_CORE_ERROR("Invalid window size");
+            return 1;
+        }
+        if (m_default_font == "") {
+            ME_CORE_ERROR("No default font set");
+            return 1;
+        }
 
         ME_CORE_TRACE("Creating window");
         m_window = SDL_CreateWindow(m_window_caption.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
