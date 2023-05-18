@@ -20,7 +20,6 @@ namespace MiniEngine {
         m_time_elapsed(0),
         m_time_since_last_fps_update(0),
         m_fps(0),
-        m_running(false),
         m_showing_fps(false),
         m_window_caption(props.title),
         m_keyConf(std::map<SDL_Keycode, bool>()),
@@ -53,7 +52,6 @@ namespace MiniEngine {
     int Screen::get_height() const { return m_height; }
     int Screen::get_time_elapsed() const { return static_cast<int>(m_time_elapsed); }
 
-    bool Screen::is_running() const { return m_running; }
     bool Screen::get_key(SDL_Keycode code) const {
         if (m_keyConf.count(code))
             return m_keyConf.at(code);
@@ -107,10 +105,6 @@ namespace MiniEngine {
         m_showing_fps = !m_showing_fps;
     }
 
-    void Screen::set_running(bool running) {
-        m_running = running;
-    }
-
     //Others
     int Screen::init() {
         ME_CORE_TRACE("Initializing SDL");
@@ -159,7 +153,6 @@ namespace MiniEngine {
             return 1;
         }
 
-        m_running = true;
         return 0;
     }
 
@@ -225,9 +218,6 @@ namespace MiniEngine {
 
     void Screen::handle_events(SDL_Event* event) {
         switch (event->type) {
-        case SDL_QUIT:
-            m_running = false;
-            break;
         case SDL_KEYDOWN:
             m_keyConf[event->key.keysym.sym] = true;
             break;

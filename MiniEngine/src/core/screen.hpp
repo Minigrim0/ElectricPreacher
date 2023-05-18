@@ -96,7 +96,6 @@ namespace MiniEngine {
             Uint32 m_time_since_last_fps_update;
             Uint32 m_fps;
 
-            bool m_running;
             bool m_showing_fps;
 
             std::string m_window_caption;
