@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
 
     ME_CORE_INFO("Creating the application");
     auto app = MiniEngine::CreateApplication();
-    app->Run();
+    app->run();
     delete app;
 
     return 0;
