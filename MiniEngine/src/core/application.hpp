@@ -3,9 +3,9 @@
 #include <memory>
 #include <string>
 
-#include "core/screen.hpp"
 #include "core/core.hpp"
-
+#include "core/screen.hpp"
+#include "event/layer_manager.hpp"
 #include "UI/notification_center.hpp"
 
 namespace MiniEngine {
@@ -15,11 +15,15 @@ namespace MiniEngine {
         Application(std::string project_name);
         virtual ~Application();
 
-        void Run();
+        void run();
+
     protected:
         std::string m_project_name;
         std::unique_ptr<Screen> m_screen;
         std::unique_ptr<UI::NotificationCenter> m_notification_center;
+        std::unique_ptr<Event::LayerManager> m_layer_manager;
+
+        bool m_running = false;
     };
 
     // To be defined in CLIENT
