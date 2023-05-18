@@ -7,6 +7,7 @@
 
 #include "UI/window.hpp"
 #include "UI/widgets/button.hpp"
+#include "core/log.hpp"
 #include "core/screen.hpp"
 
 namespace MiniEngine {
@@ -174,7 +175,7 @@ namespace MiniEngine {
                             *current_window = m_buttons[i]->get_action_operand();
                         }
                         else if (*action == "quit_game") {
-                            screen->set_running(false);
+                            ME_CORE_WARN("Need to handle quit_game action");
                         }
                     }
                 }
