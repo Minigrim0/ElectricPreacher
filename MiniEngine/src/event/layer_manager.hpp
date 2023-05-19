@@ -5,10 +5,15 @@
 
 namespace MiniEngine {
     namespace Event {
+        #define GAME_LAYER 0
+        #define UI_LAYER 1
+
         class LayerManager {
             public:
-                LayerManager() = default;
-                virtual ~LayerManager() = default;
+                LayerManager();
+                virtual ~LayerManager();
+
+                static LayerManager* Create();
 
                 void attach(Layer* layer);
                 bool OnEvent(SDL_Event* event);

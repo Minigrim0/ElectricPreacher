@@ -5,16 +5,23 @@
 
 namespace MiniEngine {
     namespace Event {
+        /**
+         * @brief A layer is a collection of interactibles that can be attached to a layer manager.
+         * The layer will propagate events to all of its interactibles.
+         * 
+         * It handles the deletion of its interactibles.
+         */
         class Layer{
             public:
-                Layer() = default;
-                virtual ~Layer() = default;
+                Layer(uint16_t id);
+                virtual ~Layer();
 
                 void attach(Interactible* interactible);
-
                 bool OnEvent(SDL_Event* event);
+
             private:
                 std::vector<Interactible*> m_interactibles;
+                uint16_t m_id;
         };
     }
 }
