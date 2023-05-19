@@ -16,7 +16,7 @@
 // #include "constants.hpp"
 // #include "game/game.hpp"
 // #include "map/map_manager.hpp"
-// // #include "utils/build_windows.hpp"
+// #include "utils/build_windows.hpp"
 
 // /**
 //  * @brief The main function
@@ -36,8 +36,6 @@
 
 //     if(screen->build_window() != 0) return EXIT_FAILURE;
 
-//     UI::NotificationCenter* notification_center = UI::NotificationCenter::GetInstance();
-//     notification_center->set_default_font("Roboto_16");
 //     // build_windows(&windows);
 //     std::string action;
 
@@ -68,16 +66,27 @@
 //     return EXIT_SUCCESS;
 // }
 
-
 #include <MiniEngine.hpp>
+
+#include "constants.hpp"
+
 
 class ElectricPreacher : public MiniEngine::Application {
     public:
-        ElectricPreacher(std::string project_name): Application(project_name) {}
+        ElectricPreacher(std::string project_name)
+        :Application(
+            project_name,
+            VERSION_MAJOR,
+            VERSION_MINOR,
+            VERSION_PATCH
+        )
+        {}
 
         ~ElectricPreacher() {}
 };
 
 MiniEngine::Application* MiniEngine::CreateApplication() {
-	return new ElectricPreacher("Electric Preacher");
+	return new ElectricPreacher(
+        "Electric Preacher"
+    );
 }

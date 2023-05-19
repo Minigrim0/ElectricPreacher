@@ -43,6 +43,7 @@ namespace MiniEngine::UI::Widgets {
         return *this;
     }
 
+    // Callback
     bool Button::OnEvent(SDL_Event* event) {
         return false;
     }
