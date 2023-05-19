@@ -39,7 +39,6 @@ namespace MiniEngine {
             Screen(Screen& other) = delete;
             void operator=(const Screen&) = delete;
 
-            // Singleton pattern
             static Screen* Create(const WindowProps& props = WindowProps());
 
             // Getters

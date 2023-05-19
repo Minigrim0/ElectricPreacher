@@ -29,6 +29,9 @@ namespace MiniEngine {
         std::unique_ptr<Event::LayerManager> m_layer_manager;
 
         bool m_running = false;
+
+    private:
+        void init();
     };
 
     // To be defined in CLIENT
