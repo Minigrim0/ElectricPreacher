@@ -1,7 +1,6 @@
 #pragma once
 
-// For use by Hazel applications
-
+// For use by MiniEngine applications
 #include "core/application.hpp"
 #include "core/log.hpp"
 
