@@ -119,6 +119,14 @@ namespace MiniEngine {
             return 2;
         }
 
+        //Initialize PNG loading
+        ME_CORE_TRACE("Initializing SDL_image");
+        int imgFlags = IMG_INIT_PNG;
+        if (!(IMG_Init(imgFlags) & imgFlags)) {
+            ME_CORE_ERROR("Failed to initialize SDL_image : {}", IMG_GetError());
+            return 1;
+        }
+
         return 0;
     }
 
@@ -139,19 +147,13 @@ namespace MiniEngine {
             return 1;
         }
 
+        ME_CORE_TRACE("Creating renderer");
         m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
         if (m_Renderer == nullptr) {
             ME_CORE_ERROR("Failed to create the renderer : {}", SDL_GetError());
             return 1;
         }
         SDL_SetRenderDrawColor(m_Renderer, m_background_color.r, m_background_color.g, m_background_color.b, m_background_color.a);
-
-        //Initialize PNG loading
-        int imgFlags = IMG_INIT_PNG;
-        if (!(IMG_Init(imgFlags) & imgFlags)) {
-            ME_CORE_ERROR("Failed to initialize SDL_image : {}", IMG_GetError());
-            return 1;
-        }
 
         return 0;
     }
