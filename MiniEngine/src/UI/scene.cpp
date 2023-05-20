@@ -24,7 +24,7 @@ namespace MiniEngine {
          * @return false The Scene is not running
          */
         bool Scene::is_current() const {
-            return m_Scene_running;
+            return m_current;
         }
 
         /**
@@ -32,8 +32,8 @@ namespace MiniEngine {
          *
          * @return std::string The title of the Scene
          */
-        std::string Scene::get_title() const {
-            return m_Scene_name;
+        std::string Scene::get_name() const {
+            return m_name;
         }
 
         /**
@@ -42,7 +42,7 @@ namespace MiniEngine {
          * @param running Whether the Scene should be running or not
          */
         void Scene::set_running(bool running) {
-            m_Scene_running = running;
+            m_current = running;
         }
 
         /**
@@ -162,6 +162,7 @@ namespace MiniEngine {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
                 if(m_buttons[i]->OnEvent(event)) return true;
             }
+            return false;
         }
 
         /**
@@ -201,7 +202,7 @@ namespace MiniEngine {
             json_in >> root;
 
             // Setup Scene-wide informations
-            m_Scene_name = root["Scene_name"];
+            m_name = root["Scene_name"];
             screen->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
             // Setup Buttons

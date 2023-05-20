@@ -9,6 +9,7 @@
 #include "core/core.hpp"
 
 #include "UI/widgets/button.hpp"
+#include "event/interactible.hpp"
 
 /**
  * @brief A window is a part of the UI that can be drawn and updated
@@ -16,7 +17,7 @@
  */
 namespace MiniEngine {
     namespace UI {
-        class ME_API Scene : public Interactible {
+        class ME_API Scene : public Event::Interactible {
             public:
                 Scene();
                 virtual ~Scene();
