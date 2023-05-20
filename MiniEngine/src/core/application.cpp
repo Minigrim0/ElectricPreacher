@@ -7,13 +7,9 @@
 namespace MiniEngine {
     Application* Application::s_instance = nullptr;
 
-    Application::Application()
-    :Application("MiniEngine", 0, 1, 0)
-    {}
+    Application::Application() : Application("MiniEngine") {}
 
-    Application::Application(std::string project_name)
-    :Application(project_name, 0, 1, 0)
-    {}
+    Application::Application(std::string project_name) : Application(project_name, 0, 1, 0) {}
 
     Application::Application(std::string project_name, int major_version, int minor_version, int patch_version)
     :m_project_name(project_name),
