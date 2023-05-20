@@ -41,8 +41,10 @@ namespace MiniEngine {
 
     Application::~Application(){}
 
+    /**
+     * @brief Initializes the application. Starts the screen, notification center, and layer manager.
+     */
     void Application::init(){
-        ME_CORE_INFO("Initializing application");
         m_screen = std::unique_ptr<Screen>(Screen::Create());
         m_notification_center = std::unique_ptr<UI::NotificationCenter>(UI::NotificationCenter::Create(m_screen.get()));
         m_layer_manager = std::unique_ptr<Event::LayerManager>(Event::LayerManager::Create());
@@ -54,11 +56,7 @@ namespace MiniEngine {
 
         m_screen->set_width(1920);
         m_screen->set_height(1080);
-        m_screen->set_caption(
-            m_project_name +
-            std::to_string(0) + "." +
-            std::to_string(1) + "." +
-            std::to_string(2));
+        m_screen->set_caption(m_project_name + " - " + std::to_string(m_major_version) + "." + std::to_string(m_minor_version) + "." + std::to_string(m_patch_version));
         m_screen->init();
         m_screen->add_font("assets/fonts/Roboto-Regular.ttf", 16, "Roboto_16");
         m_screen->set_default_font("Roboto_16");
@@ -79,6 +77,8 @@ namespace MiniEngine {
                 }
                 m_layer_manager->OnEvent(&event);
             }
+
+            m_layer_manager->render();
             m_screen->update_screen();
         }
 
