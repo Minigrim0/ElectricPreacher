@@ -66,25 +66,22 @@ namespace MiniEngine {
                 return m_current_lifetime < m_total_lifetime;
             }
 
-            int Notification::draw(Screen* screen) {
+            bool Notification::OnEvent(SDL_Event* event) {
+                return false; // Notifications are not interactible (yet)
+            }
+
+            void Notification::OnRender(Screen* sc) {
                 double percent_death = (1.0 - (static_cast<float>(m_current_lifetime) / static_cast<float>(m_total_lifetime))) * 500.0;
 
                 m_position.y += m_offset;
                 SDL_Rect pbdst = { m_position.x, m_position.y + 50, static_cast<int>(percent_death), 1 };
-                SDL_RenderCopy(screen->get_renderer(), m_background, NULL, &m_position);
-                SDL_RenderCopy(screen->get_renderer(), m_progress_bar, NULL, &pbdst);
+                SDL_RenderCopy(sc->get_renderer(), m_background, NULL, &m_position);
+                SDL_RenderCopy(sc->get_renderer(), m_progress_bar, NULL, &pbdst);
                 m_position.y -= m_offset;
-
-                return 0;
             }
 
-            int Notification::update(SDL_Event* event, Screen* screen) {
-                if (event == nullptr) {
-                    m_current_lifetime += static_cast<Uint16>(screen->get_time_elapsed());
-                }
-                else {
-                    // Do something wit the event (X button ?)
-                }
+            void Notification::OnUpdate(int time_elapsed) {
+                m_current_lifetime += static_cast<Uint16>(time_elapsed);
                 return m_current_lifetime < m_total_lifetime;
             }
 

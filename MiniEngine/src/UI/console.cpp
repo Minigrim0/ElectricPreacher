@@ -134,7 +134,7 @@ namespace MiniEngine {
             SDL_SetTextureAlphaMod(m_background_texture, m_alpha);
         }
 
-        int Console::draw(Screen* screen) {
+        void Console::OnRender(Screen* screen) {
             SDL_RenderCopy(screen->get_renderer(), m_background_texture, nullptr, &m_rect);
 
             int start = m_history.size() > static_cast<long unsigned int>(m_nb_visible_lines) ? static_cast<int>(m_history.size()) - m_nb_visible_lines : 0;
@@ -143,10 +143,9 @@ namespace MiniEngine {
             }
             m_input->draw(screen);
             m_send_button->draw(screen);
-            return 0;
         }
 
-        int Console::update(SDL_Event* event, Screen* screen) {
+        bool Console::OnEvent(SDL_Event* event) {
             if (m_input->update(event, screen) == 1 || m_send_button->update(event, screen) == 1) {
                 if (!m_input->is_empty()) {
                     create_entry(screen);

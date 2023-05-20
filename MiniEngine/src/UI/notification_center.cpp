@@ -32,15 +32,16 @@ namespace MiniEngine {
         int NotificationCenter::draw(Screen* screen) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
                 m_notifications[x]->set_offset(static_cast<int>(x) * 51);
-                m_notifications[x]->draw(screen);
+                m_notifications[x]->OnRender(screen);
             }
 
             return 0;
         }
 
-        int NotificationCenter::update(SDL_Event* event, Screen* screen) {
+        int NotificationCenter::update(int time_elapsed) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
-                if (m_notifications[x]->update(event, screen) == 0) {
+                m_notifications[x]->OnUpdate(time_elapsed)
+                if(!m_notifications[x]->is_alive()) {
                     m_notifications.erase(m_notifications.begin() + static_cast<long int>(x));
                 }
             }

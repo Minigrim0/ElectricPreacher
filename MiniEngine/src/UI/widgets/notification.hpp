@@ -1,9 +1,9 @@
 #pragma once
 
-#include <SDL_stdinc.h>
+// #include <SDL_stdinc.h>
 #include <iostream>
 
-#include "UI/widgets/widgets.hpp"
+#include "event/interactible.hpp"
 
 /**
  * @author Minigrim0
@@ -14,7 +14,7 @@
 namespace MiniEngine {
     namespace UI {
         namespace Widgets {
-            class Notification : public Widget {
+            class Notification : public Event::Interactible {
             public:
                 // Constructors
                 Notification();
@@ -38,8 +38,9 @@ namespace MiniEngine {
                 bool is_alive() const;
 
                 // Others
-                int draw(Screen*) override;
-                int update(SDL_Event*, Screen*) override;
+                bool OnEvent(SDL_Event* event) override;
+                void OnRender(Screen* sc) override;
+                void OnUpdate(int time_elapsed) override;
 
                 void init(Screen*, std::string font);
 

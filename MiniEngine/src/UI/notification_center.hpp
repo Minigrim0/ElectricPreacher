@@ -3,8 +3,6 @@
 #include <SDL_stdinc.h>
 #include <SDL_ttf.h>
 
-#include "UI/widgets/widgets.hpp"
-
 #include "graphics/tileset.hpp"
 #include "UI/widgets/notification.hpp"
 #include "core/screen.hpp"
@@ -15,33 +13,32 @@
  * It can be used to display messages to the player
  */
 namespace MiniEngine {
-namespace UI {
-class NotificationCenter
-{
-protected:
-    NotificationCenter(Screen* screen);
+    namespace UI {
+        class NotificationCenter {
+        protected:
+            NotificationCenter(Screen *screen);
 
-public:
-    ~NotificationCenter();
+        public:
+            ~NotificationCenter();
 
-    // Singleton pattern
-    static NotificationCenter *Create(Screen* screen);
+            // Singleton pattern
+            static NotificationCenter *Create(Screen *screen);
 
-    // Setter
-    void set_default_font(std::string font);
+            // Setter
+            void set_default_font(std::string font);
 
-    // Others
-    int draw(Screen *);
-    int update(SDL_Event *, Screen *);
-    int create_notification(std::string text, Screen *screen, std::string font = "", Uint16 lifetime = 10000);
+            // Others
+            int draw(Screen *);
+            int update(SDL_Event *, Screen *);
+            int create_notification(std::string text, Screen *screen, std::string font = "", Uint16 lifetime = 10000);
 
-private:
-    std::vector<Widgets::Notification *> m_notifications;
-    Graphics::TileSet *m_icons;
+        private:
+            std::vector<Widgets::Notification *> m_notifications;
+            Graphics::TileSet *m_icons;
 
-    std::string m_default_font;
+            std::string m_default_font;
 
-    static NotificationCenter *nc_;
-};
-
-}}
+            static NotificationCenter *nc_;
+        };
+    }
+}

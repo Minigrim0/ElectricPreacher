@@ -45,7 +45,40 @@ namespace MiniEngine::UI::Widgets {
 
     // Callback
     bool Button::OnEvent(SDL_Event* event) {
-        return false;
+        bool prev_hov = m_hover;
+        switch (event->type) {
+            case SDL_MOUSEMOTION:
+                if (collide(event->motion.x, event->motion.y))
+                    m_hover = true;
+                else
+                    m_hover = false;
+
+                if (prev_hov != m_hover)
+                    update_layout(m_font, screen);
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if (collide({ event->button.x, event->button.y, 0, 0 }))
+                    return true; // Event was handled
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * @brief Draws the button on the screen
+     *
+     * @param screen The screen on which to draw
+     * @return int 0 on success, -1 on error
+     */
+    void Button::OnRender(Screen* screen) {
+        SDL_RenderCopy(screen->get_renderer(), m_background_texture, NULL, m_rect);
+        SDL_RenderCopy(screen->get_renderer(), m_foreground_texture, NULL, m_text_rect);
+    }
+
+    void Button::OnUpdate(int time_elapsed) {
+        return;
     }
 
     //Getters
@@ -248,19 +281,6 @@ namespace MiniEngine::UI::Widgets {
         m_rect->y += off_h;
     }
 
-    //Others
-    /**
-     * @brief Draws the button on the screen
-     *
-     * @param screen The screen on which to draw
-     * @return int 0 on success, -1 on error
-     */
-    int Button::draw(Screen* screen) {
-        SDL_RenderCopy(screen->get_renderer(), m_background_texture, NULL, m_rect);
-        SDL_RenderCopy(screen->get_renderer(), m_foreground_texture, NULL, m_text_rect);
-        return 0;
-    }
-
     /**
      * @brief Updates the layout of a button
      *
@@ -352,30 +372,6 @@ namespace MiniEngine::UI::Widgets {
         SDL_FreeSurface(vertical_line);
 
         return 0;
-    }
-
-    int Button::update(SDL_Event* event, Screen* screen) {
-
-        bool prev_hov = m_hover;
-        switch (event->type) {
-        case SDL_MOUSEMOTION:
-            if (collide(screen->get_mouse_pos()))
-                m_hover = true;
-            else
-                m_hover = false;
-
-            if (prev_hov != m_hover)
-                update_layout(m_font, screen);
-            break;
-        case SDL_MOUSEBUTTONUP:
-            if (collide({ event->button.x, event->button.y, 0, 0 }))
-                return 1; //Button was clicked
-            break;
-        default:
-            break;
-        }
-
-        return 0; //Nothing hapenned
     }
 
     bool Button::collide(SDL_Rect rect) const {

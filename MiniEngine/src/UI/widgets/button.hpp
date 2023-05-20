@@ -5,7 +5,6 @@
 #include <SDL_ttf.h>
 
 #include "core/screen.hpp"
-#include "UI/widgets/widgets.hpp"
 #include "event/interactible.hpp"
 
 /**
@@ -14,7 +13,7 @@
 namespace MiniEngine {
     namespace UI {
         namespace Widgets {
-            class Button : public Widget, public Event::Interactible {
+            class Button : public Event::Interactible {
             public:
                 // Constructors
                 Button();
@@ -35,6 +34,8 @@ namespace MiniEngine {
 
                 // Overrides
                 bool OnEvent(SDL_Event *event) override;
+                void OnRender(Screen *screen) override;
+                void OnUpdate(int time_elapsed) override;
 
                 // Setters
                 void set_rect(SDL_Rect rect);
@@ -54,10 +55,6 @@ namespace MiniEngine {
                 void move(int, int);
                 void set_text_offset(int, int);
                 void resize(int, int);
-
-                // Others
-                int draw(Screen *screen) override;
-                int update(SDL_Event *event, Screen *screen) override;
 
                 int update_layout(TTF_Font *font, Screen *screen);
                 int draw_contour(SDL_Surface *, SDL_Color);
