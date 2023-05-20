@@ -16,14 +16,14 @@
  */
 namespace MiniEngine {
     namespace UI {
-        class ME_API Window{
+        class ME_API Scene : public Interactible {
             public:
-                Window();
-                virtual ~Window();
+                Scene();
+                virtual ~Scene();
 
                 //Getters
-                bool is_running() const;
-                std::string get_title() const;
+                bool is_current() const;
+                std::string get_name() const;
 
                 //Setters
                 void set_running(bool);
@@ -33,16 +33,19 @@ namespace MiniEngine {
                 //Others
                 void add_button(Widgets::Button* newButton);
                 int add_buttons(nlohmann::json buttons, Screen* screen);
-                void update(SDL_Event* event, Screen* screen, std::string *current_window, std::string *action);
-                void draw(Screen* sc);
+
+                void OnUpdate(int time_elapsed);
+                bool OnEvent(SDL_Event* event);
+                void OnRender(Screen* sc);
+
                 int createfrom(std::string JSONsource, Screen* screen);
 
             private:
-                bool m_window_running; //! Should be shown and updated ?
-                std::string m_window_name; //! Name to identify the window
+                bool m_current; //! Should be shown and updated ?
+                std::string m_name; //! Name to identify the scene
 
-                std::vector<Widgets::Button*> m_buttons; //! Buttons on the window
-                Widgets::Button* m_title; //! Title of the window
+                std::vector<Widgets::Button*> m_buttons; //! Buttons on the scene
+                Widgets::Button* m_title; //! Title of the scene
         };
     }
 }

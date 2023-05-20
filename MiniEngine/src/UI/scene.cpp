@@ -5,43 +5,44 @@
 
 #include <nlohmann/json.hpp>
 
-#include "UI/window.hpp"
+#include "UI/scene.hpp"
 #include "UI/widgets/button.hpp"
 #include "core/log.hpp"
 #include "core/screen.hpp"
 
+
 namespace MiniEngine {
     namespace UI {
-        Window::Window() {}
+        Scene::Scene() {}
 
-        Window::~Window() {}
+        Scene::~Scene() {}
 
         /**
-         * @brief Get the running state of the window
+         * @brief Get the running state of the Scene
          *
-         * @return true The window is currently running
-         * @return false The window is not running
+         * @return true The Scene is currently running
+         * @return false The Scene is not running
          */
-        bool Window::is_running() const {
-            return m_window_running;
+        bool Scene::is_current() const {
+            return m_Scene_running;
         }
 
         /**
-         * @brief Get the title of the window
+         * @brief Get the title of the Scene
          *
-         * @return std::string The title of the window
+         * @return std::string The title of the Scene
          */
-        std::string Window::get_title() const {
-            return m_window_name;
+        std::string Scene::get_title() const {
+            return m_Scene_name;
         }
 
         /**
-         * @brief Set the running state of the window
+         * @brief Set the running state of the Scene
          *
-         * @param running Whether the window should be running or not
+         * @param running Whether the Scene should be running or not
          */
-        void Window::set_running(bool running) {
-            m_window_running = running;
+        void Scene::set_running(bool running) {
+            m_Scene_running = running;
         }
 
         /**
@@ -49,7 +50,7 @@ namespace MiniEngine {
          *
          * @param title The json description of the title
          */
-        void Window::set_title(nlohmann::json title, Screen* screen) {
+        void Scene::set_title(nlohmann::json title, Screen* screen) {
             int off_x = title["offset"][0];
             int off_y = title["offset"][1];
 
@@ -84,7 +85,7 @@ namespace MiniEngine {
          *
          * @param newButton The button to add
          */
-        void Window::add_button(Widgets::Button* newButton) {
+        void Scene::add_button(Widgets::Button* newButton) {
             m_buttons.push_back(newButton);
         }
 
@@ -94,7 +95,7 @@ namespace MiniEngine {
          * @param buttons The list of buttons to add
          * @return int 0 on success, -1 on error
          */
-        int Window::add_buttons(nlohmann::json buttons, Screen* screen) {
+        int Scene::add_buttons(nlohmann::json buttons, Screen* screen) {
             for (unsigned int index = 0; index < buttons.size(); ++index) {
                 m_buttons.push_back(new Widgets::Button);
 
@@ -150,38 +151,25 @@ namespace MiniEngine {
         }
 
         /**
-         * @brief Updates the window, handles events
+         * @brief Updates the Scene, handles events
          *
          * @param event The event handler, used to get current event if any
          * @param screen The screen on which to draw and from which to get informations
-         * @param current_window A pointer to the current window name, used to switch windows
-         * @param action A pointer to the current action, used to switch windows or quit the game
+         * @param current_Scene A pointer to the current Scene name, used to switch Scenes
+         * @param action A pointer to the current action, used to switch Scenes or quit the game
          */
-        void Window::update(SDL_Event* event, Screen* screen, std::string* current_window, std::string* action) {
+        bool Scene::OnEvent(SDL_Event* event) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
-                m_buttons[i]->OnEvent(event);
-                if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
-                    int mouseX, mouseY;
-                    SDL_GetMouseState(&mouseX, &mouseY);
-                    if (m_buttons[i]->collide(mouseX, mouseY)) {
-                        *action = m_buttons[i]->get_action_type();
-                        if (*action == "switch_window") {
-                            *current_window = m_buttons[i]->get_action_operand();
-                        }
-                        else if (*action == "quit_game") {
-                            ME_CORE_WARN("Need to handle quit_game action");
-                        }
-                    }
-                }
+                if(m_buttons[i]->OnEvent(event)) return true;
             }
         }
 
         /**
-         * @brief Draws the window to the screen
+         * @brief Draws the Scene to the screen
          *
          * @param sc The screen on which to draw
          */
-        void Window::draw(Screen* sc) {
+        void Scene::OnRender(Screen* sc) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
                 m_buttons[i]->OnRender(sc);
             }
@@ -189,19 +177,31 @@ namespace MiniEngine {
         }
 
         /**
-         * @brief Create a window from a JSON file
+         * @brief Updates the Scene
+         *
+         * @param time_elapsed The time elapsed since last update
+         */
+        void Scene::OnUpdate(int time_elapsed) {
+            for (unsigned i = 0; i < m_buttons.size(); i++) {
+                m_buttons[i]->OnUpdate(time_elapsed);
+            }
+            m_title->OnUpdate(time_elapsed);
+        }
+
+        /**
+         * @brief Create a Scene from a JSON file
          *
          * @param screen The screen on which to draw
          * @param JSONsource The path to the JSON file
          * @return 0 on success, -1 on error
          */
-        int Window::createfrom(std::string JSONsource, Screen* screen) {
+        int Scene::createfrom(std::string JSONsource, Screen* screen) {
             std::ifstream json_in(JSONsource.c_str());
             nlohmann::json root;
             json_in >> root;
 
-            // Setup window-wide informations
-            m_window_name = root["window_name"];
+            // Setup Scene-wide informations
+            m_Scene_name = root["Scene_name"];
             screen->add_font(root["font_path"], root["font_size"], root["font_id"]);
 
             // Setup Buttons
