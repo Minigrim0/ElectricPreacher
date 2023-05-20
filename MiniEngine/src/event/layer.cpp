@@ -5,7 +5,7 @@
 
 namespace MiniEngine {
     namespace Event {
-        Layer::Layer(uint16_t id)
+        Layer::Layer(uint8_t id)
         :m_interactibles(std::vector<Interactible*>()),
         m_id(id)
         {
@@ -24,13 +24,20 @@ namespace MiniEngine {
         }
 
         bool Layer::OnEvent(SDL_Event* event) {
-            ME_CORE_INFO("Layer {0} handling event {1}", m_id, event->type);
+            ME_CORE_TRACE("Layer {0} handling event {1}", m_id, event->type);
             for (auto interactible : m_interactibles) {
                 if (interactible->OnEvent(event)) {
                     return true;
                 }
             }
             return false;
+        }
+
+        void Layer::render() {
+            ME_CORE_TRACE("Layer {0} rendering", m_id);
+            for (auto interactible : m_interactibles) {
+                interactible->render();
+            }
         }
     }
 }

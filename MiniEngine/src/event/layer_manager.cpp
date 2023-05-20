@@ -7,7 +7,9 @@ namespace MiniEngine {
         LayerManager::LayerManager()
         :m_layers(std::vector<Layer*>()) {
             ME_CORE_INFO("Creating layer manager");
-            // for ()
+            for (uint8_t index = 0; index < 10; index++) {
+                m_layers.push_back(new Layer(index));
+            }
         }
 
         LayerManager::~LayerManager() {
@@ -33,6 +35,14 @@ namespace MiniEngine {
                     return true;
             }
             return false;
+        }
+
+        void LayerManager::render() {
+            ME_CORE_TRACE("Layer manager rendering");
+            // Render layers in inverse order
+            for (auto layer = m_layers.rbegin(); layer != m_layers.rend(); layer++) {
+                (*layer)->render();
+            }
         }
     }
 }

@@ -13,15 +13,16 @@ namespace MiniEngine {
          */
         class Layer{
             public:
-                Layer(uint16_t id);
+                Layer(uint8_t id);
                 virtual ~Layer();
 
                 void attach(Interactible* interactible);
                 bool OnEvent(SDL_Event* event);
+                void render();
 
             private:
                 std::vector<Interactible*> m_interactibles;
-                uint16_t m_id;
+                uint8_t m_id;
         };
     }
 }
