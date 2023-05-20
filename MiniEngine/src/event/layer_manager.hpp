@@ -17,7 +17,7 @@ namespace MiniEngine {
 
                 void attach(Layer* layer);
                 bool OnEvent(SDL_Event* event);
-                void render();
+                void OnRender(Screen* screen);
 
             private:
                 std::vector<Layer*> m_layers;

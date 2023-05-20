@@ -82,7 +82,6 @@ namespace MiniEngine {
 
             void Notification::OnUpdate(int time_elapsed) {
                 m_current_lifetime += static_cast<Uint16>(time_elapsed);
-                return m_current_lifetime < m_total_lifetime;
             }
 
             void Notification::init(Screen* screen, std::string font) {

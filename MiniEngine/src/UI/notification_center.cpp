@@ -29,24 +29,20 @@ namespace MiniEngine {
         }
 
         // Others
-        int NotificationCenter::draw(Screen* screen) {
+        void NotificationCenter::OnRender(Screen* screen) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
                 m_notifications[x]->set_offset(static_cast<int>(x) * 51);
                 m_notifications[x]->OnRender(screen);
             }
-
-            return 0;
         }
 
-        int NotificationCenter::update(int time_elapsed) {
+        void NotificationCenter::OnUpdate(int time_elapsed) {
             for (size_t x = 0; x < m_notifications.size(); x++) {
-                m_notifications[x]->OnUpdate(time_elapsed)
+                m_notifications[x]->OnUpdate(time_elapsed);
                 if(!m_notifications[x]->is_alive()) {
                     m_notifications.erase(m_notifications.begin() + static_cast<long int>(x));
                 }
             }
-
-            return 0;
         }
 
         int NotificationCenter::create_notification(std::string text, Screen* screen, std::string font, Uint16 lifetime) {

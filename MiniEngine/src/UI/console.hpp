@@ -39,14 +39,14 @@ namespace MiniEngine {
 
             // Interactible
             bool OnEvent(SDL_Event*) override;
-            int OnRender(Screen *) override;
-            int OnUpdate(int time_elapsed) override;
+            void OnRender(Screen *) override;
+            void OnUpdate(int time_elapsed) override;
 
             // Others
             void init(Screen *);
-            int update_layout(Screen *);
+            int update_layout();
             void init_send_button();
-            void create_entry(Screen *);
+            void create_entry();
 
         private:
             SDL_Rect m_rect;

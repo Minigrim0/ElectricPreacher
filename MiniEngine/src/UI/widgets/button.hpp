@@ -56,7 +56,7 @@ namespace MiniEngine {
                 void set_text_offset(int, int);
                 void resize(int, int);
 
-                int update_layout(TTF_Font *font, Screen *screen);
+                int update_layout(TTF_Font *font);
                 int draw_contour(SDL_Surface *, SDL_Color);
                 bool collide(SDL_Rect) const;
                 bool collide(int x, int y) const;

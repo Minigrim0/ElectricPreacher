@@ -76,10 +76,7 @@ namespace MiniEngine {
                 );
 
             m_title->set_text_offset(off_x, off_y);
-            m_title->update_layout(
-                screen->get_font(title["font_id"]),
-                screen
-            );
+            m_title->update_layout(screen->get_font(title["font_id"]));
         }
 
         /**
@@ -147,10 +144,7 @@ namespace MiniEngine {
                 m_buttons.back()->set_action_type(buttons[index]["action_type"], buttons[index]["action_operand"]);
 
                 //Finally update the button image
-                m_buttons.back()->update_layout(
-                    screen->get_font(buttons[index]["font_id"]),
-                    screen
-                );
+                m_buttons.back()->update_layout(screen->get_font(buttons[index]["font_id"]));
             }
             return 0;
         }
@@ -165,7 +159,7 @@ namespace MiniEngine {
          */
         void Window::update(SDL_Event* event, Screen* screen, std::string* current_window, std::string* action) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
-                m_buttons[i]->update(event, screen);
+                m_buttons[i]->OnEvent(event);
                 if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT) {
                     int mouseX, mouseY;
                     SDL_GetMouseState(&mouseX, &mouseY);
@@ -189,9 +183,9 @@ namespace MiniEngine {
          */
         void Window::draw(Screen* sc) {
             for (unsigned i = 0; i < m_buttons.size(); i++) {
-                m_buttons[i]->draw(sc);
+                m_buttons[i]->OnRender(sc);
             }
-            m_title->draw(sc);
+            m_title->OnRender(sc);
         }
 
         /**

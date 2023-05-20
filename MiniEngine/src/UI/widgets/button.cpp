@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "core/application.hpp"
+
 namespace MiniEngine::UI::Widgets {
     //Constructors
     Button::Button()
@@ -48,13 +50,10 @@ namespace MiniEngine::UI::Widgets {
         bool prev_hov = m_hover;
         switch (event->type) {
             case SDL_MOUSEMOTION:
-                if (collide(event->motion.x, event->motion.y))
-                    m_hover = true;
-                else
-                    m_hover = false;
+                m_hover = collide(event->motion.x, event->motion.y);
 
                 if (prev_hov != m_hover)
-                    update_layout(m_font, screen);
+                    update_layout(m_font);
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (collide({ event->button.x, event->button.y, 0, 0 }))
@@ -63,7 +62,7 @@ namespace MiniEngine::UI::Widgets {
             default:
                 break;
         }
-
+        return false;
     }
 
     /**
@@ -288,7 +287,9 @@ namespace MiniEngine::UI::Widgets {
      * @param font
      * @return int
      */
-    int Button::update_layout(TTF_Font* font, Screen* screen) {
+    int Button::update_layout(TTF_Font* font) {
+        Screen* screen = Application::GetInstance()->get_screen();
+
         m_font = font;
         SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
 

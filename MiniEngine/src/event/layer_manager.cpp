@@ -37,11 +37,11 @@ namespace MiniEngine {
             return false;
         }
 
-        void LayerManager::render() {
+        void LayerManager::OnRender(Screen* screen) {
             ME_CORE_TRACE("Layer manager rendering");
             // Render layers in inverse order
             for (auto layer = m_layers.rbegin(); layer != m_layers.rend(); layer++) {
-                (*layer)->render();
+                (*layer)->OnRender(screen);
             }
         }
     }

@@ -33,10 +33,10 @@ namespace MiniEngine {
             return false;
         }
 
-        void Layer::render() {
+        void Layer::OnRender(Screen* screen) {
             ME_CORE_TRACE("Layer {0} rendering", m_id);
             for (auto interactible : m_interactibles) {
-                interactible->render();
+                interactible->OnRender(screen);
             }
         }
     }

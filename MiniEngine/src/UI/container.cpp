@@ -4,18 +4,22 @@ namespace MiniEngine {
     namespace UI {
         Container::Container()
         :m_rect({0, 0, 0, 0}),
-        m_widgets(std::vector<Widgets::Widget*>())
+        m_widgets(std::vector<Event::Interactible*>())
         {}
 
         Container::~Container(){}
 
         // Others
-        int Container::draw(Screen* screen){
-            return 0;
+        void Container::OnRender(Screen* screen){
+            return;
         }
 
-        int Container::update(SDL_Event* event, Screen* screen){
-            return 0;
+        void Container::OnUpdate(int time_elapsed){
+            return;
+        }
+
+        bool Container::OnEvent(SDL_Event* event){
+            return false;
         }
     }
 }

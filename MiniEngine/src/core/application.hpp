@@ -10,13 +10,22 @@
 
 namespace MiniEngine {
     class ME_API Application{
-    public:
+    protected:
         Application();
         Application(std::string project_name);
         Application(std::string project_name, int major_version, int minor_version, int patch_version);
+
+    public:
         virtual ~Application();
 
+        static Application* GetInstance();
+
         void run();
+
+        SDL_Renderer* get_renderer();
+        Screen* get_screen();
+        UI::NotificationCenter* get_notification_center();
+        Event::LayerManager* get_layer_manager();
 
     protected:
         std::string m_project_name;
@@ -32,6 +41,7 @@ namespace MiniEngine {
 
     private:
         void init();
+        static Application* s_instance;
     };
 
     // To be defined in CLIENT

@@ -15,7 +15,7 @@
 namespace MiniEngine {
     namespace UI {
         namespace Widgets {
-            class TextInput : public Interactible {
+            class TextInput : public Event::Interactible {
             public:
                 TextInput();
                 ~TextInput();
@@ -35,12 +35,13 @@ namespace MiniEngine {
                 void set_font(std::string, int);
                 void set_font(TTF_Font *);
 
-                // Others
-                int draw(Screen *) override;
-                int update(SDL_Event *, Screen *) override;
+                // Implementations
+                void OnRender(Screen* sc) override;
+                void OnUpdate(int time_elapsed) override;
+                bool OnEvent(SDL_Event* e) override;
 
-                void update_image(Screen *);
-                void flush(Screen *);
+                void update_image();
+                void flush();
 
             private:
                 SDL_Texture *m_tex;

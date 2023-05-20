@@ -1,27 +1,28 @@
 #pragma once
 
+#include <vector>
 #include <SDL_rect.h>
 
-#include "UI/widgets/widgets.hpp"
+#include "event/interactible.hpp"
 
 namespace MiniEngine {
     namespace UI {
-class Container : public Widgets::Widget
-{
-public:
-    Container();
-    virtual ~Container();
+        class Container: public Event::Interactible {
+        public:
+            Container();
+            virtual ~Container();
 
-    Container &operator=(const Container &);
+            Container &operator=(const Container &);
 
-    // Others
-    int draw(Screen *screen) override;
-    int update(SDL_Event *event, Screen *screen) override;
+            // Others
+            void OnRender(Screen *screen) override;
+            void OnUpdate(int time_elapsed) override;
+            bool OnEvent(SDL_Event *event) override;
 
-private:
-    int type;
-    SDL_Rect m_rect;
-    std::vector<Widgets::Widget *> m_widgets;
-};
+        private:
+            int type;
+            SDL_Rect m_rect;
+            std::vector<Event::Interactible *> m_widgets;
+        };
     }
 }

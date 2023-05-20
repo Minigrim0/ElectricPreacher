@@ -18,7 +18,7 @@ namespace MiniEngine {
 
                 void attach(Interactible* interactible);
                 bool OnEvent(SDL_Event* event);
-                void render();
+                void OnRender(Screen* screen);
 
             private:
                 std::vector<Interactible*> m_interactibles;

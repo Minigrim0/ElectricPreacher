@@ -124,7 +124,7 @@ namespace MiniEngine {
 
             m_send_button->set_rect(m_rect.x + width, pos_y, send_width, m_line_height);
 
-            m_send_button->update_layout(m_font, screen);
+            m_send_button->update_layout(m_font);
 
             /* Creating console background */
             SDL_Surface* tmp_surf = SDL_CreateRGBSurface(0, m_rect.w, m_rect.h, 32, 0, 0, 0, 0);
@@ -139,29 +139,35 @@ namespace MiniEngine {
 
             int start = m_history.size() > static_cast<long unsigned int>(m_nb_visible_lines) ? static_cast<int>(m_history.size()) - m_nb_visible_lines : 0;
             for (int x = start; x < static_cast<int>(m_history.size()); x++) {
-                m_history[static_cast<long unsigned int>(x)]->draw(screen);//draw_offset_y(screen, x*30);
+                m_history[static_cast<long unsigned int>(x)]->OnRender(screen);//draw_offset_y(screen, x*30);
             }
-            m_input->draw(screen);
-            m_send_button->draw(screen);
+            m_input->OnRender(screen);
+            m_send_button->OnRender(screen);
         }
 
         bool Console::OnEvent(SDL_Event* event) {
-            if (m_input->update(event, screen) == 1 || m_send_button->update(event, screen) == 1) {
+            if (m_input->OnEvent(event) == 1 || m_send_button->OnEvent(event) == 1) {
                 if (!m_input->is_empty()) {
-                    create_entry(screen);
-                    m_input->flush(screen);
+                    create_entry();
+                    m_input->flush();
                 }
+                return true;
             }
-            return 0;
+            return false;
         }
 
-        int Console::update_layout(Screen* screen) {
+        void Console::OnUpdate(int time_elapsed) {
+            m_input->OnUpdate(time_elapsed);
+            m_send_button->OnUpdate(time_elapsed);
+        }
+
+        int Console::update_layout() {
             if (m_font == nullptr) {
                 std::cout << "Error updating console layout : Font has not been loaded" << std::endl;
                 return 1;
             }
-            m_input->update_image(screen);
-            return m_send_button->update_layout(m_font, screen);
+            m_input->update_image();
+            return m_send_button->update_layout(m_font);
         }
 
         void Console::init_send_button() {
@@ -173,7 +179,7 @@ namespace MiniEngine {
             m_send_button->set_text_pos("CENTER");
         }
 
-        void Console::create_entry(Screen* screen) {
+        void Console::create_entry() {
             int max = static_cast<int>(m_history.size()) < m_nb_visible_lines ? static_cast<int>(m_history.size()) : m_nb_visible_lines;
             for (int x = 0; x < max; x++)
                 m_history[static_cast<long unsigned int>(x)]->move(0, -m_line_height);
@@ -185,7 +191,7 @@ namespace MiniEngine {
             tmp_button->set_contour_color(0, 0, 0);
             tmp_button->set_background_color(0, 0, 0, 0);
             tmp_button->set_text_color(255, 255, 255, 255);
-            tmp_button->update_layout(m_font, screen);
+            tmp_button->update_layout(m_font);
             m_history.push_back(tmp_button);
         }
     }

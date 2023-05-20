@@ -28,8 +28,10 @@ namespace MiniEngine {
             void set_default_font(std::string font);
 
             // Others
-            int draw(Screen *);
-            int update(SDL_Event *, Screen *);
+            void OnRender(Screen *);
+            void OnUpdate(int time_elapsed);
+            bool OnEvent(SDL_Event *event) {return false;}
+
             int create_notification(std::string text, Screen *screen, std::string font = "", Uint16 lifetime = 10000);
 
         private:

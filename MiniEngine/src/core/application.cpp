@@ -2,7 +2,11 @@
 
 #include "core/log.hpp"
 
+
+
 namespace MiniEngine {
+    Application* Application::s_instance = nullptr;
+
     Application::Application():m_project_name("MiniEngine Application") {}
 
     Application::Application(std::string project_name)
@@ -41,6 +45,13 @@ namespace MiniEngine {
 
     Application::~Application(){}
 
+    Application* Application::GetInstance(){
+        if (s_instance == nullptr) {
+            s_instance = new Application();
+        }
+        return s_instance;
+    }
+
     /**
      * @brief Initializes the application. Starts the screen, notification center, and layer manager.
      */
@@ -78,10 +89,26 @@ namespace MiniEngine {
                 m_layer_manager->OnEvent(&event);
             }
 
-            m_layer_manager->render();
+            m_layer_manager->OnRender(m_screen.get());
             m_screen->update_screen();
         }
 
         //! No need to delete the screen, it is a unique_ptr
+    }
+
+    SDL_Renderer* Application::get_renderer(){
+        return m_screen->get_renderer();
+    }
+
+    Screen* Application::get_screen(){
+        return m_screen.get();
+    }
+
+    UI::NotificationCenter* Application::get_notification_center(){
+        return m_notification_center.get();
+    }
+
+    Event::LayerManager* Application::get_layer_manager(){
+        return m_layer_manager.get();
     }
 }
