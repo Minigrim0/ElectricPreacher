@@ -37,7 +37,9 @@ namespace MiniEngine {
         std::unique_ptr<UI::NotificationCenter> m_notification_center;
         std::unique_ptr<Event::LayerManager> m_layer_manager;
 
-        bool m_running = false;
+        bool m_running;
+        bool console_enabled;
+        bool error;
 
     private:
         void init();

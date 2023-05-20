@@ -7,21 +7,13 @@
 namespace MiniEngine {
     Application* Application::s_instance = nullptr;
 
-    Application::Application():m_project_name("MiniEngine Application") {}
+    Application::Application()
+    :Application("MiniEngine", 0, 1, 0)
+    {}
 
     Application::Application(std::string project_name)
-    :m_project_name(project_name),
-    m_major_version(0),
-    m_minor_version(1),
-    m_patch_version(0),
-    m_screen(nullptr),
-    m_notification_center(nullptr),
-    m_layer_manager(nullptr),
-    m_running(false)
-    {
-        ME_CORE_INFO("Initializing {0}", project_name);
-        this->init();
-    }
+    :Application(project_name, 0, 1, 0)
+    {}
 
     Application::Application(std::string project_name, int major_version, int minor_version, int patch_version)
     :m_project_name(project_name),
@@ -31,7 +23,8 @@ namespace MiniEngine {
     m_screen(nullptr),
     m_notification_center(nullptr),
     m_layer_manager(nullptr),
-    m_running(false)
+    m_running(false),
+    console_enabled(false)
     {
         ME_CORE_INFO(
             "Initializing {0} ({1}.{2}.{3})",
@@ -59,11 +52,6 @@ namespace MiniEngine {
         m_screen = std::unique_ptr<Screen>(Screen::Create());
         m_notification_center = std::unique_ptr<UI::NotificationCenter>(UI::NotificationCenter::Create(m_screen.get()));
         m_layer_manager = std::unique_ptr<Event::LayerManager>(Event::LayerManager::Create());
-    }
-
-    void Application::run(){
-        ME_CORE_INFO("Starting the application");
-        m_running = true;
 
         m_screen->set_width(1920);
         m_screen->set_height(1080);
@@ -74,10 +62,18 @@ namespace MiniEngine {
 
         if (m_screen->build_window() != 0) {
             ME_CORE_ERROR("Failed to build window");
+            error = true;
+        }
+    }
+
+    void Application::run(){
+        ME_CORE_INFO("Starting the application");
+        if (error) {
+            ME_CORE_ERROR("Application failed to initialize, check logs");
             return;
         }
-        ME_CORE_INFO("Started application");
 
+        m_running = true;
         SDL_Event event;
 
         while (m_running) {
@@ -92,8 +88,6 @@ namespace MiniEngine {
             m_layer_manager->OnRender(m_screen.get());
             m_screen->update_screen();
         }
-
-        //! No need to delete the screen, it is a unique_ptr
     }
 
     SDL_Renderer* Application::get_renderer(){
