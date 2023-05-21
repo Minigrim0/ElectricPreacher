@@ -20,7 +20,8 @@ namespace MiniEngine {
     m_notification_center(nullptr),
     m_layer_manager(nullptr),
     m_running(false),
-    console_enabled(false)
+    console_enabled(false),
+    error(false)
     {
         ME_CORE_INFO(
             "Initializing {0} ({1}.{2}.{3})",
