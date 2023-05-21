@@ -24,7 +24,6 @@ namespace MiniEngine {
         }
 
         bool Layer::OnEvent(SDL_Event* event) {
-            ME_CORE_TRACE("Layer {0} handling event {1}", m_id, event->type);
             for (auto interactible : m_interactibles) {
                 if (interactible->OnEvent(event)) {
                     return true;
@@ -34,7 +33,6 @@ namespace MiniEngine {
         }
 
         void Layer::OnRender(Screen* screen) {
-            ME_CORE_TRACE("Layer {0} rendering", m_id);
             for (auto interactible : m_interactibles) {
                 interactible->OnRender(screen);
             }

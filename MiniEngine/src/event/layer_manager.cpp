@@ -29,7 +29,7 @@ namespace MiniEngine {
         }
 
         bool LayerManager::OnEvent(SDL_Event* event) {
-            ME_CORE_TRACE("Layer manager handling event {0}", event->type);
+            // ME_CORE_TRACE("Layer manager handling event {0}", event->type);
             for (auto layer : m_layers) {
                 if (layer->OnEvent(event))
                     return true;
@@ -38,7 +38,6 @@ namespace MiniEngine {
         }
 
         void LayerManager::OnRender(Screen* screen) {
-            ME_CORE_TRACE("Layer manager rendering");
             // Render layers in inverse order
             for (auto layer = m_layers.rbegin(); layer != m_layers.rend(); layer++) {
                 (*layer)->OnRender(screen);
