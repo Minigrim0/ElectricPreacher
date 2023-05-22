@@ -18,7 +18,6 @@ namespace MiniEngine {
     m_patch_version(patch_version),
     m_screen(nullptr),
     m_notification_center(nullptr),
-    m_layer_manager(nullptr),
     m_running(false),
     console_enabled(false),
     error(false)
@@ -42,13 +41,19 @@ namespace MiniEngine {
         return s_instance;
     }
 
+    Application* Application::GetInstance(std::string project_name, int major_version, int minor_version, int patch_version){
+        if (s_instance == nullptr) {
+            s_instance = new Application(project_name, major_version, minor_version, patch_version);
+        }
+        return s_instance;
+    }
+
     /**
      * @brief Initializes the application. Starts the screen, notification center, and layer manager.
      */
     void Application::init(){
         m_screen = std::unique_ptr<Screen>(Screen::Create());
         m_notification_center = std::unique_ptr<UI::NotificationCenter>(UI::NotificationCenter::Create(m_screen.get()));
-        m_layer_manager = std::unique_ptr<Event::LayerManager>(Event::LayerManager::Create());
 
         m_screen->set_width(1920);
         m_screen->set_height(1080);
@@ -79,10 +84,11 @@ namespace MiniEngine {
                 if (event.type == SDL_QUIT) {
                     m_running = false;
                 }
-                m_layer_manager->OnEvent(&event);
+                m_active_scene->OnEvent(&event);
             }
 
-            m_layer_manager->OnRender(m_screen.get());
+            // Render
+            m_active_scene->OnRender(m_screen.get());
             m_screen->update_screen();
         }
     }
@@ -99,7 +105,24 @@ namespace MiniEngine {
         return m_notification_center.get();
     }
 
-    Event::LayerManager* Application::get_layer_manager(){
-        return m_layer_manager.get();
+    bool Application::add_scene(Scene* scene){
+        m_scenes.push_back(scene);
+        return true;
+    }
+
+    bool Application::set_active_scene(std::string scene_name){
+        for(auto scene : m_scenes) {
+            if (scene->get_name() == scene_name) {
+                scene->set_running(true);
+                m_active_scene = scene;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void Application::set_active_scene(Scene* scene){
+        scene->set_running(true);
+        m_active_scene = scene;
     }
 }

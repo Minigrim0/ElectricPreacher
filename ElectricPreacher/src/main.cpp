@@ -71,22 +71,34 @@
 #include "constants.hpp"
 
 
-class ElectricPreacher : public MiniEngine::Application {
-    public:
-        ElectricPreacher(std::string project_name)
-        :Application(
-            project_name,
-            VERSION_MAJOR,
-            VERSION_MINOR,
-            VERSION_PATCH
-        )
-        {}
+void add_button(MiniEngine::Scene* scene, int posx){
+    UI::Widgets::Button* button = new UI::Widgets::Button();
+    button->set_text("Hello World");
+    button->set_position(100 + posx * 5, 100 + posx * 5);
+    button->set_size(200, 50);
+    button->set_background_color(255, 0, 0);
+    button->set_text_color(0, 0, 0); 
+    button->update_layout();
+    scene->add_interactible(posx, button);
+}
 
-        ~ElectricPreacher() {}
-};
 
 MiniEngine::Application* MiniEngine::CreateApplication() {
-	return new ElectricPreacher(
-        "Electric Preacher"
+    Application* app = MiniEngine::Application::GetInstance(
+        "Electric Preacher",
+        VERSION_MAJOR,
+        VERSION_MINOR,
+        VERSION_PATCH
     );
+
+    // Create new scene
+    MiniEngine::Scene* scene = new MiniEngine::Scene("Main");
+    for(auto x = 0; x < 10; x++)
+        add_button(scene, x);
+
+    // Add the scene to the application
+    app->add_scene(scene);
+    app->set_active_scene(scene);
+
+    return app;
 }

@@ -20,16 +20,17 @@ namespace MiniEngine {
         virtual ~Application();
 
         static Application* GetInstance();
+        static Application* GetInstance(std::string project_name, int major_version, int minor_version, int patch_version);
 
         void run();
 
         SDL_Renderer* get_renderer();
         Screen* get_screen();
         UI::NotificationCenter* get_notification_center();
-        Event::LayerManager* get_layer_manager();
 
         bool add_scene(Scene* scene);
         bool set_active_scene(std::string scene_name);
+        void set_active_scene(Scene* scene);
 
     protected:
         std::string m_project_name;
@@ -39,7 +40,6 @@ namespace MiniEngine {
 
         std::unique_ptr<Screen> m_screen;
         std::unique_ptr<UI::NotificationCenter> m_notification_center;
-        std::unique_ptr<Event::LayerManager> m_layer_manager;
 
         std::vector<Scene*> m_scenes;
 
@@ -50,6 +50,7 @@ namespace MiniEngine {
     private:
         void init();
         static Application* s_instance;
+        Scene* m_active_scene;
     };
 
     // To be defined in CLIENT

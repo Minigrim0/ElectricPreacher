@@ -61,9 +61,10 @@ namespace MiniEngine {
     std::string Screen::get_caption() const { return m_window_caption; }
 
     std::map<std::string, TTF_Font*> Screen::get_fonts() const { return m_fonts; }
+
     TTF_Font* Screen::get_font(std::string font_id) const {
         if (!m_fonts.count(font_id))
-            return m_fonts.at(m_default_font);
+            return m_fonts.at("default");
         return m_fonts.at(font_id);
     }
 
@@ -93,7 +94,7 @@ namespace MiniEngine {
     }
 
     void Screen::set_default_font(std::string font_id) {
-        m_default_font = font_id;
+        m_fonts["default"] = m_fonts[font_id];
     }
 
     void Screen::set_caption(std::string caption) {
@@ -109,13 +110,13 @@ namespace MiniEngine {
     int Screen::init() {
         ME_CORE_TRACE("Initializing SDL");
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC) < 0) {
-            ME_CORE_ERROR("SDL could not initialize! SDL_Error: {}", SDL_GetError());
+            ME_CORE_ERROR("SDL could not initialize! SDL_Error: {0}", SDL_GetError());
             return 1;
         }
 
         ME_CORE_TRACE("Initializing SDL_ttf");
         if (TTF_Init() == -1) {
-            ME_CORE_ERROR("TTF could not initialize: {}", TTF_GetError());
+            ME_CORE_ERROR("TTF could not initialize: {0}", TTF_GetError());
             return 2;
         }
 
@@ -123,7 +124,7 @@ namespace MiniEngine {
         ME_CORE_TRACE("Initializing SDL_image");
         int imgFlags = IMG_INIT_PNG;
         if (!(IMG_Init(imgFlags) & imgFlags)) {
-            ME_CORE_ERROR("Failed to initialize SDL_image : {}", IMG_GetError());
+            ME_CORE_ERROR("Failed to initialize SDL_image : {0}", IMG_GetError());
             return 1;
         }
 
@@ -135,7 +136,7 @@ namespace MiniEngine {
             ME_CORE_ERROR("Invalid window size");
             return 1;
         }
-        if (m_default_font == "") {
+        if (m_fonts.find("default") == m_fonts.end()) {
             ME_CORE_ERROR("No default font set");
             return 1;
         }
@@ -143,14 +144,14 @@ namespace MiniEngine {
         ME_CORE_TRACE("Creating window");
         m_window = SDL_CreateWindow(m_window_caption.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
         if (m_window == NULL) {
-            ME_CORE_ERROR("Failed to create the window : {}", SDL_GetError());
+            ME_CORE_ERROR("Failed to create the window : {0}", SDL_GetError());
             return 1;
         }
 
         ME_CORE_TRACE("Creating renderer");
         m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
         if (m_Renderer == nullptr) {
-            ME_CORE_ERROR("Failed to create the renderer : {}", SDL_GetError());
+            ME_CORE_ERROR("Failed to create the renderer : {0}", SDL_GetError());
             return 1;
         }
         SDL_SetRenderDrawColor(m_Renderer, m_background_color.r, m_background_color.g, m_background_color.b, m_background_color.a);
@@ -167,7 +168,7 @@ namespace MiniEngine {
 
         m_fonts[font_id] = TTF_OpenFont(path.c_str(), size);
         if (!m_fonts[font_id]) {
-            ME_CORE_ERROR("Failed to load font {} : {}", path, TTF_GetError());
+            ME_CORE_ERROR("Failed to load font {0} : {1}", path, TTF_GetError());
             return 3;
         }
 
@@ -178,7 +179,7 @@ namespace MiniEngine {
         SDL_Surface* surf = NULL;
         surf = IMG_Load(path.c_str());
         if (surf == NULL)
-            ME_CORE_ERROR("Failed to load image {} : {}", path, SDL_GetError());
+            ME_CORE_ERROR("Failed to load image {0} : {1}", path, SDL_GetError());
 
         return surf;
     }
@@ -190,7 +191,7 @@ namespace MiniEngine {
         if (loadedSurface != NULL) {
             newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
             if (newTexture == NULL) {
-                ME_CORE_ERROR("Failed to create texture from {} : {}", path.c_str(), SDL_GetError());
+                ME_CORE_ERROR("Failed to create texture from {0} : {1}", path.c_str(), SDL_GetError());
             }
             SDL_FreeSurface(loadedSurface);
         }
@@ -203,7 +204,7 @@ namespace MiniEngine {
     }
 
     SDL_Surface* Screen::render_text_blend(std::string text) {
-        return TTF_RenderText_Blended(m_fonts[m_default_font], text.c_str(), m_font_color);
+        return TTF_RenderText_Blended(m_fonts["default"], text.c_str(), m_font_color);
     }
 
     SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Color color) {
@@ -211,7 +212,7 @@ namespace MiniEngine {
     }
 
     SDL_Surface* Screen::render_text_solid(std::string text) {
-        return TTF_RenderText_Solid(m_fonts[m_default_font], text.c_str(), m_font_color);
+        return TTF_RenderText_Solid(m_fonts["default"], text.c_str(), m_font_color);
     }
 
     SDL_Surface* Screen::render_text_solid(std::string text, TTF_Font* font, SDL_Color color) {
@@ -266,9 +267,9 @@ namespace MiniEngine {
             m_time_since_last_fps_update = 0;
             std::string fps_text = std::to_string(m_fps) + " fps";
             SDL_FreeSurface(m_fps_surface);
-            m_fps_surface = TTF_RenderText_Blended(m_fonts[m_default_font], fps_text.c_str(), m_font_color);
+            m_fps_surface = TTF_RenderText_Blended(m_fonts["default"], fps_text.c_str(), m_font_color);
             if (m_fps_surface == NULL) {
-                ME_CORE_ERROR("Error : {}", TTF_GetError());
+                ME_CORE_ERROR("Error : {0}", TTF_GetError());
             }
             else {
                 m_fps_pos = { 15, 15, m_fps_surface->w, m_fps_surface->h };
@@ -277,6 +278,6 @@ namespace MiniEngine {
         }
 
         if (SDL_RenderCopy(m_Renderer, m_fps_texture, NULL, &m_fps_pos) != 0)
-            ME_CORE_ERROR("Error : ", SDL_GetError());
+            ME_CORE_ERROR("Error : {0}", SDL_GetError());
     }
 }

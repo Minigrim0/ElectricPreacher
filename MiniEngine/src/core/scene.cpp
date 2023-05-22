@@ -13,7 +13,19 @@
 
 namespace MiniEngine
 {
-    Scene::Scene() {}
+    Scene::Scene()
+    :Scene("Default")
+    {}
+
+    Scene::Scene(std::string name)
+    :m_current(false),
+    m_name(name),
+    m_layer_manager(new Event::LayerManager),
+    m_title(nullptr),
+    m_buttons(std::vector<UI::Widgets::Button*>())
+    {
+		ME_CORE_INFO("Creating scene {0}", name);
+	}
 
     Scene::~Scene() {}
 
@@ -150,21 +162,33 @@ namespace MiniEngine
     }
 
     /**
+     * @brief Add a layer to the Scene
+     *
+     * @param index The index of the layer
+     * @param layer The layer to add
+     */
+    void Scene::add_layer(uint8_t index, Event::Layer *layer)
+    {
+        m_layer_manager->attach(index, layer);
+    }
+
+    /**
+     * @brief Add an interactible to the Scene
+     *
+     * @param index The index of the interactible
+     * @param interactible The interactible to add
+     */
+    void Scene::add_interactible(uint8_t index, Event::Interactible* interactible) {
+		m_layer_manager->attach(index, interactible);
+	}
+
+    /**
      * @brief Updates the Scene, handles events
      *
      * @param event The event handler, used to get current event if any
-     * @param screen The screen on which to draw and from which to get informations
-     * @param current_Scene A pointer to the current Scene name, used to switch Scenes
-     * @param action A pointer to the current action, used to switch Scenes or quit the game
      */
-    bool Scene::OnEvent(SDL_Event *event)
-    {
-        for (unsigned i = 0; i < m_buttons.size(); i++)
-        {
-            if (m_buttons[i]->OnEvent(event))
-                return true;
-        }
-        return false;
+    bool Scene::OnEvent(SDL_Event *event) {
+        return m_layer_manager->OnEvent(event);
     }
 
     /**
@@ -172,13 +196,8 @@ namespace MiniEngine
      *
      * @param sc The screen on which to draw
      */
-    void Scene::OnRender(Screen *sc)
-    {
-        for (unsigned i = 0; i < m_buttons.size(); i++)
-        {
-            m_buttons[i]->OnRender(sc);
-        }
-        m_title->OnRender(sc);
+    void Scene::OnRender(Screen *sc) {
+        m_layer_manager->OnRender(sc);
     }
 
     /**
@@ -186,13 +205,8 @@ namespace MiniEngine
      *
      * @param time_elapsed The time elapsed since last update
      */
-    void Scene::OnUpdate(int time_elapsed)
-    {
-        for (unsigned i = 0; i < m_buttons.size(); i++)
-        {
-            m_buttons[i]->OnUpdate(time_elapsed);
-        }
-        m_title->OnUpdate(time_elapsed);
+    void Scene::OnUpdate(int time_elapsed) {
+        m_layer_manager->OnUpdate(time_elapsed);
     }
 
     /**
@@ -202,8 +216,7 @@ namespace MiniEngine
      * @param JSONsource The path to the JSON file
      * @return 0 on success, -1 on error
      */
-    int Scene::createfrom(std::string JSONsource, Screen *screen)
-    {
+    int Scene::createfrom(std::string JSONsource, Screen *screen) {
         std::ifstream json_in(JSONsource.c_str());
         nlohmann::json root;
         json_in >> root;

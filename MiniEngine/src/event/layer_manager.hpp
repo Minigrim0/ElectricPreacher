@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <SDL.h>
 
@@ -15,9 +17,12 @@ namespace MiniEngine {
 
                 static LayerManager* Create();
 
-                void attach(Layer* layer);
+                void attach(uint8_t layer_index, Layer* layer);
+                void attach(uint8_t layer_index, Interactible* interactible);
+
                 bool OnEvent(SDL_Event* event);
-                void OnRender(Screen* screen);
+                void OnRender(Screen* screen) const;
+                void OnUpdate(int time_elapsed);
 
             private:
                 std::vector<Layer*> m_layers;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 
 #include "event/interactible.hpp"
@@ -19,6 +21,7 @@ namespace MiniEngine {
                 void attach(Interactible* interactible);
                 bool OnEvent(SDL_Event* event);
                 void OnRender(Screen* screen);
+                void OnUpdate(int time_elapsed);
 
             private:
                 std::vector<Interactible*> m_interactibles;

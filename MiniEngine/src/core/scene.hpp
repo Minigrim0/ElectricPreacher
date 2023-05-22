@@ -9,6 +9,7 @@
 #include "core/core.hpp"
 
 #include "UI/widgets/button.hpp"
+#include "event/layer_manager.hpp"
 #include "event/interactible.hpp"
 
 /**
@@ -19,6 +20,7 @@ namespace MiniEngine {
     class ME_API Scene : public Event::Interactible {
         public:
             Scene();
+            Scene(std::string name);
             virtual ~Scene();
 
             //Getters
@@ -34,6 +36,9 @@ namespace MiniEngine {
             void add_button(UI::Widgets::Button* newButton);
             int add_buttons(nlohmann::json buttons, Screen* screen);
 
+            void add_layer(uint8_t index, Event::Layer* layer);
+            void add_interactible(uint8_t layer_index, Event::Interactible* interactible);
+
             void OnUpdate(int time_elapsed);
             bool OnEvent(SDL_Event* event);
             void OnRender(Screen* sc);
@@ -46,5 +51,7 @@ namespace MiniEngine {
 
             std::vector<UI::Widgets::Button*> m_buttons; //! Buttons on the scene
             UI::Widgets::Button* m_title; //! Title of the scene
+
+            Event::LayerManager* m_layer_manager;
     };
 }

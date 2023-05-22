@@ -23,13 +23,21 @@ namespace MiniEngine {
             return new LayerManager();
         }
  
-        void LayerManager::attach(Layer* layer) {
-            ME_CORE_INFO("Attaching layer to layer manager");
-            m_layers.push_back(layer);
+        /**
+         * @brief Sets the layer `layer_index` the given layer.
+         * 
+         * @param layer_index 
+         * @param layer 
+         */
+        void LayerManager::attach(uint8_t layer_index, Layer* layer) {
+            m_layers[layer_index] = layer;
+        }
+
+        void LayerManager::attach(uint8_t layer_index, Interactible* interactible) {
+            m_layers[layer_index]->attach(interactible);
         }
 
         bool LayerManager::OnEvent(SDL_Event* event) {
-            // ME_CORE_TRACE("Layer manager handling event {0}", event->type);
             for (auto layer : m_layers) {
                 if (layer->OnEvent(event))
                     return true;
@@ -37,10 +45,16 @@ namespace MiniEngine {
             return false;
         }
 
-        void LayerManager::OnRender(Screen* screen) {
+        void LayerManager::OnRender(Screen* screen) const {
             // Render layers in inverse order
             for (auto layer = m_layers.rbegin(); layer != m_layers.rend(); layer++) {
                 (*layer)->OnRender(screen);
+            }
+        }
+
+        void LayerManager::OnUpdate(int time_elapsed) {
+            for (auto layer : m_layers) {
+                layer->OnUpdate(time_elapsed);
             }
         }
     }

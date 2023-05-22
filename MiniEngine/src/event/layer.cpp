@@ -37,5 +37,11 @@ namespace MiniEngine {
                 interactible->OnRender(screen);
             }
         }
+
+        void Layer::OnUpdate(int time_elapsed) {
+            for (auto interactible : m_interactibles) {
+                interactible->OnUpdate(time_elapsed);
+            }
+        }
     }
 }

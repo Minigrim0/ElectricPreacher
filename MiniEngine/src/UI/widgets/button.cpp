@@ -52,8 +52,7 @@ namespace MiniEngine::UI::Widgets {
             case SDL_MOUSEMOTION:
                 m_hover = collide(event->motion.x, event->motion.y);
 
-                if (prev_hov != m_hover)
-                    update_layout(m_font);
+                if (prev_hov != m_hover) update_layout(m_font);
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (collide({ event->button.x, event->button.y, 0, 0 }))
@@ -287,6 +286,12 @@ namespace MiniEngine::UI::Widgets {
      * @param font
      * @return int
      */
+    int Button::update_layout() {
+        Screen* screen = Application::GetInstance()->get_screen();
+        TTF_Font* font = screen->get_font("default");
+        return update_layout(font);
+    }
+
     int Button::update_layout(TTF_Font* font) {
         Screen* screen = Application::GetInstance()->get_screen();
 

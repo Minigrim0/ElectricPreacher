@@ -26,7 +26,7 @@ namespace MiniEngine {
         }
     };
 
-    class ME_API Screen {
+    class Screen {
         protected:
             // Avoid direct instantiation
             explicit Screen(const WindowProps& props);
@@ -107,7 +107,6 @@ namespace MiniEngine {
 
             SDL_Color m_font_color;
             SDL_Color m_background_color;
-            std::string m_default_font;
             std::map<std::string, TTF_Font*> m_fonts;
 
             SDL_Rect m_mouse_pos;

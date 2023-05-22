@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include "core/core.hpp"
 #include "core/screen.hpp"
 #include "event/interactible.hpp"
 
@@ -13,7 +14,7 @@
 namespace MiniEngine {
     namespace UI {
         namespace Widgets {
-            class Button : public Event::Interactible {
+            class ME_API Button : public Event::Interactible {
             public:
                 // Constructors
                 Button();
@@ -56,7 +57,8 @@ namespace MiniEngine {
                 void set_text_offset(int, int);
                 void resize(int, int);
 
-                int update_layout(TTF_Font *font);
+                int update_layout();
+                int update_layout(TTF_Font* font);
                 int draw_contour(SDL_Surface *, SDL_Color);
                 bool collide(SDL_Rect) const;
                 bool collide(int x, int y) const;

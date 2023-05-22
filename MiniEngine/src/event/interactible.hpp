@@ -6,7 +6,7 @@
 
 namespace MiniEngine{
     namespace Event {
-        class Interactible {
+        class ME_API Interactible {
             public:
                 Interactible() = default;
                 virtual ~Interactible() = default;
