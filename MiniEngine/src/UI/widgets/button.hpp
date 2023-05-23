@@ -30,8 +30,6 @@ namespace MiniEngine {
                 SDL_Color get_contour_color() const;
                 SDL_Rect get_text_position(SDL_Surface *) const;
                 std::string get_text() const;
-                std::string get_action_type() const;
-                std::string get_action_operand() const;
 
                 // Overrides
                 bool OnEvent(SDL_Event *event) override;
@@ -51,7 +49,8 @@ namespace MiniEngine {
                 void set_size(SDL_Rect size);
                 void set_size(int w, int h);
                 void set_text(std::string text);
-                void set_action_type(std::string action_type, std::string action_operand = "");
+
+                void set_callback(std::function<void()> callback);
 
                 void move(int, int);
                 void set_text_offset(int, int);
@@ -69,8 +68,6 @@ namespace MiniEngine {
                 SDL_Rect *m_absolute_text_position;
                 SDL_Rect *m_text_offset;
                 int m_text_position;
-                std::string m_action_type;
-                std::string m_action_operand;
                 bool m_hover;
 
                 SDL_Color m_background_color;
@@ -79,6 +76,7 @@ namespace MiniEngine {
 
                 SDL_Texture *m_background_texture;
                 SDL_Texture *m_foreground_texture;
+                std::function<void()> m_callback;
 
                 std::string m_text;
                 bool m_pos_as_text;

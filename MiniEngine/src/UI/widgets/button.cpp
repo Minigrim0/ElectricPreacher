@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "core/application.hpp"
+#include "core/log.hpp"
 
 namespace MiniEngine::UI::Widgets {
     //Constructors
@@ -12,8 +13,6 @@ namespace MiniEngine::UI::Widgets {
         m_absolute_text_position(new SDL_Rect),
         m_text_offset(new SDL_Rect),
         m_text_position(4),
-        m_action_type(""),
-        m_action_operand(""),
         m_hover(false),
         m_background_color({ 0, 0, 0, 0 }),
         m_foreground_color({ 255, 255, 255, 0 }),
@@ -56,6 +55,11 @@ namespace MiniEngine::UI::Widgets {
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (collide({ event->button.x, event->button.y, 0, 0 }))
+                    if (m_callback){
+                        m_callback();
+                    }else{
+                        ME_CORE_WARN("Button has no callback");
+                    }
                     return true; // Event was handled
                 break;
             default:
@@ -147,15 +151,6 @@ namespace MiniEngine::UI::Widgets {
     std::string Button::get_text() const {
         return m_text;
     }
-
-    std::string Button::get_action_operand() const {
-        return m_action_operand;
-    }
-
-    std::string Button::get_action_type() const {
-        return m_action_type;
-    }
-
 
     //Setters
     void Button::set_rect(SDL_Rect rect) {
@@ -253,9 +248,8 @@ namespace MiniEngine::UI::Widgets {
         m_text = text;
     }
 
-    void Button::set_action_type(std::string action_type, std::string action_operand) {
-        m_action_type = action_type;
-        m_action_operand = action_operand;
+    void Button::set_callback(std::function<void()> callback) {
+        m_callback = callback;
     }
 
 

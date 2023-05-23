@@ -70,6 +70,9 @@
 
 #include "constants.hpp"
 
+void callback(){
+    ME_INFO("Button pressed");
+}
 
 void add_button(MiniEngine::Scene* scene, int posx){
     UI::Widgets::Button* button = new UI::Widgets::Button();
@@ -79,6 +82,8 @@ void add_button(MiniEngine::Scene* scene, int posx){
     button->set_background_color(255, 0, 0);
     button->set_text_color(0, 0, 0); 
     button->update_layout();
+
+    button->set_callback(callback);
     scene->add_interactible(posx, button);
 }
 

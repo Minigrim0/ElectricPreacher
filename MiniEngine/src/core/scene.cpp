@@ -153,7 +153,7 @@ namespace MiniEngine
                     buttons[index]["text-position_y"]);
             }
 
-            m_buttons.back()->set_action_type(buttons[index]["action_type"], buttons[index]["action_operand"]);
+            // m_buttons.back()->set_action_type(buttons[index]["action_type"], buttons[index]["action_operand"]);
 
             // Finally update the button image
             m_buttons.back()->update_layout(screen->get_font(buttons[index]["font_id"]));
