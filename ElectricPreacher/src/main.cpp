@@ -69,41 +69,18 @@
 #include <MiniEngine.hpp>
 
 #include "constants.hpp"
-
-void callback(){
-    ME_INFO("Button pressed");
-}
-
-void add_button(MiniEngine::Scene* scene, int posx){
-    UI::Widgets::Button* button = new UI::Widgets::Button();
-    button->set_text("Hello World");
-    button->set_position(100 + posx * 5, 100 + posx * 5);
-    button->set_size(200, 50);
-    button->set_background_color(255, 0, 0);
-    button->set_text_color(0, 0, 0); 
-    button->update_layout();
-
-    button->set_callback(callback);
-    scene->add_interactible(posx, button);
-}
-
+// #include "scenes/main_menu.hpp"
 
 MiniEngine::Application* MiniEngine::CreateApplication() {
     Application* app = MiniEngine::Application::GetInstance(
-        "Electric Preacher",
+        PROJECT_NAME,
         VERSION_MAJOR,
         VERSION_MINOR,
         VERSION_PATCH
     );
 
-    // Create new scene
-    MiniEngine::Scene* scene = new MiniEngine::Scene("Main");
-    for(auto x = 0; x < 10; x++)
-        add_button(scene, x);
-
-    // Add the scene to the application
-    app->add_scene(scene);
-    app->set_active_scene(scene);
+    // MainMenu* main_menu = new MainMenu(app);
+    // main_menu->start(app);
 
     return app;
 }
