@@ -1,15 +1,9 @@
 #include <SDL_events.h>
 #include <SDL_mouse.h>
 #include <fstream>
-#include <SDL.h>
-
-#include <nlohmann/json.hpp>
 
 #include "core/log.hpp"
 #include "core/scene.hpp"
-#include "core/screen.hpp"
-
-#include "UI/widgets/button.hpp"
 
 namespace MiniEngine
 {
