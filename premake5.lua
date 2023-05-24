@@ -105,8 +105,8 @@ project "ElectricPreacher"
 
     files
     {
-        -- "%{prj.name}/src/**.hpp",
-        -- "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp",
         "%{prj.name}/src/main.cpp",
     }
 
@@ -115,11 +115,11 @@ project "ElectricPreacher"
         "%{prj.name}/src/",
         "MiniEngine/src",
         "%{IncludeDir.SDL2}",
-        "%{IncludeDir.SDL2_image}",
+        -- "%{IncludeDir.SDL2_image}",
         "%{IncludeDir.SDL2_ttf}",
-        "%{IncludeDir.JSON}",
+        -- "%{IncludeDir.JSON}",
         "%{IncludeDir.spdlog}",
-        "%{IncludeDir.tinyxml2}"
+        -- "%{IncludeDir.tinyxml2}"
     }
 
     filter "system:windows"
