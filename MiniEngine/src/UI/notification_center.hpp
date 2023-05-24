@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SDL_stdinc.h>
 #include <SDL_ttf.h>
 
 #include "graphics/tileset.hpp"
