@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+#include <functional>
+
 #include "core/core.hpp"
 #include "core/screen.hpp"
 #include "event/interactible.hpp"
