@@ -2,6 +2,7 @@
 
 #include <UI/widgets/button.hpp>
 
+#include <core/log.hpp>
 
 MainMenu::MainMenu(MiniEngine::Application* app) : Scene(app, "MainMenu") {
     // ME_INFO("Creating main menu");

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Check if first argument is "build"
 if [ "$1" == "build" ]; then
     if [ "$2" == "release" ]; then
