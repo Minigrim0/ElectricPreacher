@@ -69,7 +69,8 @@
 #include <MiniEngine.hpp>
 
 #include "constants.hpp"
-// #include "scenes/main_menu.hpp"
+#include "scenes/main_menu.hpp"
+
 
 MiniEngine::Application* MiniEngine::CreateApplication() {
     Application* app = MiniEngine::Application::GetInstance(
@@ -79,8 +80,8 @@ MiniEngine::Application* MiniEngine::CreateApplication() {
         VERSION_PATCH
     );
 
-    // MainMenu* main_menu = new MainMenu(app);
-    // main_menu->start(app);
+    MainMenu* main_menu = new MainMenu(app);
+    main_menu->start(app);
 
     return app;
 }

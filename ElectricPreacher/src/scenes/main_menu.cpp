@@ -1,5 +1,8 @@
 #include "scenes/main_menu.hpp"
 
+#include <UI/widgets/button.hpp>
+
+
 MainMenu::MainMenu(MiniEngine::Application* app) : Scene(app, "MainMenu") {
     // ME_INFO("Creating main menu");
 }
@@ -22,11 +25,11 @@ void add_button(MiniEngine::Scene* scene, int posx){
 }
 
 MainMenu::~MainMenu(){
-    // ME_INFO("Destroying main menu");
+    ME_INFO("Destroying main menu");
 }
 
 void MainMenu::init(MiniEngine::Application* app){
-    // ME_INFO("Initializing main menu");
+    ME_INFO("Initializing main menu");
     for(auto x = 0; x < 10; x++)
         add_button(m_scene, x);
 }

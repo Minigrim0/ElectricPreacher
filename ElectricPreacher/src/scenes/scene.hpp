@@ -1,7 +1,7 @@
 #pragma once
 
-#include <MiniEngine.hpp>
-
+#include <string>
+#include <core/application.hpp>
 
 class Scene{
     public:

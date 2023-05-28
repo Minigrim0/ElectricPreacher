@@ -1,5 +1,7 @@
 #include "scenes/scene.hpp"
 
+#include <core/log.hpp>
+
 Scene::Scene(MiniEngine::Application* app, const std::string name)
 :m_scene(new MiniEngine::Scene(name))
 {
