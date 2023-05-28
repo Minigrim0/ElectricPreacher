@@ -1,8 +1,8 @@
 import re
-from pathlib import Path
+from pathlib import Path as pathlibPath
 
-import networkx as nx
-import matplotlib.pyplot as plt
+import redis
+import redisgraph
 
 
 class Graph:
@@ -28,20 +28,26 @@ class Graph:
                 return node
         return None
 
+    def to_redis(self, redis_graph):
+        for node in self.nodes:
+            redis_graph.add_node(node.node)
+        for edge in self.edges:
+            redis_graph.add_edge(
+                redisgraph.Edge(edge[0].node, "includes", edge[1].node)
+            )
+        redis_graph.commit()
+
     def __str__(self):
         return "Graph with {} nodes and {} edges".format(len(self.nodes), len(self.edges))
-
-    def visualize(self):
-        G = nx.Graph()
-        G.add_nodes_from(self.nodes)
-        G.add_edges_from(self.edges)
-        nx.draw_networkx(G)
-        plt.show()
 
 
 class Node:
     def __init__(self, name):
         self.name = str(name)
+        self.node = redisgraph.Node(
+            label='file',
+            properties={'name': self.name}
+        )
 
     def __str__(self):
         return self.name
@@ -88,12 +94,14 @@ def build_graph(pathlist, graph):
             print(f"{index} No #pragma once found in {path}")
 
 
+r = redis.Redis(host='localhost', port=6379, db=0)
+redis_graph = redisgraph.Graph('imports', r)
 graph = Graph()
-build_graph(Path("./MiniEngine/src/").rglob('*.hpp'), graph)
-build_graph(Path("./MiniEngine/src/").rglob('*.cpp'), graph)
+build_graph(pathlibPath("./MiniEngine/src/").rglob('*.hpp'), graph)
+build_graph(pathlibPath("./MiniEngine/src/").rglob('*.cpp'), graph)
 
 for node in sorted(graph.nodes, key=lambda x: x.name):
     print(node)
 
 print(graph)
-graph.visualize()
+graph.to_redis(redis_graph)
