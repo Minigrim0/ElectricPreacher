@@ -1,5 +1,7 @@
 #include "utils/save_texture.hpp"
 
+#include "core/log.hpp"
+
 namespace MiniEngine {
     namespace Utils {
         void save_texture(Screen* screen, SDL_Texture* texture, const char* filename){
@@ -9,7 +11,7 @@ namespace MiniEngine {
             SDL_QueryTexture(texture, NULL, NULL, &width, &height);
             SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
             if(surface == nullptr){
-                std::cerr << "Could'nt create a surface " << SDL_GetError() << std::endl;
+                ME_CORE_ERROR("Could'nt create a surface {0}", SDL_GetError());
                 return;
             }
             SDL_RenderReadPixels(screen->get_renderer(), NULL, surface->format->format, surface->pixels, surface->pitch);

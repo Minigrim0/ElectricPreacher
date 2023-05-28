@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL_ttf.h>
-
 #include "graphics/tileset.hpp"
 #include "UI/widgets/notification.hpp"
 #include "core/screen.hpp"

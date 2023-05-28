@@ -6,7 +6,6 @@
 #include "core/core.hpp"
 #include "core/screen.hpp"
 #include "core/scene.hpp"
-#include "event/layer_manager.hpp"
 #include "UI/notification_center.hpp"
 
 namespace MiniEngine {

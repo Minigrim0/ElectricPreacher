@@ -1,7 +1,5 @@
 #include "button.hpp"
 
-#include <iostream>
-
 #include "core/application.hpp"
 #include "core/log.hpp"
 
@@ -333,7 +331,8 @@ namespace MiniEngine::UI::Widgets {
         m_text_rect->w = tmp_text->w;
         m_text_rect->h = tmp_text->h;
 
-        if (draw_contour(tmp_image, m_contour_color) != 0) std::cout << "Error while drawing contour : " << SDL_GetError() << std::endl;
+        if (draw_contour(tmp_image, m_contour_color) != 0)
+            ME_CORE_ERROR("Error while drawing contour : {0}", SDL_GetError());
 
         m_background_texture = screen->convert_surface_to_texure(tmp_image);
         if (m_background_color.a != 255) {

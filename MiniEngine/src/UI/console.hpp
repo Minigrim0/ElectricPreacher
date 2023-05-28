@@ -38,9 +38,9 @@ namespace MiniEngine {
             int set_font(std::string, int);
 
             // Interactible
-            bool OnEvent(SDL_Event*) override;
-            void OnRender(Screen *) override;
-            void OnUpdate(int time_elapsed) override;
+            bool OnEvent(SDL_Event* e) override;
+            void OnRender(Screen* sc) override;
+            void OnUpdate(int te) override;
 
             // Others
             void init(Screen *);
@@ -50,7 +50,7 @@ namespace MiniEngine {
 
         private:
             SDL_Rect m_rect;
-            std::vector<Widgets::Button *> m_history; // The previous inputs and outputs
+            std::vector<Widgets::Button*> m_history; // The previous inputs and outputs
             TTF_Font *m_font;
             SDL_Texture *m_background_texture;
 

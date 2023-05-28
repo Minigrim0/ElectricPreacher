@@ -1,9 +1,10 @@
-#include <SDL.h>
 #include <SDL_image.h>
 
 #include "UI/widgets/text_input.hpp"
 
+#include "core/log.hpp"
 #include "core/application.hpp"
+
 
 namespace MiniEngine {
     namespace UI {
@@ -79,9 +80,7 @@ namespace MiniEngine {
             {
                 m_font = TTF_OpenFont(font_path.c_str(), size);
                 if (m_font == nullptr)
-                {
-                    std::cout << "Error while loading font for text input : " << TTF_GetError() << std::endl;
-                }
+                    ME_CORE_ERROR("Error while loading font for text input : {0}", TTF_GetError());
             }
 
             void TextInput::set_font(TTF_Font *font)
@@ -95,12 +94,9 @@ namespace MiniEngine {
                 SDL_RenderCopy(sc->get_renderer(), m_tex, NULL, &m_rect);
             }
 
-            bool TextInput::OnEvent(SDL_Event *event)
-            {
-                switch (event->type)
-                {
-                case SDL_TEXTINPUT:
-                    // Append character
+            bool TextInput::OnEvent(SDL_Event *event) {
+                switch (event->type) {
+                case SDL_TEXTINPUT:  // Append character
                     m_current_input += event->text.text;
                     update_image();
                     return true;
@@ -163,8 +159,7 @@ namespace MiniEngine {
 
             void TextInput::OnUpdate(int time_elaped) {}
 
-            void TextInput::update_image()
-            {
+            void TextInput::update_image() {
                 Screen *screen = Application::GetInstance()->get_screen();
 
                 SDL_Surface *tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
@@ -176,8 +171,7 @@ namespace MiniEngine {
                 SDL_FreeSurface(tmp_image);
             }
 
-            void TextInput::flush()
-            {
+            void TextInput::flush() {
                 m_current_input = "";
                 update_image();
             }

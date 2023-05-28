@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 
+#include "core/core.hpp"
 #include "core/screen.hpp"
 
 namespace MiniEngine{

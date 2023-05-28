@@ -1,8 +1,9 @@
 #pragma once
 
-// #include <SDL_stdinc.h>
-#include <iostream>
+#include <SDL.h>
+#include <string>
 
+#include "core/screen.hpp"
 #include "event/interactible.hpp"
 
 /**

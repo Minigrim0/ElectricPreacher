@@ -1,9 +1,8 @@
 #pragma once
 
-#include <iostream>
+#include <string>
 
 #include <SDL.h>
-#include <SDL_image.h>
 #include <SDL_ttf.h>
 
 #include "core/screen.hpp"
@@ -24,7 +23,7 @@ namespace MiniEngine {
 
                 // Getters
                 std::string get_text() const;
-                bool collide(SDL_Event *) const;
+                bool collide(SDL_Event*) const;
                 bool collide(int, int) const;
                 TTF_Font *get_font() const;
                 bool is_empty() const;

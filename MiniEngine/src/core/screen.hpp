@@ -1,12 +1,10 @@
 #pragma once
 
-#include <iostream>
 #include <map>
+#include <string>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
-
-#include "core/core.hpp"
 
 /**
  * @brief The Screen class is a singleton that handles the window and the renderer of the game

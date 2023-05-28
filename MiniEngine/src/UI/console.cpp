@@ -1,5 +1,7 @@
 #include "UI/console.hpp"
 
+#include "core/log.hpp"
+
 
 namespace MiniEngine {
     namespace UI {
@@ -98,7 +100,7 @@ namespace MiniEngine {
         int Console::set_font(std::string font_path, int font_size) {
             m_font = TTF_OpenFont(font_path.c_str(), font_size);
             if (m_font == nullptr) {
-                std::cout << "Error loading font " << font_path << " : " << TTF_GetError() << std::endl;
+                ME_CORE_ERROR("Error loading font {0} : {1}", font_path, TTF_GetError());
                 return 1;
             }
             m_input->set_font(font_path, 70);
@@ -108,7 +110,8 @@ namespace MiniEngine {
         // Others
         void Console::init(Screen* screen) {
             if (!(m_rect.w && m_rect.h)) {
-                std::cout << "Error initializing the console, missing size !" << std::endl;
+                ME_CORE_ERROR("Error initializing the console, missing size !");
+                return;
             }
 
             m_line_height = static_cast<int>(static_cast<float>(m_rect.w) * 0.1);
@@ -163,7 +166,7 @@ namespace MiniEngine {
 
         int Console::update_layout() {
             if (m_font == nullptr) {
-                std::cout << "Error updating console layout : Font has not been loaded" << std::endl;
+                ME_CORE_ERROR("Error updating console layout : Font has not been loaded");
                 return 1;
             }
             m_input->update_image();

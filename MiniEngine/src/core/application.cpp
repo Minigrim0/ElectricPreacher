@@ -3,7 +3,6 @@
 #include "core/log.hpp"
 
 
-
 namespace MiniEngine {
     Application* Application::s_instance = nullptr;
 

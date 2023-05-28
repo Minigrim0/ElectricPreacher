@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "core.hpp"
+#include "core/core.hpp"
 #include "spdlog/spdlog.h"
 
 namespace MiniEngine {

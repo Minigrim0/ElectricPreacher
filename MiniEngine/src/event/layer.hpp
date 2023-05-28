@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <SDL_events.h>
 #include "event/interactible.hpp"
 
 

@@ -1,14 +1,9 @@
 #include "core/screen.hpp"
 #include "core/log.hpp"
 
-#include <iostream>
-#include <map>
-#include <string>
-
-#include <SDL.h>
 #include <SDL_render.h>
 #include <SDL_image.h>
-#include <SDL_ttf.h>
+
 
 namespace MiniEngine {
     //Constructors

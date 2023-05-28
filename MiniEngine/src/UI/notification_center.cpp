@@ -1,9 +1,5 @@
 #include "UI/notification_center.hpp"
 
-#include "core/screen.hpp"
-#include "graphics/tileset.hpp"
-#include "UI/widgets/notification.hpp"
-
 namespace MiniEngine {
     namespace UI {
         NotificationCenter* NotificationCenter::nc_ = nullptr;

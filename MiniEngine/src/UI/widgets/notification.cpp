@@ -1,9 +1,6 @@
-#include <SDL_error.h>
-#include <SDL_render.h>
-#include <SDL_surface.h>
-
 #include "UI/widgets/notification.hpp"
-#include "core/screen.hpp"
+
+#include "core/log.hpp"
 
 namespace MiniEngine {
     namespace UI {
@@ -92,7 +89,7 @@ namespace MiniEngine {
                 m_progress_bar = SDL_CreateTexture(screen->get_renderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1, 1);
 
                 if (m_background == nullptr) {
-                    std::cerr << "Failed to create a texture : " << SDL_GetError() << std::endl;
+                    ME_CORE_ERROR("Failed to create a texture : {0}", SDL_GetError());
                     return;
                 }
 
