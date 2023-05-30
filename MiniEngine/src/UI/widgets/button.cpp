@@ -32,33 +32,24 @@ namespace MiniEngine::UI::Widgets {
         SDL_DestroyTexture(m_foreground_texture);
     }
 
-    //Operators
-    Button& Button::operator=(const Button& button) {
-        m_background_color = button.get_background_color();
-        m_foreground_color = button.get_foreground_color();
-        m_text = button.get_text();
-        *m_rect = button.get_rect();
-
-        return *this;
-    }
-
     // Callback
     bool Button::OnEvent(SDL_Event* event) {
-        bool prev_hov = m_hover;
         switch (event->type) {
             case SDL_MOUSEMOTION:
-                m_hover = collide(event->motion.x, event->motion.y);
-
-                if (prev_hov != m_hover) update_layout(m_font);
+                if(m_hover != collide(event->motion.x, event->motion.y)){
+                    m_hover = !m_hover;
+                    update_layout(m_font);
+                }
                 break;
             case SDL_MOUSEBUTTONUP:
-                if (collide({ event->button.x, event->button.y, 0, 0 }))
+                if (collide(event->button.x, event->button.y)) {
                     if (m_callback){
                         m_callback();
                     }else{
                         ME_CORE_WARN("Button has no callback");
                     }
                     return true; // Event was handled
+                }
                 break;
             default:
                 break;
@@ -151,13 +142,6 @@ namespace MiniEngine::UI::Widgets {
     }
 
     //Setters
-    void Button::set_rect(SDL_Rect rect) {
-        *m_rect = rect;
-
-        m_text_rect->x = rect.x;
-        m_text_rect->y = rect.y;
-    }
-
     void Button::set_rect(int x, int y, int w, int h) {
         m_rect->x = x;
         m_rect->y = y;
@@ -166,14 +150,6 @@ namespace MiniEngine::UI::Widgets {
 
         m_text_rect->x = x;
         m_text_rect->y = y;
-    }
-
-    void Button::set_position(SDL_Rect rect) {
-        m_rect->x = rect.x;
-        m_rect->y = rect.y;
-
-        m_text_rect->x = rect.x;
-        m_text_rect->y = rect.y;
     }
 
     void Button::set_position(int x, int y) {
@@ -232,11 +208,6 @@ namespace MiniEngine::UI::Widgets {
         };
     }
 
-    void Button::set_size(SDL_Rect rect) {
-        m_rect->w = rect.w;
-        m_rect->h = rect.h;
-    }
-
     void Button::set_size(int w, int h) {
         m_rect->w = w;
         m_rect->h = h;
@@ -285,11 +256,10 @@ namespace MiniEngine::UI::Widgets {
     }
 
     int Button::update_layout(TTF_Font* font) {
-        Screen* screen = Application::GetInstance()->get_screen();
-
         m_font = font;
-        SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
 
+        Screen* screen = Application::GetInstance()->get_screen();
+        SDL_Surface* tmp_image = SDL_CreateRGBSurface(0, m_rect->w, m_rect->h, 32, 0, 0, 0, 0);
         SDL_Surface* tmp_text;
 
         if (m_hover) {
@@ -345,7 +315,6 @@ namespace MiniEngine::UI::Widgets {
             SDL_SetTextureAlphaMod(m_foreground_texture, m_foreground_color.a);
         }
 
-
         SDL_FreeSurface(tmp_text);
         SDL_FreeSurface(tmp_image);
         return 0;
@@ -371,13 +340,6 @@ namespace MiniEngine::UI::Widgets {
         SDL_FreeSurface(vertical_line);
 
         return 0;
-    }
-
-    bool Button::collide(SDL_Rect rect) const {
-        if (rect.x > m_rect->x && rect.x < m_rect->x + m_rect->w)
-            if (rect.y > m_rect->y && rect.y < m_rect->y + m_rect->h)
-                return true;
-        return false;
     }
 
     bool Button::collide(int x, int y) const {
