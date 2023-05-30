@@ -1,20 +1,21 @@
 #include "scenes/main_menu.hpp"
+#include "scenes/new_game.hpp"
 
 #include <core/log.hpp>
 #include <UI/widgets/button.hpp>
 
 
-MainMenu::MainMenu(MiniEngine::Application* app) : Scene(app, "MainMenu") {
-    ME_INFO("Creating main menu");
-}
+MainMenu::MainMenu(MiniEngine::Application* app) : Scene(app, "MainMenu") {}
 
-
-MainMenu::~MainMenu(){
-    ME_INFO("Destroying main menu");
-}
+MainMenu::~MainMenu(){}
 
 void MainMenu::start_new_game(){
     ME_INFO("starting new game");
+
+    auto app = MiniEngine::Application::GetInstance();
+    NewGame* new_game = new NewGame(app);
+    new_game->init(app);
+    new_game->start(app);
 }
 
 void MainMenu::load_game(){
@@ -25,7 +26,7 @@ void MainMenu::quit_game(){
     ME_INFO("quitting game");
 }
 
-void MainMenu::init(MiniEngine::Application* app){
+void MainMenu::init(MiniEngine::Application* app) {
     ME_INFO("Initializing main menu");
 
     MiniEngine::UI::Widgets::Button* title_button = new MiniEngine::UI::Widgets::Button();
