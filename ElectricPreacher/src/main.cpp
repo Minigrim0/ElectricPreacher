@@ -81,6 +81,7 @@ MiniEngine::Application* MiniEngine::CreateApplication() {
     );
 
     MainMenu* main_menu = new MainMenu(app);
+    main_menu->init(app);
     main_menu->start(app);
 
     return app;
