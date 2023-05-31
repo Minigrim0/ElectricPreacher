@@ -88,6 +88,7 @@ namespace MiniEngine {
 
             // Render
             m_active_scene->OnRender(m_screen.get());
+            m_active_scene->OnUpdate(m_screen->get_time_elapsed());
             m_screen->update_screen();
         }
     }
