@@ -40,7 +40,7 @@ void Player::set_position(int x, int y){
  * 
  * @param sc The screen to load the texture from
  */
-void Player::init(CORE::Screen* sc){
+void Player::init(MiniEngine::Screen* sc){
     m_texture = sc->load_texture("assets/images/player.png");
     if(m_texture == nullptr) std::cout << "Error :" << SDL_GetError() << std::endl;
 }
@@ -57,7 +57,7 @@ void Player::handle_event(SDL_Event* event){
         move(event->key.keysym.sym);
 }
 
-void Player::update(CORE::Screen* sc){
+void Player::update(MiniEngine::Screen* sc){
     switch(m_status){
         case STATUS::IDLE:
             if(sc->get_key(SDLK_w)) move(SDLK_w);
@@ -130,7 +130,7 @@ void Player::update_position(){
  * @param sc The screen to draw the player on
  * @return int 
  */
-int Player::draw(CORE::Screen* sc) const{
+int Player::draw(MiniEngine::Screen* sc) const{
     return SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &m_draw_position);
 }
 

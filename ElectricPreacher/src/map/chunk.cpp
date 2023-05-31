@@ -1,11 +1,6 @@
 #include "map/chunk.hpp"
+#include "map/elements/ground_element.hpp"
 
-#include <SDL.h>
-#include <initializer_list>
-
-#include "map/map_element.hpp"
-
-#include "graphics/tileset.hpp"
 #include "utils/utils.hpp"
 
 
@@ -53,9 +48,9 @@ void Chunk::set_position(SDL_Point position){
  * @param tilesets The available tilesets
  * @param screen The screen to render the chunk on
  */
-void Chunk::load(nlohmann::json chunk, std::map<std::string, GRAPHICS::TileSet*>* tilesets, CORE::Screen* screen){
+void Chunk::load(nlohmann::json chunk, std::map<std::string, MiniEngine::Graphics::TileSet*>* tilesets, MiniEngine::Screen* screen){
     // TODO: Change this hardcoded tileset name
-    GRAPHICS::TileSet* tileset = (*tilesets)["Outside"];
+    MiniEngine::Graphics::TileSet* tileset = (*tilesets)["Outside"];
 
     m_chunk_size = {chunk["width"], chunk["height"]};
     m_position = {
@@ -100,7 +95,7 @@ void Chunk::load(nlohmann::json chunk, std::map<std::string, GRAPHICS::TileSet*>
  * @param screen The screen object to render the chunk to
  * @param position The position on the screen
  */
-void Chunk::render(CORE::Screen* screen){
+void Chunk::OnRender(MiniEngine::Screen* screen){
     SDL_RenderCopy(
         screen->get_renderer(),
         m_texture,
@@ -108,3 +103,9 @@ void Chunk::render(CORE::Screen* screen){
         &m_position
     );
 }
+
+bool Chunk::OnEvent(SDL_Event* event){
+    return false;
+}
+
+void Chunk::OnUpdate(int time_elapsed){}

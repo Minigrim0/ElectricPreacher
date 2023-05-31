@@ -10,7 +10,7 @@ if [ "$1" == "build" ]; then
         make config=debug
     fi
 elif [ "$1" == "generate" ]; then
-    ./vendor/bin/premake/premake5 gmake2
+    ./vendor/unix/premake/premake5 gmake2
 elif [ "$1" == "clean" ]; then
     make clean
 elif [ "$1" == "graph" ]; then

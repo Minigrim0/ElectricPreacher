@@ -1,5 +1,7 @@
 #include "scenes/new_game.hpp"
 
+#include "game/game.hpp"
+
 #include <core/log.hpp>
 #include <UI/widgets/button.hpp>
 
@@ -16,9 +18,11 @@ void NewGame::return_to_main_menu() {
 
 void NewGame::start_game() {
     ME_INFO("starting game");
-
     auto app = MiniEngine::Application::GetInstance();
-    app->set_active_scene("Game");
+
+    Game *game = new Game(app);
+    game->init(app);
+    game->start(app);
 }
 
 void NewGame::init(MiniEngine::Application* a) {
@@ -40,6 +44,7 @@ void NewGame::init(MiniEngine::Application* a) {
     start_button->set_background_color(20, 20, 50);
     start_button->set_contour_color(50, 50, 150);
     start_button->set_text_color(150, 150, 150);
+    start_button->set_callback(std::bind(&NewGame::start_game, this));
     start_button->update_layout();
 
     back_button->set_size(200, 25);

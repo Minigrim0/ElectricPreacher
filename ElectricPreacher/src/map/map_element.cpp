@@ -1,8 +1,5 @@
 #include "map/map_element.hpp"
-
-#include <SDL.h>
-#include <SDL_rect.h>
-#include <SDL_ttf.h>
+#include "map/elements/elements.hpp"
 
 MapElement::MapElement(bool solid, const std::string *type)
 :m_is_solid(solid),
@@ -41,7 +38,7 @@ void MapElement::set_solidity(bool solid){
  * @param id The id of the texture in the tileset
  * @param tileset_size The size of the texture in the tileset
  */
-void MapElement::set_texture(GRAPHICS::TileSet* tileset, int id){
+void MapElement::set_texture(MiniEngine::Graphics::TileSet* tileset, int id){
     m_tileset = tileset;
     m_texture_id = id;
     m_position.w = tileset->get_tile_width();
@@ -64,13 +61,4 @@ int MapElement::draw(SDL_Surface* dest){
         );
     }
     return -1;
-}
-
-
-GroundElement::GroundElement(SDL_Point position)
-:MapElement(false, &MAP_ELEMENT::GROUND, position)
-{}
-
-void GroundElement::interact(Player* player){
-    std::cout << "interacting with player" << std::endl;
 }

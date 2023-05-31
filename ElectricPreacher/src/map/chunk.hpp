@@ -1,18 +1,19 @@
 #pragma once
 
-#include <iostream>
+#include <SDL.h>
 
-#include "graphics/tileset.hpp"
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
+#include <event/interactible.hpp>
+#include <graphics/tileset.hpp>
+
 #include "constants.hpp"
-
 #include "map/map_element.hpp"
 
 /**
  * @brief A chunk is a part of the map, which size is defined by the map manager
  * It is pre-loaded and rendered, and can be unloaded when the player is too far away
  */
-class Chunk
+class Chunk : public MiniEngine::Event::Interactible
 {
 public:
     // Constructors
@@ -28,8 +29,11 @@ public:
     void set_position(SDL_Point);
 
     // Others
-    void load(nlohmann::json chunk, std::map<std::string, GRAPHICS::TileSet *> *tilesets, CORE::Screen *screen);
-    void render(CORE::Screen *screen);
+    void load(nlohmann::json chunk, std::map<std::string, MiniEngine::Graphics::TileSet*> *tilesets, MiniEngine::Screen *screen);
+
+    void OnRender(MiniEngine::Screen* screen);
+    void OnUpdate(int time_elapsed);
+    bool OnEvent(SDL_Event* e);
 
 private:
     SDL_Point m_absolute_coordinates;
