@@ -11,7 +11,10 @@ jobs:
     if: github.event.pull_request.draft == false
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: 'true'
 
     - name: install libs
       run: sudo apt update && sudo apt install -y build-essential libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev
