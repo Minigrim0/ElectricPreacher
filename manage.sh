@@ -23,4 +23,14 @@ elif [ "$1" == "run" ]; then
         echo "Running debug..."
         ./bin/Debug-linux-x86_64/ElectricPreacher/ElectricPreacher
     fi
+elif [ $1 == "debug" ]; then
+    if [ "$2" == "release" ]; then
+        echo "Debugging release..."
+        gdb ./bin/Release-linux-x86_64/ElectricPreacher/ElectricPreacher
+    else
+        echo "Debugging debug..."
+        gdb ./bin/Debug-linux-x86_64/ElectricPreacher/ElectricPreacher
+    fi
+else
+    echo "Usage: ./manage.sh [build|generate|clean|graph|run|debug] [release|debug]"
 fi
