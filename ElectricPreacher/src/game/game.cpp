@@ -20,11 +20,12 @@ void Game::init(MiniEngine::Application* app){
     map_manager->load(screen, "assets/maps/start.json");
     map_manager->set_position(0, 0);
     map_manager->init(screen);
-    m_scene->add_interactible(9, map_manager);
+    m_scene->add_interactible(2, map_manager);
 
     // Load the player
     m_player->init(screen);
     m_player->set_position(2, 2);
+    m_scene->add_interactible(1, m_player);
 }
 
 // void Game::handle_events(MiniEngine::Screen* sc){
