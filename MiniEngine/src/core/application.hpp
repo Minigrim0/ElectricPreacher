@@ -22,6 +22,7 @@ namespace MiniEngine {
         static Application* GetInstance(std::string project_name, int major_version, int minor_version, int patch_version);
 
         void run();
+        void stop();
 
         SDL_Renderer* get_renderer();
         Screen* get_screen();

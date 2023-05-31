@@ -92,6 +92,10 @@ namespace MiniEngine {
         }
     }
 
+    void Application::stop(){
+        m_running = false;
+    }
+
     SDL_Renderer* Application::get_renderer(){
         return m_screen->get_renderer();
     }
