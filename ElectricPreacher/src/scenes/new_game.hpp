@@ -11,6 +11,9 @@ class NewGame : public Scene {
         void init(MiniEngine::Application* app) override;
 
     private:
+        void return_to_main_menu();
+        void start_game();
+
         void start_new_game();
         void load_game();
         void quit_game();
