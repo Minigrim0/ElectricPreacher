@@ -1,8 +1,9 @@
 #pragma once
 
-#include "SDL.h"
+#include <SDL.h>
 
 #include <core/screen.hpp>
+#include <event/interactible.hpp>
 
 #include "constants.hpp"
 
@@ -31,7 +32,7 @@ enum class DIR
  * The player is represented by a rectangle, which position is in tiles
  * The player is drawn on screen, and can be animated
  */
-class Player
+class Player : public MiniEngine::Event::Interactible
 {
 public:
     Player();
@@ -47,12 +48,12 @@ public:
     // Others
     void init(MiniEngine::Screen *sc);
 
-    void handle_event(SDL_Event *event);
-    void update(MiniEngine::Screen *sc);
-    int draw(MiniEngine::Screen *sc) const;
+    bool OnEvent(SDL_Event *event) override;
+    void OnUpdate(int time_elapsed) override;
+    void OnRender(MiniEngine::Screen *sc) override;
 
 private:
-    void move(SDL_Keycode sym);
+    bool move(SDL_Keycode sym);
     void walk(MiniEngine::Screen *sc);
     void update_position();
 

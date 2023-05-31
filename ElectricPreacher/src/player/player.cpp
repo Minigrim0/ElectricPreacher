@@ -2,6 +2,8 @@
 
 #include "player/player.hpp"
 
+#include <core/log.hpp>
+
 Player::Player()
 :m_position({0, 0, 32, 32}),
 m_draw_position(m_position),
@@ -50,54 +52,42 @@ void Player::init(MiniEngine::Screen* sc){
  * 
  * @param event The event to handle
  */
-void Player::handle_event(SDL_Event* event){
-    if(m_status != STATUS::IDLE) return;
+bool Player::OnEvent(SDL_Event* event){
+    if(m_status != STATUS::IDLE) return false;
+    if(event->type != SDL_KEYDOWN) return false;
 
-    if(event->type == SDL_KEYDOWN)
-        move(event->key.keysym.sym);
+    switch(event->key.keysym.sym){
+        case SDLK_w:
+            ME_INFO("Player moving up");
+            return move(SDLK_w);
+        case SDLK_a:
+            ME_INFO("Player moving left");
+            return move(SDLK_a);
+        case SDLK_s:
+            ME_INFO("Player moving down");
+            return move(SDLK_s);
+        case SDLK_d:
+            ME_INFO("Player moving right");
+            return move(SDLK_d);
+        default:
+            return false;
+    }
 }
 
-void Player::update(MiniEngine::Screen* sc){
-    switch(m_status){
-        case STATUS::IDLE:
-            if(sc->get_key(SDLK_w)) move(SDLK_w);
-            else if(sc->get_key(SDLK_a)) move(SDLK_a);
-            else if(sc->get_key(SDLK_s)) move(SDLK_s);
-            else if(sc->get_key(SDLK_d)) move(SDLK_d);
-            break;
-        case STATUS::WALKING:
-            m_walking_offset += m_speed * sc->get_time_elapsed() / 1000.0;
-            if(m_walking_offset >= 32.0){
-                m_walking_offset = 0;
-                update_position();
-                m_status = STATUS::IDLE;
-            }
-            break;
-        case STATUS::ATTACKING:
-            break;
-        case STATUS::DEAD:
-            break;
-        default:
-            break;
-    }
-
-    m_draw_position = {m_position.x * 32, m_position.y * 32, 32, 32};
-    if(m_status == STATUS::WALKING){
-        switch(m_dir){
-            case DIR::UP:
-                m_draw_position.y -= m_walking_offset;
-                break;
-            case DIR::DOWN:
-                m_draw_position.y += m_walking_offset;
-                break;
-            case DIR::LEFT:
-                m_draw_position.x -= m_walking_offset;
-                break;
-            case DIR::RIGHT:
-                m_draw_position.x += m_walking_offset;
-                break;
-            default:
-                break;
+/**
+ * @brief Updates the drawing position of the player
+ * 
+ * @param time_elapsed The time elapsed since the last frame
+ */
+void Player::OnUpdate(int time_elapsed){
+    ME_INFO("Player updating status = {0}", (int)m_status);
+    if(m_status == STATUS::WALKING){  // Run the walking "animation"
+        m_walking_offset += m_speed * time_elapsed / 1000.0;
+        ME_INFO(m_walking_offset);
+        if(m_walking_offset >= 32.0){
+            m_walking_offset = 0;
+            update_position();
+            m_status = STATUS::IDLE;
         }
     }
 }
@@ -130,8 +120,28 @@ void Player::update_position(){
  * @param sc The screen to draw the player on
  * @return int 
  */
-int Player::draw(MiniEngine::Screen* sc) const{
-    return SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &m_draw_position);
+void Player::OnRender(MiniEngine::Screen* sc) {
+    m_draw_position = {m_position.x * 32, m_position.y * 32, 32, 32};
+    if(m_status == STATUS::WALKING){
+        switch(m_dir){
+            case DIR::UP:
+                m_draw_position.y -= m_walking_offset;
+                break;
+            case DIR::DOWN:
+                m_draw_position.y += m_walking_offset;
+                break;
+            case DIR::LEFT:
+                m_draw_position.x -= m_walking_offset;
+                break;
+            case DIR::RIGHT:
+                m_draw_position.x += m_walking_offset;
+                break;
+            default:
+                break;
+        }
+    }
+
+    SDL_RenderCopy(sc->get_renderer(), m_texture, nullptr, &m_draw_position);
 }
 
 /**
@@ -139,7 +149,7 @@ int Player::draw(MiniEngine::Screen* sc) const{
  * 
  * @param sym The Keycode of the key pressed
  */
-void Player::move(SDL_Keycode sym){
+bool Player::move(SDL_Keycode sym){
     switch(sym){
         case SDLK_w:
             m_status = STATUS::WALKING;
@@ -158,6 +168,8 @@ void Player::move(SDL_Keycode sym){
             m_dir = DIR::RIGHT;
             break;
         default:
-            std::cout << "unhandled case" << std::endl;
+            return false;
     }
+    ME_INFO("Player status set to walking");
+    return true;
 }
