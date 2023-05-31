@@ -24,6 +24,8 @@ void MainMenu::load_game(){
 
 void MainMenu::quit_game(){
     ME_INFO("quitting game");
+    auto app = MiniEngine::Application::GetInstance();
+    app->stop();
 }
 
 void MainMenu::init(MiniEngine::Application* app) {
