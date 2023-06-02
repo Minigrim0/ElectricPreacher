@@ -68,7 +68,7 @@ namespace MiniEngine
             m_height = std::atoi(tileset_image->Attribute("height"));
             m_name = tileset_element->Attribute("name");
 
-            m_tex = screen->load_image((filePath.remove_filename() / tileset_image->Attribute("source")).string());
+            m_tex = screen->LoadImage((filePath.remove_filename() / tileset_image->Attribute("source")).string());
 
             if (set_array() != 0)
                 ME_CORE_ERROR("Error while setting array");

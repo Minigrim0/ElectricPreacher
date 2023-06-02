@@ -57,33 +57,34 @@ namespace MiniEngine {
             SDL_Color get_background_color() const;
 
             // Setters
-            void set_width(int);
-            void set_height(int);
-            void set_background_color(SDL_Color);
-            void set_background_color(Uint8, Uint8, Uint8);
-            void set_default_font(std::string font_id);
-            void set_caption(std::string);
-            void toggle_fps_show();
-            void set_running(bool running);
+            void SetWidth(int);
+            void SetHeight(int);
+            void SetBackgroundColor(SDL_Color);
+            void SetBackgroundColor(Uint8, Uint8, Uint8);
+            void SetDefaultFont(std::string font_id);
+            void SetCaption(std::string);
+            void SetRunning(bool running);
 
             // Others
-            int init();
-            int build_window();
-            int add_font(std::string font_path, int size, std::string font_id = "");
-            SDL_Surface* load_image(std::string);
-            SDL_Texture* load_texture(std::string);
-            SDL_Texture* convert_surface_to_texure(SDL_Surface*) const;
+            int Init();
+            int BuildWindow();
+            int AddFont(std::string font_path, int size, std::string font_id = "");
+            SDL_Surface* LoadImage(std::string) const;
+            SDL_Texture* LoadTexture(std::string) const;
+            SDL_Texture* Surf2Text(SDL_Surface*) const;
             SDL_Surface* render_text_blend(std::string);
             SDL_Surface* render_text_blend(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
             SDL_Surface* render_text_solid(std::string);
             SDL_Surface* render_text_solid(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
 
-            void handle_events(SDL_Event*);
-            void update_screen();
-
-            void compute_fps();
+            bool OnEvent(SDL_Event*);
+            void Update();
 
         private:
+            void FPSDisplayToggle();
+            void FPSCompute();
+            void FPSRender();
+
             int m_width;
             int m_height;
             int m_tile_size;

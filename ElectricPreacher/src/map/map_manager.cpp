@@ -54,7 +54,7 @@ void MapManager::set_position(int x, int y){
 }
 
 void MapManager::init(MiniEngine::Screen* screen){
-    m_default_missing = screen->load_texture("assets/images/MISSING.png");
+    m_default_missing = screen->LoadTexture("assets/images/MISSING.png");
 
     SDL_QueryTexture(m_default_missing, NULL, NULL, &(m_position.w), &(m_position.h));
 }

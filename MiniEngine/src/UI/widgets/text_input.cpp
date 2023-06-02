@@ -166,7 +166,7 @@ namespace MiniEngine {
                 SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
 
                 SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
-                m_tex = screen->convert_surface_to_texure(tmp_image);
+                m_tex = screen->Surf2Text(tmp_image);
 
                 SDL_FreeSurface(tmp_image);
             }

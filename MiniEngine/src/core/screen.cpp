@@ -70,39 +70,35 @@ namespace MiniEngine {
 
 
     //Setters
-    void Screen::set_width(int width) {
+    void Screen::SetWidth(int width) {
         m_width = width;
     }
 
-    void Screen::set_height(int height) {
+    void Screen::SetHeight(int height) {
         m_height = height;
     }
 
-    void Screen::set_background_color(SDL_Color color) {
+    void Screen::SetBackgroundColor(SDL_Color color) {
         m_background_color = color;
     }
 
-    void Screen::set_background_color(Uint8 r, Uint8 g, Uint8 b) {
+    void Screen::SetBackgroundColor(Uint8 r, Uint8 g, Uint8 b) {
         m_background_color.r = r;
         m_background_color.g = g;
         m_background_color.b = b;
     }
 
-    void Screen::set_default_font(std::string font_id) {
+    void Screen::SetDefaultFont(std::string font_id) {
         m_fonts["default"] = m_fonts[font_id];
     }
 
-    void Screen::set_caption(std::string caption) {
+    void Screen::SetCaption(std::string caption) {
         m_window_caption = caption;
         SDL_SetWindowTitle(m_window, m_window_caption.c_str());
     }
 
-    void Screen::toggle_fps_show() {
-        m_showing_fps = !m_showing_fps;
-    }
-
     //Others
-    int Screen::init() {
+    int Screen::Init() {
         ME_CORE_TRACE("Initializing SDL");
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_HAPTIC) < 0) {
             ME_CORE_ERROR("SDL could not initialize! SDL_Error: {0}", SDL_GetError());
@@ -126,7 +122,7 @@ namespace MiniEngine {
         return 0;
     }
 
-    int Screen::build_window() {
+    int Screen::BuildWindow() {
         if (m_width <= 0 || m_height <= 0) {
             ME_CORE_ERROR("Invalid window size");
             return 1;
@@ -154,7 +150,7 @@ namespace MiniEngine {
         return 0;
     }
 
-    int Screen::add_font(std::string path, int size, std::string font_id) {
+    int Screen::AddFont(std::string path, int size, std::string font_id) {
         if (font_id == "")
             font_id = path + "_" + std::to_string(size);
 
@@ -170,7 +166,7 @@ namespace MiniEngine {
         return 0;
     }
 
-    SDL_Surface* Screen::load_image(std::string path) {
+    SDL_Surface* Screen::LoadImage(std::string path) const {
         SDL_Surface* surf = NULL;
         surf = IMG_Load(path.c_str());
         if (surf == NULL)
@@ -179,10 +175,10 @@ namespace MiniEngine {
         return surf;
     }
 
-    SDL_Texture* Screen::load_texture(std::string path) {
+    SDL_Texture* Screen::LoadTexture(std::string path) const {
         SDL_Texture* newTexture = NULL;
 
-        SDL_Surface* loadedSurface = load_image(path.c_str());
+        SDL_Surface* loadedSurface = LoadImage(path.c_str());
         if (loadedSurface != NULL) {
             newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
             if (newTexture == NULL) {
@@ -194,7 +190,7 @@ namespace MiniEngine {
         return newTexture;
     }
 
-    SDL_Texture* Screen::convert_surface_to_texure(SDL_Surface* surf) const {
+    SDL_Texture* Screen::Surf2Text(SDL_Surface* surf) const {
         return SDL_CreateTextureFromSurface(m_Renderer, surf);
     }
 
@@ -214,19 +210,16 @@ namespace MiniEngine {
         return TTF_RenderText_Solid(font, text.c_str(), color);
     }
 
-    void Screen::handle_events(SDL_Event* event) {
+    bool Screen::OnEvent(SDL_Event* event) {
         switch (event->type) {
         case SDL_KEYDOWN:
             m_keyConf[event->key.keysym.sym] = true;
             break;
         case SDL_KEYUP:
             m_keyConf[event->key.keysym.sym] = false;
-            switch (event->key.keysym.sym) {
-            case SDLK_F3:
-                toggle_fps_show();
-                break;
-            default:
-                break;
+            if(event->key.keysym.sym == SDLK_F3) {
+                FPSDisplayToggle();
+                return true;
             }
             break;
         case SDL_MOUSEMOTION:
@@ -242,21 +235,28 @@ namespace MiniEngine {
         default:
             break;
         }
+        return false;
     }
 
-    void Screen::update_screen() {
+    void Screen::Update() {
         m_time_elapsed = SDL_GetTicks() - m_start_time;
         m_start_time = SDL_GetTicks();
         m_time_since_last_fps_update += m_time_elapsed;
         if (m_showing_fps) {
-            compute_fps();
+            FPSCompute();
+            FPSRender();
         }
 
         SDL_RenderPresent(m_Renderer);
         SDL_RenderClear(m_Renderer);
     }
 
-    void Screen::compute_fps() {
+    void Screen::FPSDisplayToggle() {
+        m_showing_fps = !m_showing_fps;
+        ME_CORE_TRACE("FPS display toggled to {0}", m_showing_fps ? "true" : "false");
+    }
+
+    void Screen::FPSCompute() {
         if (m_time_since_last_fps_update >= 500 && m_time_elapsed != 0) {
             m_fps = static_cast<unsigned int>(1000.0 / static_cast<float>(m_time_elapsed));
             m_time_since_last_fps_update = 0;
@@ -264,15 +264,16 @@ namespace MiniEngine {
             SDL_FreeSurface(m_fps_surface);
             m_fps_surface = TTF_RenderText_Blended(m_fonts["default"], fps_text.c_str(), m_font_color);
             if (m_fps_surface == NULL) {
-                ME_CORE_ERROR("Error : {0}", TTF_GetError());
-            }
-            else {
+                ME_CORE_ERROR("FPSCompute> Error : {0}", TTF_GetError());
+            } else {
                 m_fps_pos = { 15, 15, m_fps_surface->w, m_fps_surface->h };
                 m_fps_texture = SDL_CreateTextureFromSurface(m_Renderer, m_fps_surface);
             }
         }
+    }
 
+    void Screen::FPSRender() {
         if (SDL_RenderCopy(m_Renderer, m_fps_texture, NULL, &m_fps_pos) != 0)
-            ME_CORE_ERROR("Error : {0}", SDL_GetError());
+            ME_CORE_ERROR("FPSRender> Error : {0}", SDL_GetError());
     }
 }

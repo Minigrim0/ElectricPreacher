@@ -42,7 +42,7 @@ namespace MiniEngine {
         private:
             int set_array();
 
-            SDL_Surface *m_tex;
+            SDL_Surface* m_tex;
             int m_width, m_height;
             int m_tile_width, m_tile_height;
             std::string m_name;

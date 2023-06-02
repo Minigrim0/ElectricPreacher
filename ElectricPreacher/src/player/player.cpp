@@ -43,7 +43,7 @@ void Player::set_position(int x, int y){
  * @param sc The screen to load the texture from
  */
 void Player::init(MiniEngine::Screen* sc){
-    m_texture = sc->load_texture("assets/images/player.png");
+    m_texture = sc->LoadTexture("assets/images/player.png");
     if(m_texture == nullptr) std::cout << "Error :" << SDL_GetError() << std::endl;
 }
 
@@ -80,7 +80,6 @@ bool Player::OnEvent(SDL_Event* event){
  * @param time_elapsed The time elapsed since the last frame
  */
 void Player::OnUpdate(int time_elapsed){
-    ME_INFO("Player updating status = {0}", (int)m_status);
     if(m_status == STATUS::WALKING){  // Run the walking "animation"
         m_walking_offset += m_speed * time_elapsed / 1000.0;
         ME_INFO(m_walking_offset);

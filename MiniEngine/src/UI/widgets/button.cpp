@@ -304,12 +304,12 @@ namespace MiniEngine::UI::Widgets {
         if (draw_contour(tmp_image, m_contour_color) != 0)
             ME_CORE_ERROR("Error while drawing contour : {0}", SDL_GetError());
 
-        m_background_texture = screen->convert_surface_to_texure(tmp_image);
+        m_background_texture = screen->Surf2Text(tmp_image);
         if (m_background_color.a != 255) {
             SDL_SetTextureBlendMode(m_background_texture, SDL_BLENDMODE_BLEND);
             SDL_SetTextureAlphaMod(m_background_texture, m_background_color.a);
         }
-        m_foreground_texture = screen->convert_surface_to_texure(tmp_text);
+        m_foreground_texture = screen->Surf2Text(tmp_text);
         if (m_foreground_color.a != 255) {
             SDL_SetTextureBlendMode(m_foreground_texture, SDL_BLENDMODE_BLEND);
             SDL_SetTextureAlphaMod(m_foreground_texture, m_foreground_color.a);
