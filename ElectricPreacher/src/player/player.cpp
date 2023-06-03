@@ -82,7 +82,6 @@ bool Player::OnEvent(SDL_Event* event){
 void Player::OnUpdate(int time_elapsed){
     if(m_status == STATUS::WALKING){  // Run the walking "animation"
         m_walking_offset += m_speed * time_elapsed / 1000.0;
-        ME_INFO(m_walking_offset);
         if(m_walking_offset >= 32.0){
             m_walking_offset = 0;
             update_position();
