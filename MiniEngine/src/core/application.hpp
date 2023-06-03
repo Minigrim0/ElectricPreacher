@@ -7,6 +7,7 @@
 #include "core/screen.hpp"
 #include "core/scene.hpp"
 #include "UI/notification_center.hpp"
+#include "UI/console.hpp"
 
 namespace MiniEngine {
     class ME_API Application{
@@ -32,6 +33,8 @@ namespace MiniEngine {
         bool set_active_scene(std::string scene_name);
         void set_active_scene(Scene* scene);
 
+        void enable_console(bool enable = true);
+
     protected:
         std::string m_project_name;
         int m_major_version;
@@ -51,6 +54,7 @@ namespace MiniEngine {
         void init();
         static Application* s_instance;
         Scene* m_active_scene;
+        std::unique_ptr<UI::Console> m_console;
     };
 
     // To be defined in CLIENT

@@ -19,7 +19,9 @@ namespace MiniEngine {
     m_notification_center(nullptr),
     m_running(false),
     console_enabled(false),
-    error(false)
+    error(false),
+    m_active_scene(nullptr),
+    m_console(nullptr)
     {
         ME_CORE_INFO(
             "Initializing {0} ({1}.{2}.{3})",
@@ -84,14 +86,22 @@ namespace MiniEngine {
                 if (event.type == SDL_QUIT) {
                     m_running = false;
                 }
-                // Handle events on the screen first
+                // Handle events on the screen first, then the console, then the active scene
                 if(!m_screen->OnEvent(&event))
-                    m_active_scene->OnEvent(&event);
+                    if(console_enabled)
+                        if(!m_console->OnEvent(&event))
+                            m_active_scene->OnEvent(&event);
+                    else
+                        m_active_scene->OnEvent(&event);
             }
 
             // Render
-            m_active_scene->OnRender(m_screen.get());
             m_active_scene->OnUpdate(m_screen->get_time_elapsed());
+            m_active_scene->OnRender(m_screen.get());
+            if (console_enabled) {
+                m_console->OnUpdate(m_screen->get_time_elapsed());
+                m_console->OnRender(m_screen.get());
+            }
             m_screen->Update();
         }
     }
@@ -131,5 +141,16 @@ namespace MiniEngine {
     void Application::set_active_scene(Scene* scene){
         scene->set_running(true);
         m_active_scene = scene;
+    }
+
+    void Application::enable_console(bool enabled){
+        console_enabled = enabled;
+        if (console_enabled) {
+            m_console = std::unique_ptr<UI::Console>(new UI::Console(15, 100, 250, 650));
+            m_console->set_font(m_screen->get_font("Roboto_16"));
+            m_console->init(m_screen.get());
+        } else {
+            m_console.reset();
+        }
     }
 }

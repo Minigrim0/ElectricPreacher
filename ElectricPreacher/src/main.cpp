@@ -79,6 +79,7 @@ MiniEngine::Application* MiniEngine::CreateApplication() {
         VERSION_MINOR,
         VERSION_PATCH
     );
+    app->enable_console();
 
     MainMenu* main_menu = new MainMenu(app);
     main_menu->init(app);
