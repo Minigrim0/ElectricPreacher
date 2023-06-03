@@ -101,56 +101,9 @@ namespace MiniEngine {
                     update_image();
                     return true;
                 case SDL_KEYDOWN:
-                    if (SDL_IsTextInputActive())
-                    {
-                        if (event->key.keysym.sym == SDLK_RETURN)
-                        {
-                            SDL_StopTextInput();
-                        }
-                        else if (event->key.keysym.sym == SDLK_BACKSPACE)
-                        {
-                            // Handle backspace
-                            if (m_current_input.length() > 0)
-                            {
-                                m_current_input.pop_back();
-                                update_image();
-                            }
-                        }
-                        else if (event->key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL)
-                        {
-                            // Handle copy
-                            SDL_SetClipboardText(m_current_input.c_str());
-                        }
-                        else if (event->key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
-                        {
-                            // Handle paste
-                            m_current_input = SDL_GetClipboardText();
-                            update_image();
-                        }
-                        else
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    }
-                    break;
+                    return handle_key_down(event);
                 case SDL_MOUSEBUTTONUP:
-                    if (collide(event) && !SDL_IsTextInputActive())
-                    {
-                        SDL_StartTextInput();
-                    }
-                    else if (!collide(event) && SDL_IsTextInputActive())
-                    {
-                        SDL_StopTextInput();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    m_is_active = SDL_IsTextInputActive();
-                    return true;
-                    break;
+                    return handle_mouse_up(event);
                 default:;
                 }
                 // Nothing happened
@@ -174,6 +127,62 @@ namespace MiniEngine {
             void TextInput::flush() {
                 m_current_input = "";
                 update_image();
+            }
+
+            bool TextInput::handle_mouse_up(SDL_Event *event) {
+                if (collide(event) && !SDL_IsTextInputActive()) {
+                    SDL_StartTextInput();
+                }
+                else if (!collide(event) && SDL_IsTextInputActive()) {
+                    SDL_StopTextInput();
+                }
+                else {
+                    return false;
+                }
+                m_is_active = SDL_IsTextInputActive();
+                return true;
+            }
+
+            bool TextInput::handle_key_down(SDL_Event* event){
+                if (SDL_IsTextInputActive()) {
+                    if (event->key.keysym.sym == SDLK_RETURN) {
+                        SDL_StopTextInput();
+                        if (m_current_input.length() > 0) {
+                            if (m_OnSubmit != nullptr)
+                                m_OnSubmit(m_current_input);
+                            else
+                                ME_CORE_WARN("No callback function for text input");
+                        }
+                        flush();  // Clear input
+                    } else if (event->key.keysym.sym == SDLK_BACKSPACE) {
+                        // Handle backspace
+                        if (m_current_input.length() > 0) {
+                            m_current_input.pop_back();
+                            update_image();
+                        }
+                    } else if (SDL_GetModState() & KMOD_CTRL){  // Handle copy and paste
+                        if (event->key.keysym.sym == SDLK_c) {
+                            SDL_SetClipboardText(m_current_input.c_str());
+                        } else if (event->key.keysym.sym == SDLK_v) {
+                            m_current_input += SDL_GetClipboardText();
+                            update_image();
+                        }
+                    } else {
+                        return false;
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+
+            /**
+             * @brief Set the On Submit callback object
+             * 
+             * @param onSubmit The function to call when the return key is pressed (and the text not empty)
+             */
+            void TextInput::set_OnSubmit(std::function<void(std::string)> onSubmit){
+                m_OnSubmit = onSubmit;
             }
         }
     }

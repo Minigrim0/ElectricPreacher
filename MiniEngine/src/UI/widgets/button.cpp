@@ -295,6 +295,10 @@ namespace MiniEngine::UI::Widgets {
             );
         }
 
+        if (tmp_text == NULL) {
+            ME_CORE_ERROR("Error while rendering text : {0}", TTF_GetError());
+            return -1;
+        }
         SDL_Rect position_offset = get_text_position(tmp_text);
         m_text_rect->x = m_rect->x + position_offset.x + m_text_offset->x;
         m_text_rect->y = m_rect->y + position_offset.y + m_text_offset->y;

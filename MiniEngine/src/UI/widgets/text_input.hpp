@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <functional>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -34,6 +35,8 @@ namespace MiniEngine {
                 void set_font(std::string, int);
                 void set_font(TTF_Font *);
 
+                void set_OnSubmit(std::function<void(std::string)>);
+
                 // Implementations
                 void OnRender(Screen* sc) override;
                 void OnUpdate(int time_elapsed) override;
@@ -43,6 +46,9 @@ namespace MiniEngine {
                 void flush();
 
             private:
+                bool handle_mouse_up(SDL_Event* e);
+                bool handle_key_down(SDL_Event* e);
+
                 SDL_Texture *m_tex;
                 SDL_Texture *m_cursor;
                 SDL_Surface *m_background_image;
@@ -52,6 +58,8 @@ namespace MiniEngine {
                 std::string m_current_input;
                 Sint32 m_cursor_pos;
                 Sint32 m_selection_len;
+
+                std::function<void(std::string)> m_OnSubmit;
 
                 bool m_is_active;
             };

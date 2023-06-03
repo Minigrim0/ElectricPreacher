@@ -27,7 +27,7 @@ namespace MiniEngine {
             explicit Console(TTF_Font *);
             ~Console();
 
-            Console &operator=(const Console &);
+            Console &operator=(const Console &) = delete;
 
             // Getters
 
@@ -44,11 +44,13 @@ namespace MiniEngine {
 
             // Others
             void init(Screen *);
-            int update_layout();
-            void init_send_button();
-            void create_entry();
 
         private:
+            int update_layout();
+            void init_send_button();
+            void OnSendButtonPressed();
+            void OnTextSubmit(std::string);
+
             SDL_Rect m_rect;
             std::vector<Widgets::Button*> m_history; // The previous inputs and outputs
             TTF_Font *m_font;
@@ -61,6 +63,8 @@ namespace MiniEngine {
             int m_line_height;
 
             Uint8 m_alpha;
+
+            bool m_visible;
         };
     }
 }
