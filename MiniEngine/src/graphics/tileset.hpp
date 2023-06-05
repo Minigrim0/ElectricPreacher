@@ -4,6 +4,7 @@
 #include <vector>
 #include <SDL.h>
 
+#include "core/core.hpp"
 #include "core/screen.hpp"
 
 namespace fs = std::filesystem;
@@ -16,20 +17,20 @@ namespace fs = std::filesystem;
  */
 namespace MiniEngine {
     namespace Graphics {
-        class TileSet {
+        class ME_API TileSet {
         public:
             // Constructors
             TileSet();
-            explicit TileSet(SDL_Surface *);
+            explicit TileSet(SDL_Surface* img);
             ~TileSet();
 
             // Override
-            SDL_Rect *operator[](std::size_t idx);
+            inline SDL_Rect* operator[](std::size_t idx) { return &(m_rects[idx]); }
 
             // Getters
-            inline SDL_Surface *get_texture() const { return m_tex; }
+            inline SDL_Surface* get_texture() const { return m_tex; }
 
-            const SDL_Rect *get_sub(int, int) const;
+            const SDL_Rect* get_sub(int, int) const;
 
             inline int get_width() const { return m_width; }
             inline int get_height() const { return m_height; }
@@ -37,7 +38,7 @@ namespace MiniEngine {
             inline int get_tile_height() const { return m_tile_height; }
             inline std::string get_name() const { return m_name; }
 
-            void load(Screen *screen, fs::path filePath);
+            void load(Screen* screen, fs::path filePath);
 
         private:
             int set_array();

@@ -115,11 +115,9 @@ project "ElectricPreacher"
         "%{prj.name}/src/",
         "MiniEngine/src",
         "%{IncludeDir.SDL2}",
-        -- "%{IncludeDir.SDL2_image}",
         "%{IncludeDir.SDL2_ttf}",
-        -- "%{IncludeDir.JSON}",
+        "%{IncludeDir.JSON}",
         "%{IncludeDir.spdlog}",
-        -- "%{IncludeDir.tinyxml2}"
     }
 
     filter "system:windows"
@@ -133,7 +131,7 @@ project "ElectricPreacher"
             "SDL2main",
             "MiniEngine"
         }
-        
+
         defines {
             "ME_PLATFORM_WINDOWS",
         }
@@ -141,7 +139,6 @@ project "ElectricPreacher"
     filter "system:linux"
         cppdialect "C++17"
         staticruntime "On"
-        -- systemversion "latest"
 
         links
         {

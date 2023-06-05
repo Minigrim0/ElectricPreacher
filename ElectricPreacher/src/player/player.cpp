@@ -3,6 +3,7 @@
 #include "player/player.hpp"
 
 #include <core/log.hpp>
+#include <core/screen.hpp>
 
 Player::Player()
 :m_position({0, 0, 32, 32}),
@@ -81,7 +82,7 @@ bool Player::OnEvent(SDL_Event* event){
  */
 void Player::OnUpdate(int time_elapsed){
     if(m_status == STATUS::WALKING){  // Run the walking "animation"
-        m_walking_offset += m_speed * time_elapsed / 1000.0;
+        m_walking_offset += (float)((double)m_speed * (double)time_elapsed / 1000.0);
         if(m_walking_offset >= 32.0){
             m_walking_offset = 0;
             update_position();
@@ -116,23 +117,22 @@ void Player::update_position(){
  * @brief Draws the player on screen
  * 
  * @param sc The screen to draw the player on
- * @return int 
  */
 void Player::OnRender(MiniEngine::Screen* sc) {
     m_draw_position = {m_position.x * 32, m_position.y * 32, 32, 32};
     if(m_status == STATUS::WALKING){
         switch(m_dir){
             case DIR::UP:
-                m_draw_position.y -= m_walking_offset;
+                m_draw_position.y -= (int)m_walking_offset;
                 break;
             case DIR::DOWN:
-                m_draw_position.y += m_walking_offset;
+                m_draw_position.y += (int)m_walking_offset;
                 break;
             case DIR::LEFT:
-                m_draw_position.x -= m_walking_offset;
+                m_draw_position.x -= (int)m_walking_offset;
                 break;
             case DIR::RIGHT:
-                m_draw_position.x += m_walking_offset;
+                m_draw_position.x += (int)m_walking_offset;
                 break;
             default:
                 break;

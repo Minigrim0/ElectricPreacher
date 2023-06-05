@@ -14,30 +14,24 @@ namespace MiniEngine
               m_width(0),
               m_height(0),
               m_name("null"),
-              m_rects()
-        {
-        }
+              m_rects(),
+              m_tile_width(32),
+              m_tile_height(32)
+        {}
 
         TileSet::TileSet(SDL_Surface *img)
             : m_tex(img),
-              m_width(0),
-              m_height(0),
+              m_width(img->w),
+              m_height(img->h),
               m_name("null"),
-              m_rects()
-        {
-            m_width = img->w;
-            m_height = img->h;
-        }
+              m_rects(),
+              m_tile_width(32),
+              m_tile_height(32)
+        {}
 
         TileSet::~TileSet()
         {
             SDL_FreeSurface(m_tex);
-        }
-
-        // Override
-        SDL_Rect *TileSet::operator[](std::size_t idx)
-        {
-            return &(m_rects[idx]);
         }
 
         // Getters
@@ -56,8 +50,10 @@ namespace MiniEngine
             doc->LoadFile(filePath.string().c_str());
 
             tinyxml2::XMLElement *tileset_element = doc->FirstChildElement("tileset");
-            if (tileset_element == nullptr)
+            if (tileset_element == nullptr) {
                 ME_CORE_WARN("tileset_element is null");
+                return;
+            }
 
             m_tile_width = std::atoi(tileset_element->Attribute("tilewidth"));
             m_tile_height = std::atoi(tileset_element->Attribute("tileheight"));
@@ -68,7 +64,7 @@ namespace MiniEngine
             m_height = std::atoi(tileset_image->Attribute("height"));
             m_name = tileset_element->Attribute("name");
 
-            m_tex = screen->LoadImage((filePath.remove_filename() / tileset_image->Attribute("source")).string());
+            m_tex = screen->LoadSurface((filePath.remove_filename() / tileset_image->Attribute("source")).string());
 
             if (set_array() != 0)
                 ME_CORE_ERROR("Error while setting array");

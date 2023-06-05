@@ -4,7 +4,8 @@ namespace MiniEngine {
     namespace UI {
         Container::Container()
         :m_rect({0, 0, 0, 0}),
-        m_widgets(std::vector<Event::Interactible*>())
+        m_widgets(std::vector<Event::Interactible*>()),
+        type(0)
         {}
 
         Container::~Container(){}

@@ -90,7 +90,7 @@ namespace MiniEngine::UI::Widgets {
     }
 
     SDL_Rect Button::get_text_position(SDL_Surface* tmp_text) const {
-        SDL_Rect position;
+        SDL_Rect position = { 0, 0, 0, 0 };
         if (m_pos_as_text) {
             switch (m_text_position) {
             case 0:

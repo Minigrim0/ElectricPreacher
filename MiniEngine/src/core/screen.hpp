@@ -3,6 +3,8 @@
 #include <map>
 #include <string>
 
+#include "core/core.hpp"
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 
@@ -24,7 +26,7 @@ namespace MiniEngine {
         }
     };
 
-    class Screen {
+    class ME_API Screen {
         protected:
             // Avoid direct instantiation
             explicit Screen(const WindowProps& props);
@@ -69,7 +71,7 @@ namespace MiniEngine {
             int Init();
             int BuildWindow();
             int AddFont(std::string font_path, int size, std::string font_id = "");
-            SDL_Surface* LoadImage(std::string) const;
+            SDL_Surface* LoadSurface(std::string) const;
             SDL_Texture* LoadTexture(std::string) const;
             SDL_Texture* Surf2Text(SDL_Surface*) const;
             SDL_Surface* render_text_blend(std::string);

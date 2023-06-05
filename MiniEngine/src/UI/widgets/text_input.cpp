@@ -118,7 +118,7 @@ namespace MiniEngine {
                 SDL_Surface *tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
                 SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
 
-                SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 0}), NULL, tmp_image, NULL);
+                SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 255}), NULL, tmp_image, NULL);
                 m_tex = screen->Surf2Text(tmp_image);
 
                 SDL_FreeSurface(tmp_image);

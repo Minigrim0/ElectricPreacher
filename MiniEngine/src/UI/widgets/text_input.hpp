@@ -20,7 +20,7 @@ namespace MiniEngine {
                 TextInput();
                 ~TextInput();
 
-                TextInput &operator=(const TextInput &);
+                TextInput &operator=(const TextInput &) = delete;
 
                 // Getters
                 std::string get_text() const;

@@ -166,7 +166,7 @@ namespace MiniEngine {
         return 0;
     }
 
-    SDL_Surface* Screen::LoadImage(std::string path) const {
+    SDL_Surface* Screen::LoadSurface(std::string path) const {
         SDL_Surface* surf = NULL;
         surf = IMG_Load(path.c_str());
         if (surf == NULL)
@@ -178,7 +178,7 @@ namespace MiniEngine {
     SDL_Texture* Screen::LoadTexture(std::string path) const {
         SDL_Texture* newTexture = NULL;
 
-        SDL_Surface* loadedSurface = LoadImage(path.c_str());
+        SDL_Surface* loadedSurface = LoadSurface(path.c_str());
         if (loadedSurface != NULL) {
             newTexture = SDL_CreateTextureFromSurface(m_Renderer, loadedSurface);
             if (newTexture == NULL) {

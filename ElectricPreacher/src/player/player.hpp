@@ -46,15 +46,15 @@ public:
     void set_position(int x, int y);
 
     // Others
-    void init(MiniEngine::Screen *sc);
+    void init(MiniEngine::Screen* sc);
 
-    bool OnEvent(SDL_Event *event) override;
+    bool OnEvent(SDL_Event* event) override;
     void OnUpdate(int time_elapsed) override;
     void OnRender(MiniEngine::Screen *sc) override;
 
 private:
     bool move(SDL_Keycode sym);
-    void walk(MiniEngine::Screen *sc);
+    void walk(MiniEngine::Screen* sc);
     void update_position();
 
     SDL_Rect m_position;  //! The position on the map (in tiles)

@@ -27,7 +27,6 @@ namespace MiniEngine {
 
             //Setters
             void set_running(bool);
-            int set_font(std::string path);
 
             //Others
             void add_layer(uint8_t index, Event::Layer* layer);

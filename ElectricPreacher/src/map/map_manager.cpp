@@ -65,7 +65,7 @@ int MapManager::load(MiniEngine::Screen* screen, fs::path path){
     json_in >> root;
     json_in.close();
 
-    bool result = 0;
+    int result = 0;
 
     result |= this->load_tilesets(root["tilesets"], screen, path);
     result |= this->add_layers(root["layers"], screen);
