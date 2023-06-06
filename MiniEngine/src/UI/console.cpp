@@ -166,7 +166,7 @@ namespace MiniEngine
         void Console::OnSendButtonPressed() {
             ME_CORE_INFO("Console> Send Button pressed");
             if(m_input->get_text() != "") {
-                this->OnTextSubmit();
+                this->OnTextSubmit(m_input->get_text());
                 m_input->flush();
             }
         }
