@@ -5,6 +5,7 @@
 #include "core/log.hpp"
 #include "core/application.hpp"
 
+#include "utils/save_texture.hpp"
 
 namespace MiniEngine {
     namespace UI {
@@ -22,6 +23,7 @@ namespace MiniEngine {
             {
                 m_background_image = IMG_Load("assets/images/text_input_background.png");
                 SDL_StopTextInput();
+                update_image();
             }
 
             TextInput::~TextInput()
@@ -104,22 +106,31 @@ namespace MiniEngine {
                     return handle_key_down(event);
                 case SDL_MOUSEBUTTONUP:
                     return handle_mouse_up(event);
-                default:;
+                default:
+                    return false;
                 }
-                // Nothing happened
-                return false;
             }
 
             void TextInput::OnUpdate(int time_elaped) {}
 
+            /**
+             * @brief Update the image of the text input
+             * 
+             */
             void TextInput::update_image() {
-                Screen *screen = Application::GetInstance()->get_screen();
+                Screen *sc = Application::GetInstance()->get_screen();
 
                 SDL_Surface *tmp_image = SDL_CreateRGBSurface(0, m_background_image->w, m_background_image->h, 32, 0, 0, 0, 0);
                 SDL_BlitSurface(m_background_image, NULL, tmp_image, NULL);
 
-                SDL_BlitSurface(screen->render_text_blend(m_current_input, m_font, {0, 0, 0, 255}), NULL, tmp_image, NULL);
-                m_tex = screen->Surf2Text(tmp_image);
+                // TODO: Fix font size or make m_font not null
+                if (m_current_input != ""){  // If there is text to render
+                    SDL_BlitSurface(sc->render_text_blend(m_current_input, m_font, {0, 0, 0, 255}), NULL, tmp_image, NULL);
+                    SDL_Surface* test = sc->render_text_blend(m_current_input, m_font, {0, 0, 0, 255});
+                }
+                m_tex = sc->Surf2Text(tmp_image);
+                if(m_tex == nullptr)
+                    ME_CORE_ERROR("Error while creating texture for text input : {0}", SDL_GetError());
 
                 SDL_FreeSurface(tmp_image);
             }
@@ -140,7 +151,7 @@ namespace MiniEngine {
                     return false;
                 }
                 m_is_active = SDL_IsTextInputActive();
-                return true;
+                return m_is_active;  // If is active is true, the click event must have been handled
             }
 
             bool TextInput::handle_key_down(SDL_Event* event){
@@ -167,10 +178,7 @@ namespace MiniEngine {
                             m_current_input += SDL_GetClipboardText();
                             update_image();
                         }
-                    } else {
-                        return false;
                     }
-
                     return true;
                 }
                 return false;
