@@ -9,6 +9,7 @@ namespace MiniEngine {
             SDL_SetRenderTarget(screen->get_renderer(), texture);
             int width, height;
             SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+            ME_CORE_TRACE("> Save Texture : {0}x{1}", width, height);
             SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
             if(surface == nullptr){
                 ME_CORE_ERROR("Could'nt create a surface {0}", SDL_GetError());
@@ -18,6 +19,10 @@ namespace MiniEngine {
             SDL_SaveBMP(surface, filename);
             SDL_FreeSurface(surface);
             SDL_SetRenderTarget(screen->get_renderer(), target);
+        }
+
+        void save_texture(SDL_Surface* surf, const char* filename){
+            SDL_SaveBMP(surf, filename);
         }
     }
 }

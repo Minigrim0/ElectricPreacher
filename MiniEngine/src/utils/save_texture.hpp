@@ -14,5 +14,6 @@ namespace MiniEngine {
          * @param filename The name of the file to save to
          */
         void save_texture(Screen *screen, SDL_Texture *texture, const char *filename);
+        void save_texture(SDL_Surface *surf, const char *filename);
     }
 }
