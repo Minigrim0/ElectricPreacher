@@ -168,6 +168,6 @@ bool Player::move(SDL_Keycode sym){
         default:
             return false;
     }
-    ME_INFO("Player status set to walking");
+    ME_TRACE("Player status set to walking");
     return true;
 }

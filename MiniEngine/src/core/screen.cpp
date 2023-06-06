@@ -261,8 +261,9 @@ namespace MiniEngine {
     }
 
     void Screen::FPSCompute() {
-        if (m_time_since_last_fps_update >= 500 && m_time_elapsed != 0) {
-            m_fps = static_cast<unsigned int>(1000.0 / static_cast<float>(m_time_elapsed));
+        // TODO: Find out why it is stuck to 1000 fps
+        if (m_time_since_last_fps_update >= 250 && m_time_elapsed != 0) {  // Update FPS every 250ms
+            m_fps = static_cast<unsigned int>(1000.0f / static_cast<float>(m_time_elapsed));
             m_time_since_last_fps_update = 0;
             std::string fps_text = std::to_string(m_fps) + " fps";
             SDL_FreeSurface(m_fps_surface);

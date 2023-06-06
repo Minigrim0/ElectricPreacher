@@ -126,9 +126,7 @@ namespace MiniEngine
 
         bool Console::OnEvent(SDL_Event *event)
         {
-            return (
-                m_input->OnEvent(event) || m_send_button->OnEvent(event)
-            );
+            return m_input->OnEvent(event) || m_send_button->OnEvent(event);
         }
 
         void Console::OnUpdate(int time_elapsed)
