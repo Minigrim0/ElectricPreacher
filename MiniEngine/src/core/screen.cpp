@@ -199,6 +199,10 @@ namespace MiniEngine {
     }
 
     SDL_Surface* Screen::render_text_blend(std::string text, TTF_Font* font, SDL_Color color) {
+        if(font == nullptr){
+            ME_CORE_WARN("Font is null, using default font");
+            return TTF_RenderText_Blended(m_fonts["default"], text.c_str(), color);
+        }
         return TTF_RenderText_Blended(font, text.c_str(), color);
     }
 
