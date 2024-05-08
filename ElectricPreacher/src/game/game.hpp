@@ -14,7 +14,7 @@ namespace fs = std::filesystem;
  * @brief The Game class is the main class of the game
  * It handles the game loop and the main events during a game
  */
-class Game : public Scene {
+class Game : public AbstractScene {
 public:
     Game(MiniEngine::Application* a);
     ~Game();

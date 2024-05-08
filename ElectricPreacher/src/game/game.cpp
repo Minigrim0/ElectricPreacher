@@ -2,8 +2,8 @@
 
 #include <SDL_keycode.h>
 
-Game::Game(MiniEngine::Application* a)
-:Scene(a, "Game"),
+Game::Game(MiniEngine::Application* app)
+:AbstractScene(app, "Game"),
 m_in_game(false),
 m_player(new Player),
 m_map_manager(new MapManager),

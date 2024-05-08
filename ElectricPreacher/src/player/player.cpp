@@ -44,8 +44,11 @@ void Player::set_position(int x, int y){
  * @param sc The screen to load the texture from
  */
 void Player::init(MiniEngine::Screen* sc){
+    ME_INFO("Player initialization");
     m_texture = sc->LoadTexture("assets/images/player.png");
-    if(m_texture == nullptr) std::cout << "Error :" << SDL_GetError() << std::endl;
+    if (m_texture == nullptr) {
+        ME_ERROR("Failed to load player texture {0}", SDL_GetError());
+    }
 }
 
 /**

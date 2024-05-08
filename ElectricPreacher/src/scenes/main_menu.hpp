@@ -3,7 +3,7 @@
 #include "scenes/scene.hpp"
 
 
-class MainMenu : public Scene {
+class MainMenu : public AbstractScene {
     public:
         MainMenu(MiniEngine::Application* app);
         ~MainMenu();
@@ -14,6 +14,4 @@ class MainMenu : public Scene {
         void start_new_game();
         void load_game();
         void quit_game();
-
-        MiniEngine::Scene* scene;
 };

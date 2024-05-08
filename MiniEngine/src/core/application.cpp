@@ -35,6 +35,11 @@ namespace MiniEngine {
 
     Application::~Application(){}
 
+    /**
+     * @brief Returns the instance of the application. If the instance is null, a new instance is created.
+     * 
+     * @return Application* The instance of the application
+     */
     Application* Application::GetInstance(){
         if (s_instance == nullptr) {
             ME_CORE_WARN("Application instance is null, creating new default instance");
@@ -43,8 +48,19 @@ namespace MiniEngine {
         return s_instance;
     }
 
+    /**
+     * @brief Returns the instance of the application. If the instance is null, a new instance is created with the given parameters.
+     * 
+     * @param project_name The name of the project
+     * @param major_version The major version of the project
+     * @param minor_version The minor version of the project
+     * @param patch_version The patch version of the project
+     * 
+     * @return The instance of the application
+     */
     Application* Application::GetInstance(std::string project_name, int major_version, int minor_version, int patch_version){
         if (s_instance == nullptr) {
+            ME_CORE_WARN("Application instance is null, creating new instance with parameters %s %d %d %d", project_name, major_version, minor_version, patch_version);
             s_instance = new Application(project_name, major_version, minor_version, patch_version);
         }
         return s_instance;
@@ -87,12 +103,15 @@ namespace MiniEngine {
                     m_running = false;
                 }
                 // Handle events on the screen first, then the console, then the active scene
-                if(!m_screen->OnEvent(&event))
-                    if(console_enabled)
+                if (!m_screen->OnEvent(&event)) {
+                    if (console_enabled) {
                         if(!m_console->OnEvent(&event))
                             m_active_scene->OnEvent(&event);
-                    else
+                    }
+                    else {
                         m_active_scene->OnEvent(&event);
+                    }
+                }
             }
 
             // Render

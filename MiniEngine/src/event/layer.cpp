@@ -26,6 +26,7 @@ namespace MiniEngine {
         bool Layer::OnEvent(SDL_Event* event) {
             for (auto interactible : m_interactibles) {
                 if (interactible->OnEvent(event)) {
+                    ME_CORE_TRACE("Interactible on layer {0} handled event", m_id);
                     return true;
                 }
             }

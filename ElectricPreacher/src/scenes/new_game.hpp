@@ -3,7 +3,7 @@
 #include "scenes/scene.hpp"
 
 
-class NewGame : public Scene {
+class NewGame : public AbstractScene {
     public:
         NewGame(MiniEngine::Application* app);
         ~NewGame();

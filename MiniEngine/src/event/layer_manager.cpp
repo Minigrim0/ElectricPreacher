@@ -39,16 +39,18 @@ namespace MiniEngine {
 
         bool LayerManager::OnEvent(SDL_Event* event) {
             for (auto layer : m_layers) {
-                if (layer->OnEvent(event))
+                if (layer->OnEvent(event)) {
+                    ME_CORE_TRACE("Event handled by layer {0}", layer->getId());
                     return true;
+                }
             }
             return false;
         }
 
         void LayerManager::OnRender(Screen* screen) const {
             // Render layers in inverse order
-            for (auto layer = m_layers.rbegin(); layer != m_layers.rend(); layer++) {
-                (*layer)->OnRender(screen);
+            for (auto layer : m_layers) {
+                layer->OnRender(screen);
             }
         }
 

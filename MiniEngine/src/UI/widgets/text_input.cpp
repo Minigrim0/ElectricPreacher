@@ -28,7 +28,6 @@ namespace MiniEngine {
 
             TextInput::~TextInput()
             {
-                free(m_background_image);
                 SDL_FreeSurface(m_background_image);
                 SDL_DestroyTexture(m_tex);
             }
@@ -96,9 +95,17 @@ namespace MiniEngine {
                 SDL_RenderCopy(sc->get_renderer(), m_tex, NULL, &m_rect);
             }
 
+            /**
+             * @brief Handle the event for the text input
+             * 
+             * @param event The event to handle
+             * @return true if the event was handled, to stop its progression further
+             * false otherwise
+             */
             bool TextInput::OnEvent(SDL_Event *event) {
                 switch (event->type) {
                 case SDL_TEXTINPUT:  // Append character
+                    ME_CORE_INFO("Text input : {0}", event->text.text);
                     m_current_input += event->text.text;
                     update_image();
                     return true;
@@ -140,6 +147,13 @@ namespace MiniEngine {
                 update_image();
             }
 
+            /**
+             * @brief Handle the mouse up event
+             * 
+             * @param event The event to handle (SDL_MOUSEBUTTONUP)
+             * @return true if the event was handled, to stop its progression further
+             * false otherwise
+             */
             bool TextInput::handle_mouse_up(SDL_Event *event) {
                 if (collide(event) && !SDL_IsTextInputActive()) {
                     SDL_StartTextInput();
@@ -154,8 +168,16 @@ namespace MiniEngine {
                 return m_is_active;  // If is active is true, the click event must have been handled
             }
 
+            /**
+             * @brief Handle the key down event
+             * 
+             * @param event The event to handle (SDL_KEYDOWN)
+             * @return true if the event was handled, to stop its progression further
+             * false otherwise
+             */
             bool TextInput::handle_key_down(SDL_Event* event){
                 if (SDL_IsTextInputActive()) {
+                    ME_CORE_INFO("Text input handled key down event : {0}", event->key.keysym.sym);
                     if (event->key.keysym.sym == SDLK_RETURN) {
                         SDL_StopTextInput();
                         if (m_current_input.length() > 0) {
@@ -181,6 +203,7 @@ namespace MiniEngine {
                     }
                     return true;
                 }
+                ME_CORE_INFO("Text input not active, not handling the keydown event");
                 return false;
             }
 

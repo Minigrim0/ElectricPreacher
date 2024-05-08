@@ -5,7 +5,7 @@
 #include <UI/widgets/button.hpp>
 
 
-MainMenu::MainMenu(MiniEngine::Application* app) : Scene(app, "MainMenu") {}
+MainMenu::MainMenu(MiniEngine::Application* app) : AbstractScene(app, "MainMenu") {}
 
 MainMenu::~MainMenu(){}
 

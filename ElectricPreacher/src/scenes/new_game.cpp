@@ -5,7 +5,7 @@
 #include <core/log.hpp>
 #include <UI/widgets/button.hpp>
 
-NewGame::NewGame(MiniEngine::Application* a) : Scene(a, "NewGame") {}
+NewGame::NewGame(MiniEngine::Application* a) : AbstractScene(a, "NewGame") {}
 
 NewGame::~NewGame() {}
 

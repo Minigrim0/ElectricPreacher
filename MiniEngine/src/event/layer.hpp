@@ -24,6 +24,7 @@ namespace MiniEngine {
                 void OnRender(Screen* screen);
                 void OnUpdate(int time_elapsed);
 
+                inline uint8_t getId() const { return m_id; }
             private:
                 std::vector<Interactible*> m_interactibles;
                 uint8_t m_id;

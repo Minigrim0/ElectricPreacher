@@ -3,10 +3,10 @@
 #include <string>
 #include <core/application.hpp>
 
-class Scene{
+class AbstractScene {
     public:
-        Scene(MiniEngine::Application* app, std::string name = "Scene");
-        ~Scene();
+        AbstractScene(MiniEngine::Application* app, std::string name = "Scene");
+        ~AbstractScene();
 
         virtual void init(MiniEngine::Application* app) = 0;
         void start(MiniEngine::Application* app);
