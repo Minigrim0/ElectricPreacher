@@ -2,10 +2,10 @@
 
 #include "game/game.hpp"
 
-#include <core/log.hpp>
 #include <UI/widgets/button.hpp>
+#include <core/log.hpp>
 
-NewGame::NewGame(MiniEngine::Application* a) : AbstractScene(a, "NewGame") {}
+NewGame::NewGame(MiniEngine::Application *a) : AbstractScene(a, "NewGame") {}
 
 NewGame::~NewGame() {}
 
@@ -25,12 +25,12 @@ void NewGame::start_game() {
     game->start(app);
 }
 
-void NewGame::init(MiniEngine::Application* a) {
+void NewGame::init(MiniEngine::Application *a) {
     ME_INFO("Initializing new game");
 
-    MiniEngine::UI::Widgets::Button* title_button = new MiniEngine::UI::Widgets::Button();
-    MiniEngine::UI::Widgets::Button* start_button = new MiniEngine::UI::Widgets::Button();
-    MiniEngine::UI::Widgets::Button* back_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *title_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *start_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *back_button = new MiniEngine::UI::Widgets::Button();
 
     title_button->set_size(200, 50);
     title_button->set_text("New Game");

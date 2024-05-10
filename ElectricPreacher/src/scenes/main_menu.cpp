@@ -1,46 +1,43 @@
 #include "scenes/main_menu.hpp"
 #include "scenes/new_game.hpp"
 
-#include <core/log.hpp>
 #include <UI/widgets/button.hpp>
+#include <core/log.hpp>
 
+MainMenu::MainMenu(MiniEngine::Application *app) : AbstractScene(app, "MainMenu") {}
 
-MainMenu::MainMenu(MiniEngine::Application* app) : AbstractScene(app, "MainMenu") {}
+MainMenu::~MainMenu() {}
 
-MainMenu::~MainMenu(){}
-
-void MainMenu::start_new_game(){
+void MainMenu::start_new_game() {
     ME_INFO("starting new game");
 
     auto app = MiniEngine::Application::GetInstance();
-    NewGame* new_game = new NewGame(app);
+    NewGame *new_game = new NewGame(app);
     new_game->init(app);
     new_game->start(app);
 }
 
-void MainMenu::load_game(){
-    ME_INFO("loading game");
-}
+void MainMenu::load_game() { ME_INFO("loading game"); }
 
-void MainMenu::quit_game(){
+void MainMenu::quit_game() {
     ME_INFO("quitting game");
     auto app = MiniEngine::Application::GetInstance();
     app->stop();
 }
 
-void MainMenu::init(MiniEngine::Application* app) {
+void MainMenu::init(MiniEngine::Application *app) {
     ME_INFO("Initializing main menu");
 
-    MiniEngine::UI::Widgets::Button* title_button = new MiniEngine::UI::Widgets::Button();
-    MiniEngine::UI::Widgets::Button* new_button = new MiniEngine::UI::Widgets::Button();
-    MiniEngine::UI::Widgets::Button* load_button = new MiniEngine::UI::Widgets::Button();
-    MiniEngine::UI::Widgets::Button* quit_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *title_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *new_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *load_button = new MiniEngine::UI::Widgets::Button();
+    MiniEngine::UI::Widgets::Button *quit_button = new MiniEngine::UI::Widgets::Button();
 
     title_button->set_size(200, 50);
     title_button->set_text("The Electric Preacher");
     title_button->set_position(860, 100);
     title_button->set_background_color(0, 0, 0, 0);
-    title_button->set_text_color(200, 200, 200); 
+    title_button->set_text_color(200, 200, 200);
     title_button->update_layout();
 
     new_button->set_size(200, 25);
