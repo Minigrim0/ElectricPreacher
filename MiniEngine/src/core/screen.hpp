@@ -39,7 +39,7 @@ namespace MiniEngine {
             Screen(Screen& other) = delete;
             void operator=(const Screen&) = delete;
 
-            static Screen* Create(const WindowProps& props = WindowProps());
+            static Screen* create(const WindowProps& props = WindowProps());
 
             // Getters
             int get_width() const;
@@ -59,25 +59,25 @@ namespace MiniEngine {
             SDL_Color get_background_color() const;
 
             // Setters
-            void SetWidth(int);
-            void SetHeight(int);
-            void SetBackgroundColor(SDL_Color);
-            void SetBackgroundColor(Uint8, Uint8, Uint8);
-            void SetDefaultFont(std::string font_id);
-            void SetCaption(std::string);
+            void setWidth(int);
+            void setHeight(int);
+            void setBackgroundColor(SDL_Color);
+            void setBackgroundColor(Uint8, Uint8, Uint8);
+            void setDefaultFont(std::string font_id);
+            void setCaption(std::string);
             void SetRunning(bool running);
 
             // Others
-            int Init();
-            int BuildWindow();
-            int AddFont(std::string font_path, int size, std::string font_id = "");
-            SDL_Surface* LoadSurface(std::string) const;
-            SDL_Texture* LoadTexture(std::string) const;
-            SDL_Texture* Surf2Text(SDL_Surface*) const;
-            SDL_Surface* render_text_blend(std::string);
-            SDL_Surface* render_text_blend(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
-            SDL_Surface* render_text_solid(std::string);
-            SDL_Surface* render_text_solid(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
+            int init();
+            int buildWindow();
+            int addFont(std::string font_path, int size, std::string font_id = "");
+            SDL_Surface* loadSurface(std::string) const;
+            SDL_Texture* loadTexture(std::string) const;
+            SDL_Texture* surf2Text(SDL_Surface*) const;
+            SDL_Surface* renderTextBlend(std::string);
+            SDL_Surface* renderTextBlend(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
+            SDL_Surface* renderTextSolid(std::string);
+            SDL_Surface* renderTextSolid(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
 
             bool OnEvent(SDL_Event*);
             void Update();

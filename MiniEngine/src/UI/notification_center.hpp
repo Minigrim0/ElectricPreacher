@@ -19,7 +19,7 @@ namespace MiniEngine {
             ~NotificationCenter();
 
             // Singleton pattern
-            static NotificationCenter *Create(Screen *screen);
+            static NotificationCenter *create(Screen *screen);
 
             // Setter
             void set_default_font(std::string font);

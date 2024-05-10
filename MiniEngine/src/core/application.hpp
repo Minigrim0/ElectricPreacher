@@ -29,7 +29,7 @@ namespace MiniEngine {
         Screen* get_screen();
         UI::NotificationCenter* get_notification_center();
 
-        bool add_scene(Scene* scene);
+        void add_scene(Scene* scene);
         bool set_active_scene(std::string scene_name);
         void set_active_scene(Scene* scene);
 
@@ -48,7 +48,7 @@ namespace MiniEngine {
 
         bool m_running;
         bool console_enabled;
-        bool error;
+        bool m_error;
 
     private:
         void init();

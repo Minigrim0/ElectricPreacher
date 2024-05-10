@@ -15,7 +15,7 @@ namespace MiniEngine {
                 LayerManager();
                 virtual ~LayerManager();
 
-                static LayerManager* Create();
+                static LayerManager* create();
 
                 void attach(uint8_t layer_index, Layer* layer);
                 void attach(uint8_t layer_index, Interactible* interactible);
