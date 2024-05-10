@@ -4,10 +4,10 @@
 if [ "$1" == "build" ]; then
     if [ "$2" == "release" ]; then
         echo "Building release..."
-        make config=release
+        make config=release -j4
     else
         echo "Building debug..."
-        make config=debug
+        make config=debug -j4
     fi
 elif [ "$1" == "generate" ]; then
     ./vendor/unix/premake/premake5 gmake2
