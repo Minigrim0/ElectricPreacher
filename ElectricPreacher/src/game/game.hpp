@@ -1,9 +1,9 @@
 #pragma once
 
 #include <filesystem>
+#include <graphics/tiles/map.hpp>
 
 #include "player/player.hpp"
-#include "map/map_manager.hpp"
 
 #include "constants.hpp"
 #include "scenes/scene.hpp"
@@ -36,6 +36,6 @@ private:
     bool m_in_game;
 
     Player *m_player;
-    MapManager *m_map_manager;
+    MiniEngine::Graphics::Tiling::Map *_map;
     SDL_Event *m_event_handler;
 };

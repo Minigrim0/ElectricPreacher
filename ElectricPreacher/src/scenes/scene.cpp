@@ -12,5 +12,5 @@ AbstractScene::~AbstractScene() { ME_INFO("Scene '{0}' destroyed", m_scene->get_
 
 void AbstractScene::start(MiniEngine::Application *app) {
     ME_CORE_INFO("Starting scene '{0}'", m_scene->get_name());
-    app->set_active_scene(m_scene);
+    app->set_active_scene(m_scene->get_name());
 }

@@ -4,7 +4,7 @@
 
 Game::Game(MiniEngine::Application *app)
     : AbstractScene(app, "Game"), m_in_game(false), m_player(new Player),
-      m_map_manager(new MapManager), m_event_handler(new SDL_Event) {}
+      _map(nullptr), m_event_handler(new SDL_Event) {}
 
 Game::~Game() {}
 
@@ -12,11 +12,12 @@ void Game::init(MiniEngine::Application *app) {
     MiniEngine::Screen *screen = MiniEngine::Application::GetInstance()->get_screen();
 
     // Load the map
-    MapManager *map_manager = new MapManager;
-    map_manager->load(screen, "assets/maps/start.json");
-    map_manager->set_position(0, 0);
-    map_manager->init(screen);
-    m_scene->add_interactible(2, map_manager);
+    MiniEngine::Graphics::Tiling::Map *map = new MiniEngine::Graphics::Tiling::Map;
+    map->jload(screen, "assets/maps/start.json");
+    map->set_position(0, 0);
+    map->init(screen);
+    m_scene->add_interactible(2, map);
+    _map = map;  // Only used to interact with it
 
     // Load the player
     m_player->init(screen);
