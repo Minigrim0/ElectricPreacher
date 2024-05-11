@@ -6,18 +6,14 @@
 #include "event/interactible.hpp"
 #include "graphics/tiles/tileset.hpp"
 
-/**
- * @author Minigrim0
- * @brief A map element is an element of the map, which can be interacted with
- * This class is abstract, and should be inherited by other classes
- */
-namespace MiniEngine {
-namespace Graphics {
-namespace Tiling {
+namespace MiniEngine::Graphics::Tiling {
 
+/**
+ * @brief A tile object represents tiles in a tile based game.
+ */
 class Tile {
   public:
-    // Constructors
+    Tile(SDL_Point position);
     Tile(bool solid, const std::string *type);
     Tile(bool solid, const std::string *type, SDL_Point position);
     virtual ~Tile() = default;
@@ -42,6 +38,4 @@ class Tile {
     SDL_Rect m_position;
     std::string m_type;
 };
-} // namespace Tiling
-} // namespace Graphics
-} // namespace MiniEngine
+} // namespace MiniEngine::Graphics::Tiling

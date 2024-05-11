@@ -1,8 +1,8 @@
 #pragma once
 
-extern MiniEngine::Application* MiniEngine::CreateApplication();
+extern MiniEngine::Application *MiniEngine::CreateApplication();
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     MiniEngine::Log::init();
 
     ME_CORE_INFO("Creating the application");

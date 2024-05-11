@@ -1,4 +1,4 @@
-#include "graphics/tileset.hpp"
+#include "graphics/tiles/tileset.hpp"
 
 #include <tinyxml2.h>
 
@@ -6,7 +6,7 @@
 
 namespace MiniEngine {
 namespace Graphics {
-    namespace Tiling {
+namespace Tiling {
 // Constructors
 TileSet::TileSet()
     : m_tex(nullptr), m_width(0), m_height(0), m_name("null"), m_rects(), m_tile_width(32),
@@ -65,6 +65,6 @@ int TileSet::set_array() {
     }
     return 0;
 }
-    } // namespace Tiling
+} // namespace Tiling
 } // namespace Graphics
 } // namespace MiniEngine

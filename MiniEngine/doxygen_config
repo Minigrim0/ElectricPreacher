@@ -524,13 +524,13 @@ TIMESTAMP              = NO
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = NO
+EXTRACT_ALL            = YES
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
 # The default value is: NO.
 
-EXTRACT_PRIVATE        = NO
+EXTRACT_PRIVATE        = YES
 
 # If the EXTRACT_PRIV_VIRTUAL tag is set to YES, documented private virtual
 # methods of a class will be included in the documentation.
@@ -2665,7 +2665,7 @@ UML_LIMIT_NUM_FIELDS   = 10
 DOT_UML_DETAILS        = NO
 
 # The DOT_WRAP_THRESHOLD tag can be used to set the maximum number of characters
-# to display on a single line. If the actual line length exceeds this threshold
+# to display on a single line. If the actual line length exceeds this threshoYES
 # significantly it will be wrapped across multiple lines. Some heuristics are
 # applied to avoid ugly line breaks.
 # Minimum value: 0, maximum value: 1000, default value: 17.
@@ -2679,7 +2679,7 @@ DOT_WRAP_THRESHOLD     = 17
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-TEMPLATE_RELATIONS     = NO
+TEMPLATE_RELATIONS     = YES
 
 # If the INCLUDE_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are set to
 # YES then doxygen will generate a graph for each documented file showing the

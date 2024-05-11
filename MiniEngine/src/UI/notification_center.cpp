@@ -5,8 +5,8 @@ namespace UI {
 NotificationCenter *NotificationCenter::nc_ = nullptr;
 
 NotificationCenter::NotificationCenter(Screen *screen)
-    : m_notifications(std::vector<Widgets::Notification *>()), m_icons(new Graphics::TileSet),
-      m_default_font("") {
+    : m_notifications(std::vector<Widgets::Notification *>()),
+      m_icons(new Graphics::Tiling::TileSet), m_default_font("") {
     m_icons->load(screen, "assets/maps/tilesets/icons.tsx");
 }
 

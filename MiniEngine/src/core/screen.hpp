@@ -8,109 +8,109 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
+namespace MiniEngine {
+/**
+ * @brief the WindowProps structure contains information about the game window.
+ */
+struct WindowProps {
+    std::string title;
+    unsigned int width;
+    unsigned int height;
+
+    WindowProps(const std::string &title = "MiniEngine", unsigned int width = 1280,
+                unsigned int height = 720)
+        : title(title), width(width), height(height) {}
+};
+
 /**
  * @brief The Screen class is a singleton that handles the window and the renderer of the game
  * It is responsible for handling some basic event and drawing functions
  */
-namespace MiniEngine {
-    struct WindowProps {
-        std::string title;
-        unsigned int width;
-        unsigned int height;
+class ME_API Screen {
+  protected:
+    // Avoid direct instantiation
+    explicit Screen(const WindowProps &props);
 
-        WindowProps(const std::string& title = "MiniEngine",
-            unsigned int width = 1280,
-            unsigned int height = 720)
-            : title(title), width(width), height(height)
-        {
-        }
-    };
+  public:
+    // Constructors
+    virtual ~Screen();
 
-    class ME_API Screen {
-        protected:
-            // Avoid direct instantiation
-            explicit Screen(const WindowProps& props);
+    // Override
+    Screen(Screen &other) = delete;
+    void operator=(const Screen &) = delete;
 
-        public:
-            // Constructors
-            virtual ~Screen();
+    static Screen *create(const WindowProps &props = WindowProps());
 
-            // Override
-            Screen(Screen& other) = delete;
-            void operator=(const Screen&) = delete;
+    // Getters
+    int get_width() const;
+    int get_height() const;
+    int get_time_elapsed() const;
 
-            static Screen* create(const WindowProps& props = WindowProps());
+    bool is_running() const;
+    bool get_key(SDL_Keycode) const;
 
-            // Getters
-            int get_width() const;
-            int get_height() const;
-            int get_time_elapsed() const;
+    std::string get_caption() const;
 
-            bool is_running() const;
-            bool get_key(SDL_Keycode) const;
+    std::map<std::string, TTF_Font *> get_fonts() const;
+    TTF_Font *get_font(std::string ID) const;
+    SDL_Rect get_mouse_pos() const;
+    SDL_Window *get_window() const;
+    SDL_Renderer *get_renderer() const;
+    SDL_Color get_background_color() const;
 
-            std::string get_caption() const;
+    // Setters
+    void setWidth(int);
+    void setHeight(int);
+    void setBackgroundColor(SDL_Color);
+    void setBackgroundColor(Uint8, Uint8, Uint8);
+    void setDefaultFont(std::string font_id);
+    void setCaption(std::string);
+    void SetRunning(bool running);
 
-            std::map<std::string, TTF_Font*> get_fonts() const;
-            TTF_Font* get_font(std::string ID) const;
-            SDL_Rect get_mouse_pos() const;
-            SDL_Window* get_window() const;
-            SDL_Renderer* get_renderer() const;
-            SDL_Color get_background_color() const;
+    // Others
+    int init();
+    int buildWindow();
+    int addFont(std::string font_path, int size, std::string font_id = "");
+    SDL_Surface *loadSurface(std::string) const;
+    SDL_Texture *loadTexture(std::string) const;
+    SDL_Texture *surf2Text(SDL_Surface *) const;
+    SDL_Surface *renderTextBlend(std::string);
+    SDL_Surface *renderTextBlend(std::string, TTF_Font *, SDL_Color color = {255, 255, 255, 255});
+    SDL_Surface *renderTextSolid(std::string);
+    SDL_Surface *renderTextSolid(std::string, TTF_Font *, SDL_Color color = {255, 255, 255, 255});
 
-            // Setters
-            void setWidth(int);
-            void setHeight(int);
-            void setBackgroundColor(SDL_Color);
-            void setBackgroundColor(Uint8, Uint8, Uint8);
-            void setDefaultFont(std::string font_id);
-            void setCaption(std::string);
-            void SetRunning(bool running);
+    bool OnEvent(SDL_Event *);
+    void Update();
 
-            // Others
-            int init();
-            int buildWindow();
-            int addFont(std::string font_path, int size, std::string font_id = "");
-            SDL_Surface* loadSurface(std::string) const;
-            SDL_Texture* loadTexture(std::string) const;
-            SDL_Texture* surf2Text(SDL_Surface*) const;
-            SDL_Surface* renderTextBlend(std::string);
-            SDL_Surface* renderTextBlend(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
-            SDL_Surface* renderTextSolid(std::string);
-            SDL_Surface* renderTextSolid(std::string, TTF_Font*, SDL_Color color = { 255, 255, 255, 255 });
+  private:
+    void FPSDisplayToggle();
+    void FPSCompute();
+    void FPSRender();
 
-            bool OnEvent(SDL_Event*);
-            void Update();
+    int m_width;
+    int m_height;
+    int m_tile_size;
 
-        private:
-            void FPSDisplayToggle();
-            void FPSCompute();
-            void FPSRender();
+    Uint32 m_start_time;
+    Uint32 m_time_elapsed;
+    Uint32 m_time_since_last_fps_update;
+    Uint32 m_fps;
 
-            int m_width;
-            int m_height;
-            int m_tile_size;
+    bool m_showing_fps;
 
-            Uint32 m_start_time;
-            Uint32 m_time_elapsed;
-            Uint32 m_time_since_last_fps_update;
-            Uint32 m_fps;
+    std::string m_window_caption;
+    std::map<SDL_Keycode, bool> m_keyConf;
 
-            bool m_showing_fps;
+    SDL_Texture *m_fps_texture;
+    SDL_Surface *m_fps_surface;
+    SDL_Window *m_window;
+    SDL_Renderer *m_Renderer;
 
-            std::string m_window_caption;
-            std::map<SDL_Keycode, bool> m_keyConf;
+    SDL_Color m_font_color;
+    SDL_Color m_background_color;
+    std::map<std::string, TTF_Font *> m_fonts;
 
-            SDL_Texture* m_fps_texture;
-            SDL_Surface* m_fps_surface;
-            SDL_Window* m_window;
-            SDL_Renderer* m_Renderer;
-
-            SDL_Color m_font_color;
-            SDL_Color m_background_color;
-            std::map<std::string, TTF_Font*> m_fonts;
-
-            SDL_Rect m_mouse_pos;
-            SDL_Rect m_fps_pos;
-    };
-}
+    SDL_Rect m_mouse_pos;
+    SDL_Rect m_fps_pos;
+};
+} // namespace MiniEngine

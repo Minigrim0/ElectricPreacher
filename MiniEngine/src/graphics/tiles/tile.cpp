@@ -1,9 +1,10 @@
 #include "graphics/tiles/tile.hpp"
-#include "map/elements/elements.hpp"
 
-namespace MiniEngine {
-    namespace Graphics {
-        namespace Tiling {
+namespace MiniEngine::Graphics::Tiling {
+
+Tile::Tile(SDL_Point position)
+    : m_is_solid(false), m_tileset(nullptr), m_texture_id(-1), m_texture_size({0, 0}),
+      m_position({position.x, position.y, 0, 0}), m_type("empty") {}
 
 Tile::Tile(bool solid, const std::string *type)
     : m_is_solid(solid), m_tileset(nullptr), m_texture_id(-1), m_texture_size({0, 0}),
@@ -26,7 +27,7 @@ void Tile::set_solidity(bool solid) { m_is_solid = solid; }
  * @param id The id of the texture in the tileset
  * @param tileset_size The size of the texture in the tileset
  */
-void Tile::set_texture(MiniEngine::Graphics::TileSet *tileset, int id) {
+void Tile::set_texture(TileSet *tileset, int id) {
     m_tileset = tileset;
     m_texture_id = id;
     m_position.w = tileset->get_tile_width();
@@ -46,6 +47,4 @@ int Tile::draw(SDL_Surface *dest) {
     }
     return -1;
 }
-        }
-    }
-}
+} // namespace MiniEngine::Graphics::Tiling
