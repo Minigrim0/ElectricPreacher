@@ -15,6 +15,14 @@ elif [ "$1" == "clean" ]; then
     make clean
 elif [ "$1" == "graph" ]; then
     python3 graph/graph.py
+elif [ "$1" == "format" ]; then
+    TMP=$(mktemp)
+    find MiniEngine/src -wholename '**/*.*pp' > $TMP
+    clang-format -i --files $TMP
+elif [ "$1" == "docs" ]; then
+    pushd MiniEngine
+    doxygen Doxyfile
+    popd
 elif [ "$1" == "run" ]; then
     if [ "$2" == "release" ]; then
         echo "Running release..."
