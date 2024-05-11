@@ -36,7 +36,6 @@ class ME_API Application {
 
     void add_scene(Scene *scene);
     bool set_active_scene(std::string scene_name);
-    void set_active_scene(Scene *scene);
 
     void enable_console(bool enable = true);
 

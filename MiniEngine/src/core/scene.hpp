@@ -36,9 +36,12 @@ class ME_API Scene : public Event::Interactible {
     void OnRender(Screen *sc);
 
   private:
-    bool m_current;     //! Should be shown and updated ?
-    std::string m_name; //! Name to identify the scene
+    //! Should be shown and updated ?
+    bool m_current;
+    //! Name to identify the scene
+    std::string m_name;
 
+    //! Layers of the scene
     Event::LayerManager *m_layer_manager;
 };
 } // namespace MiniEngine

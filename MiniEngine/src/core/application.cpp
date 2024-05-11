@@ -202,15 +202,11 @@ bool Application::set_active_scene(std::string scene_name) {
 }
 
 /**
- * @brief Sets the scene given as parameters as the current scene.
+ * @brief Enables or disables the console
+ * \todo Make to console useful
  *
- * @param scene The scene to set as current
- */
-void Application::set_active_scene(Scene *scene) {
-    scene->set_running(true);
-    m_active_scene = scene;
-}
-
+ * @param enabled True to enable the console, false to disable it
+*/
 void Application::enable_console(bool enabled) {
     console_enabled = enabled;
     if (console_enabled) {
@@ -221,4 +217,4 @@ void Application::enable_console(bool enabled) {
         m_console.reset();
     }
 }
-} // namespace MiniEngine
+}
