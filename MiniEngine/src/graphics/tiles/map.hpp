@@ -9,6 +9,8 @@
 #include <nlohmann/json.hpp>
 
 #include "event/interactible.hpp"
+#include "graphics/renderable.hpp"
+
 #include "graphics/tiles/chunk.hpp"
 
 namespace fs = std::filesystem;
@@ -19,7 +21,7 @@ namespace MiniEngine::Graphics::Tiling {
  * @brief Represents a 2D tiled map. The map is composed of tilesets, chunks and layers.
  * It can be loaded from a json export of a tiled map.
  */
-class Map : public MiniEngine::Event::Interactible {
+class Map : public MiniEngine::Event::Interactible, public MiniEngine::Graphics::Renderable {
   public:
     // Constructors
     Map();
