@@ -5,8 +5,7 @@
 #include "event/interactible.hpp"
 #include <SDL_events.h>
 
-namespace MiniEngine {
-namespace Event {
+namespace MiniEngine::Event {
 /**
  * @brief A layer is a collection of interactibles that can be attached to a layer manager.
  * The layer will propagate events to all of its interactibles.
@@ -30,4 +29,3 @@ class Layer {
     uint8_t m_id;
 };
 } // namespace Event
-} // namespace MiniEngine
