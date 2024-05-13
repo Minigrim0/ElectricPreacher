@@ -2,11 +2,9 @@
 
 #include "core/core.hpp"
 
-namespace MiniEngine {
-namespace Graphics {
+namespace MiniEngine::Graphics {
 class ME_API Renderable {
     virtual void OnRender() = 0;
     virtual void OnUpdate() = 0;
 };
-} // namespace Graphics
-} // namespace MiniEngine
+} // namespace MiniEngine::Graphics
