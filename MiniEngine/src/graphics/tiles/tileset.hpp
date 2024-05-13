@@ -10,9 +10,7 @@
 
 namespace fs = std::filesystem;
 
-namespace MiniEngine {
-namespace Graphics {
-namespace Tiling {
+namespace MiniEngine::Graphics::Tiling {
 /**
  * @author Minigrim0
  * @brief A tileset is a set of tiles, which can be used to draw a map
@@ -24,34 +22,32 @@ class ME_API TileSet {
     // Constructors
     TileSet();
     explicit TileSet(SDL_Surface *img);
-    ~TileSet();
+    virtual ~TileSet();
 
     // Override
-    inline SDL_Rect *operator[](std::size_t idx) { return &(m_rects[idx]); }
+    inline SDL_Rect *operator[](std::size_t idx) { return &(_rects[idx]); }
 
     // Getters
-    inline SDL_Surface *get_texture() const { return m_tex; }
+    inline SDL_Surface *get_texture() const { return _texture; }
 
     const SDL_Rect *get_sub(int, int) const;
 
-    inline int get_width() const { return m_width; }
-    inline int get_height() const { return m_height; }
-    inline int get_tile_width() const { return m_tile_width; }
-    inline int get_tile_height() const { return m_tile_height; }
-    inline std::string get_name() const { return m_name; }
+    inline int get_width() const { return _width; }
+    inline int get_height() const { return _height; }
+    inline int get_tile_width() const { return _tile_width; }
+    inline int get_tile_height() const { return _tile_height; }
+    inline std::string get_name() const { return _name; }
 
     void load(Screen *screen, fs::path filePath);
 
   private:
     int set_array();
 
-    SDL_Surface *m_tex;
-    int m_width, m_height;
-    int m_tile_width, m_tile_height;
-    std::string m_name;
+    SDL_Surface *_texture;
+    int _width, _height;
+    int _tile_width, _tile_height;
+    std::string _name;
 
-    std::vector<SDL_Rect> m_rects;
+    std::vector<SDL_Rect> _rects;
 };
-} // namespace Tiling
-} // namespace Graphics
-} // namespace MiniEngine
+} // namespace MiniEngine::Graphics::Tiling
