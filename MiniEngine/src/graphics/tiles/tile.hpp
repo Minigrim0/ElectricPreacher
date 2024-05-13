@@ -4,6 +4,8 @@
 
 #include "core/screen.hpp"
 #include "event/interactible.hpp"
+#include "graphics/renderable.hpp"
+
 #include "graphics/tiles/tileset.hpp"
 
 namespace MiniEngine::Graphics::Tiling {
@@ -11,7 +13,7 @@ namespace MiniEngine::Graphics::Tiling {
 /**
  * @brief A tile object represents tiles in a tile based game.
  */
-class Tile {
+class Tile : public MiniEngine::Graphics::Renderable {
   public:
     Tile(SDL_Point position);
     Tile(bool solid, const std::string *type);

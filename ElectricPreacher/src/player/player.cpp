@@ -29,7 +29,6 @@ void Player::set_position(int x, int y) {
     m_position.y = y;
 }
 
-// Others
 /**
  * @brief Initializes the player, loading the texture
  *

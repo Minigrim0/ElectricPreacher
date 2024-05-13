@@ -206,7 +206,7 @@ bool Application::set_active_scene(std::string scene_name) {
  * \todo Make to console useful
  *
  * @param enabled True to enable the console, false to disable it
-*/
+ */
 void Application::enable_console(bool enabled) {
     console_enabled = enabled;
     if (console_enabled) {
@@ -217,4 +217,4 @@ void Application::enable_console(bool enabled) {
         m_console.reset();
     }
 }
-}
+} // namespace MiniEngine
